@@ -7,7 +7,7 @@ function CommonRoutes() {
   return (
     <>
       <Helmet>
-        <title>TestApp</title>
+        <title>UniLabs</title>
       </Helmet>
       <Switch>
         <Route path="/" component={LoginPage} exact />
