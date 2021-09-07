@@ -6,6 +6,7 @@ import {
   Typography,
   Container,
 } from '@material-ui/core';
+import ParticlesBg from 'particles-bg';
 import { useState } from 'react';
 import { ReactComponent as Logo1 } from '../../../Logo 6.2.svg';
 
@@ -51,6 +52,12 @@ function LoginPage() {
 
   return (
     <div className="bigContainer">
+      <ParticlesBg
+        color="#009688"
+        type="cobweb"
+        num={window.innerWidth / 40}
+        bg
+      />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
