@@ -138,7 +138,7 @@ function Navbar({ drawerTiles, onDrawerTileClick, activeIndex, showDrawer }) {
           )}
           <Typography
             component="h1"
-            variant="h6"
+            variant="h4"
             color="inherit"
             noWrap
             className={classes.title}
