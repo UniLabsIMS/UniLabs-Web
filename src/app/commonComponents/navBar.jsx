@@ -87,6 +87,9 @@ const useStyles = makeStyles(theme => ({
   itemIcon: {
     paddingLeft: '8px',
   },
+  active: {
+    color: theme.palette.secondary.main,
+  },
 }));
 
 function Navbar({ drawerTiles, onDrawerTileClick, activeIndex, showDrawer }) {
@@ -202,8 +205,20 @@ function Navbar({ drawerTiles, onDrawerTileClick, activeIndex, showDrawer }) {
                 button
                 selected={activeIndex === drawerTiles.indexOf(child)}
                 onClick={() => onDrawerTileClick(drawerTiles.indexOf(child))}
+                className={
+                  activeIndex === drawerTiles.indexOf(child)
+                    ? classes.active
+                    : ''
+                }
               >
-                <ListItemIcon className={classes.itemIcon}>
+                <ListItemIcon
+                  className={
+                    classes.itemIcon &&
+                    (activeIndex === drawerTiles.indexOf(child)
+                      ? classes.active
+                      : '')
+                  }
+                >
                   {child.icon}
                 </ListItemIcon>
                 <ListItemText primary={child.title} />

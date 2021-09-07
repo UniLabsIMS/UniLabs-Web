@@ -27,7 +27,7 @@ function LabManagerDisplayItemsPage() {
         </Link>
         <Box fontSize="inherit">Display Items</Box>
       </BreadcrumbsWrapper>
-      <Typography component="h2" variant="h3" gutterBottom align="center">
+      <Typography component="h2" variant="h4" gutterBottom align="center">
         Display Items
       </Typography>
       <Grid

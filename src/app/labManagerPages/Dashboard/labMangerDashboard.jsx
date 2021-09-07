@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import HomeIcon from '@material-ui/icons/Home';
+import BarChartIcon from '@material-ui/icons/BarChart';
 import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
 import ItemCategories from './ItemCategories/itemCategories';
@@ -16,7 +17,7 @@ const getDrawerTiles = () => {
     createDrawerTile('My Lab', <HomeIcon />, <ItemCategories />),
   );
   drawerTiles.push(
-    createDrawerTile('Inventory Summary', <HomeIcon />, <div>Summary</div>),
+    createDrawerTile('Inventory Summary', <BarChartIcon />, <div>Summary</div>),
   );
   return drawerTiles;
 };

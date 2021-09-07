@@ -44,7 +44,7 @@ function LabManagerItemsPage() {
         </Link>
         <Box fontSize="inherit">Items</Box>
       </BreadcrumbsWrapper>
-      <Typography component="h2" variant="h3" gutterBottom align="center">
+      <Typography component="h2" variant="h4" gutterBottom align="center">
         Items
       </Typography>
       <Paper>
