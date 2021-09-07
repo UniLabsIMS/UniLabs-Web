@@ -33,13 +33,13 @@ npm start
 Checkout main and pull changes
 
 ```bash
-(env) git checkout main
-(env) git pull
+git checkout main
+git pull
 ```
 
 checkut to a new branch
 ```bash
-(env) git checkout -b feature/<feature_name>
+git checkout -b feature/<feature_name>
 ```
 
 install missing dependancies 
