@@ -9,6 +9,7 @@ import {
 import ParticlesBg from 'particles-bg';
 import { useState } from 'react';
 import { Zoom } from 'react-awesome-reveal';
+import { Typewriter } from 'react-simple-typewriter';
 import { ReactComponent as Logo1 } from '../../../Logo 6.2.svg';
 
 const useStyles = makeStyles(theme => ({
@@ -39,6 +40,14 @@ const useStyles = makeStyles(theme => ({
   unilabsLogo: {
     marginTop: theme.spacing(2),
     width: '50%',
+  },
+  subtitle: {
+    fontSize: 28,
+    textAlign: 'center',
+  },
+  typeWriterWrapper: {
+    fontWeight: 'bold',
+    color: theme.palette.secondary.main,
   },
 }));
 
@@ -116,6 +125,18 @@ function LoginPage() {
               </form>
             </Zoom>
           </div>
+        </div>
+        <div className={classes.subtitle}>
+          <span>
+            UniLabs System is{' '}
+            <span className={classes.typeWriterWrapper}>
+              <Typewriter
+                words={['Effective', 'Simple', 'Elegant']}
+                loop={0}
+                cursor
+              />
+            </span>
+          </span>
         </div>
       </Container>
     </div>
