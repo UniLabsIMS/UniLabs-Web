@@ -7,6 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { Typography } from '@material-ui/core';
 import RegisterAdmin from './components/adminRegistrationForm';
 
 const useStyles = makeStyles({
@@ -35,6 +36,11 @@ export default function LabManagerTable() {
   return (
     <div className="largerContainer">
       <TableContainer component={Paper}>
+        <Zoom triggerOnce>
+          <Typography component="h1" variant="h4" align="center">
+            Admins
+          </Typography>
+        </Zoom>
         <Zoom triggerOnce>
           <RegisterAdmin />
         </Zoom>
