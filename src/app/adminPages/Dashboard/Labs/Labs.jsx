@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { Button } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -7,6 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { Zoom } from 'react-awesome-reveal';
 import CreateLab from './components/labCreationForm';
 
 const useStyles = makeStyles({
@@ -20,13 +21,6 @@ function createData(name, department, n) {
 }
 
 const rows = [
-  createData(
-    'Lab_1',
-    'CSE',
-    <Button variant="contained" color="secondary">
-      Add Lecturer
-    </Button>,
-  ),
   createData(
     'Lab_1',
     'CSE',
@@ -84,27 +78,36 @@ export default function LabTable() {
   return (
     <div className="largerContainer">
       <TableContainer component={Paper}>
-        <CreateLab />
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Lab Name</TableCell>
-              <TableCell align="right">Department</TableCell>
-              <TableCell align="right" />
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map(row => (
-              <TableRow key={row.name}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="right">{row.department}</TableCell>
-                <TableCell align="right">{row.n}</TableCell>
+        <Zoom triggerOnce>
+          <Typography component="h1" variant="h4" align="center">
+            Labs
+          </Typography>
+        </Zoom>
+        <Zoom triggerOnce>
+          <CreateLab />
+        </Zoom>
+        <Zoom triggerOnce>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Lab Name</TableCell>
+                <TableCell align="right">Department</TableCell>
+                <TableCell align="right" />
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {rows.map(row => (
+                <TableRow key={row.name}>
+                  <TableCell component="th" scope="row">
+                    {row.name}
+                  </TableCell>
+                  <TableCell align="right">{row.department}</TableCell>
+                  <TableCell align="right">{row.n}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Zoom>
       </TableContainer>
     </div>
   );

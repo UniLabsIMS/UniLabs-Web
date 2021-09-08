@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { Button } from '@material-ui/core';
+import { Zoom } from 'react-awesome-reveal';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -35,26 +35,30 @@ export default function LabManagerTable() {
   return (
     <div className="largerContainer">
       <TableContainer component={Paper}>
-        <RegisterAdmin />
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell align="right">Email</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map(row => (
-              <TableRow key={row.name}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="right">{row.email}</TableCell>
-                <TableCell align="right">{row.n}</TableCell>
+        <Zoom triggerOnce>
+          <RegisterAdmin />
+        </Zoom>
+        <Zoom triggerOnce>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell align="right">Email</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {rows.map(row => (
+                <TableRow key={row.name}>
+                  <TableCell component="th" scope="row">
+                    {row.name}
+                  </TableCell>
+                  <TableCell align="right">{row.email}</TableCell>
+                  <TableCell align="right">{row.n}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Zoom>
       </TableContainer>
     </div>
   );

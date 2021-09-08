@@ -25,26 +25,50 @@ const createDrawerTile = (title, icon, component) => ({
 const getDrawerTiles = () => {
   const drawerTiles = [];
   drawerTiles.push(
-    createDrawerTile('Students', <StudentIcon />, <StudentTable />),
+    createDrawerTile(
+      'Students',
+      <StudentIcon style={{ width: 24 }} />,
+      <StudentTable />,
+    ),
   );
   drawerTiles.push(
-    createDrawerTile('Lecturers', <LecturerIcon />, <LecturerTable />),
+    createDrawerTile(
+      'Lecturers',
+      <LecturerIcon style={{ width: 24 }} />,
+      <LecturerTable />,
+    ),
   );
   drawerTiles.push(
-    createDrawerTile('LabManagers', <LabManagerIcon />, <LabManagerTable />),
+    createDrawerTile(
+      'LabManagers',
+      <LabManagerIcon style={{ width: 24 }} />,
+      <LabManagerTable />,
+    ),
   );
   drawerTiles.push(
     createDrawerTile(
       'LabAssistants',
-      <LabAssistantIcon />,
+      <LabAssistantIcon style={{ width: 24 }} />,
       <LabAssistantTable />,
     ),
   );
-  drawerTiles.push(createDrawerTile('Admins', <AdminIcon />, <AdminTable />));
   drawerTiles.push(
-    createDrawerTile('Departments', <DepartmentIcon />, <DepartmentTable />),
+    createDrawerTile(
+      'Admins',
+      <AdminIcon style={{ width: 24 }} />,
+      <AdminTable />,
+    ),
   );
-  drawerTiles.push(createDrawerTile('Labs', <LabIcon />, <LabTable />));
+  drawerTiles.push(
+    createDrawerTile(
+      'Departments',
+      <DepartmentIcon style={{ width: 24 }} />,
+      <DepartmentTable />,
+    ),
+  );
+  drawerTiles.push(
+    createDrawerTile('Labs', <LabIcon style={{ width: 24 }} />, <LabTable />),
+  );
   return drawerTiles;
 };
 

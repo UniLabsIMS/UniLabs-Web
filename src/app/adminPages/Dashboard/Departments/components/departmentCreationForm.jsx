@@ -7,10 +7,6 @@ import {
   Container,
 } from '@material-ui/core';
 import { useState } from 'react';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -71,11 +67,6 @@ const useStyles = makeStyles(theme => ({
 function CreateDepartment() {
   const classes = useStyles();
   const [email, setEmail] = useState('');
-  const [lab, setLab] = useState('');
-
-  const handleChange = event => {
-    setLab(event.target.value);
-  };
 
   const handleLogin = e => {
     e.preventDefault();
