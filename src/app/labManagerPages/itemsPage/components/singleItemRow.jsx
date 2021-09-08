@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     wordBreak: 'strict',
   },
   row: {
-    fontSize: 20,
+    fontSize: 18,
   },
 }));
 
@@ -36,14 +36,13 @@ function SingleItemRow({ item }) {
         2021/08/30
       </TableCell>
       <TableCell align="center">
-        <Button
-          variant="outlined"
-          color="secondary"
-          size="small"
-          key={0}
-          className={classes.row}
-        >
+        <Button variant="outlined" color="primary" key={0}>
           Download
+        </Button>
+      </TableCell>
+      <TableCell align="center">
+        <Button variant="outlined" color="secondary" key={0}>
+          Delete Item
         </Button>
       </TableCell>
     </TableRow>

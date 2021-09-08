@@ -15,6 +15,7 @@ import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
 import BreadcrumbsWrapper from '../../commonComponents/breadCrumbsWrapper';
 import SingleItemRow from './components/singleItemRow';
+import NewItemForm from './components/newItemForm';
 
 const useStyles = makeStyles(theme => ({
   link: {
@@ -47,6 +48,9 @@ function LabManagerItemsPage() {
       <Typography component="h2" variant="h4" gutterBottom align="center">
         Items
       </Typography>
+      <Box m={2} />
+      <NewItemForm />
+      <Box m={2} />
       <Paper>
         <TableContainer className={classes.tableContainer}>
           <Table stickyHeader size="medium">
@@ -63,6 +67,9 @@ function LabManagerItemsPage() {
                 </TableCell>
                 <TableCell align="center" className={classes.row}>
                   Download Barcode
+                </TableCell>
+                <TableCell align="center" className={classes.row}>
+                  Delete
                 </TableCell>
               </TableRow>
             </TableHead>

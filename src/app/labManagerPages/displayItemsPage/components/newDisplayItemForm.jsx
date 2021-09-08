@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function NewCategoryFrom() {
+function NewDisplayItemFrom() {
   const classes = useStyles();
   const [formState, setFormState] = useState(false);
   const handleFormOpen = () => {
@@ -47,7 +47,7 @@ function NewCategoryFrom() {
       {formState === true ? (
         <div>
           <Typography component="h2" variant="h6" gutterBottom align="center">
-            Add New Category
+            Add New Display Item
           </Typography>
           <form className={classes.form}>
             <Grid container spacing={3}>
@@ -57,7 +57,7 @@ function NewCategoryFrom() {
                   margin="normal"
                   color="secondary"
                   fullWidth
-                  label="Category Name"
+                  label="Display Item Name"
                   name="name"
                   id="name"
                   type="text"
@@ -96,7 +96,7 @@ function NewCategoryFrom() {
               <Grid item xs={12} sm={4}>
                 <Button
                   variant="outlined"
-                  color="p1rimary"
+                  color="primary"
                   fullWidth
                   onClick={handleFormClose}
                 >
@@ -125,11 +125,11 @@ function NewCategoryFrom() {
           align="center"
           onClick={handleFormOpen}
         >
-          <div>Click to Add New Category</div>
+          <div>Click to Add New Display Item</div>
         </Box>
       )}
     </div>
   );
 }
 
-export default NewCategoryFrom;
+export default NewDisplayItemFrom;

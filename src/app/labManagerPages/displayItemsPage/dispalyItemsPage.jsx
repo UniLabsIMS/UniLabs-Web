@@ -4,6 +4,7 @@ import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
 import DisplayItemsCard from './components/displayItemsCard';
 import BreadcrumbsWrapper from '../../commonComponents/breadCrumbsWrapper';
+import NewDisplayItemFrom from './components/newDisplayItemForm';
 
 const useStyles = makeStyles(theme => ({
   link: {
@@ -30,6 +31,7 @@ function LabManagerDisplayItemsPage() {
       <Typography component="h2" variant="h4" gutterBottom align="center">
         Display Items
       </Typography>
+      <NewDisplayItemFrom />
       <Grid
         container
         spacing={3}
