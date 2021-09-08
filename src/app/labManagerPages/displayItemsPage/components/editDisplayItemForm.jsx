@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     letterSpacing: theme.spacing(0.2),
   },
 }));
-function EditCategoryForm({ onSubmitSuccess, onClose }) {
+function EditDisplayItemForm({ onSubmitSuccess, onClose }) {
   const classes = useStyles();
 
   return (
@@ -36,17 +36,17 @@ function EditCategoryForm({ onSubmitSuccess, onClose }) {
     >
       <form className={classes.form}>
         <Typography component="h2" variant="h5" gutterBottom align="center">
-          Edit Category
+          Edit DisplayItem
         </Typography>
         <TextField
           variant="outlined"
           margin="normal"
           fullWidth
-          label="Category Name"
+          label="DisplayItem Name"
           id="name"
           name="name"
           type="text"
-          value="Category"
+          value="DisplayItem"
           required
         />
         <TextField
@@ -91,8 +91,8 @@ function EditCategoryForm({ onSubmitSuccess, onClose }) {
     </Paper>
   );
 }
-EditCategoryForm.propTypes = {
+EditDisplayItemForm.propTypes = {
   onSubmitSuccess: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 };
-export default EditCategoryForm;
+export default EditDisplayItemForm;
