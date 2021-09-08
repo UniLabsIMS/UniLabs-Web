@@ -68,14 +68,13 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function RegisterStudent() {
+function RegisterLabAssitant() {
   const classes = useStyles();
   const [email, setEmail] = useState('');
-  const [studentId, setstudentId] = useState('');
-  const [department, setDepartment] = useState('');
+  const [lab, setLab] = useState('');
 
   const handleChange = event => {
-    setDepartment(event.target.value);
+    setLab(event.target.value);
   };
 
   const handleLogin = e => {
@@ -90,7 +89,7 @@ function RegisterStudent() {
           <div className={classes.loginForm}>
             <div className={classes.formLine}>
               <Typography component="h1" variant="h5">
-                Register a new Student
+                Register a new Lab Assistant
               </Typography>
             </div>
             <form className={classes.form} noValidate onSubmit={handleLogin}>
@@ -109,38 +108,27 @@ function RegisterStudent() {
                   onChange={e => setEmail(e.target.value)}
                   // autoFocus
                 />
-                <TextField
-                  className={classes.texts}
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="studentId"
-                  label="Student ID"
-                  name="studentId"
-                  autoComplete="studentId"
-                  value={studentId}
-                  onChange={e => setstudentId(e.target.value)}
-                />
-              </div>
-              <div className={classes.formLine}>
                 <FormControl className={classes.formControl}>
                   <InputLabel id="demo-simple-select-label">
-                    Department
+                    Laboratory
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={department}
+                    value={lab}
                     onChange={handleChange}
                   >
-                    <MenuItem value={0}>CSE</MenuItem>
-                    <MenuItem value={1}>ENTC</MenuItem>
-                    <MenuItem value={2}>CE</MenuItem>
-                    <MenuItem value={3}>ME</MenuItem>
-                    <MenuItem value={4}>CPE</MenuItem>
+                    <MenuItem value={0}>Lab_1</MenuItem>
+                    <MenuItem value={0}>Lab_2</MenuItem>
+                    <MenuItem value={1}>Lab_3</MenuItem>
+                    <MenuItem value={2}>Lab_4</MenuItem>
+                    <MenuItem value={3}>Lab_5</MenuItem>
+                    <MenuItem value={3}>Lab_6</MenuItem>
+                    <MenuItem value={3}>Lab_7</MenuItem>
                   </Select>
                 </FormControl>
+              </div>
+              <div className={classes.formLine}>
                 <Button
                   type="submit"
                   fullWidth
@@ -148,7 +136,7 @@ function RegisterStudent() {
                   color="primary"
                   className={classes.submit}
                 >
-                  Register Student
+                  Register Lab Assistant
                 </Button>
               </div>
             </form>
@@ -159,4 +147,4 @@ function RegisterStudent() {
   );
 }
 
-export default RegisterStudent;
+export default RegisterLabAssitant;

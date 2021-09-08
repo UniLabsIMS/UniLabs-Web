@@ -94,6 +94,7 @@ const useStyles = makeStyles(theme => ({
   },
   itemIcon: {
     paddingLeft: '8px',
+    // paddingRight: '9px',
   },
   active: {
     color: theme.palette.secondary.main,

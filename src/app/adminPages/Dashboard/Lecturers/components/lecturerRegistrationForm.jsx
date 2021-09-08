@@ -68,10 +68,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function RegisterStudent() {
+function RegisterLecturer() {
   const classes = useStyles();
   const [email, setEmail] = useState('');
-  const [studentId, setstudentId] = useState('');
+  const [lecturerId, setLecturerId] = useState('');
   const [department, setDepartment] = useState('');
 
   const handleChange = event => {
@@ -90,7 +90,7 @@ function RegisterStudent() {
           <div className={classes.loginForm}>
             <div className={classes.formLine}>
               <Typography component="h1" variant="h5">
-                Register a new Student
+                Register a new Lecturer
               </Typography>
             </div>
             <form className={classes.form} noValidate onSubmit={handleLogin}>
@@ -107,7 +107,7 @@ function RegisterStudent() {
                   autoComplete="email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  // autoFocus
+                  //   autoFocus
                 />
                 <TextField
                   className={classes.texts}
@@ -115,12 +115,12 @@ function RegisterStudent() {
                   margin="normal"
                   required
                   fullWidth
-                  id="studentId"
-                  label="Student ID"
-                  name="studentId"
-                  autoComplete="studentId"
-                  value={studentId}
-                  onChange={e => setstudentId(e.target.value)}
+                  id="lecturerId"
+                  label="Lecturer ID"
+                  name="lecturerId"
+                  autoComplete="lecturerId"
+                  value={lecturerId}
+                  onChange={e => setLecturerId(e.target.value)}
                 />
               </div>
               <div className={classes.formLine}>
@@ -148,7 +148,7 @@ function RegisterStudent() {
                   color="primary"
                   className={classes.submit}
                 >
-                  Register Student
+                  Register Lecturer
                 </Button>
               </div>
             </form>
@@ -159,4 +159,4 @@ function RegisterStudent() {
   );
 }
 
-export default RegisterStudent;
+export default RegisterLecturer;

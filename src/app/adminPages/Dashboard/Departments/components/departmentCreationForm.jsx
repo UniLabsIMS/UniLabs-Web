@@ -7,10 +7,6 @@ import {
   Container,
 } from '@material-ui/core';
 import { useState } from 'react';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -68,15 +64,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function RegisterStudent() {
+function CreateDepartment() {
   const classes = useStyles();
   const [email, setEmail] = useState('');
-  const [studentId, setstudentId] = useState('');
-  const [department, setDepartment] = useState('');
-
-  const handleChange = event => {
-    setDepartment(event.target.value);
-  };
 
   const handleLogin = e => {
     e.preventDefault();
@@ -90,7 +80,7 @@ function RegisterStudent() {
           <div className={classes.loginForm}>
             <div className={classes.formLine}>
               <Typography component="h1" variant="h5">
-                Register a new Student
+                Create a new Department
               </Typography>
             </div>
             <form className={classes.form} noValidate onSubmit={handleLogin}>
@@ -102,7 +92,7 @@ function RegisterStudent() {
                   required
                   fullWidth
                   id="email"
-                  label="Email Address"
+                  label="Name"
                   name="email"
                   autoComplete="email"
                   value={email}
@@ -115,32 +105,16 @@ function RegisterStudent() {
                   margin="normal"
                   required
                   fullWidth
-                  id="studentId"
-                  label="Student ID"
-                  name="studentId"
-                  autoComplete="studentId"
-                  value={studentId}
-                  onChange={e => setstudentId(e.target.value)}
+                  id="email"
+                  label="Code"
+                  name="email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  // autoFocus
                 />
               </div>
               <div className={classes.formLine}>
-                <FormControl className={classes.formControl}>
-                  <InputLabel id="demo-simple-select-label">
-                    Department
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={department}
-                    onChange={handleChange}
-                  >
-                    <MenuItem value={0}>CSE</MenuItem>
-                    <MenuItem value={1}>ENTC</MenuItem>
-                    <MenuItem value={2}>CE</MenuItem>
-                    <MenuItem value={3}>ME</MenuItem>
-                    <MenuItem value={4}>CPE</MenuItem>
-                  </Select>
-                </FormControl>
                 <Button
                   type="submit"
                   fullWidth
@@ -148,7 +122,7 @@ function RegisterStudent() {
                   color="primary"
                   className={classes.submit}
                 >
-                  Register Student
+                  Create Department
                 </Button>
               </div>
             </form>
@@ -159,4 +133,4 @@ function RegisterStudent() {
   );
 }
 
-export default RegisterStudent;
+export default CreateDepartment;

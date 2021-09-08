@@ -8,7 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Zoom } from 'react-awesome-reveal';
-import RegisterStudent from './components/studentRegistrationForm';
+import RegisterLabManager from './components/labManagerRegistrationForm';
 
 const useStyles = makeStyles({
   table: {
@@ -16,70 +16,70 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(id, name, department, n) {
-  return { id, name, department, n };
+function createData(name, lab, department, n) {
+  return { name, lab, department, n };
 }
 
 const rows = [
   createData(
-    180001,
-    'Student_1',
-    'Department_1',
+    'LabManager_1',
+    'Lab_1',
+    'CSE',
     <Button variant="contained" color="secondary">
       Delete
     </Button>,
   ),
   createData(
-    180002,
-    'Student_2',
-    'Department_2',
+    'LabManager_2',
+    'Lab_2',
+    'CSE',
     <Button variant="contained" color="secondary">
       Delete
     </Button>,
   ),
   createData(
-    180003,
-    'Student_3',
-    'Department_1',
+    'LabManager_3',
+    'Lab_3',
+    'ENTC',
     <Button variant="contained" color="secondary">
       Delete
     </Button>,
   ),
   createData(
-    180004,
-    'Student_4',
-    'Department_4',
+    'LabManager_4',
+    'Lab_4',
+    'CE',
     <Button variant="contained" color="secondary">
       Delete
     </Button>,
   ),
   createData(
-    180005,
-    'Student_5',
-    'Department_3',
+    'LabManager_5',
+    'Lab_5',
+    'ME',
     <Button variant="contained" color="secondary">
       Delete
     </Button>,
   ),
   createData(
-    180006,
-    'Student_6',
-    'Department_3',
+    'LabManager_6',
+    'Lab_6',
+    'ME',
     <Button variant="contained" color="secondary">
       Delete
     </Button>,
   ),
   createData(
-    180007,
-    'Student_7',
-    'Department_1',
+    'LabManager_7',
+    'Lab_7',
+    'CPE',
     <Button variant="contained" color="secondary">
       Delete
     </Button>,
   ),
 ];
 
-export default function StudentTable() {
+export default function LabManagerTable() {
   const classes = useStyles();
 
   return (
@@ -87,29 +87,29 @@ export default function StudentTable() {
       <TableContainer component={Paper}>
         <Zoom triggerOnce>
           <Typography component="h1" variant="h4" align="center">
-            Students
+            Lab Managers
           </Typography>
         </Zoom>
         <Zoom triggerOnce>
-          <RegisterStudent />
+          <RegisterLabManager />
         </Zoom>
         <Zoom triggerOnce>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>ID</TableCell>
-                <TableCell align="right">Name</TableCell>
+                <TableCell>Name</TableCell>
+                <TableCell align="right">Laboratory</TableCell>
                 <TableCell align="right">Department</TableCell>
                 <TableCell align="right" />
               </TableRow>
             </TableHead>
             <TableBody>
               {rows.map(row => (
-                <TableRow key={row.id}>
+                <TableRow key={row.name}>
                   <TableCell component="th" scope="row">
-                    {row.id}
+                    {row.name}
                   </TableCell>
-                  <TableCell align="right">{row.name}</TableCell>
+                  <TableCell align="right">{row.lab}</TableCell>
                   <TableCell align="right">{row.department}</TableCell>
                   <TableCell align="right">{row.n}</TableCell>
                 </TableRow>

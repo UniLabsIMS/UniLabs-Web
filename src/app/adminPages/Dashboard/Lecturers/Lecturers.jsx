@@ -8,7 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Zoom } from 'react-awesome-reveal';
-import RegisterStudent from './components/studentRegistrationForm';
+import RegisterLecturer from './components/lecturerRegistrationForm';
 
 const useStyles = makeStyles({
   table: {
@@ -22,56 +22,56 @@ function createData(id, name, department, n) {
 
 const rows = [
   createData(
-    180001,
-    'Student_1',
+    'L0001',
+    'Lecturer_1',
     'Department_1',
     <Button variant="contained" color="secondary">
       Delete
     </Button>,
   ),
   createData(
-    180002,
-    'Student_2',
+    'L0002',
+    'Lecturer_2',
     'Department_2',
     <Button variant="contained" color="secondary">
       Delete
     </Button>,
   ),
   createData(
-    180003,
-    'Student_3',
+    'L0003',
+    'Lecturer_3',
     'Department_1',
     <Button variant="contained" color="secondary">
       Delete
     </Button>,
   ),
   createData(
-    180004,
-    'Student_4',
+    'L0004',
+    'Lecturer_4',
     'Department_4',
     <Button variant="contained" color="secondary">
       Delete
     </Button>,
   ),
   createData(
-    180005,
-    'Student_5',
+    'L0005',
+    'Lecturer_5',
     'Department_3',
     <Button variant="contained" color="secondary">
       Delete
     </Button>,
   ),
   createData(
-    180006,
-    'Student_6',
+    'L0006',
+    'Lecturer_6',
     'Department_3',
     <Button variant="contained" color="secondary">
       Delete
     </Button>,
   ),
   createData(
-    180007,
-    'Student_7',
+    'L0007',
+    'Lecturer_7',
     'Department_1',
     <Button variant="contained" color="secondary">
       Delete
@@ -87,11 +87,11 @@ export default function StudentTable() {
       <TableContainer component={Paper}>
         <Zoom triggerOnce>
           <Typography component="h1" variant="h4" align="center">
-            Students
+            Lecturers
           </Typography>
         </Zoom>
         <Zoom triggerOnce>
-          <RegisterStudent />
+          <RegisterLecturer />
         </Zoom>
         <Zoom triggerOnce>
           <Table className={classes.table} aria-label="simple table">
