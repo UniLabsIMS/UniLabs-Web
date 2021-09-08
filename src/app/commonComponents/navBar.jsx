@@ -63,6 +63,14 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1,
+    [theme.breakpoints.down('sm')]: {
+      textAlign: 'center',
+    },
+  },
+  logo: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
   },
   drawerPaper: {
     position: 'relative',
@@ -139,6 +147,13 @@ function Navbar({ drawerTiles, onDrawerTileClick, activeIndex, showDrawer }) {
           ) : (
             <div />
           )}
+          <img
+            src="/logo192.png"
+            alt="logo"
+            width="40"
+            height="40"
+            className={classes.logo}
+          />
           <Typography
             component="h1"
             variant="h4"
@@ -146,6 +161,7 @@ function Navbar({ drawerTiles, onDrawerTileClick, activeIndex, showDrawer }) {
             noWrap
             className={classes.title}
           >
+            {' '}
             UniLabs
           </Typography>
           <Typography>{user ? user.name : ''}</Typography>
