@@ -63,6 +63,14 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1,
+    [theme.breakpoints.down('sm')]: {
+      textAlign: 'center',
+    },
+  },
+  logo: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
   },
   drawerPaper: {
     position: 'relative',
@@ -87,6 +95,9 @@ const useStyles = makeStyles(theme => ({
   itemIcon: {
     paddingLeft: '0px',
     paddingRight: '9px',
+  },
+  active: {
+    color: theme.palette.secondary.main,
   },
 }));
 
@@ -137,13 +148,21 @@ function Navbar({ drawerTiles, onDrawerTileClick, activeIndex, showDrawer }) {
           ) : (
             <div />
           )}
+          <img
+            src="/logo192.png"
+            alt="logo"
+            width="40"
+            height="40"
+            className={classes.logo}
+          />
           <Typography
             component="h1"
-            variant="h6"
+            variant="h4"
             color="inherit"
             noWrap
             className={classes.title}
           >
+            {' '}
             UniLabs
           </Typography>
           <Typography>{user ? user.name : ''}</Typography>
@@ -203,8 +222,20 @@ function Navbar({ drawerTiles, onDrawerTileClick, activeIndex, showDrawer }) {
                 button
                 selected={activeIndex === drawerTiles.indexOf(child)}
                 onClick={() => onDrawerTileClick(drawerTiles.indexOf(child))}
+                className={
+                  activeIndex === drawerTiles.indexOf(child)
+                    ? classes.active
+                    : ''
+                }
               >
-                <ListItemIcon className={classes.itemIcon}>
+                <ListItemIcon
+                  className={
+                    classes.itemIcon &&
+                    (activeIndex === drawerTiles.indexOf(child)
+                      ? classes.active
+                      : '')
+                  }
+                >
                   {child.icon}
                 </ListItemIcon>
                 <ListItemText primary={child.title} />
