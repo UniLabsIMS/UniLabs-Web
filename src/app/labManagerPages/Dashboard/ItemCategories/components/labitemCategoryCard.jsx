@@ -9,7 +9,9 @@ import { Link } from 'react-router-dom';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
-import { Box } from '@material-ui/core';
+import { Box, Modal } from '@material-ui/core';
+import { useState } from 'react';
+import EditCategoryForm from './editCategoryForm';
 
 const useStyles = makeStyles(theme => ({
   expenseCard: {
@@ -23,10 +25,18 @@ const useStyles = makeStyles(theme => ({
   content: {
     paddingBottom: theme.spacing(0),
   },
+  modal: {
+    width: '85%',
+    margin: 'auto',
+    marginTop: theme.spacing(10),
+  },
 }));
 
 const ItemCategoryCard = () => {
   const classes = useStyles();
+  const [editModalState, setEditModalState] = useState(false);
+  const handleEditModalOpen = () => setEditModalState(true);
+  const handleEditModalClose = () => setEditModalState(false);
 
   return (
     <Card className={classes.expenseCard}>
@@ -97,10 +107,29 @@ const ItemCategoryCard = () => {
             Go to Display Items
           </Button>
         </Link>
-        <Button variant="outlined" color="primary" className={classes.buttons}>
+        <Button
+          variant="outlined"
+          color="primary"
+          className={classes.buttons}
+          onClick={handleEditModalOpen}
+        >
           Edit Category
         </Button>
       </CardActions>
+      <Modal
+        open={editModalState}
+        aria-labelledby="edit-category-modal-title"
+        aria-describedby="edit-category-modal-description"
+        align="center"
+        className={classes.modal}
+      >
+        <div className={classes.modal_div}>
+          <EditCategoryForm
+            onSubmitSuccess={handleEditModalClose}
+            onClose={handleEditModalClose}
+          />
+        </div>
+      </Modal>
     </Card>
   );
 };
