@@ -86,7 +86,7 @@ const useStyles = makeStyles(theme => ({
   },
   itemIcon: {
     paddingLeft: '0px',
-    paddingRight: '9px',
+    paddingRight: '10px',
   },
 }));
 
