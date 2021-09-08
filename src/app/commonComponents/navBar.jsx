@@ -139,6 +139,13 @@ function Navbar({ drawerTiles, onDrawerTileClick, activeIndex, showDrawer }) {
           ) : (
             <div />
           )}
+          <img
+            src="/logo192.png"
+            alt="logo"
+            className={classes.logo}
+            width="40"
+            height="40"
+          />
           <Typography
             component="h1"
             variant="h4"
@@ -146,6 +153,7 @@ function Navbar({ drawerTiles, onDrawerTileClick, activeIndex, showDrawer }) {
             noWrap
             className={classes.title}
           >
+            {' '}
             UniLabs
           </Typography>
           <Typography>{user ? user.name : ''}</Typography>
