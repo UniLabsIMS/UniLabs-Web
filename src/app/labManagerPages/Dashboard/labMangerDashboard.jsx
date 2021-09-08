@@ -4,6 +4,7 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
 import ItemCategories from './ItemCategories/itemCategories';
+import InventorySummary from './inventorySummary/inventorySummary';
 
 const createDrawerTile = (title, icon, component) => ({
   title,
@@ -17,7 +18,11 @@ const getDrawerTiles = () => {
     createDrawerTile('My Lab', <HomeIcon />, <ItemCategories />),
   );
   drawerTiles.push(
-    createDrawerTile('Inventory Summary', <BarChartIcon />, <div>Summary</div>),
+    createDrawerTile(
+      'Inventory Summary',
+      <BarChartIcon />,
+      <InventorySummary />,
+    ),
   );
   return drawerTiles;
 };
