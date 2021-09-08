@@ -22,6 +22,7 @@ const useStyles = makeStyles(theme => ({
   buttons: {
     margin: 'auto',
     display: 'flex',
+    marginBottom: theme.spacing(0.5),
   },
   content: {
     paddingBottom: theme.spacing(0),
