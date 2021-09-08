@@ -107,7 +107,7 @@ function RegisterLecturer() {
                   autoComplete="email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  autoFocus
+                  //   autoFocus
                 />
                 <TextField
                   className={classes.texts}

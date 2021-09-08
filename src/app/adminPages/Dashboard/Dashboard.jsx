@@ -7,6 +7,7 @@ import LabManagerTable from './LabManagers/LabManagers';
 import LabAssistantTable from './LabAssistants/LabAssistants';
 import DepartmentTable from './Departments/Departments';
 import LabTable from './Labs/Labs';
+import AdminTable from './Admins/Admins';
 import { ReactComponent as StudentIcon } from '../../../icons/Student.svg';
 import { ReactComponent as LecturerIcon } from '../../../icons/Lecturer.svg';
 import { ReactComponent as LabManagerIcon } from '../../../icons/LabManager.svg';
@@ -39,9 +40,7 @@ const getDrawerTiles = () => {
       <LabAssistantTable />,
     ),
   );
-  drawerTiles.push(
-    createDrawerTile('Admins', <AdminIcon />, <div>Admins Table</div>),
-  );
+  drawerTiles.push(createDrawerTile('Admins', <AdminIcon />, <AdminTable />));
   drawerTiles.push(
     createDrawerTile('Departments', <DepartmentIcon />, <DepartmentTable />),
   );

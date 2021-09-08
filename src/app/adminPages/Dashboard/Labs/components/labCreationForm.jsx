@@ -68,10 +68,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function RegisterStudent() {
+function CreateLab() {
   const classes = useStyles();
   const [email, setEmail] = useState('');
-  const [studentId, setstudentId] = useState('');
   const [department, setDepartment] = useState('');
 
   const handleChange = event => {
@@ -90,7 +89,7 @@ function RegisterStudent() {
           <div className={classes.loginForm}>
             <div className={classes.formLine}>
               <Typography component="h1" variant="h5">
-                Register a new Student
+                Create a new Laboratory
               </Typography>
             </div>
             <form className={classes.form} noValidate onSubmit={handleLogin}>
@@ -102,28 +101,13 @@ function RegisterStudent() {
                   required
                   fullWidth
                   id="email"
-                  label="Email Address"
+                  label="Name"
                   name="email"
                   autoComplete="email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   // autoFocus
                 />
-                <TextField
-                  className={classes.texts}
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="studentId"
-                  label="Student ID"
-                  name="studentId"
-                  autoComplete="studentId"
-                  value={studentId}
-                  onChange={e => setstudentId(e.target.value)}
-                />
-              </div>
-              <div className={classes.formLine}>
                 <FormControl className={classes.formControl}>
                   <InputLabel id="demo-simple-select-label">
                     Department
@@ -141,6 +125,52 @@ function RegisterStudent() {
                     <MenuItem value={4}>CPE</MenuItem>
                   </Select>
                 </FormControl>
+              </div>
+              <div className={classes.formLine}>
+                <TextField
+                  className={classes.texts}
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Loctaion"
+                  name="email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  // autoFocus
+                />
+                <TextField
+                  className={classes.texts}
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Contact Number"
+                  name="email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  // autoFocus
+                />
+              </div>
+              <div className={classes.formLine}>
+                <TextField
+                  className={classes.texts}
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Contact Email"
+                  name="email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  // autoFocus
+                />
                 <Button
                   type="submit"
                   fullWidth
@@ -148,7 +178,7 @@ function RegisterStudent() {
                   color="primary"
                   className={classes.submit}
                 >
-                  Register Student
+                  Create Laboratory
                 </Button>
               </div>
             </form>
@@ -159,4 +189,4 @@ function RegisterStudent() {
   );
 }
 
-export default RegisterStudent;
+export default CreateLab;

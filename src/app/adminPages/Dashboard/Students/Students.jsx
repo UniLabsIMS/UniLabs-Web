@@ -1,7 +1,3 @@
-// export default function StudentTable() {
-//   return <div>Student Table</div>;
-// }
-
 import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
@@ -19,8 +15,8 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(id, name, department, n) {
+  return { id, name, department, n };
 }
 
 const rows = [
@@ -100,14 +96,13 @@ export default function StudentTable() {
           </TableHead>
           <TableBody>
             {rows.map(row => (
-              <TableRow key={row.name}>
+              <TableRow key={row.id}>
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  {row.id}
                 </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
-                <TableCell align="right">{row.protein}</TableCell>
+                <TableCell align="right">{row.name}</TableCell>
+                <TableCell align="right">{row.department}</TableCell>
+                <TableCell align="right">{row.n}</TableCell>
               </TableRow>
             ))}
           </TableBody>
