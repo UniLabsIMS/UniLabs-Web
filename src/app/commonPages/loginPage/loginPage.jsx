@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core';
 import ParticlesBg from 'particles-bg';
 import { useState } from 'react';
+import { Zoom } from 'react-awesome-reveal';
 import { ReactComponent as Logo1 } from '../../../Logo 6.2.svg';
 
 const useStyles = makeStyles(theme => ({
@@ -58,54 +59,62 @@ function LoginPage() {
         num={window.innerWidth / 40}
         bg
       />
+
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
-          <Typography component="h1" variant="h4">
-            Welcome to UniLabs
-          </Typography>
-          <Logo1 className={classes.unilabsLogo} />
-          <div className={classes.loginForm}>
-            <Typography component="h1" variant="h5">
-              Log in
+          <Zoom triggerOnce>
+            <Typography component="h1" variant="h4">
+              Welcome to UniLabs
             </Typography>
-            <form className={classes.form} noValidate onSubmit={handleLogin}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                autoFocus
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >
-                Log In
-              </Button>
-            </form>
+          </Zoom>
+
+          <Zoom triggerOnce className={classes.unilabsLogo}>
+            <Logo1 />
+          </Zoom>
+          <div className={classes.loginForm}>
+            <Zoom triggerOnce>
+              <Typography component="h1" variant="h5">
+                Log in
+              </Typography>
+              <form className={classes.form} noValidate onSubmit={handleLogin}>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  autoFocus
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                >
+                  Log In
+                </Button>
+              </form>
+            </Zoom>
           </div>
         </div>
       </Container>

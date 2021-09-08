@@ -1,5 +1,6 @@
 import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { Zoom } from 'react-awesome-reveal';
 import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
 import DisplayItemsCard from './components/displayItemsCard';
@@ -28,10 +29,14 @@ function LabManagerDisplayItemsPage() {
         </Link>
         <Box fontSize="inherit">Display Items</Box>
       </BreadcrumbsWrapper>
-      <Typography component="h2" variant="h4" gutterBottom align="center">
-        Display Items
-      </Typography>
-      <NewDisplayItemFrom />
+      <Zoom triggerOnce>
+        <Typography component="h2" variant="h4" gutterBottom align="center">
+          Display Items
+        </Typography>
+      </Zoom>
+      <Zoom triggerOnce>
+        <NewDisplayItemFrom />
+      </Zoom>
       <Grid
         container
         spacing={3}

@@ -1,4 +1,5 @@
 import { Grid, Typography } from '@material-ui/core';
+import { Zoom } from 'react-awesome-reveal';
 import ItemCategoryCard from './components/labitemCategoryCard';
 import NewCategoryFrom from './components/newCategoryForm';
 
@@ -10,10 +11,14 @@ function ItemCategories() {
   ));
   return (
     <div>
-      <Typography component="h2" variant="h4" gutterBottom align="center">
-        Item Categories
-      </Typography>
-      <NewCategoryFrom />
+      <Zoom triggerOnce>
+        <Typography component="h2" variant="h4" gutterBottom align="center">
+          Item Categories
+        </Typography>
+      </Zoom>
+      <Zoom triggerOnce>
+        <NewCategoryFrom />
+      </Zoom>
       <Grid
         container
         spacing={3}

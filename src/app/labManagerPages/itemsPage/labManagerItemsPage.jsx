@@ -11,6 +11,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { Zoom } from 'react-awesome-reveal';
 import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
 import BreadcrumbsWrapper from '../../commonComponents/breadCrumbsWrapper';
@@ -45,40 +46,46 @@ function LabManagerItemsPage() {
         </Link>
         <Box fontSize="inherit">Items</Box>
       </BreadcrumbsWrapper>
-      <Typography component="h2" variant="h4" gutterBottom align="center">
-        Items
-      </Typography>
+      <Zoom triggerOnce>
+        <Typography component="h2" variant="h4" gutterBottom align="center">
+          Items
+        </Typography>
+      </Zoom>
       <Box m={2} />
-      <NewItemForm />
+      <Zoom triggerOnce>
+        <NewItemForm />
+      </Zoom>
       <Box m={2} />
       <Paper>
         <TableContainer className={classes.tableContainer}>
-          <Table stickyHeader size="medium">
-            <TableHead>
-              <TableRow className={classes.row_height}>
-                <TableCell align="center" className={classes.row}>
-                  Item ID
-                </TableCell>
-                <TableCell align="center" className={classes.row}>
-                  State
-                </TableCell>
-                <TableCell align="center" className={classes.row}>
-                  Added On
-                </TableCell>
-                <TableCell align="center" className={classes.row}>
-                  Download Barcode
-                </TableCell>
-                <TableCell align="center" className={classes.row}>
-                  Delete
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(item => (
-                <SingleItemRow item={item} key={item} />
-              ))}
-            </TableBody>
-          </Table>
+          <Zoom triggerOnce>
+            <Table stickyHeader size="medium">
+              <TableHead>
+                <TableRow className={classes.row_height}>
+                  <TableCell align="center" className={classes.row}>
+                    Item ID
+                  </TableCell>
+                  <TableCell align="center" className={classes.row}>
+                    State
+                  </TableCell>
+                  <TableCell align="center" className={classes.row}>
+                    Added On
+                  </TableCell>
+                  <TableCell align="center" className={classes.row}>
+                    Download Barcode
+                  </TableCell>
+                  <TableCell align="center" className={classes.row}>
+                    Delete
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(item => (
+                  <SingleItemRow item={item} key={item} />
+                ))}
+              </TableBody>
+            </Table>
+          </Zoom>
         </TableContainer>
       </Paper>
     </PageWrapper>
