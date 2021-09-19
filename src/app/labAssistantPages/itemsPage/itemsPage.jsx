@@ -15,8 +15,8 @@ import { Zoom } from 'react-awesome-reveal';
 import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
 import BreadcrumbsWrapper from '../../commonComponents/breadCrumbsWrapper';
-import SingleItemRow from './components/singleItemRow';
 import NewItemForm from '../../commonComponents/newItemForm';
+import SingleItemRow from './components/singleItemRow';
 
 const useStyles = makeStyles(theme => ({
   link: {
@@ -33,15 +33,15 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function LabManagerItemsPage() {
+function LabAssistantItemsPage() {
   const classes = useStyles();
   return (
     <PageWrapper navBar={<Navbar />}>
       <BreadcrumbsWrapper>
-        <Link to="/lab_manager" className={classes.link}>
+        <Link to="/lab_assistant" className={classes.link}>
           Categories
         </Link>
-        <Link to="/lab_manager/category/123" className={classes.link}>
+        <Link to="/lab_assistant/category/123" className={classes.link}>
           Display Items
         </Link>
         <Box fontSize="inherit">Items</Box>
@@ -92,4 +92,4 @@ function LabManagerItemsPage() {
   );
 }
 
-export default LabManagerItemsPage;
+export default LabAssistantItemsPage;
