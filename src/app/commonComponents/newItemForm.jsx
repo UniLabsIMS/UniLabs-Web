@@ -7,7 +7,7 @@ import {
 } from '@material-ui/core';
 import { useRef, useState } from 'react';
 import Barcode from 'react-barcode';
-import { exportComponentAsJPEG } from 'react-component-export-image';
+import { exportComponentAsPNG } from 'react-component-export-image';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -19,6 +19,9 @@ const useStyles = makeStyles(theme => ({
   },
   barcodeBox: {
     padding: theme.spacing(2),
+  },
+  barcodeRefDiv: {
+    width: 'fit-content',
   },
 }));
 
@@ -47,13 +50,18 @@ function NewItemForm() {
               Download the Following Barcode and Paste on the Item
             </strong>
           </Typography>
-          <div ref={barcodeRef}>
-            <Barcode value="f35c02a3" fontSize={20} />
+          <div className={classes.barcodeRefDiv}>
+            <div ref={barcodeRef}>
+              <Barcode value="f35c02a3" fontSize={20} />
+            </div>
           </div>
           <Box m={1} />
           <Button
             onClick={() => {
-              exportComponentAsJPEG(barcodeRef);
+              exportComponentAsPNG(barcodeRef, {
+                fileName: 'f35c02a3',
+                html2CanvasOptions: { scale: 3 },
+              });
               handleBarcodeClose();
             }}
             variant="outlined"
