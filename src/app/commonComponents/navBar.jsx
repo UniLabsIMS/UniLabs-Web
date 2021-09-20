@@ -194,7 +194,7 @@ function Navbar({ drawerTiles, onDrawerTileClick, activeIndex, showDrawer }) {
               onClose={handleClose}
             >
               <Link to="#" className={classes.appBarLink}>
-                <MenuItem>Change Password</MenuItem>
+                <MenuItem>My Profile</MenuItem>
               </Link>
               <MenuItem onClick={handleLogoutEvent}>Logout</MenuItem>
             </Menu>
