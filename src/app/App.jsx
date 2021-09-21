@@ -1,16 +1,28 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import AdminRoutes from '../routes/adminRoutes';
 import CommonRoutes from '../routes/commonRoutes';
-import LabAssistantRoutes from '../routes/labAssistantRoures';
 import LabManagerRoutes from '../routes/labManagerRoutes';
+import { refreshAuth } from '../store/actions/authActions';
+import CustomLoadingIndicator from './commonComponents/customLoadingIndicator';
+import { ADMIN_BASE_URL, LAB_MANAGER_BASE_URL } from './constants';
 
 function App() {
+  const auth = useSelector(state => state.auth);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(refreshAuth());
+  }, [dispatch]);
+
+  if (auth.isLoading) {
+    return <CustomLoadingIndicator />;
+  }
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/admin" component={AdminRoutes} />
-        <Route path="/lab_manager" component={LabManagerRoutes} />
-        <Route path="/lab_assistant" component={LabAssistantRoutes} />
+        <Route path={ADMIN_BASE_URL} component={AdminRoutes} />
+        <Route path={LAB_MANAGER_BASE_URL} component={LabManagerRoutes} />
         {/* Keep this path always ath the end of the list */}
         <Route path="/" component={CommonRoutes} />
       </Switch>

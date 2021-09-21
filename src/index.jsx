@@ -1,8 +1,10 @@
 import ReactDOM from 'react-dom';
 import { createTheme, ThemeProvider } from '@material-ui/core';
 import { Helmet } from 'react-helmet';
+import { Provider } from 'react-redux';
 import App from './app/App';
 import reportWebVitals from './reportWebVitals';
+import store from './store/store';
 
 const theme = createTheme({
   typography: {
@@ -51,7 +53,7 @@ const theme = createTheme({
 });
 
 ReactDOM.render(
-  <div>
+  <Provider Provider store={store}>
     <Helmet>
       <Helmet>
         <title>UniLabs</title>
@@ -60,7 +62,7 @@ ReactDOM.render(
     <ThemeProvider theme={theme}>
       <App />
     </ThemeProvider>
-  </div>,
+  </Provider>,
   document.getElementById('root'),
 );
 reportWebVitals();
