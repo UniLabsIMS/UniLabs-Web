@@ -20,11 +20,11 @@ function createData(id, itemName, lab, dueDate, n) {
 }
 
 const rows = [
-  createData('00001', 'Item_1', '01/01/2022', 'Lab1'),
-  createData('04125', 'Item_1', '01/01/2022', 'Lab1'),
-  createData('49242', 'Item_1', '01/01/2022', 'Lab1'),
-  createData('12523', 'Item_1', '01/01/2022', 'Lab1'),
-  createData('32634', 'Item_1', '01/01/2022', 'Lab1'),
+  createData('00001', 'Item_1', 'Lab1', '01/01/2022'),
+  createData('04125', 'Item_1', 'Lab1', '01/01/2022'),
+  createData('49242', 'Item_1', 'Lab1', '01/01/2022'),
+  createData('12523', 'Item_1', 'Lab1', '01/01/2022'),
+  createData('32634', 'Item_1', 'Lab1', '01/01/2022'),
 ];
 
 export default function BurrowedItemsTable() {

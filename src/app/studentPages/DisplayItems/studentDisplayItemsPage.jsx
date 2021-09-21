@@ -96,16 +96,6 @@ function StudentDisplayItemsPage() {
         </Typography>
       </Zoom>
       <div className={classes.cards}>{displayItems}</div>
-      {/* <Grid
-        container
-        spacing={3}
-        margin={1}
-        justifyContent="space-around"
-        alignItems="stretch"
-        direction="column"
-      >
-        {displayItems}
-      </Grid> */}
     </PageWrapper>
   );
 }

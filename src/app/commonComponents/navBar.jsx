@@ -193,7 +193,7 @@ function Navbar({ drawerTiles, onDrawerTileClick, activeIndex, showDrawer }) {
               open={menuOpen}
               onClose={handleClose}
             >
-              <Link to="#" className={classes.appBarLink}>
+              <Link to="/myProfile" className={classes.appBarLink}>
                 <MenuItem>My Profile</MenuItem>
               </Link>
               <MenuItem onClick={handleLogoutEvent}>Logout</MenuItem>
