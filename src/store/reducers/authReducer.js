@@ -4,6 +4,8 @@ import {
   AUTH_LOADING,
   LOGIN_FAIL,
   LOGIN_SUCCESS,
+  LOGOUT_FAIL,
+  LOGOUT_SUCCESS,
 } from '../actionTypes/authActionTypes';
 
 const initialState = {
@@ -11,6 +13,7 @@ const initialState = {
   isAuthenticated: null,
   isLoading: false,
   user: null,
+  error: null,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -26,17 +29,29 @@ const authReducer = (state = initialState, action) => {
         isAuthenticated: true,
         isLoading: false,
         user: action.payload,
+        error: null,
       };
     case LOGIN_SUCCESS:
       localStorage.setItem('token', action.payload.token);
 
       return {
         ...state,
-        ...action.payload,
         isAuthenticated: true,
+        user: action.payload,
         isLoading: false,
+        error: null,
       };
     case LOGIN_FAIL:
+      localStorage.removeItem('token');
+      return {
+        ...state,
+        token: null,
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+        error: 'Login Failed',
+      };
+    case LOGOUT_SUCCESS:
     case AUTH_ERROR:
       localStorage.removeItem('token');
       return {
@@ -46,6 +61,8 @@ const authReducer = (state = initialState, action) => {
         isAuthenticated: false,
         isLoading: false,
       };
+    case LOGOUT_FAIL:
+      return { ...state, isLoading: false };
     default:
       return state;
   }

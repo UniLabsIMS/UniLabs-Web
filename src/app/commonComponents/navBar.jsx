@@ -21,7 +21,9 @@ import {
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../store/actions/authActions';
 
 const drawerWidth = 240;
 
@@ -114,8 +116,12 @@ function Navbar({ drawerTiles, onDrawerTileClick, activeIndex, showDrawer }) {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const menuOpen = Boolean(anchorEl);
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const dispatch = useDispatch();
 
-  const handleLogoutEvent = () => {};
+  const handleLogoutEvent = () => {
+    dispatch(logout());
+  };
 
   const handleMenu = event => {
     setAnchorEl(event.currentTarget);
@@ -124,6 +130,9 @@ function Navbar({ drawerTiles, onDrawerTileClick, activeIndex, showDrawer }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  if (!isAuthenticated) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <>
@@ -167,38 +176,42 @@ function Navbar({ drawerTiles, onDrawerTileClick, activeIndex, showDrawer }) {
           </Typography>
           <Typography>{user ? user.name : ''}</Typography>
 
-          <div>
-            <IconButton
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleMenu}
-              color="inherit"
-              size="medium"
-            >
-              <AccountCircleRounded fontSize="large" />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={menuOpen}
-              onClose={handleClose}
-            >
-              <Link to="#" className={classes.appBarLink}>
-                <MenuItem>Change Password</MenuItem>
-              </Link>
-              <MenuItem onClick={handleLogoutEvent}>Logout</MenuItem>
-            </Menu>
-          </div>
+          {isAuthenticated ? (
+            <div>
+              <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+                size="medium"
+              >
+                <AccountCircleRounded fontSize="large" />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={menuOpen}
+                onClose={handleClose}
+              >
+                <Link to="#" className={classes.appBarLink}>
+                  <MenuItem>Change Password</MenuItem>
+                </Link>
+                <MenuItem onClick={handleLogoutEvent}>Logout</MenuItem>
+              </Menu>
+            </div>
+          ) : (
+            <div />
+          )}
         </Toolbar>
       </AppBar>
       {showDrawer ? (
