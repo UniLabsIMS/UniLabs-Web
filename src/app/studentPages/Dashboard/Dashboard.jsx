@@ -2,10 +2,8 @@ import { useState } from 'react';
 import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
 import Labs from './Labs/Labs';
-import BucketPage from './Bucket/Bucket';
 import BurrowedItemsTable from './Borrowed Items/BurrowedItems';
 import { ReactComponent as LabIcon } from '../../../icons/Lab.svg';
-import { ReactComponent as BucketIcon } from '../../../icons/Bucket.svg';
 import { ReactComponent as BorrowIcon } from '../../../icons/Borrow.svg';
 
 const createDrawerTile = (title, icon, component) => ({
@@ -24,13 +22,6 @@ const getDrawerTiles = () => {
       'Burrowed Items',
       <BorrowIcon style={{ width: 24 }} />,
       <BurrowedItemsTable />,
-    ),
-  );
-  drawerTiles.push(
-    createDrawerTile(
-      'My Bucket',
-      <BucketIcon style={{ width: 24 }} />,
-      <BucketPage />,
     ),
   );
   return drawerTiles;

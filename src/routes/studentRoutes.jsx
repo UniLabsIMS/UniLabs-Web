@@ -5,6 +5,7 @@ import StudentDashboard from '../app/studentPages/Dashboard/Dashboard';
 import ProtectedStudentRoute from './components/protectedStudentRoute';
 import StudentCategoriesPage from '../app/studentPages/Categories/studentCategoriesPage';
 import StudentDisplayItemsPage from '../app/studentPages/DisplayItems/studentDisplayItemsPage';
+import BucketPage from '../app/studentPages/Dashboard/Bucket/Bucket';
 
 function StudentRoutes() {
   const { path } = useRouteMatch();
@@ -23,6 +24,11 @@ function StudentRoutes() {
         <ProtectedStudentRoute
           path={`${path}/lab/:labId`}
           component={StudentCategoriesPage}
+          exact
+        />
+        <ProtectedStudentRoute
+          path={`${path}/lab/:labId/myBucket`}
+          component={BucketPage}
           exact
         />
         <ProtectedStudentRoute

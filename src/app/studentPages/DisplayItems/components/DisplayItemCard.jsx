@@ -5,22 +5,20 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { Link, useParams } from 'react-router-dom';
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
-import Popover from '@material-ui/core/Popover';
-import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
+import { Link } from 'react-router-dom';
+import PopupState from 'material-ui-popup-state';
 import { Box } from '@material-ui/core';
 import { Zoom } from 'react-awesome-reveal';
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 
 const useStyles = makeStyles(theme => ({
   expenseCard: {
-    alignItems: 'center',
-    maxWidth: 345,
-    paddingBottom: theme.spacing(1),
+    padding: theme.spacing(1),
   },
+  expenseCardImage: {},
   buttons: {
-    margin: theme.spacing(0, 0, 0),
+    margin: theme.spacing(1),
     display: 'flex',
   },
   content: {
@@ -34,88 +32,140 @@ const useStyles = makeStyles(theme => ({
   cardContents: {
     alignItems: 'center',
     flexDirection: 'column',
+    height: '100%',
+  },
+  fullCard: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  cardImg: {
+    width: '25%',
+  },
+  cardRest: {
+    width: '45%',
+  },
+  cardActionBox: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    width: '30%',
+  },
+  quantityBox: {
+    alignItems: 'center',
+    height: '50%',
+  },
+  btnBox: {
+    flexDirection: 'row',
+    height: '50%',
+  },
+  incDecBtns: {
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    fontSize: 'large',
   },
 }));
 
 const DisplayItemCard = ({ displayItem }) => {
   const classes = useStyles();
-  const { labId, categoryID } = useParams();
+  //   const { labId, categoryID } = useParams();
+  const [quantity, setQuantity] = useState(0);
 
   return (
     <Zoom triggerOnce>
       <Card className={classes.expenseCard}>
-        <CardMedia
-          component="img"
-          alt="Display Item Photo"
-          height="200"
-          image={displayItem.image}
-          title="Display Item Photo"
-        />
-        <CardContent className={classes.content}>
-          <PopupState variant="popover" popupId="demo-popup-popover">
-            {popupState => (
-              <div>
+        <div className={classes.fullCard}>
+          <div className={classes.cardImg}>
+            <CardMedia
+              className={classes.expenseCardImage}
+              component="img"
+              alt="Display Item Photo"
+              width="200"
+              image={displayItem.image}
+              title="Display Item Photo"
+            />
+          </div>
+          <div className={classes.cardRest}>
+            <CardContent className={classes.content}>
+              <PopupState variant="popover" popupId="demo-popup-popover">
+                {popupState => (
+                  <div>
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="h2"
+                      align="center"
+                    >
+                      {displayItem.name}
+                    </Typography>
+                    <Box p={2}>
+                      <Typography variant="h6" component="h6">
+                        Description
+                      </Typography>
+                      <Typography>{displayItem.description}</Typography>
+                    </Box>
+                  </div>
+                )}
+              </PopupState>
+            </CardContent>
+          </div>
+          <div className={classes.cardActionBox}>
+            <CardActions className={classes.cardContents}>
+              <div className={classes.quantityBox}>
                 <Typography
                   gutterBottom
                   variant="h5"
                   component="h2"
                   align="center"
                 >
-                  {displayItem.name}
-                  <InfoOutlinedIcon
-                    color="secondary"
-                    fontSize="small" // eslint-disable-next-line react/jsx-props-no-spreading
-                    {...bindTrigger(popupState)}
-                  />
+                  {quantity > 0 && <h3>Quantity : {quantity}</h3>}
                 </Typography>
-
-                <Popover
-                  // eslint-disable-next-line react/jsx-props-no-spreading
-                  {...bindPopover(popupState)}
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'center',
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'center',
-                  }}
-                >
-                  <Box p={2}>
-                    <Typography variant="h6" component="h6">
-                      Description
-                    </Typography>
-                    <Typography>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                      sint occaecat cupidatat non proident, sunt in culpa qui
-                      officia deserunt mollit anim id est laborum
-                    </Typography>
-                  </Box>
-                </Popover>
               </div>
-            )}
-          </PopupState>
-        </CardContent>
-        <CardActions className={classes.cardContents}>
-          <Link
-            className={classes.cardContents}
-            style={{ textDecoration: 'none' }}
-            to={`/student/lab/${labId}/category/${categoryID}`}
-          >
-            <Button
-              variant="outlined"
-              color="secondary"
-              className={classes.buttons}
-            >
-              View Items
-            </Button>
-          </Link>
-        </CardActions>
+              <div className={classes.btnBox}>
+                {quantity === 0 && (
+                  <Link
+                    className={classes.cardContents}
+                    style={{ textDecoration: 'none' }}
+                  >
+                    <Button
+                      onClick={() => setQuantity(1)}
+                      variant="contained"
+                      color="secondary"
+                      className={classes.buttons}
+                    >
+                      Add to Bucket
+                    </Button>
+                  </Link>
+                )}
+                {quantity > 0 && (
+                  <Link
+                    className={classes.cardContents}
+                    style={{ textDecoration: 'none' }}
+                  >
+                    <div className={classes.incDecBtns}>
+                      <Button
+                        onClick={() => setQuantity(quantity - 1)}
+                        variant="contained"
+                        color="secondary"
+                        className={classes.buttons}
+                      >
+                        -
+                      </Button>
+                      <Button
+                        onClick={() => setQuantity(quantity + 1)}
+                        variant="contained"
+                        color="secondary"
+                        className={classes.buttons}
+                      >
+                        +
+                      </Button>
+                    </div>
+                  </Link>
+                )}
+              </div>
+            </CardActions>
+          </div>
+        </div>
       </Card>
     </Zoom>
   );

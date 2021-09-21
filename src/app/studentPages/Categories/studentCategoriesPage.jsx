@@ -1,5 +1,5 @@
-import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { Box, Grid, makeStyles, Typography, Button } from '@material-ui/core';
+import { Link, useLocation } from 'react-router-dom';
 import { Zoom } from 'react-awesome-reveal';
 import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
@@ -11,10 +11,31 @@ const useStyles = makeStyles(theme => ({
     textDecoration: 'none',
     color: theme.palette.secondary.main,
   },
+  bucketButtonContainer: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(5),
+  },
+  bucketButtonContainer1: {
+    width: '30%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  bucketButton: {
+    width: '100%',
+    padding: theme.spacing(2),
+    alignItems: 'center',
+    fontSize: 'large',
+  },
 }));
 
 function StudentCategoriesPage() {
   const classes = useStyles();
+  const location = useLocation();
 
   const allCategories = [
     {
@@ -86,6 +107,24 @@ function StudentCategoriesPage() {
         <Typography component="h2" variant="h4" gutterBottom align="center">
           Categories
         </Typography>
+      </Zoom>
+
+      <Zoom triggerOnce>
+        <div className={classes.bucketButtonContainer}>
+          <Link
+            className={classes.bucketButtonContainer1}
+            style={{ textDecoration: 'none' }}
+            to={`${location.pathname}/myBucket`}
+          >
+            <Button
+              className={classes.bucketButton}
+              color="secondary"
+              variant="contained"
+            >
+              My Bucket
+            </Button>
+          </Link>
+        </div>
       </Zoom>
       <Grid
         container

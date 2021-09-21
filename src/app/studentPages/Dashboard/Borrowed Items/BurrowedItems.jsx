@@ -15,16 +15,16 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(id, itemName, lab, n) {
-  return { id, itemName, lab, n };
+function createData(id, itemName, lab, dueDate, n) {
+  return { id, itemName, lab, dueDate, n };
 }
 
 const rows = [
-  createData('00001', 'Item_1', 'Lab1'),
-  createData('04125', 'Item_1', 'Lab1'),
-  createData('49242', 'Item_1', 'Lab1'),
-  createData('12523', 'Item_1', 'Lab1'),
-  createData('32634', 'Item_1', 'Lab1'),
+  createData('00001', 'Item_1', '01/01/2022', 'Lab1'),
+  createData('04125', 'Item_1', '01/01/2022', 'Lab1'),
+  createData('49242', 'Item_1', '01/01/2022', 'Lab1'),
+  createData('12523', 'Item_1', '01/01/2022', 'Lab1'),
+  createData('32634', 'Item_1', '01/01/2022', 'Lab1'),
 ];
 
 export default function BurrowedItemsTable() {
@@ -45,6 +45,7 @@ export default function BurrowedItemsTable() {
                 <TableCell>Item ID</TableCell>
                 <TableCell align="right">Item Name</TableCell>
                 <TableCell align="right">Lab</TableCell>
+                <TableCell align="right">Due Date</TableCell>
                 <TableCell align="right" />
               </TableRow>
             </TableHead>
@@ -56,6 +57,7 @@ export default function BurrowedItemsTable() {
                   </TableCell>
                   <TableCell align="right">{row.itemName}</TableCell>
                   <TableCell align="right">{row.lab}</TableCell>
+                  <TableCell align="right">{row.dueDate}</TableCell>
                   <TableCell align="right">{row.n}</TableCell>
                 </TableRow>
               ))}

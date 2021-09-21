@@ -4,7 +4,7 @@ import { Zoom } from 'react-awesome-reveal';
 import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
 import BreadcrumbsWrapper from '../../commonComponents/breadCrumbsWrapper';
-import DisplayItemCard from './components/DisplayItemCard1';
+import DisplayItemCard from './components/DisplayItemCard';
 
 const useStyles = makeStyles(theme => ({
   link: {

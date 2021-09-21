@@ -3,7 +3,6 @@ import {
   CssBaseline,
   TextField,
   makeStyles,
-  Typography,
   Container,
 } from '@material-ui/core';
 import { useState } from 'react';
@@ -87,11 +86,6 @@ function RequestBucket() {
         <CssBaseline />
         <div className={classes.paper}>
           <div className={classes.loginForm}>
-            <div className={classes.formLine}>
-              <Typography component="h1" variant="h5">
-                Register a new Student
-              </Typography>
-            </div>
             <form className={classes.form} noValidate onSubmit={handleLogin}>
               <div className={classes.formLine}>
                 <TextField
