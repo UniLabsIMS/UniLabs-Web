@@ -12,6 +12,10 @@ const useStyles = makeStyles(theme => ({
     textDecoration: 'none',
     color: theme.palette.secondary.main,
   },
+  cards: {
+    width: '100%',
+    borderRadius: '5',
+  },
 }));
 
 function BucketPage() {
@@ -23,7 +27,7 @@ function BucketPage() {
       name: 'Item 1',
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-display-item-img.jpg',
+      image: '/images/default-display-item-img.svg',
       id: 1,
       quantity: 2,
     },
@@ -31,7 +35,7 @@ function BucketPage() {
       name: 'Item 2',
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-display-item-img.jpg',
+      image: '/images/default-display-item-img.svg',
       id: 2,
       quantity: 5,
     },
@@ -39,7 +43,7 @@ function BucketPage() {
       name: 'Item 4',
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-display-item-img.jpg',
+      image: '/images/default-display-item-img.svg',
       id: 4,
       quantity: 1,
     },
@@ -47,7 +51,7 @@ function BucketPage() {
       name: 'Item 7',
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-display-item-img.jpg',
+      image: '/images/default-display-item-img.svg',
       id: 7,
       quantity: 4,
     },
@@ -78,7 +82,8 @@ function BucketPage() {
       <Zoom triggerOnce>
         <RequestBucket />
       </Zoom>
-      <Grid
+      <div className={classes.cards}>{displayItems}</div>
+      {/* <Grid
         container
         spacing={3}
         justifyContent="space-around"
@@ -86,7 +91,7 @@ function BucketPage() {
         direction="column"
       >
         {displayItems}
-      </Grid>
+      </Grid> */}
     </PageWrapper>
   );
 }

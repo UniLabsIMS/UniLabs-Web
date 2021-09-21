@@ -42,49 +42,49 @@ function StudentCategoriesPage() {
       name: 'Category 1',
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-item-category-img.jpg',
+      image: '/images/default-item-category-img.svg',
       id: 1,
     },
     {
       name: 'Category 2',
       location:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-item-category-img.jpg',
+      image: '/images/default-item-category-img.svg',
       id: 2,
     },
     {
       name: 'Category 3',
       location:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-item-category-img.jpg',
+      image: '/images/default-item-category-img.svg',
       id: 3,
     },
     {
       name: 'Category 4',
       location:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-item-category-img.jpg',
+      image: '/images/default-item-category-img.svg',
       id: 4,
     },
     {
       name: 'Category 5',
       location:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-item-category-img.jpg',
+      image: '/images/default-item-category-img.svg',
       id: 5,
     },
     {
       name: 'Category 6',
       location:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-item-category-img.jpg',
+      image: '/images/default-item-category-img.svg',
       id: 6,
     },
     {
       name: 'Category 7',
       location:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-item-category-img.jpg',
+      image: '/images/default-item-category-img.svg',
       id: 7,
     },
   ];

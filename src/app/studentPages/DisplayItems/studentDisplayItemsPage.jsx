@@ -11,6 +11,10 @@ const useStyles = makeStyles(theme => ({
     textDecoration: 'none',
     color: theme.palette.secondary.main,
   },
+  cards: {
+    width: '100%',
+    borderRadius: '5',
+  },
 }));
 
 function StudentDisplayItemsPage() {
@@ -22,49 +26,49 @@ function StudentDisplayItemsPage() {
       name: 'Item 1',
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-display-item-img.jpg',
+      image: '/images/default-display-item-img.svg',
       id: 1,
     },
     {
       name: 'Item 2',
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-display-item-img.jpg',
+      image: '/images/default-display-item-img.svg',
       id: 2,
     },
     {
       name: 'Item 3',
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-display-item-img.jpg',
+      image: '/images/default-display-item-img.svg',
       id: 3,
     },
     {
       name: 'Item 4',
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-display-item-img.jpg',
+      image: '/images/default-display-item-img.svg',
       id: 4,
     },
     {
       name: 'Item 5',
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-display-item-img.jpg',
+      image: '/images/default-display-item-img.svg',
       id: 5,
     },
     {
       name: 'Item 6',
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-display-item-img.jpg',
+      image: '/images/default-display-item-img.svg',
       id: 6,
     },
     {
       name: 'Item 7',
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-display-item-img.jpg',
+      image: '/images/default-display-item-img.svg',
       id: 7,
     },
   ];
@@ -91,15 +95,17 @@ function StudentDisplayItemsPage() {
           Items
         </Typography>
       </Zoom>
-      <Grid
+      <div className={classes.cards}>{displayItems}</div>
+      {/* <Grid
         container
         spacing={3}
+        margin={1}
         justifyContent="space-around"
         alignItems="stretch"
         direction="column"
       >
         {displayItems}
-      </Grid>
+      </Grid> */}
     </PageWrapper>
   );
 }
