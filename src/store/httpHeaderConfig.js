@@ -4,7 +4,7 @@ export default function httpHeaderConfig(getState) {
   /* Headers */
   const config = {
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'multipart/form-data',
     },
   };
 

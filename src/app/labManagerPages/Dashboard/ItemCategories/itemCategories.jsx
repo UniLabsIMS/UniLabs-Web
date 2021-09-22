@@ -24,9 +24,16 @@ function ItemCategories() {
       <ItemCategoryCard category={category} />
     </Grid>
   ));
+  const newCatSucess = useSelector(
+    state => state.labManagerDashboard.newCategorySucess,
+  );
+
+  const reload = useSelector(
+    state => state.labManagerDashboard.reloadCategories,
+  );
   useEffect(() => {
     dispatch(fetchCategories());
-  }, [dispatch]);
+  }, [dispatch, reload]);
   if (isCategoriesLoading) {
     return <CustomLoadingIndicator />;
   }
@@ -42,6 +49,12 @@ function ItemCategories() {
       </Zoom>
       <Zoom triggerOnce>
         <NewCategoryFrom />
+
+        {newCatSucess === true ? (
+          <ErrorAlert message="Successfully added new category." />
+        ) : (
+          <div />
+        )}
       </Zoom>
       <Grid
         container

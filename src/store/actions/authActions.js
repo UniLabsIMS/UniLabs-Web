@@ -32,10 +32,12 @@ export const refreshAuth = () => (dispatch, getState) => {
 
 /* Login */
 export const login = (email, password) => (dispatch, getState) => {
-  const body = JSON.stringify({ email, password });
+  const formData = new FormData();
+  formData.append('email', email);
+  formData.append('password', password);
   dispatch({ type: LOGIN_LOADING });
   axios
-    .post(API_LOGIN_URL, body, httpHeaderConfig(getState))
+    .post(API_LOGIN_URL, formData, httpHeaderConfig(getState))
     .then(res => {
       dispatch({
         type: LOGIN_SUCCESS,

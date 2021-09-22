@@ -1,9 +1,18 @@
+import { makeStyles } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import PropTypes from 'prop-types';
 
+const useStyles = makeStyles(theme => ({
+  alert: {
+    width: '75%',
+    margin: 'auto',
+    textAlign: 'center',
+  },
+}));
 function ErrorAlert({ message }) {
+  const classes = useStyles();
   return (
-    <Alert severity="error" sx={{ width: '100%' }}>
+    <Alert severity="error" sx={{ width: '100%' }} className={classes.alert}>
       {message}
     </Alert>
   );

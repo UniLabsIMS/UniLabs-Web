@@ -7,7 +7,11 @@ import {
   Typography,
 } from '@material-ui/core';
 import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { addCategory } from '../../../../../store/actions/labManager/labManagerDashboardActions';
 import ImagePicker from '../../../../commonComponents/imagePicker';
+import CustomLoadingIndicator from '../../../../commonComponents/customLoadingIndicator';
+import ErrorAlert from '../../../../commonComponents/errorAlert';
 
 const useStyles = makeStyles(theme => ({
   form_container: {
@@ -37,13 +41,29 @@ const useStyles = makeStyles(theme => ({
 function NewCategoryFrom() {
   const classes = useStyles();
   const [formState, setFormState] = useState(false);
-  //   const [file, setFile] = useState(null);
+  const [file, setFile] = useState(null);
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const dispatch = useDispatch();
   const handleFormOpen = () => {
     setFormState(true);
   };
   const handleFormClose = () => {
     setFormState(false);
   };
+  const handleSubmit = e => {
+    e.preventDefault();
+    dispatch(addCategory(name, description, file));
+  };
+  const newCatLoading = useSelector(
+    state => state.labManagerDashboard.newCategoryLoading,
+  );
+  const newCatError = useSelector(
+    state => state.labManagerDashboard.newCategoryError,
+  );
+  if (newCatLoading) {
+    return <CustomLoadingIndicator />;
+  }
   return (
     <div className={classes.form_container}>
       {formState === true ? (
@@ -51,7 +71,12 @@ function NewCategoryFrom() {
           <Typography component="h2" variant="h6" gutterBottom align="center">
             Add New Category
           </Typography>
-          <form className={classes.form}>
+          {newCatError === true ? (
+            <ErrorAlert message="Failed to add new category, This may be becuase the category name is a duplicate" />
+          ) : (
+            <div />
+          )}
+          <form className={classes.form} onSubmit={handleSubmit}>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -64,10 +89,16 @@ function NewCategoryFrom() {
                   id="name"
                   type="text"
                   required
+                  value={name}
+                  onChange={e => setName(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <ImagePicker withIcon onChange={newFile => null} withPreview />
+                <ImagePicker
+                  withIcon
+                  onChange={newFile => setFile(newFile)}
+                  withPreview
+                />
               </Grid>
             </Grid>
             <Grid container spacing={3} alignItems="flex-end">
@@ -83,6 +114,8 @@ function NewCategoryFrom() {
                   name="description"
                   type="text"
                   required
+                  value={description}
+                  onChange={e => setDescription(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12} sm={4}>

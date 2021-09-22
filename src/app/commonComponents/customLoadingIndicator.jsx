@@ -17,7 +17,7 @@ function CustomLoadingIndicator() {
         justifyContent="center"
         className={classes.box}
       >
-        <BeatLoader />
+        <BeatLoader color="pink" />
       </Box>
     </Container>
   );

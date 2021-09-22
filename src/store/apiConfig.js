@@ -8,3 +8,6 @@ export const API_LOGOUT_URL = API_BASE_URL.concat('/auth/logout/');
 export const API_LAB_MANAGER_ALL_CATEGORIES_URL = API_BASE_URL.concat(
   '/categories/of-lab/',
 ); // concat the lab id to this
+export const API_LAB_MANAGER_NEW_CATEGORIES_URL = API_BASE_URL.concat(
+  '/categories/create/',
+);
