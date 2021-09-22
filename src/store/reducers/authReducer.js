@@ -3,6 +3,7 @@ import {
   AUTH_LOADED,
   AUTH_LOADING,
   LOGIN_FAIL,
+  LOGIN_LOADING,
   LOGIN_SUCCESS,
   LOGOUT_FAIL,
   LOGOUT_SUCCESS,
@@ -11,7 +12,8 @@ import {
 const initialState = {
   token: localStorage.getItem('token'),
   isAuthenticated: null,
-  isLoading: false,
+  isAuthLoading: false,
+  isLoginLoading: false,
   user: null,
   error: null,
 };
@@ -21,13 +23,18 @@ const authReducer = (state = initialState, action) => {
     case AUTH_LOADING:
       return {
         ...state,
-        isLoading: true,
+        isAuthLoading: true,
+      };
+    case LOGIN_LOADING:
+      return {
+        ...state,
+        isLoginLoading: true,
       };
     case AUTH_LOADED:
       return {
         ...state,
         isAuthenticated: true,
-        isLoading: false,
+        isAuthLoading: false,
         user: action.payload,
         error: null,
       };
@@ -38,7 +45,7 @@ const authReducer = (state = initialState, action) => {
         ...state,
         isAuthenticated: true,
         user: action.payload,
-        isLoading: false,
+        isLoginLoading: false,
         error: null,
       };
     case LOGIN_FAIL:
@@ -48,7 +55,7 @@ const authReducer = (state = initialState, action) => {
         token: null,
         user: null,
         isAuthenticated: false,
-        isLoading: false,
+        isLoginLoading: false,
         error: 'Login Failed',
       };
     case LOGOUT_SUCCESS:
@@ -59,10 +66,10 @@ const authReducer = (state = initialState, action) => {
         token: null,
         user: null,
         isAuthenticated: false,
-        isLoading: false,
+        isAuthLoading: false,
       };
     case LOGOUT_FAIL:
-      return { ...state, isLoading: false };
+      return { ...state, isAuthLoading: false };
     default:
       return state;
   }

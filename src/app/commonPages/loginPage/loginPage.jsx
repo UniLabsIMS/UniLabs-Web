@@ -60,7 +60,7 @@ function LoginPage() {
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const isLoading = useSelector(state => state.auth.isLoading);
+  const isLoginLoading = useSelector(state => state.auth.isLoginLoading);
   const authError = useSelector(state => state.auth.error);
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const dispatch = useDispatch();
@@ -72,7 +72,7 @@ function LoginPage() {
     return <Redirect to="/" />;
   }
 
-  if (isLoading) {
+  if (isLoginLoading) {
     return <CustomLoadingIndicator />;
   }
   return (

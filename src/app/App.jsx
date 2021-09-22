@@ -15,7 +15,7 @@ function App() {
     dispatch(refreshAuth());
   }, [dispatch]);
 
-  if (auth.isLoading) {
+  if (auth.isAuthLoading) {
     return <CustomLoadingIndicator />;
   }
   return (

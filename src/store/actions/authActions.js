@@ -4,6 +4,7 @@ import {
   AUTH_LOADED,
   AUTH_LOADING,
   LOGIN_FAIL,
+  LOGIN_LOADING,
   LOGIN_SUCCESS,
   LOGOUT_FAIL,
   LOGOUT_SUCCESS,
@@ -32,7 +33,7 @@ export const refreshAuth = () => (dispatch, getState) => {
 /* Login */
 export const login = (email, password) => (dispatch, getState) => {
   const body = JSON.stringify({ email, password });
-  dispatch({ type: AUTH_LOADING });
+  dispatch({ type: LOGIN_LOADING });
   axios
     .post(API_LOGIN_URL, body, httpHeaderConfig(getState))
     .then(res => {
