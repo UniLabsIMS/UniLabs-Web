@@ -11,21 +11,17 @@ import { Zoom } from 'react-awesome-reveal';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
-  expenseCard: {
+  itemCard: {
     padding: theme.spacing(1),
+    marginTop: theme.spacing(1),
   },
-  expenseCardImage: {},
+  itemCardImage: {},
   buttons: {
     margin: theme.spacing(1),
     display: 'flex',
   },
   content: {
     paddingBottom: theme.spacing(0),
-  },
-  modal: {
-    width: '85%',
-    margin: 'auto',
-    marginTop: theme.spacing(10),
   },
   cardContents: {
     alignItems: 'center',
@@ -70,11 +66,11 @@ const DisplayBucketItemCard = ({ displayItem }) => {
 
   return (
     <Zoom triggerOnce>
-      <Card className={classes.expenseCard}>
+      <Card className={classes.itemCard}>
         <div className={classes.fullCard}>
           <div className={classes.cardImg}>
             <CardMedia
-              className={classes.expenseCardImage}
+              className={classes.itemCardImage}
               component="img"
               alt="Display Item Photo"
               width="200"

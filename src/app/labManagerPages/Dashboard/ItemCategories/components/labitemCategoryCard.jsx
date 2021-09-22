@@ -16,7 +16,7 @@ import PropTypes from 'prop-types';
 import EditCategoryForm from './editCategoryForm';
 
 const useStyles = makeStyles(theme => ({
-  expenseCard: {
+  card: {
     maxWidth: 345,
     paddingBottom: theme.spacing(1),
   },
@@ -42,7 +42,7 @@ const ItemCategoryCard = ({ category }) => {
 
   return (
     <Zoom triggerOnce>
-      <Card className={classes.expenseCard}>
+      <Card className={classes.card}>
         <CardMedia
           component="img"
           alt="Contemplative Reptile"

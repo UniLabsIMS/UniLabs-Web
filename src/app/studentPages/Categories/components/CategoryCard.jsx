@@ -14,7 +14,7 @@ import { Zoom } from 'react-awesome-reveal';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
-  expenseCard: {
+  categoryCard: {
     alignItems: 'center',
     maxWidth: 345,
     paddingBottom: theme.spacing(1),
@@ -43,7 +43,7 @@ const CategoryCard = ({ category }) => {
 
   return (
     <Zoom triggerOnce>
-      <Card className={classes.expenseCard}>
+      <Card className={classes.categoryCard}>
         <CardMedia
           component="img"
           alt="Category Photo"

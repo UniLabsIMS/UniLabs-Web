@@ -11,11 +11,10 @@ import { Zoom } from 'react-awesome-reveal';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
-  expenseCard: {
+  reqCard: {
     padding: theme.spacing(1),
     margin: theme.spacing(1),
   },
-  expenseCardImage: {},
   buttons: {
     margin: theme.spacing(1),
     display: 'flex',
@@ -72,7 +71,7 @@ const StudentRequestCard = ({ studentReq }) => {
 
   return (
     <Zoom triggerOnce>
-      <Card className={classes.expenseCard}>
+      <Card className={classes.reqCard}>
         <div className={classes.fullCard}>
           <div className={classes.cardRest}>
             <CardContent className={classes.content}>

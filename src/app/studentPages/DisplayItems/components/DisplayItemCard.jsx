@@ -12,10 +12,10 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 
 const useStyles = makeStyles(theme => ({
-  expenseCard: {
+  dspCard: {
     padding: theme.spacing(1),
   },
-  expenseCardImage: {},
+  dspCardImage: {},
   buttons: {
     margin: theme.spacing(1),
     display: 'flex',
@@ -72,11 +72,11 @@ const DisplayItemCard = ({ displayItem }) => {
 
   return (
     <Zoom triggerOnce>
-      <Card className={classes.expenseCard}>
+      <Card className={classes.dspCard}>
         <div className={classes.fullCard}>
           <div className={classes.cardImg}>
             <CardMedia
-              className={classes.expenseCardImage}
+              className={classes.dspCardImage}
               component="img"
               alt="Display Item Photo"
               width="200"
