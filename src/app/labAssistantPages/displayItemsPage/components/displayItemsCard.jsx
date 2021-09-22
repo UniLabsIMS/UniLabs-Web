@@ -13,7 +13,7 @@ import { Box } from '@material-ui/core';
 import { Zoom } from 'react-awesome-reveal';
 
 const useStyles = makeStyles(theme => ({
-  expenseCard: {
+  dspCard: {
     maxWidth: 345,
     paddingBottom: theme.spacing(1),
   },
@@ -40,7 +40,7 @@ const DisplayItemsCard = () => {
 
   return (
     <Zoom triggerOnce>
-      <Card className={classes.expenseCard}>
+      <Card className={classes.dspCard}>
         <CardMedia
           component="img"
           alt="Contemplative Reptile"

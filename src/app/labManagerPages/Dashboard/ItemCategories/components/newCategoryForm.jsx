@@ -6,8 +6,13 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { addCategory } from '../../../../../store/actions/labManager/labManagerDashboardActions';
 import ImagePicker from '../../../../commonComponents/imagePicker';
+import CustomLoadingIndicator from '../../../../commonComponents/customLoadingIndicator';
+import ErrorAlert from '../../../../commonComponents/errorAlert';
+import SuccessAlert from '../../../../commonComponents/successAlert';
 
 const useStyles = makeStyles(theme => ({
   form_container: {
@@ -37,13 +42,41 @@ const useStyles = makeStyles(theme => ({
 function NewCategoryFrom() {
   const classes = useStyles();
   const [formState, setFormState] = useState(false);
-  //   const [file, setFile] = useState(null);
+  const [file, setFile] = useState(null);
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const dispatch = useDispatch();
   const handleFormOpen = () => {
     setFormState(true);
   };
   const handleFormClose = () => {
+    setFile(null);
+    setName('');
+    setDescription('');
     setFormState(false);
   };
+  const handleSubmit = e => {
+    e.preventDefault();
+    dispatch(addCategory(name, description, file));
+  };
+  const newCatLoading = useSelector(
+    state => state.labManagerDashboard.newCategoryLoading,
+  );
+  const newCatError = useSelector(
+    state => state.labManagerDashboard.newCategoryError,
+  );
+
+  const newCatSuccess = useSelector(
+    state => state.labManagerDashboard.newCategorySuccess,
+  );
+  useEffect(() => {
+    if (newCatSuccess) {
+      handleFormClose();
+    }
+  }, [newCatSuccess]);
+  if (newCatLoading) {
+    return <CustomLoadingIndicator />;
+  }
   return (
     <div className={classes.form_container}>
       {formState === true ? (
@@ -51,7 +84,12 @@ function NewCategoryFrom() {
           <Typography component="h2" variant="h6" gutterBottom align="center">
             Add New Category
           </Typography>
-          <form className={classes.form}>
+          {newCatError === true ? (
+            <ErrorAlert message="Failed to add new category, This may be becuase the category name is a duplicate" />
+          ) : (
+            <div />
+          )}
+          <form className={classes.form} onSubmit={handleSubmit}>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -64,10 +102,16 @@ function NewCategoryFrom() {
                   id="name"
                   type="text"
                   required
+                  value={name}
+                  onChange={e => setName(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <ImagePicker withIcon onChange={newFile => null} withPreview />
+                <ImagePicker
+                  withIcon
+                  onChange={newFile => setFile(newFile)}
+                  withPreview
+                />
               </Grid>
             </Grid>
             <Grid container spacing={3} alignItems="flex-end">
@@ -83,6 +127,8 @@ function NewCategoryFrom() {
                   name="description"
                   type="text"
                   required
+                  value={description}
+                  onChange={e => setDescription(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
@@ -108,17 +154,28 @@ function NewCategoryFrom() {
           </form>
         </div>
       ) : (
-        <Box
-          border={3}
-          borderRadius={5}
-          borderColor="primary.main"
-          className={classes.card}
-          fontSize="h5.fontSize"
-          align="center"
-          onClick={handleFormOpen}
-        >
-          <div>Click to Add New Category</div>
-        </Box>
+        <div>
+          <Box
+            border={3}
+            borderRadius={5}
+            borderColor="primary.main"
+            className={classes.card}
+            fontSize="h5.fontSize"
+            align="center"
+            onClick={handleFormOpen}
+          >
+            <div>Click to Add New Category</div>
+          </Box>
+        </div>
+      )}
+      <Box m={0.5} />
+      {newCatSuccess === true ? (
+        <SuccessAlert
+          message="Successfully added new category."
+          onLoad={handleFormClose}
+        />
+      ) : (
+        <div />
       )}
     </div>
   );
