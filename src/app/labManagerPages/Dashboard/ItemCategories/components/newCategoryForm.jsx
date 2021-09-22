@@ -6,12 +6,13 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addCategory } from '../../../../../store/actions/labManager/labManagerDashboardActions';
 import ImagePicker from '../../../../commonComponents/imagePicker';
 import CustomLoadingIndicator from '../../../../commonComponents/customLoadingIndicator';
 import ErrorAlert from '../../../../commonComponents/errorAlert';
+import SuccessAlert from '../../../../commonComponents/successAlert';
 
 const useStyles = makeStyles(theme => ({
   form_container: {
@@ -49,6 +50,9 @@ function NewCategoryFrom() {
     setFormState(true);
   };
   const handleFormClose = () => {
+    setFile(null);
+    setName('');
+    setDescription('');
     setFormState(false);
   };
   const handleSubmit = e => {
@@ -61,6 +65,15 @@ function NewCategoryFrom() {
   const newCatError = useSelector(
     state => state.labManagerDashboard.newCategoryError,
   );
+
+  const newCatSuccess = useSelector(
+    state => state.labManagerDashboard.newCategorySuccess,
+  );
+  useEffect(() => {
+    if (newCatSuccess) {
+      handleFormClose();
+    }
+  }, [newCatSuccess]);
   if (newCatLoading) {
     return <CustomLoadingIndicator />;
   }
@@ -141,17 +154,28 @@ function NewCategoryFrom() {
           </form>
         </div>
       ) : (
-        <Box
-          border={3}
-          borderRadius={5}
-          borderColor="primary.main"
-          className={classes.card}
-          fontSize="h5.fontSize"
-          align="center"
-          onClick={handleFormOpen}
-        >
-          <div>Click to Add New Category</div>
-        </Box>
+        <div>
+          <Box
+            border={3}
+            borderRadius={5}
+            borderColor="primary.main"
+            className={classes.card}
+            fontSize="h5.fontSize"
+            align="center"
+            onClick={handleFormOpen}
+          >
+            <div>Click to Add New Category</div>
+          </Box>
+        </div>
+      )}
+      <Box m={0.5} />
+      {newCatSuccess === true ? (
+        <SuccessAlert
+          message="Successfully added new category."
+          onLoad={handleFormClose}
+        />
+      ) : (
+        <div />
       )}
     </div>
   );

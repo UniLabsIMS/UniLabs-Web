@@ -24,6 +24,8 @@ const labManagerDashReducer = (state = initialState, action) => {
       return {
         ...state,
         isCategoriesLoading: true,
+        isCategoriesError: false,
+        reloadCategories: false,
       };
     case CATEGORIES_LOADED:
       return {
@@ -43,22 +45,23 @@ const labManagerDashReducer = (state = initialState, action) => {
       return {
         ...state,
         newCategoryLoading: true,
+        isCategoriesError: false,
+        newCategoryError: false,
+        newCategorySuccess: false,
+        reloadCategories: false,
       };
     case NEW_CAT_SUCCESS:
       return {
         ...state,
         newCategoryLoading: false,
         newCategorySuccess: true,
-        newCategoryError: false,
         reloadCategories: true,
       };
     case NEW_CAT_FAIL:
       return {
         ...state,
         newCategoryLoading: false,
-        newCategorySuccess: false,
         newCategoryError: true,
-        reloadCategories: false,
       };
     default:
       return state;

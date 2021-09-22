@@ -10,17 +10,17 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 'bold',
   },
 }));
-function ErrorAlert({ message }) {
+function SuccessAlert({ message }) {
   const classes = useStyles();
   return (
-    <Alert severity="error" sx={{ width: '100%' }} className={classes.alert}>
+    <Alert severity="success" sx={{ width: '100%' }} className={classes.alert}>
       {message}
     </Alert>
   );
 }
 
-ErrorAlert.propTypes = {
+SuccessAlert.propTypes = {
   message: PropTypes.string.isRequired,
 };
 
-export default ErrorAlert;
+export default SuccessAlert;

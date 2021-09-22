@@ -1,26 +1,26 @@
-import { makeStyles, Box, Container } from '@material-ui/core';
+import { Box, Container } from '@material-ui/core';
 
 import { BeatLoader } from 'react-spinners';
+import PropTypes from 'prop-types';
 
-const useStyles = makeStyles(theme => ({
-  box: {
-    minHeight: '95vh',
-  },
-}));
-function CustomLoadingIndicator() {
-  const classes = useStyles();
+function CustomLoadingIndicator({ minimumHeight }) {
   return (
     <Container>
       <Box
         display="flex"
         alignItems="center"
         justifyContent="center"
-        className={classes.box}
+        style={{ minHeight: minimumHeight }}
       >
         <BeatLoader color="pink" />
       </Box>
     </Container>
   );
 }
-
+CustomLoadingIndicator.defaultProps = {
+  minimumHeight: '95vh',
+};
+CustomLoadingIndicator.propTypes = {
+  minimumHeight: PropTypes.string,
+};
 export default CustomLoadingIndicator;
