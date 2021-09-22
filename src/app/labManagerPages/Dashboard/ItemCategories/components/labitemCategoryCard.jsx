@@ -14,6 +14,7 @@ import { useState } from 'react';
 import { Zoom } from 'react-awesome-reveal';
 import PropTypes from 'prop-types';
 import EditCategoryForm from './editCategoryForm';
+import { LAB_MANAGER_DISPLAY_ITEMS_URL } from '../../../../constants';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -94,7 +95,7 @@ const ItemCategoryCard = ({ category }) => {
         <CardActions>
           <Link
             style={{ textDecoration: 'none' }}
-            to="/lab_manager/category/123"
+            to={LAB_MANAGER_DISPLAY_ITEMS_URL.concat(`/${category.id}`)}
           >
             <Button
               variant="outlined"

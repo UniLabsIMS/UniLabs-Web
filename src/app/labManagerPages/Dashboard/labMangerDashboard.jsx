@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import HomeIcon from '@material-ui/icons/Home';
 import BarChartIcon from '@material-ui/icons/BarChart';
+import { useDispatch } from 'react-redux';
 import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
 import ItemCategories from './ItemCategories/itemCategories';
 import InventorySummary from './inventorySummary/inventorySummary';
+import { resetLabManagerDashboardState } from '../../../store/actions/labManager/labManagerDashboardActions';
 
 const createDrawerTile = (title, icon, component) => ({
   title,
@@ -29,12 +31,18 @@ const getDrawerTiles = () => {
 
 export default function LabManagerDashboard() {
   const [currentDrawerTileIndex, setCurrentDrawerTileIndex] = useState(0);
-
+  const dispatch = useDispatch();
   const drawerTiles = getDrawerTiles();
   const currentDrawerTile = drawerTiles[currentDrawerTileIndex];
   const handleDrawerTileChange = i => {
     setCurrentDrawerTileIndex(i);
   };
+  useEffect(
+    () => () => {
+      dispatch(resetLabManagerDashboardState());
+    },
+    [dispatch],
+  );
 
   return (
     <PageWrapper

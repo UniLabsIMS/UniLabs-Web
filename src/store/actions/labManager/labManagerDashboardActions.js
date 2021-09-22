@@ -7,6 +7,7 @@ import {
   NEW_CAT_FAIL,
   NEW_CAT_LOADING,
   NEW_CAT_SUCCESS,
+  RESET_DASHBOARD_STATE,
 } from '../../actionTypes/labManagerActionTypes';
 import {
   API_LAB_MANAGER_ALL_CATEGORIES_URL,
@@ -64,3 +65,8 @@ export const addCategory =
         });
       });
   };
+
+/* Reset State */
+export const resetLabManagerDashboardState = () => (dispatch, getState) => {
+  dispatch({ type: RESET_DASHBOARD_STATE });
+};

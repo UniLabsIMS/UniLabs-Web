@@ -12,6 +12,7 @@ import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import { Box, Grid, Modal } from '@material-ui/core';
 import { useState } from 'react';
 import { Zoom } from 'react-awesome-reveal';
+import PropTypes from 'prop-types';
 import EditDisplayItemForm from './editDisplayItemForm';
 
 const useStyles = makeStyles(theme => ({
@@ -34,7 +35,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const DisplayItemsCard = () => {
+const DisplayItemsCard = ({ displayItem }) => {
   const classes = useStyles();
   const [editModalState, setEditModalState] = useState(false);
   const handleEditModalOpen = () => setEditModalState(true);
@@ -60,7 +61,7 @@ const DisplayItemsCard = () => {
                   component="h2"
                   align="center"
                 >
-                  Display Item
+                  {displayItem.name}
                   <InfoOutlinedIcon
                     color="secondary"
                     fontSize="small" // eslint-disable-next-line react/jsx-props-no-spreading
@@ -84,16 +85,7 @@ const DisplayItemsCard = () => {
                     <Typography variant="h6" component="h6">
                       Description
                     </Typography>
-                    <Typography>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                      sint occaecat cupidatat non proident, sunt in culpa qui
-                      officia deserunt mollit anim id est laborum
-                    </Typography>
+                    <Typography>{displayItem.description}</Typography>
                   </Box>
                 </Popover>
               </div>
@@ -145,6 +137,9 @@ const DisplayItemsCard = () => {
       </Card>
     </Zoom>
   );
+};
+DisplayItemsCard.propTypes = {
+  displayItem: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default DisplayItemsCard;

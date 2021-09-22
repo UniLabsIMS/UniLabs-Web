@@ -6,13 +6,18 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import ImagePicker from '../../../commonComponents/imagePicker';
+import { addDisplayItem } from '../../../../store/actions/labManager/labManagerDisplayItemsActions';
+import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
+import ErrorAlert from '../../../commonComponents/errorAlert';
+import SuccessAlert from '../../../commonComponents/successAlert';
 
 const useStyles = makeStyles(theme => ({
   form_container: {
     flexDirection: 'column',
-    padding: theme.spacing(3),
     margin: 'auto',
     maxWidth: 900,
   },
@@ -34,15 +39,44 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function NewDisplayItemFrom() {
+function NewDisplayItemFrom({ categoryID }) {
   const classes = useStyles();
   const [formState, setFormState] = useState(false);
+  const [file, setFile] = useState(null);
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const dispatch = useDispatch();
   const handleFormOpen = () => {
     setFormState(true);
   };
   const handleFormClose = () => {
     setFormState(false);
+    setName('');
+    setDescription('');
+    setFormState(false);
   };
+  const handleSubmit = e => {
+    e.preventDefault();
+    dispatch(addDisplayItem(name, description, categoryID, file));
+  };
+  const newDspItemLoading = useSelector(
+    state => state.labManagerDisplayItems.newDisplayItemLoading,
+  );
+  const newDspItemError = useSelector(
+    state => state.labManagerDisplayItems.newDisplayItemError,
+  );
+
+  const newDspItemSuccess = useSelector(
+    state => state.labManagerDisplayItems.newDisplayItemSuccess,
+  );
+  useEffect(() => {
+    if (newDspItemSuccess) {
+      handleFormClose();
+    }
+  }, [newDspItemSuccess]);
+  if (newDspItemLoading) {
+    return <CustomLoadingIndicator />;
+  }
   return (
     <div className={classes.form_container}>
       {formState === true ? (
@@ -50,61 +84,76 @@ function NewDisplayItemFrom() {
           <Typography component="h2" variant="h6" gutterBottom align="center">
             Add New Display Item
           </Typography>
-          <form className={classes.form}>
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  color="secondary"
-                  fullWidth
-                  label="Display Item Name"
-                  name="name"
-                  id="name"
-                  type="text"
-                  required
-                />
+          {newDspItemError === true ? (
+            <ErrorAlert message="Failed to add new display item, This may be becuase the name is a duplicate" />
+          ) : (
+            <div />
+          )}
+          <div>
+            <form className={classes.form} onSubmit={handleSubmit}>
+              <Grid container spacing={3}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    color="secondary"
+                    fullWidth
+                    label="Display Item Name"
+                    name="name"
+                    id="name"
+                    type="text"
+                    required
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <ImagePicker
+                    withIcon
+                    onChange={newFile => setFile(newFile)}
+                    withPreview
+                  />
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <ImagePicker withIcon onChange={newFile => null} withPreview />
+              <Grid container spacing={3} alignItems="flex-end">
+                <Grid item xs={12} sm={8}>
+                  <TextField
+                    variant="outlined"
+                    color="secondary"
+                    fullWidth
+                    multiline
+                    minRows="3"
+                    label="Description"
+                    id="description"
+                    name="description"
+                    type="text"
+                    required
+                    value={description}
+                    onChange={e => setDescription(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    fullWidth
+                    onClick={handleFormClose}
+                  >
+                    Close
+                  </Button>
+                  <Box m={2} />
+                  <Button
+                    type="submit"
+                    variant="outlined"
+                    color="secondary"
+                    fullWidth
+                  >
+                    Submit
+                  </Button>
+                </Grid>
               </Grid>
-            </Grid>
-            <Grid container spacing={3} alignItems="flex-end">
-              <Grid item xs={12} sm={8}>
-                <TextField
-                  variant="outlined"
-                  color="secondary"
-                  fullWidth
-                  multiline
-                  minRows="3"
-                  label="Description"
-                  id="description"
-                  name="description"
-                  type="text"
-                  required
-                />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  fullWidth
-                  onClick={handleFormClose}
-                >
-                  Close
-                </Button>
-                <Box m={2} />
-                <Button
-                  type="submit"
-                  variant="outlined"
-                  color="secondary"
-                  fullWidth
-                >
-                  Submit
-                </Button>
-              </Grid>
-            </Grid>
-          </form>
+            </form>
+          </div>
         </div>
       ) : (
         <Box
@@ -119,8 +168,20 @@ function NewDisplayItemFrom() {
           <div>Click to Add New Display Item</div>
         </Box>
       )}
+      <Box m={0.5} />
+      {newDspItemSuccess === true ? (
+        <SuccessAlert
+          message="Successfully added new display item."
+          onLoad={handleFormClose}
+        />
+      ) : (
+        <div />
+      )}
     </div>
   );
 }
+NewDisplayItemFrom.propTypes = {
+  categoryID: PropTypes.string.isRequired,
+};
 
 export default NewDisplayItemFrom;
