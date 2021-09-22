@@ -9,8 +9,13 @@ import {
 import ParticlesBg from 'particles-bg';
 import { useState } from 'react';
 import { Zoom } from 'react-awesome-reveal';
+import { useDispatch, useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { Typewriter } from 'react-simple-typewriter';
 import { ReactComponent as Logo1 } from '../../../Logo 6.2.svg';
+import { login } from '../../../store/actions/authActions';
+import CustomLoadingIndicator from '../../commonComponents/customLoadingIndicator';
+import ErrorAlert from '../../commonComponents/errorAlert';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -55,11 +60,21 @@ function LoginPage() {
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const isLoginLoading = useSelector(state => state.auth.isLoginLoading);
+  const authError = useSelector(state => state.auth.error);
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const dispatch = useDispatch();
   const handleLogin = e => {
     e.preventDefault();
+    dispatch(login(email, password));
   };
+  if (isAuthenticated) {
+    return <Redirect to="/" />;
+  }
 
+  if (isLoginLoading) {
+    return <CustomLoadingIndicator />;
+  }
   return (
     <div className="bigContainer">
       <ParticlesBg
@@ -86,7 +101,12 @@ function LoginPage() {
               <Typography component="h1" variant="h5">
                 Log in
               </Typography>
-              <form className={classes.form} noValidate onSubmit={handleLogin}>
+              {authError ? (
+                <ErrorAlert open message="Invalid Email or Password" />
+              ) : (
+                <div />
+              )}
+              <form className={classes.form} onSubmit={handleLogin}>
                 <TextField
                   variant="outlined"
                   margin="normal"

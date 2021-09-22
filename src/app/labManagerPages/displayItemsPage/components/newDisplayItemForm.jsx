@@ -7,6 +7,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { useState } from 'react';
+import ImagePicker from '../../../commonComponents/imagePicker';
 
 const useStyles = makeStyles(theme => ({
   form_container: {
@@ -65,17 +66,7 @@ function NewDisplayItemFrom() {
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  color="secondary"
-                  fullWidth
-                  label="Image"
-                  id="link"
-                  name="link"
-                  type="text"
-                  required
-                />
+                <ImagePicker withIcon onChange={newFile => null} withPreview />
               </Grid>
             </Grid>
             <Grid container spacing={3} alignItems="flex-end">

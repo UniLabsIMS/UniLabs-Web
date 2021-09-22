@@ -9,11 +9,8 @@ import { Link } from 'react-router-dom';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
-import { Box, Modal } from '@material-ui/core';
-import { useState } from 'react';
+import { Box } from '@material-ui/core';
 import { Zoom } from 'react-awesome-reveal';
-import PropTypes from 'prop-types';
-import EditCategoryForm from './editCategoryForm';
 
 const useStyles = makeStyles(theme => ({
   expenseCard: {
@@ -32,13 +29,13 @@ const useStyles = makeStyles(theme => ({
     margin: 'auto',
     marginTop: theme.spacing(10),
   },
+  cardActions: {
+    display: 'block',
+  },
 }));
 
-const ItemCategoryCard = ({ category }) => {
+const ItemCategoryCard = () => {
   const classes = useStyles();
-  const [editModalState, setEditModalState] = useState(false);
-  const handleEditModalOpen = () => setEditModalState(true);
-  const handleEditModalClose = () => setEditModalState(false);
 
   return (
     <Zoom triggerOnce>
@@ -60,7 +57,7 @@ const ItemCategoryCard = ({ category }) => {
                   component="h2"
                   align="center"
                 >
-                  {category.name}
+                  Item Category
                   <InfoOutlinedIcon
                     color="secondary"
                     fontSize="small" // eslint-disable-next-line react/jsx-props-no-spreading
@@ -84,17 +81,26 @@ const ItemCategoryCard = ({ category }) => {
                     <Typography variant="h6" component="h6">
                       Description
                     </Typography>
-                    <Typography>{category.description}</Typography>
+                    <Typography>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
+                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      Duis aute irure dolor in reprehenderit in voluptate velit
+                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                      sint occaecat cupidatat non proident, sunt in culpa qui
+                      officia deserunt mollit anim id est laborum
+                    </Typography>
                   </Box>
                 </Popover>
               </div>
             )}
           </PopupState>
         </CardContent>
-        <CardActions>
+        <CardActions className={classes.cardActions}>
           <Link
             style={{ textDecoration: 'none' }}
-            to="/lab_manager/category/123"
+            to="/lab_assistant/category/123"
           >
             <Button
               variant="outlined"
@@ -104,36 +110,10 @@ const ItemCategoryCard = ({ category }) => {
               Go to Display Items
             </Button>
           </Link>
-          <Button
-            variant="outlined"
-            color="primary"
-            className={classes.buttons}
-            onClick={handleEditModalOpen}
-          >
-            Edit Category
-          </Button>
         </CardActions>
-
-        <Modal
-          open={editModalState}
-          aria-labelledby="edit-category-modal-title"
-          aria-describedby="edit-category-modal-description"
-          align="center"
-          className={classes.modal}
-        >
-          <div className={classes.modal_div}>
-            <EditCategoryForm
-              onSubmitSuccess={handleEditModalClose}
-              onClose={handleEditModalClose}
-            />
-          </div>
-        </Modal>
       </Card>
     </Zoom>
   );
-};
-ItemCategoryCard.propTypes = {
-  category: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default ItemCategoryCard;
