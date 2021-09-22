@@ -14,6 +14,7 @@ import { useState } from 'react';
 const useStyles = makeStyles(theme => ({
   dspCard: {
     padding: theme.spacing(1),
+    marginTop: theme.spacing(1.5),
   },
   dspCardImage: {},
   buttons: {

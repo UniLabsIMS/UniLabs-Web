@@ -47,7 +47,7 @@ const ItemCategoryCard = ({ category }) => {
           component="img"
           alt="Contemplative Reptile"
           height="200"
-          image="/images/default-item-category-img.jpg"
+          image="/images/default-item-category-img.svg"
           title="Contemplative Reptile"
         />
         <CardContent className={classes.content}>
