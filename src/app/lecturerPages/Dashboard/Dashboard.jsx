@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
-import StudentRequestsPage from './components/StudentRequests';
+import StudentRequestsPage from './StudentRequests/StudentRequests';
 import { ReactComponent as LabIcon } from '../../../icons/Lab.svg';
 
 const createDrawerTile = (title, icon, component) => ({
@@ -17,6 +17,7 @@ const getDrawerTiles = () => {
       'Student Requests',
       <LabIcon style={{ width: 24 }} />,
       <StudentRequestsPage />,
+      <div>Student</div>,
     ),
   );
   return drawerTiles;

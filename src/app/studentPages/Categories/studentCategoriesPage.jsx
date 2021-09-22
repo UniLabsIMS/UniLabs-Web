@@ -1,5 +1,5 @@
 import { Box, Grid, makeStyles, Typography, Button } from '@material-ui/core';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Zoom } from 'react-awesome-reveal';
 import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
@@ -35,7 +35,6 @@ const useStyles = makeStyles(theme => ({
 
 function StudentCategoriesPage() {
   const classes = useStyles();
-  const location = useLocation();
 
   const allCategories = [
     {
@@ -114,7 +113,7 @@ function StudentCategoriesPage() {
           <Link
             className={classes.bucketButtonContainer1}
             style={{ textDecoration: 'none' }}
-            to={`${location.pathname}/myBucket`}
+            to="/student/lab-bucket/1"
           >
             <Button
               className={classes.bucketButton}

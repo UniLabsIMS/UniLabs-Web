@@ -5,7 +5,6 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { Link } from 'react-router-dom';
 import PopupState from 'material-ui-popup-state';
 import { Box } from '@material-ui/core';
 import { Zoom } from 'react-awesome-reveal';
@@ -112,55 +111,49 @@ const DisplayItemCard = ({ displayItem }) => {
           <div className={classes.cardActionBox}>
             <CardActions className={classes.cardContents}>
               <div className={classes.quantityBox}>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  align="center"
-                >
-                  {quantity > 0 && <h3>Quantity : {quantity}</h3>}
-                </Typography>
+                {quantity > 0 ? (
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="h1"
+                    align="center"
+                  >
+                    Quantity : {quantity}
+                  </Typography>
+                ) : (
+                  <div />
+                )}
               </div>
               <div className={classes.btnBox}>
                 {quantity === 0 && (
-                  <Link
-                    className={classes.cardContents}
-                    style={{ textDecoration: 'none' }}
+                  <Button
+                    onClick={() => setQuantity(1)}
+                    variant="contained"
+                    color="secondary"
+                    className={classes.buttons}
                   >
+                    Add to Bucket
+                  </Button>
+                )}
+                {quantity > 0 && (
+                  <div className={classes.incDecBtns}>
                     <Button
-                      onClick={() => setQuantity(1)}
+                      onClick={() => setQuantity(quantity - 1)}
                       variant="contained"
                       color="secondary"
                       className={classes.buttons}
                     >
-                      Add to Bucket
+                      -
                     </Button>
-                  </Link>
-                )}
-                {quantity > 0 && (
-                  <Link
-                    className={classes.cardContents}
-                    style={{ textDecoration: 'none' }}
-                  >
-                    <div className={classes.incDecBtns}>
-                      <Button
-                        onClick={() => setQuantity(quantity - 1)}
-                        variant="contained"
-                        color="secondary"
-                        className={classes.buttons}
-                      >
-                        -
-                      </Button>
-                      <Button
-                        onClick={() => setQuantity(quantity + 1)}
-                        variant="contained"
-                        color="secondary"
-                        className={classes.buttons}
-                      >
-                        +
-                      </Button>
-                    </div>
-                  </Link>
+                    <Button
+                      onClick={() => setQuantity(quantity + 1)}
+                      variant="contained"
+                      color="secondary"
+                      className={classes.buttons}
+                    >
+                      +
+                    </Button>
+                  </div>
                 )}
               </div>
             </CardActions>
@@ -172,7 +165,7 @@ const DisplayItemCard = ({ displayItem }) => {
 };
 
 DisplayItemCard.propTypes = {
-  displayItem: PropTypes.objectOf(PropTypes.elements).isRequired,
+  displayItem: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default DisplayItemCard;

@@ -1,9 +1,9 @@
 import { Grid, Typography, makeStyles, Box } from '@material-ui/core';
 import { Zoom } from 'react-awesome-reveal';
 import { Link, useParams } from 'react-router-dom';
-import PageWrapper from '../../../commonComponents/PageWrapper';
-import Navbar from '../../../commonComponents/navBar';
-import BreadcrumbsWrapper from '../../../commonComponents/breadCrumbsWrapper';
+import PageWrapper from '../../commonComponents/PageWrapper';
+import Navbar from '../../commonComponents/navBar';
+import BreadcrumbsWrapper from '../../commonComponents/breadCrumbsWrapper';
 import DisplayBucketItemCard from './components/DisplayBucketItemCard';
 import RequestBucket from './components/BucketRequestForm';
 

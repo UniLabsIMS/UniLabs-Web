@@ -2,7 +2,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
@@ -14,6 +13,7 @@ import PropTypes from 'prop-types';
 const useStyles = makeStyles(theme => ({
   expenseCard: {
     padding: theme.spacing(1),
+    margin: theme.spacing(1),
   },
   expenseCardImage: {},
   buttons: {
@@ -37,11 +37,8 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'row',
   },
-  cardImg: {
-    width: '25%',
-  },
   cardRest: {
-    width: '45%',
+    width: '70%',
   },
   cardActionBox: {
     alignItems: 'center',
@@ -63,9 +60,13 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     fontSize: 'large',
   },
+  cardDetial: {
+    padding: theme.spacing(0.5),
+    margin: theme.spacing(1),
+  },
 }));
 
-const DisplayBucketItemCard = ({ displayItem }) => {
+const StudentRequestCard = ({ studentReq }) => {
   const classes = useStyles();
   //   const { labId, categoryID } = useParams();
 
@@ -73,34 +74,20 @@ const DisplayBucketItemCard = ({ displayItem }) => {
     <Zoom triggerOnce>
       <Card className={classes.expenseCard}>
         <div className={classes.fullCard}>
-          <div className={classes.cardImg}>
-            <CardMedia
-              className={classes.expenseCardImage}
-              component="img"
-              alt="Display Item Photo"
-              width="200"
-              image={displayItem.image}
-              title="Display Item Photo"
-            />
-          </div>
           <div className={classes.cardRest}>
             <CardContent className={classes.content}>
               <PopupState variant="popover" popupId="demo-popup-popover">
                 {popupState => (
                   <div>
-                    <Typography
-                      gutterBottom
-                      variant="h5"
-                      component="h2"
-                      align="center"
-                    >
-                      {displayItem.name}
-                    </Typography>
-                    <Box p={2}>
+                    <Box p={2} className={classes.cardDetial}>
                       <Typography variant="h6" component="h6">
-                        Description
+                        Student Name : {studentReq.studentName}
                       </Typography>
-                      <Typography>{displayItem.description}</Typography>
+                    </Box>
+                    <Box p={2} className={classes.cardDetial}>
+                      <Typography variant="h6" component="h6">
+                        Created at : {studentReq.createdAt}
+                      </Typography>
                     </Box>
                   </div>
                 )}
@@ -109,27 +96,19 @@ const DisplayBucketItemCard = ({ displayItem }) => {
           </div>
           <div className={classes.cardActionBox}>
             <CardActions className={classes.cardContents}>
-              <div className={classes.quantityBox}>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  align="center"
-                >
-                  <h3>Quantity : {displayItem.quantity}</h3>
-                </Typography>
-              </div>
+              <div className={classes.quantityBox} />
               <div className={classes.btnBox}>
                 <Link
                   className={classes.cardContents}
                   style={{ textDecoration: 'none' }}
+                  to="/lecturer/request/456"
                 >
                   <Button
                     variant="contained"
                     color="secondary"
                     className={classes.buttons}
                   >
-                    Remove from Bucket
+                    View Request
                   </Button>
                 </Link>
               </div>
@@ -141,8 +120,8 @@ const DisplayBucketItemCard = ({ displayItem }) => {
   );
 };
 
-DisplayBucketItemCard.propTypes = {
-  displayItem: PropTypes.objectOf(PropTypes.elements).isRequired,
+StudentRequestCard.propTypes = {
+  studentReq: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
-export default DisplayBucketItemCard;
+export default StudentRequestCard;

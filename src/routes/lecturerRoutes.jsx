@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet';
 import Error404 from '../app/commonComponents/error404';
 import ProtectedLecturerRoute from './components/protectedLecturerRoute';
 import LecturerDashboard from '../app/lecturerPages/Dashboard/Dashboard';
+import LecturerRequestViewPage from '../app/lecturerPages/RequestPage/RequestView';
 
 function LecturerRoutes() {
   const { path } = useRouteMatch();
@@ -16,6 +17,11 @@ function LecturerRoutes() {
         <ProtectedLecturerRoute
           path={`${path}/`}
           component={LecturerDashboard}
+          exact
+        />
+        <ProtectedLecturerRoute
+          path={`${path}/request/:request_id`}
+          component={LecturerRequestViewPage}
           exact
         />
         <Route component={Error404} />

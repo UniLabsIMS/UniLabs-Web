@@ -1,10 +1,6 @@
 import { Grid, makeStyles, Typography } from '@material-ui/core';
 import { Zoom } from 'react-awesome-reveal';
-import { useState } from 'react';
-import PageWrapper from '../../../commonComponents/PageWrapper';
-import Navbar from '../../../commonComponents/navBar';
 import StudentRequestCard from './components/StudentRequestCard';
-import RequestView from './components/RequestView';
 
 const useStyles = makeStyles(theme => ({
   link: {
@@ -182,48 +178,21 @@ function StudentRequestsPage() {
     },
   ];
 
-  const [viewRequested, setViewRequested] = useState(false);
-  const [req, setReq] = useState();
-
-  function requestView(thisReq) {
-    setViewRequested(true);
-    setReq(thisReq);
-  }
-
-  function viewAllReqs() {
-    setViewRequested(false);
-    // setReqId(0);
-  }
-
   const requests = allStudentRequests.map(studentReq => (
     <Grid item key={studentReq.id}>
-      <StudentRequestCard studentReq={studentReq} requestView={requestView} />
+      <StudentRequestCard studentReq={studentReq} />
     </Grid>
   ));
 
   return (
-    <PageWrapper navBar={<Navbar />}>
-      {!viewRequested && (
-        <div>
-          <Zoom triggerOnce>
-            <Typography component="h2" variant="h4" gutterBottom align="center">
-              All Student Requests
-            </Typography>
-          </Zoom>
-          <div className={classes.cards}>{requests}</div>
-        </div>
-      )}
-      {viewRequested && (
-        <div>
-          <Zoom triggerOnce>
-            <Typography component="h2" variant="h4" gutterBottom align="center">
-              {req.studentName}&apos;s Request
-            </Typography>
-          </Zoom>
-          <RequestView req={req} viewAllReqs={viewAllReqs} />
-        </div>
-      )}
-    </PageWrapper>
+    <div>
+      <Zoom triggerOnce>
+        <Typography component="h2" variant="h4" gutterBottom align="center">
+          All Student Requests
+        </Typography>
+      </Zoom>
+      <div className={classes.cards}>{requests}</div>
+    </div>
   );
 }
 

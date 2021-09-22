@@ -5,12 +5,14 @@ import {
   Button,
   Card,
   CardContent,
+  Box,
 } from '@material-ui/core';
 import { Zoom } from 'react-awesome-reveal';
-import PropTypes from 'prop-types';
-import PageWrapper from '../../../../commonComponents/PageWrapper';
-import Navbar from '../../../../commonComponents/navBar';
-import DisplayItemCard from './DisplayItemCard';
+import { Link } from 'react-router-dom';
+import PageWrapper from '../../commonComponents/PageWrapper';
+import Navbar from '../../commonComponents/navBar';
+import DisplayItemCard from './components/DisplayItemCard';
+import BreadcrumbsWrapper from '../../commonComponents/breadCrumbsWrapper';
 
 const useStyles = makeStyles(theme => ({
   expenseCard: {
@@ -36,21 +38,38 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
     padding: theme.spacing(1),
   },
+  link: {
+    color: theme.palette.secondary.main,
+  },
 }));
 
-function RequestView({ req, viewAllReqs }) {
+function LecturerRequestViewPage() {
   const classes = useStyles();
 
-  const allRequestedItems = req.requestedItems;
+  const allRequestedItems = [0, 1, 2, 3, 4, 5, 6];
 
   const reqItems = allRequestedItems.map(reqItem => (
-    <Grid item key={reqItem.id}>
-      <DisplayItemCard reqItem={reqItem} />
+    <Grid item key={allRequestedItems.indexOf(reqItem)}>
+      <DisplayItemCard />
     </Grid>
   ));
 
   return (
     <PageWrapper navBar={<Navbar />}>
+      <BreadcrumbsWrapper>
+        <Link to="/lecturer" className={classes.link}>
+          Home
+        </Link>
+        <Box fontSize="inherit">Request</Box>
+      </BreadcrumbsWrapper>
+      <div>
+        <Zoom triggerOnce>
+          <Typography component="h2" variant="h4" gutterBottom align="center">
+            Student&apos;s Request
+          </Typography>
+        </Zoom>
+        {/* <LecturerRequestViewPage req={req} viewAllReqs={viewAllReqs} /> */}
+      </div>
       <Zoom triggerOnce>
         <Card className={classes.expenseCard}>
           <CardContent className={classes.content}>
@@ -74,12 +93,12 @@ function RequestView({ req, viewAllReqs }) {
                 align="justify"
                 className={classes.lines}
               >
-                {` ${req.reason}`}
+                {` Dummy Request Reason`}
               </Typography>
             </div>
             <div className={classes.btnContainer}>
               <Button
-                onClick={() => viewAllReqs()}
+                onClick={() => {}}
                 variant="contained"
                 color="secondary"
                 className={classes.buttons}
@@ -87,7 +106,7 @@ function RequestView({ req, viewAllReqs }) {
                 Accept
               </Button>
               <Button
-                onClick={() => viewAllReqs()}
+                onClick={() => {}}
                 variant="contained"
                 color="secondary"
                 className={classes.buttons}
@@ -128,9 +147,4 @@ function RequestView({ req, viewAllReqs }) {
   );
 }
 
-RequestView.propTypes = {
-  req: PropTypes.objectOf(PropTypes.elements).isRequired,
-  viewAllReqs: PropTypes.objectOf(PropTypes.elements).isRequired,
-};
-
-export default RequestView;
+export default LecturerRequestViewPage;

@@ -8,7 +8,7 @@ import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import { Box } from '@material-ui/core';
 import { Zoom } from 'react-awesome-reveal';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
   expenseCard: {
@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const DisplayItemCard = ({ reqItem }) => {
+const DisplayItemCard = () => {
   const classes = useStyles();
 
   return (
@@ -44,7 +44,8 @@ const DisplayItemCard = ({ reqItem }) => {
           component="img"
           alt="Category Photo"
           height="200"
-          image={reqItem.image}
+          //   image={reqItem.image}
+          image="/images/default-display-item-img.svg"
           title="Category Photo"
         />
         <CardContent className={classes.content}>
@@ -57,7 +58,8 @@ const DisplayItemCard = ({ reqItem }) => {
                   component="h2"
                   align="center"
                 >
-                  {reqItem.name}
+                  {/* {reqItem.name} */}
+                  Name
                   <InfoOutlinedIcon
                     color="secondary"
                     fontSize="small" // eslint-disable-next-line react/jsx-props-no-spreading
@@ -102,8 +104,8 @@ const DisplayItemCard = ({ reqItem }) => {
   );
 };
 
-DisplayItemCard.propTypes = {
-  reqItem: PropTypes.objectOf(PropTypes.elements).isRequired,
-};
+// DisplayItemCard.propTypes = {
+//   reqItem: PropTypes.objectOf(PropTypes.elements).isRequired,
+// };
 
 export default DisplayItemCard;

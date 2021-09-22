@@ -5,7 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
 
 const CategoryCard = ({ category }) => {
   const classes = useStyles();
-  const { labId } = useParams();
+  // const { labId } = useParams();
 
   return (
     <Zoom triggerOnce>
@@ -105,7 +105,7 @@ const CategoryCard = ({ category }) => {
           <Link
             className={classes.cardContents}
             style={{ textDecoration: 'none' }}
-            to={`/student/lab/${labId}/category/${category.id}`}
+            to={`/student/lab/category/${category.id}`}
           >
             <Button
               variant="outlined"
@@ -122,7 +122,7 @@ const CategoryCard = ({ category }) => {
 };
 
 CategoryCard.propTypes = {
-  category: PropTypes.objectOf(PropTypes.elements).isRequired,
+  category: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default CategoryCard;

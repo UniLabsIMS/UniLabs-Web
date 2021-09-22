@@ -122,7 +122,7 @@ const LabCard = ({ lab }) => {
 };
 
 LabCard.propTypes = {
-  lab: PropTypes.objectOf(PropTypes.elements).isRequired,
+  lab: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default LabCard;
