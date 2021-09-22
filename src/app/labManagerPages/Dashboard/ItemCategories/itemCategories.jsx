@@ -1,14 +1,38 @@
 import { Grid, Typography } from '@material-ui/core';
+import { useEffect } from 'react';
 import { Zoom } from 'react-awesome-reveal';
+import { useDispatch, useSelector } from 'react-redux';
 import ItemCategoryCard from './components/labitemCategoryCard';
 import NewCategoryFrom from './components/newCategoryForm';
+import { fetchCategories } from '../../../../store/actions/labManager/labManagerDashboardActions';
+import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
+import ErrorAlert from '../../../commonComponents/errorAlert';
 
 function ItemCategories() {
-  const allItemCategories = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(number => (
-    <Grid item key={number}>
-      <ItemCategoryCard />
+  const isCategoriesLoading = useSelector(
+    state => state.labManagerDashboard.isCategoriesLoading,
+  );
+  const isCategoriesError = useSelector(
+    state => state.labManagerDashboard.isCategoriesError,
+  );
+  const dispatch = useDispatch();
+  const categoriesLst = useSelector(
+    state => state.labManagerDashboard.categories,
+  );
+  const allItemCategories = categoriesLst.map(category => (
+    <Grid item key={categoriesLst.indexOf(category)}>
+      <ItemCategoryCard category={category} />
     </Grid>
   ));
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+  if (isCategoriesLoading) {
+    return <CustomLoadingIndicator />;
+  }
+  if (isCategoriesError) {
+    return <ErrorAlert message="Failed to load resources" />;
+  }
   return (
     <div>
       <Zoom triggerOnce>

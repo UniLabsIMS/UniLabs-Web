@@ -112,11 +112,11 @@ function Navbar({ drawerTiles, onDrawerTileClick, activeIndex, showDrawer }) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const user = {};
 
   const [anchorEl, setAnchorEl] = useState(null);
   const menuOpen = Boolean(anchorEl);
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const user = useSelector(state => state.auth.user);
   const dispatch = useDispatch();
 
   const handleLogoutEvent = () => {
@@ -174,7 +174,7 @@ function Navbar({ drawerTiles, onDrawerTileClick, activeIndex, showDrawer }) {
             {' '}
             UniLabs
           </Typography>
-          <Typography>{user ? user.name : ''}</Typography>
+          <Typography>{user ? user.email : ''}</Typography>
 
           {isAuthenticated ? (
             <div>

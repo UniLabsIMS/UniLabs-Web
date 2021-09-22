@@ -8,6 +8,7 @@ import {
   LOGOUT_FAIL,
   LOGOUT_SUCCESS,
 } from '../actionTypes/authActionTypes';
+import User from '../../models/user';
 
 const initialState = {
   token: localStorage.getItem('token'),
@@ -35,7 +36,7 @@ const authReducer = (state = initialState, action) => {
         ...state,
         isAuthenticated: true,
         isAuthLoading: false,
-        user: action.payload,
+        user: new User(action.payload),
         error: null,
       };
     case LOGIN_SUCCESS:
@@ -43,8 +44,9 @@ const authReducer = (state = initialState, action) => {
 
       return {
         ...state,
+        token: action.payload.token,
         isAuthenticated: true,
-        user: action.payload,
+        user: new User(action.payload),
         isLoginLoading: false,
         error: null,
       };
