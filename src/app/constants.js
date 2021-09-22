@@ -9,3 +9,7 @@ export const LAB_MANAGER_BASE_URL = '/lab_manager';
 export const LAB_ASSISTANT_BASE_URL = '/lab_assistant';
 export const STUDENT_BASE_URL = '/student';
 export const LECTURER_BASE_URL = '/lecturer';
+
+// lab manager other
+export const LAB_MANAGER_DISPLAY_ITEMS_URL =
+  LAB_MANAGER_BASE_URL.concat('/category'); // add the id dynamically at the end
