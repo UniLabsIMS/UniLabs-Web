@@ -6,7 +6,12 @@ import {
   Typography,
   Container,
 } from '@material-ui/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addDepartment } from '../../../../../store/actions/admin/adminDepartmentsActions';
+import CustomLoadingIndicator from '../../../../commonComponents/customLoadingIndicator';
+import ErrorAlert from '../../../../commonComponents/errorAlert';
+import SuccessAlert from '../../../../commonComponents/successAlert';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -23,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     marginTop: theme.spacing(1),
   },
-  loginForm: {
+  newForm: {
     width: '100%',
     marginTop: theme.spacing(0),
     marginBottom: theme.spacing(3),
@@ -66,24 +71,57 @@ const useStyles = makeStyles(theme => ({
 
 function CreateDepartment() {
   const classes = useStyles();
-  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [code, setCode] = useState('');
+  const dispatch = useDispatch();
 
-  const handleLogin = e => {
+  const handleSubmit = e => {
     e.preventDefault();
+    dispatch(addDepartment(name, code));
   };
 
+  const newDepLoading = useSelector(
+    state => state.adminDepartments.newDepartmentLoading,
+  );
+  const newDepError = useSelector(
+    state => state.adminDepartments.newDepartmentError,
+  );
+
+  const newDepSuccess = useSelector(
+    state => state.adminDepartments.newDepartmentSuccess,
+  );
+
+  useEffect(() => {
+    if (newDepSuccess) {
+      setName('');
+      setCode('');
+    }
+  }, [newDepSuccess]);
+  if (newDepLoading) {
+    return <CustomLoadingIndicator />;
+  }
   return (
     <div className="bigContainer">
       <Container component="main">
         <CssBaseline />
         <div className={classes.paper}>
-          <div className={classes.loginForm}>
+          <div className={classes.newForm}>
             <div className={classes.formLine}>
               <Typography component="h1" variant="h5">
                 Create a new Department
               </Typography>
             </div>
-            <form className={classes.form} noValidate onSubmit={handleLogin}>
+            {newDepError === true ? (
+              <ErrorAlert message="Failed to add new department, This may be becuase the department name or code is a duplicate" />
+            ) : (
+              <div />
+            )}
+            {newDepSuccess === true ? (
+              <SuccessAlert message="Successfully added new department." />
+            ) : (
+              <div />
+            )}
+            <form className={classes.form} onSubmit={handleSubmit}>
               <div className={classes.formLine}>
                 <TextField
                   className={classes.texts}
@@ -95,8 +133,8 @@ function CreateDepartment() {
                   label="Name"
                   name="email"
                   autoComplete="email"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
+                  value={name}
+                  onChange={e => setName(e.target.value)}
                   // autoFocus
                 />
                 <TextField
@@ -109,8 +147,8 @@ function CreateDepartment() {
                   label="Code"
                   name="email"
                   autoComplete="email"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
+                  value={code}
+                  onChange={e => setCode(e.target.value)}
                   // autoFocus
                 />
               </div>
