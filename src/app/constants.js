@@ -13,3 +13,5 @@ export const LECTURER_BASE_URL = '/lecturer';
 // lab manager other
 export const LAB_MANAGER_DISPLAY_ITEMS_URL =
   LAB_MANAGER_BASE_URL.concat('/category'); // add the id dynamically at the end
+export const LAB_MANAGER_ITEMS_URL =
+  LAB_MANAGER_BASE_URL.concat('/display_item'); // add he dsp id

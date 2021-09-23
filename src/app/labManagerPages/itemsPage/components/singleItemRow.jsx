@@ -27,13 +27,13 @@ function SingleItemRow({ item }) {
   return (
     <TableRow className={classes.row_height}>
       <TableCell align="center" className={classes.row}>
-        165748345-76748-X
+        {item.id}
       </TableCell>
       <TableCell align="center" className={classes.row}>
-        Borrowed
+        {item.state}
       </TableCell>
       <TableCell align="center" className={classes.row}>
-        2021/08/30
+        {item.addedOn}
       </TableCell>
       <TableCell align="center">
         <Button variant="outlined" color="primary" key={0}>
@@ -49,7 +49,7 @@ function SingleItemRow({ item }) {
   );
 }
 SingleItemRow.propTypes = {
-  item: PropTypes.number.isRequired,
+  item: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default SingleItemRow;
