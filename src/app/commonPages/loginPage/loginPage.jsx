@@ -102,7 +102,7 @@ function LoginPage() {
                 Log in
               </Typography>
               {authError ? (
-                <ErrorAlert open message="Invalid Email or Password" />
+                <ErrorAlert message="Invalid Email or Password" />
               ) : (
                 <div />
               )}

@@ -8,7 +8,15 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Zoom } from 'react-awesome-reveal';
 import { Typography } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import CreateDepartment from './components/departmentCreationForm';
+import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
+import ErrorAlert from '../../../commonComponents/errorAlert';
+import {
+  fetchDepartments,
+  resetAdminDepartmentState,
+} from '../../../../store/actions/admin/adminDepartmentsActions';
 
 const useStyles = makeStyles({
   table: {
@@ -16,21 +24,35 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(name) {
-  return { name };
-}
-
-const rows = [
-  createData('Deparment of Computer Science & Engineering'),
-  createData('Deparment of Elelctronic & Telecommunication Engineering'),
-  createData('Deparment of Civil Engineering'),
-  createData('Deparment of Mechanical Engineering'),
-  createData('Deparment of Electrical Engineering'),
-  createData('Deparment of Chemical & Process Engineering'),
-];
-
 export default function DepartmentTable() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const isDepartmentsLoading = useSelector(
+    state => state.adminDepartments.isDepartmentsLoading,
+  );
+  const isDepartmentsError = useSelector(
+    state => state.adminDepartments.isDepartmentsError,
+  );
+  const departmentsLst = useSelector(
+    state => state.adminDepartments.departments,
+  );
+  const reload = useSelector(state => state.adminDepartments.reloadDepartments);
+  useEffect(() => {
+    dispatch(fetchDepartments());
+  }, [dispatch, reload]);
+  useEffect(
+    () => () => {
+      dispatch(resetAdminDepartmentState());
+    },
+    [dispatch],
+  );
+  const allDepartments = departmentsLst.map(dep => (
+    <TableRow key={dep.name}>
+      <TableCell component="th" scope="row">
+        {dep.name}
+      </TableCell>
+    </TableRow>
+  ));
 
   return (
     <div className="largerContainer">
@@ -40,27 +62,31 @@ export default function DepartmentTable() {
             Departments
           </Typography>
         </Zoom>
-        <Zoom triggerOnce>
-          <CreateDepartment />
-        </Zoom>
-        <Zoom triggerOnce>
-          <Table className={classes.table} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell align="left">Name</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map(row => (
-                <TableRow key={row.name}>
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Zoom>
+        {isDepartmentsError ? (
+          <ErrorAlert message="Failed to load departments" />
+        ) : (
+          <div>
+            {isDepartmentsLoading ? (
+              <CustomLoadingIndicator minimumHeight="60vh" />
+            ) : (
+              <div>
+                <Zoom triggerOnce>
+                  <CreateDepartment />
+                </Zoom>
+                <Zoom triggerOnce>
+                  <Table className={classes.table} aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell align="left">Name</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>{allDepartments}</TableBody>
+                  </Table>
+                </Zoom>
+              </div>
+            )}
+          </div>
+        )}
       </TableContainer>
     </div>
   );
