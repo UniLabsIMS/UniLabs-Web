@@ -53,7 +53,7 @@ function LabManagerDisplayItemsPage() {
 
   const allDisplayItems = displayItemsLst.map(dspItem => (
     <Grid item key={displayItemsLst.indexOf(dspItem)}>
-      <DisplayItemsCard displayItem={dspItem} />
+      <DisplayItemsCard displayItem={dspItem} categoryID={categoryId} />
     </Grid>
   ));
   return (

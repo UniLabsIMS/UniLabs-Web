@@ -14,6 +14,7 @@ import { useState } from 'react';
 import { Zoom } from 'react-awesome-reveal';
 import PropTypes from 'prop-types';
 import EditDisplayItemForm from './editDisplayItemForm';
+import { LAB_MANAGER_ITEMS_URL } from '../../../constants';
 
 const useStyles = makeStyles(theme => ({
   dspCard: {
@@ -35,7 +36,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const DisplayItemsCard = ({ displayItem }) => {
+const DisplayItemsCard = ({ displayItem, categoryID }) => {
   const classes = useStyles();
   const [editModalState, setEditModalState] = useState(false);
   const handleEditModalOpen = () => setEditModalState(true);
@@ -97,7 +98,9 @@ const DisplayItemsCard = ({ displayItem }) => {
             <Grid item xs={12} sm={5}>
               <Link
                 style={{ textDecoration: 'none' }}
-                to="/lab_manager/display_item/456"
+                to={LAB_MANAGER_ITEMS_URL.concat(
+                  `/${displayItem.id}?categoryId=${categoryID}`,
+                )}
               >
                 <Button
                   variant="outlined"
@@ -140,6 +143,7 @@ const DisplayItemsCard = ({ displayItem }) => {
 };
 DisplayItemsCard.propTypes = {
   displayItem: PropTypes.objectOf(PropTypes.any).isRequired,
+  categoryID: PropTypes.string.isRequired,
 };
 
 export default DisplayItemsCard;

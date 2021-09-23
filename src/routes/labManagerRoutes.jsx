@@ -26,7 +26,7 @@ function LabManagerRoutes() {
           exact
         />
         <ProtectedLabManagerRoute
-          path={`${path}/display_item/:display_item_id`}
+          path={`${path}/display_item/:displayItemId`}
           component={LabManagerItemsPage}
           exact
         />
