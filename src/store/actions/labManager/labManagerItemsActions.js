@@ -9,9 +9,13 @@ import {
   NEW_ITEM_SUCCESS,
   RESET_ITEMS_STATE,
   RESET_NEW_ITEM_STATE,
+  ITEM_DELETE_LOADING,
+  ITEM_DELETE_SUCCESS,
+  ITEM_DELETE_FAIL,
 } from '../../actionTypes/labManagerActionTypes';
 import {
   API_LAB_MANAGER_ALL_ITEMS_URL,
+  API_LAB_MANAGER_ITEM_DELETED_URL,
   API_LAB_MANAGER_NEW_ITEM_URL,
 } from '../../apiConfig';
 import httpHeaderConfig from '../../httpHeaderConfig';
@@ -53,6 +57,27 @@ export const addItem = displayItemID => (dispatch, getState) => {
     .catch(err => {
       dispatch({
         type: NEW_ITEM_FAIL,
+      });
+    });
+};
+
+/* delete item */
+export const deleteItem = itemID => (dispatch, getState) => {
+  dispatch({ type: ITEM_DELETE_LOADING });
+  axios
+    .delete(
+      API_LAB_MANAGER_ITEM_DELETED_URL.concat(`${itemID}`),
+      httpHeaderConfig(getState),
+    )
+    .then(res => {
+      dispatch({
+        type: ITEM_DELETE_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: ITEM_DELETE_FAIL,
       });
     });
 };

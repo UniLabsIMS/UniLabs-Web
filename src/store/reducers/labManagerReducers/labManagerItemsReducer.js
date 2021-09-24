@@ -2,6 +2,9 @@ import {
   ITEMS_ERROR,
   ITEMS_LOADED,
   ITEMS_LOADING,
+  ITEM_DELETE_FAIL,
+  ITEM_DELETE_LOADING,
+  ITEM_DELETE_SUCCESS,
   NEW_ITEM_FAIL,
   NEW_ITEM_LOADING,
   NEW_ITEM_SUCCESS,
@@ -18,6 +21,9 @@ const initialState = {
   newItemError: false,
   newItemSuccess: false,
   newItemID: null,
+  deleteItemLoading: false,
+  deleteItemSucess: false,
+  deleteItemError: false,
   reloadItems: false,
 };
 
@@ -79,6 +85,26 @@ const labManagerItemsReducer = (state = initialState, action) => {
         newItemLoading: false,
         newItemError: true,
         newItemID: null,
+      };
+    case ITEM_DELETE_LOADING:
+      return {
+        ...state,
+        deleteItemLoading: true,
+        deleteItemError: false,
+        deleteItemSuccess: false,
+      };
+    case ITEM_DELETE_SUCCESS:
+      return {
+        ...state,
+        deleteItemLoading: false,
+        deleteItemSuccess: true,
+        reloadItems: true,
+      };
+    case ITEM_DELETE_FAIL:
+      return {
+        ...state,
+        deleteItemLoading: false,
+        deleteItemError: true,
       };
     default:
       return state;

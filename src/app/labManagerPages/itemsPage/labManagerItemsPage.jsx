@@ -28,6 +28,7 @@ import {
   LAB_MANAGER_DISPLAY_ITEMS_URL,
 } from '../../constants';
 import ErrorAlert from '../../commonComponents/errorAlert';
+import SuccessAlert from '../../commonComponents/successAlert';
 import CustomLoadingIndicator from '../../commonComponents/customLoadingIndicator';
 import WarningAlert from '../../commonComponents/warningAlert';
 
@@ -55,6 +56,15 @@ function LabManagerItemsPage() {
   const dispatch = useDispatch();
   const isItemsLoading = useSelector(
     state => state.labManagerItems.isItemsLoading,
+  );
+  const deleteItemLoading = useSelector(
+    state => state.labManagerItems.deleteItemLoading,
+  );
+  const deleteItemSuccess = useSelector(
+    state => state.labManagerItems.deleteItemSuccess,
+  );
+  const deleteItemError = useSelector(
+    state => state.labManagerItems.deleteItemError,
   );
   const isItemsError = useSelector(state => state.labManagerItems.isItemsError);
   const itemsLst = useSelector(state => state.labManagerItems.items);
@@ -101,7 +111,17 @@ function LabManagerItemsPage() {
             <NewItemForm displayItemID={displayItemId} />
           </Zoom>
           <Box m={2} />
-          {isItemsLoading ? (
+          {deleteItemSuccess ? (
+            <SuccessAlert message="Successfully deleted item" />
+          ) : (
+            <></>
+          )}
+          {deleteItemError ? (
+            <ErrorAlert message="Item Deletion Failed" />
+          ) : (
+            <></>
+          )}
+          {isItemsLoading || deleteItemLoading ? (
             <CustomLoadingIndicator minimumHeight="40vh" />
           ) : (
             <div>

@@ -28,3 +28,6 @@ export const API_LAB_MANAGER_ALL_ITEMS_URL = API_BASE_URL.concat(
 ); // concat the display item id to this
 export const API_LAB_MANAGER_NEW_ITEM_URL =
   API_BASE_URL.concat('/items/create/');
+
+export const API_LAB_MANAGER_ITEM_DELETED_URL =
+  API_BASE_URL.concat('/items/delete/'); // concat item id
