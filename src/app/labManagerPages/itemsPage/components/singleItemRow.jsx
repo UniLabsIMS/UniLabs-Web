@@ -1,5 +1,7 @@
 import { TableCell, TableRow, makeStyles, Button } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import { useState } from 'react';
+import BarcodeDownloadModal from '../../../commonComponents/barcodeDownloadModal';
 
 const useStyles = makeStyles(theme => ({
   download_button: {
@@ -23,6 +25,7 @@ const useStyles = makeStyles(theme => ({
 
 function SingleItemRow({ item }) {
   const classes = useStyles();
+  const [downloadModalOpen, setDownloadModalOpen] = useState(false);
 
   return (
     <TableRow className={classes.row_height}>
@@ -33,10 +36,15 @@ function SingleItemRow({ item }) {
         {item.state}
       </TableCell>
       <TableCell align="center" className={classes.row}>
-        {item.addedOn}
+        {item.addedOn.toString().slice(0, 10)}
       </TableCell>
       <TableCell align="center">
-        <Button variant="outlined" color="primary" key={0}>
+        <Button
+          variant="outlined"
+          color="primary"
+          key={0}
+          onClick={() => setDownloadModalOpen(true)}
+        >
           Download
         </Button>
       </TableCell>
@@ -44,6 +52,12 @@ function SingleItemRow({ item }) {
         <Button variant="outlined" color="secondary" key={0}>
           Delete Item
         </Button>
+
+        <BarcodeDownloadModal
+          id={item.id}
+          open={downloadModalOpen}
+          onClose={() => setDownloadModalOpen(false)}
+        />
       </TableCell>
     </TableRow>
   );
