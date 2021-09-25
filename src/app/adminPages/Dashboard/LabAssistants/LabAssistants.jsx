@@ -8,7 +8,15 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Zoom } from 'react-awesome-reveal';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import RegisterLabAssitant from './components/assistantRegistrationForm';
+import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
+import ErrorAlert from '../../../commonComponents/errorAlert';
+import {
+  fetchLabAssistants,
+  resetAdminLabAssistantState,
+} from '../../../../store/actions/admin/adminLabAssistantsActions';
 
 const useStyles = makeStyles({
   table: {
@@ -16,71 +24,50 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(name, lab, department, n) {
-  return { name, lab, department, n };
-}
-
-const rows = [
-  createData(
-    'LabAssistant_1',
-    'Lab_1',
-    'CSE',
-    <Button variant="contained" color="secondary">
-      Delete
-    </Button>,
-  ),
-  createData(
-    'LabAssistant_2',
-    'Lab_3',
-    'ENTC',
-    <Button variant="contained" color="secondary">
-      Delete
-    </Button>,
-  ),
-  createData(
-    'LabAssistant_3',
-    'Lab_1',
-    'CSE',
-    <Button variant="contained" color="secondary">
-      Delete
-    </Button>,
-  ),
-  createData(
-    'LabAssistant_4',
-    'Lab_5',
-    'ME',
-    <Button variant="contained" color="secondary">
-      Delete
-    </Button>,
-  ),
-  createData(
-    'LabAssistant_5',
-    'Lab_4',
-    'CE',
-    <Button variant="contained" color="secondary">
-      Delete
-    </Button>,
-  ),
-  createData(
-    'LabAssistant_6',
-    'Lab_4',
-    'CE',
-    <Button variant="contained" color="secondary">
-      Delete
-    </Button>,
-  ),
-  createData(
-    'LabAssistant_7',
-    'Lab_2',
-    'CSE',
-    <Button variant="contained" color="secondary">
-      Delete
-    </Button>,
-  ),
-];
-
-export default function LabManagerTable() {
+export default function LabAssistantTable() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const isLabAssistantsLoading = useSelector(
+    state => state.adminLabAssistants.isLabAssistantsLoading,
+  );
+  const isLabAssistantsError = useSelector(
+    state => state.adminLabAssistants.isLabAssistantsError,
+  );
+  const labAssistantsLst = useSelector(
+    state => state.adminLabAssistants.labAssistants,
+  );
+  const reload = useSelector(
+    state => state.adminLabAssistants.reloadLabAssistants,
+  );
+
+  useEffect(() => {
+    dispatch(fetchLabAssistants());
+  }, [dispatch, reload]);
+  useEffect(
+    () => () => {
+      dispatch(resetAdminLabAssistantState());
+    },
+    [dispatch],
+  );
+
+  const allLabAssistants = labAssistantsLst.map(labAssistant => (
+    <TableRow key={labAssistant.id}>
+      <TableCell component="th" scope="row">
+        {labAssistant.name}
+      </TableCell>
+      <TableCell component="th" scope="row">
+        {labAssistant.lab.name}
+      </TableCell>
+      <TableCell component="th" scope="row">
+        {labAssistant.department.name}
+      </TableCell>
+      <TableCell component="th" scope="row">
+        <Button variant="contained" color="secondary">
+          Delete
+        </Button>
+      </TableCell>
+    </TableRow>
+  ));
 
   return (
     <div className="largerContainer">
@@ -90,33 +77,34 @@ export default function LabManagerTable() {
             Lab Assistants
           </Typography>
         </Zoom>
-        <Zoom triggerOnce>
-          <RegisterLabAssitant />
-        </Zoom>
-        <Zoom triggerOnce>
-          <Table className={classes.table} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell align="right">Laboratory</TableCell>
-                <TableCell align="right">Department</TableCell>
-                <TableCell align="right" />
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map(row => (
-                <TableRow key={row.name}>
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="right">{row.lab}</TableCell>
-                  <TableCell align="right">{row.department}</TableCell>
-                  <TableCell align="right">{row.n}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Zoom>
+        {isLabAssistantsError ? (
+          <ErrorAlert message="Failed to load labAssistants" />
+        ) : (
+          <div>
+            {isLabAssistantsLoading ? (
+              <CustomLoadingIndicator minimumHeight="60vh" />
+            ) : (
+              <div>
+                <Zoom triggerOnce>
+                  <RegisterLabAssitant />
+                </Zoom>
+                <Zoom triggerOnce>
+                  <Table className={classes.table} aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Name</TableCell>
+                        <TableCell align="right">Laboratory</TableCell>
+                        <TableCell align="right">Department</TableCell>
+                        <TableCell align="right" />
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>{allLabAssistants}</TableBody>
+                  </Table>
+                </Zoom>
+              </div>
+            )}
+          </div>
+        )}
       </TableContainer>
     </div>
   );

@@ -6,11 +6,20 @@ import {
   Typography,
   Container,
 } from '@material-ui/core';
-import { useState } from 'react';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addStudent } from '../../../../../store/actions/admin/adminStudentsActions';
+import CustomLoadingIndicator from '../../../../commonComponents/customLoadingIndicator';
+import ErrorAlert from '../../../../commonComponents/errorAlert';
+import SuccessAlert from '../../../../commonComponents/successAlert';
+import {
+  fetchDepartments,
+  resetAdminDepartmentState,
+} from '../../../../../store/actions/admin/adminDepartmentsActions';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -66,21 +75,70 @@ const useStyles = makeStyles(theme => ({
   buttons: {
     width: '40%',
   },
+  fullDiv: {
+    width: '100%',
+  },
 }));
 
 function RegisterStudent() {
   const classes = useStyles();
   const [email, setEmail] = useState('');
-  const [studentId, setstudentId] = useState('');
+  const [studentId, setStudentId] = useState('');
   const [department, setDepartment] = useState('');
+  const dispatch = useDispatch();
 
-  const handleChange = event => {
-    setDepartment(event.target.value);
-  };
-
-  const handleLogin = e => {
+  const handleSubmit = e => {
     e.preventDefault();
+    dispatch(addStudent(email, studentId, department));
   };
+
+  const isDepartmentsLoading = useSelector(
+    state => state.adminDepartments.isDepartmentsLoading,
+  );
+  const isDepartmentsError = useSelector(
+    state => state.adminDepartments.isDepartmentsError,
+  );
+  const departmentsLst = useSelector(
+    state => state.adminDepartments.departments,
+  );
+  const reload = useSelector(state => state.adminDepartments.reloadDepartments);
+  useEffect(() => {
+    dispatch(fetchDepartments());
+  }, [dispatch, reload]);
+  useEffect(
+    () => () => {
+      dispatch(resetAdminDepartmentState());
+    },
+    [dispatch],
+  );
+
+  const allDepartments = departmentsLst.map(dep => (
+    <MenuItem key={dep.id} value={dep.id}>
+      {dep.name}
+    </MenuItem>
+  ));
+
+  const newStudLoading = useSelector(
+    state => state.adminStudents.newStudentLoading,
+  );
+  const newStudError = useSelector(
+    state => state.adminStudents.newStudentError,
+  );
+
+  const newStudSuccess = useSelector(
+    state => state.adminStudents.newStudentSuccess,
+  );
+
+  useEffect(() => {
+    if (newStudSuccess) {
+      setEmail('');
+      setStudentId('');
+      setDepartment('');
+    }
+  }, [newStudSuccess]);
+  if (newStudLoading) {
+    return <CustomLoadingIndicator />;
+  }
 
   return (
     <div className="bigContainer">
@@ -93,65 +151,85 @@ function RegisterStudent() {
                 Register a new Student
               </Typography>
             </div>
-            <form className={classes.form} noValidate onSubmit={handleLogin}>
-              <div className={classes.formLine}>
-                <TextField
-                  className={classes.texts}
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  // autoFocus
-                />
-                <TextField
-                  className={classes.texts}
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="studentId"
-                  label="Student ID"
-                  name="studentId"
-                  autoComplete="studentId"
-                  value={studentId}
-                  onChange={e => setstudentId(e.target.value)}
-                />
-              </div>
-              <div className={classes.formLine}>
-                <FormControl className={classes.formControl}>
-                  <InputLabel id="demo-simple-select-label">
-                    Department
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={department}
-                    onChange={handleChange}
+            {newStudError === true ? (
+              <ErrorAlert message="Failed to add new student, This may be becuase the student email or id is a duplicate" />
+            ) : (
+              <div />
+            )}
+            {newStudSuccess === true ? (
+              <SuccessAlert message="Successfully added new student." />
+            ) : (
+              <div />
+            )}
+            {isDepartmentsError ? (
+              <ErrorAlert message="Failed to load departments" />
+            ) : (
+              <div className={classes.fullDiv}>
+                {isDepartmentsLoading ? (
+                  <CustomLoadingIndicator minimumHeight="60vh" />
+                ) : (
+                  <form
+                    className={classes.form}
+                    noValidate
+                    onSubmit={handleSubmit}
                   >
-                    <MenuItem value={0}>CSE</MenuItem>
-                    <MenuItem value={1}>ENTC</MenuItem>
-                    <MenuItem value={2}>CE</MenuItem>
-                    <MenuItem value={3}>ME</MenuItem>
-                    <MenuItem value={4}>CPE</MenuItem>
-                  </Select>
-                </FormControl>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                >
-                  Register Student
-                </Button>
+                    <div className={classes.formLine}>
+                      <TextField
+                        className={classes.texts}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="email"
+                        label="Email Address"
+                        name="email"
+                        autoComplete="email"
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                        // autoFocus
+                      />
+                      <TextField
+                        className={classes.texts}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="studentId"
+                        label="Student ID"
+                        name="studentId"
+                        autoComplete="studentId"
+                        value={studentId}
+                        onChange={e => setStudentId(e.target.value)}
+                      />
+                    </div>
+                    <div className={classes.formLine}>
+                      <FormControl className={classes.formControl}>
+                        <InputLabel id="demo-simple-select-label">
+                          Department
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          value={department}
+                          onChange={e => setDepartment(e.target.value)}
+                        >
+                          {allDepartments}
+                        </Select>
+                      </FormControl>
+                      <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                      >
+                        Register Student
+                      </Button>
+                    </div>
+                  </form>
+                )}
               </div>
-            </form>
+            )}
           </div>
         </div>
       </Container>
