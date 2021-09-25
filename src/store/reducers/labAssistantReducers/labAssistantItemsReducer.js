@@ -10,7 +10,7 @@ import {
   NEW_ITEM_SUCCESS,
   RESET_ITEMS_STATE,
   RESET_NEW_ITEM_STATE,
-} from '../../actionTypes/labManagerActionTypes';
+} from '../../actionTypes/labAssistantActionTypes';
 import Item from '../../../models/item';
 
 const initialState = {
@@ -27,7 +27,7 @@ const initialState = {
   reloadItems: false,
 };
 
-const labManagerItemsReducer = (state = initialState, action) => {
+const labAssistantItemsReducer = (state = initialState, action) => {
   switch (action.type) {
     case RESET_ITEMS_STATE:
       return initialState;
@@ -110,4 +110,4 @@ const labManagerItemsReducer = (state = initialState, action) => {
       return state;
   }
 };
-export default labManagerItemsReducer;
+export default labAssistantItemsReducer;

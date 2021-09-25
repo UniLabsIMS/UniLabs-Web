@@ -10,13 +10,27 @@ import {
   TableRow,
   Typography,
 } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { Link, useParams, useLocation } from 'react-router-dom';
 import { Zoom } from 'react-awesome-reveal';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
 import BreadcrumbsWrapper from '../../commonComponents/breadCrumbsWrapper';
-import NewItemForm from '../../commonComponents/newItemForm';
+import NewItemForm from './components/newItemForm';
 import SingleItemRow from './components/singleItemRow';
+import {
+  fetchLabAssistantItems,
+  resetLabAssistantItemsPageState,
+} from '../../../store/actions/labAssistant/labAssistantItemsActions';
+import {
+  LAB_ASSISTANT_BASE_URL,
+  LAB_ASSISTANT_DISPLAY_ITEMS_URL,
+} from '../../constants';
+import CustomLoadingIndicator from '../../commonComponents/customLoadingIndicator';
+import ErrorAlert from '../../commonComponents/errorAlert';
+import SuccessAlert from '../../commonComponents/successAlert';
+import WarningAlert from '../../commonComponents/warningAlert';
 
 const useStyles = makeStyles(theme => ({
   link: {
@@ -35,13 +49,51 @@ const useStyles = makeStyles(theme => ({
 
 function LabAssistantItemsPage() {
   const classes = useStyles();
+  const { displayItemId } = useParams();
+  const categoryId = new URLSearchParams(useLocation().search).get(
+    'categoryId',
+  );
+  const dispatch = useDispatch();
+  const isItemsLoading = useSelector(
+    state => state.labAssistantItems.isItemsLoading,
+  );
+  const deleteItemLoading = useSelector(
+    state => state.labAssistantItems.deleteItemLoading,
+  );
+  const deleteItemSuccess = useSelector(
+    state => state.labAssistantItems.deleteItemSuccess,
+  );
+  const deleteItemError = useSelector(
+    state => state.labAssistantItems.deleteItemError,
+  );
+  const isItemsError = useSelector(
+    state => state.labAssistantItems.isItemsError,
+  );
+  const itemsLst = useSelector(state => state.labAssistantItems.items);
+  const reload = useSelector(state => state.labAssistantItems.reloadItems);
+  useEffect(() => {
+    dispatch(fetchLabAssistantItems(displayItemId));
+  }, [dispatch, reload, displayItemId]);
+
+  useEffect(
+    () => () => {
+      dispatch(resetLabAssistantItemsPageState());
+    },
+    [dispatch],
+  );
+  const itemRows = itemsLst.map(item => (
+    <SingleItemRow item={item} key={itemsLst.indexOf(item)} />
+  ));
   return (
     <PageWrapper navBar={<Navbar />}>
       <BreadcrumbsWrapper>
-        <Link to="/lab_assistant" className={classes.link}>
+        <Link to={LAB_ASSISTANT_BASE_URL} className={classes.link}>
           Categories
         </Link>
-        <Link to="/lab_assistant/category/123" className={classes.link}>
+        <Link
+          to={LAB_ASSISTANT_DISPLAY_ITEMS_URL.concat(`/${categoryId}`)}
+          className={classes.link}
+        >
           Display Items
         </Link>
         <Box fontSize="inherit">Items</Box>
@@ -52,42 +104,64 @@ function LabAssistantItemsPage() {
         </Typography>
       </Zoom>
       <Box m={2} />
-      <Zoom triggerOnce>
-        <NewItemForm />
-      </Zoom>
-      <Box m={2} />
-      <Paper>
-        <TableContainer className={classes.tableContainer}>
+      {isItemsError ? (
+        <ErrorAlert message="Failed to load items" />
+      ) : (
+        <div>
           <Zoom triggerOnce>
-            <Table stickyHeader size="medium">
-              <TableHead>
-                <TableRow className={classes.row_height}>
-                  <TableCell align="center" className={classes.row}>
-                    Item ID
-                  </TableCell>
-                  <TableCell align="center" className={classes.row}>
-                    State
-                  </TableCell>
-                  <TableCell align="center" className={classes.row}>
-                    Added On
-                  </TableCell>
-                  <TableCell align="center" className={classes.row}>
-                    Download Barcode
-                  </TableCell>
-                  <TableCell align="center" className={classes.row}>
-                    Delete
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(item => (
-                  <SingleItemRow item={item} key={item} />
-                ))}
-              </TableBody>
-            </Table>
+            <NewItemForm displayItemID={displayItemId} />
           </Zoom>
-        </TableContainer>
-      </Paper>
+          <Box m={2} />
+          {deleteItemSuccess ? (
+            <SuccessAlert message="Successfully deleted item" />
+          ) : (
+            <></>
+          )}
+          {deleteItemError ? (
+            <ErrorAlert message="Item Deletion Failed" />
+          ) : (
+            <></>
+          )}
+          {isItemsLoading || deleteItemLoading ? (
+            <CustomLoadingIndicator minimumHeight="40vh" />
+          ) : (
+            <div>
+              {itemsLst.length === 0 ? (
+                <WarningAlert message="No display Items Added" />
+              ) : (
+                <Paper>
+                  <TableContainer className={classes.tableContainer}>
+                    <Zoom triggerOnce>
+                      <Table stickyHeader size="medium">
+                        <TableHead>
+                          <TableRow className={classes.row_height}>
+                            <TableCell align="center" className={classes.row}>
+                              Item ID
+                            </TableCell>
+                            <TableCell align="center" className={classes.row}>
+                              State
+                            </TableCell>
+                            <TableCell align="center" className={classes.row}>
+                              Added On
+                            </TableCell>
+                            <TableCell align="center" className={classes.row}>
+                              Download Barcode
+                            </TableCell>
+                            <TableCell align="center" className={classes.row}>
+                              Delete
+                            </TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>{itemRows}</TableBody>
+                      </Table>
+                    </Zoom>
+                  </TableContainer>
+                </Paper>
+              )}
+            </div>
+          )}
+        </div>
+      )}
     </PageWrapper>
   );
 }

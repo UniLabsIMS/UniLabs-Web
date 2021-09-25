@@ -1,5 +1,9 @@
 import { TableCell, TableRow, makeStyles, Button } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { deleteLabAssistantItem } from '../../../../store/actions/labAssistant/labAssistantItemsActions';
+import BarcodeDownloadModal from '../../../commonComponents/barcodeDownloadModal';
 
 const useStyles = makeStyles(theme => ({
   download_button: {
@@ -23,33 +27,53 @@ const useStyles = makeStyles(theme => ({
 
 function SingleItemRow({ item }) {
   const classes = useStyles();
+  const [downloadModalOpen, setDownloadModalOpen] = useState(false);
+  const dispatch = useDispatch();
+  const handleOnDelete = id => {
+    dispatch(deleteLabAssistantItem(id));
+  };
 
   return (
     <TableRow className={classes.row_height}>
       <TableCell align="center" className={classes.row}>
-        165748345-76748-X
+        {item.id}
       </TableCell>
       <TableCell align="center" className={classes.row}>
-        Borrowed
+        {item.state}
       </TableCell>
       <TableCell align="center" className={classes.row}>
-        2021/08/30
+        {item.addedOn.toString().slice(0, 10)}
       </TableCell>
       <TableCell align="center">
-        <Button variant="outlined" color="primary" key={0}>
+        <Button
+          variant="outlined"
+          color="primary"
+          key={0}
+          onClick={() => setDownloadModalOpen(true)}
+        >
           Download
         </Button>
       </TableCell>
       <TableCell align="center">
-        <Button variant="outlined" color="secondary" key={0}>
+        <Button
+          variant="outlined"
+          color="secondary"
+          key={0}
+          onClick={() => handleOnDelete(item.id)}
+        >
           Delete Item
         </Button>
+        <BarcodeDownloadModal
+          id={item.id}
+          open={downloadModalOpen}
+          onClose={() => setDownloadModalOpen(false)}
+        />
       </TableCell>
     </TableRow>
   );
 }
 SingleItemRow.propTypes = {
-  item: PropTypes.number.isRequired,
+  item: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default SingleItemRow;

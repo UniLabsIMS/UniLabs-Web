@@ -12,20 +12,20 @@ import {
   ITEM_DELETE_LOADING,
   ITEM_DELETE_SUCCESS,
   ITEM_DELETE_FAIL,
-} from '../../actionTypes/labManagerActionTypes';
+} from '../../actionTypes/labAssistantActionTypes';
 import {
-  API_LAB_MANAGER_ALL_ITEMS_URL,
-  API_LAB_MANAGER_ITEM_DELETED_URL,
-  API_LAB_MANAGER_NEW_ITEM_URL,
+  API_LAB_ASSISTANT_ALL_ITEMS_URL,
+  API_LAB_ASSISTANT_ITEM_DELETED_URL,
+  API_LAB_ASSISTANT_NEW_ITEM_URL,
 } from '../../apiConfig';
 import httpHeaderConfig from '../../httpHeaderConfig';
 
 /* Load items */
-export const fetchItems = displayItemID => (dispatch, getState) => {
+export const fetchLabAssistantItems = displayItemID => (dispatch, getState) => {
   dispatch({ type: ITEMS_LOADING });
   axios
     .get(
-      API_LAB_MANAGER_ALL_ITEMS_URL.concat(displayItemID.toString()),
+      API_LAB_ASSISTANT_ALL_ITEMS_URL.concat(displayItemID.toString()),
       httpHeaderConfig(getState),
     )
     .then(res => {
@@ -42,12 +42,12 @@ export const fetchItems = displayItemID => (dispatch, getState) => {
 };
 
 /* Add item */
-export const addItem = displayItemID => (dispatch, getState) => {
+export const addLabAssistantItem = displayItemID => (dispatch, getState) => {
   dispatch({ type: NEW_ITEM_LOADING });
   const formData = new FormData();
   formData.append('display_item', displayItemID);
   axios
-    .post(API_LAB_MANAGER_NEW_ITEM_URL, formData, httpHeaderConfig(getState))
+    .post(API_LAB_ASSISTANT_NEW_ITEM_URL, formData, httpHeaderConfig(getState))
     .then(res => {
       dispatch({
         type: NEW_ITEM_SUCCESS,
@@ -62,11 +62,11 @@ export const addItem = displayItemID => (dispatch, getState) => {
 };
 
 /* delete item */
-export const deleteItem = itemID => (dispatch, getState) => {
+export const deleteLabAssistantItem = itemID => (dispatch, getState) => {
   dispatch({ type: ITEM_DELETE_LOADING });
   axios
     .delete(
-      API_LAB_MANAGER_ITEM_DELETED_URL.concat(`${itemID}`),
+      API_LAB_ASSISTANT_ITEM_DELETED_URL.concat(`${itemID}`),
       httpHeaderConfig(getState),
     )
     .then(res => {
@@ -82,11 +82,11 @@ export const deleteItem = itemID => (dispatch, getState) => {
     });
 };
 
-export const cleanNewItemState = () => (dispatch, getState) => {
+export const cleanLabAssistantNewItemState = () => (dispatch, getState) => {
   dispatch({ type: RESET_NEW_ITEM_STATE });
 };
 
 /* Reset State */
-export const resetItemsPageState = () => (dispatch, getState) => {
+export const resetLabAssistantItemsPageState = () => (dispatch, getState) => {
   dispatch({ type: RESET_ITEMS_STATE });
 };

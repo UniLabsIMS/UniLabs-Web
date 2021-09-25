@@ -5,9 +5,17 @@ import {
   Typography,
   Button,
 } from '@material-ui/core';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import Barcode from 'react-barcode';
 import { exportComponentAsPNG } from 'react-component-export-image';
+import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import {
+  addLabAssistantItem,
+  cleanLabAssistantNewItemState,
+} from '../../../../store/actions/labAssistant/labAssistantItemsActions';
+import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
+import ErrorAlert from '../../../commonComponents/errorAlert';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -25,16 +33,37 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function NewItemForm() {
+function NewItemForm({ displayItemID }) {
   const classes = useStyles();
   const barcodeRef = useRef('unilab-barcode');
-  const [barcodeState, setBarcodeState] = useState(false);
-  const handleBarcodeOpen = () => setBarcodeState(true);
-  const handleBarcodeClose = () => setBarcodeState(false);
+  const dispatch = useDispatch();
+
+  const newItemLoading = useSelector(
+    state => state.labAssistantItems.newItemLoading,
+  );
+  const newItemError = useSelector(
+    state => state.labAssistantItems.newItemError,
+  );
+
+  const newItemSuccess = useSelector(
+    state => state.labAssistantItems.newItemSuccess,
+  );
+  const newItemID = useSelector(state => state.labAssistantItems.newItemID);
+  const handleSubmit = () => dispatch(addLabAssistantItem(displayItemID));
+  const handleCleanBarcode = () => {
+    exportComponentAsPNG(barcodeRef, {
+      fileName: newItemID,
+      html2CanvasOptions: { scale: 3 },
+    });
+    dispatch(cleanLabAssistantNewItemState());
+  };
+  if (newItemLoading) {
+    return <CustomLoadingIndicator />;
+  }
 
   return (
     <Container>
-      {barcodeState ? (
+      {newItemSuccess ? (
         <Box
           border={3}
           align="center"
@@ -52,17 +81,13 @@ function NewItemForm() {
           </Typography>
           <div className={classes.barcodeRefDiv}>
             <div ref={barcodeRef}>
-              <Barcode value="f35c02a3" fontSize={20} />
+              <Barcode value={newItemID} fontSize={20} />
             </div>
           </div>
           <Box m={1} />
           <Button
             onClick={() => {
-              exportComponentAsPNG(barcodeRef, {
-                fileName: 'f35c02a3',
-                html2CanvasOptions: { scale: 3 },
-              });
-              handleBarcodeClose();
+              handleCleanBarcode();
             }}
             variant="outlined"
             color="secondary"
@@ -71,7 +96,12 @@ function NewItemForm() {
           </Button>
         </Box>
       ) : (
-        <>
+        <div>
+          {newItemError === true ? (
+            <ErrorAlert message="Failed to add new item.Try again later" />
+          ) : (
+            <div />
+          )}
           <Box
             border={3}
             borderRadius={5}
@@ -79,13 +109,16 @@ function NewItemForm() {
             className={classes.card}
             fontSize="h5.fontSize"
             align="center"
-            onClick={handleBarcodeOpen}
+            onClick={handleSubmit}
           >
             <div>Click to Generate Barcode and Add an Item</div>
           </Box>
-        </>
+        </div>
       )}
     </Container>
   );
 }
+NewItemForm.propTypes = {
+  displayItemID: PropTypes.string.isRequired,
+};
 export default NewItemForm;

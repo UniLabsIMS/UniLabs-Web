@@ -21,12 +21,12 @@ function LabAssistantRoutes() {
           exact
         />
         <ProtectedLabAssistantRoute
-          path={`${path}/category/:category_id`}
+          path={`${path}/category/:categoryId`}
           component={LabAssistantDisplayItemsPage}
           exact
         />
         <ProtectedLabAssistantRoute
-          path={`${path}/display_item/:display_item_id`}
+          path={`${path}/display_item/:displayItemId`}
           component={LabAssistantItemsPage}
           exact
         />

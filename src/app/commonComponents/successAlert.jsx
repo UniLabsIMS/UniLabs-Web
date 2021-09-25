@@ -6,14 +6,14 @@ const useStyles = makeStyles(theme => ({
   alert: {
     width: '75%',
     margin: 'auto',
-    textAlign: 'center',
+    justifyContent: 'center',
     fontWeight: 'bold',
   },
 }));
 function SuccessAlert({ message }) {
   const classes = useStyles();
   return (
-    <Alert severity="success" sx={{ width: '100%' }} className={classes.alert}>
+    <Alert severity="success" className={classes.alert}>
       {message}
     </Alert>
   );

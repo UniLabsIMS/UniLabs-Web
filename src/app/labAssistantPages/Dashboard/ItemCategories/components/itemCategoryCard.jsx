@@ -11,6 +11,8 @@ import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import { Box } from '@material-ui/core';
 import { Zoom } from 'react-awesome-reveal';
+import PropTypes from 'prop-types';
+import { LAB_ASSISTANT_DISPLAY_ITEMS_URL } from '../../../../constants';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -34,7 +36,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const ItemCategoryCard = () => {
+const ItemCategoryCard = ({ category }) => {
   const classes = useStyles();
 
   return (
@@ -42,10 +44,10 @@ const ItemCategoryCard = () => {
       <Card className={classes.card}>
         <CardMedia
           component="img"
-          alt="Contemplative Reptile"
+          alt="Category Image"
           height="200"
-          image="/images/default-item-category-img.jpg"
-          title="Contemplative Reptile"
+          image="/images/default-item-category-img.svg"
+          title="Category Image"
         />
         <CardContent className={classes.content}>
           <PopupState variant="popover" popupId="demo-popup-popover">
@@ -57,7 +59,7 @@ const ItemCategoryCard = () => {
                   component="h2"
                   align="center"
                 >
-                  Item Category
+                  {category.name}
                   <InfoOutlinedIcon
                     color="secondary"
                     fontSize="small" // eslint-disable-next-line react/jsx-props-no-spreading
@@ -81,16 +83,7 @@ const ItemCategoryCard = () => {
                     <Typography variant="h6" component="h6">
                       Description
                     </Typography>
-                    <Typography>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                      sint occaecat cupidatat non proident, sunt in culpa qui
-                      officia deserunt mollit anim id est laborum
-                    </Typography>
+                    <Typography>{category.description}</Typography>
                   </Box>
                 </Popover>
               </div>
@@ -100,7 +93,7 @@ const ItemCategoryCard = () => {
         <CardActions className={classes.cardActions}>
           <Link
             style={{ textDecoration: 'none' }}
-            to="/lab_assistant/category/123"
+            to={LAB_ASSISTANT_DISPLAY_ITEMS_URL.concat(`/${category.id}`)}
           >
             <Button
               variant="outlined"
@@ -114,6 +107,9 @@ const ItemCategoryCard = () => {
       </Card>
     </Zoom>
   );
+};
+ItemCategoryCard.propTypes = {
+  category: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default ItemCategoryCard;

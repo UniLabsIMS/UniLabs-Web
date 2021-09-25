@@ -2,7 +2,7 @@ import { useState } from 'react';
 import HomeIcon from '@material-ui/icons/Home';
 import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
-import ItemCategories from './ItemCategories/itemCatergories';
+import ItemCategories from './ItemCategories/itemCategories';
 import BorrowedItems from './borrowedItems/borrowedItems';
 import TemporaryBorrowedItems from './tempBorrowedItems/tempBorrowedItems';
 
@@ -18,7 +18,7 @@ const getDrawerTiles = () => {
     createDrawerTile('My Lab', <HomeIcon />, <ItemCategories />),
     createDrawerTile('Borrowed Items', <HomeIcon />, <BorrowedItems />),
     createDrawerTile(
-      'Temporarily Borrowed Items',
+      'Temporarily Borrowed',
       <HomeIcon />,
       <TemporaryBorrowedItems />,
     ),
