@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchLabAssistantCategories,
   resetLabAssistantCategoriesState,
-} from '../../../../store/actions/labAssistant/labAssistantCategories';
+} from '../../../../store/actions/labAssistant/labAssistantCategoriesActions';
 import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
 import ErrorAlert from '../../../commonComponents/errorAlert';
 import WarningAlert from '../../../commonComponents/warningAlert';

@@ -10,7 +10,7 @@ import BreadcrumbsWrapper from '../../commonComponents/breadCrumbsWrapper';
 import {
   fetchLabAssistantDisplayItems,
   resetLabAssistantDisplayItemsPageState,
-} from '../../../store/actions/labAssistant/labAssistantDisplayItems';
+} from '../../../store/actions/labAssistant/labAssistantDisplayItemsActions';
 import ErrorAlert from '../../commonComponents/errorAlert';
 import CustomLoadingIndicator from '../../commonComponents/customLoadingIndicator';
 import WarningAlert from '../../commonComponents/warningAlert';

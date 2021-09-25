@@ -68,6 +68,8 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('sm')]: {
       textAlign: 'center',
     },
+    textDecoration: 'none',
+    color: 'white',
   },
   logo: {
     [theme.breakpoints.down('sm')]: {
@@ -100,6 +102,11 @@ const useStyles = makeStyles(theme => ({
   },
   active: {
     color: theme.palette.secondary.main,
+  },
+  user_details: {
+    [theme.breakpoints.down('sm')]: {
+      display: 'none',
+    },
   },
 }));
 
@@ -164,17 +171,15 @@ function Navbar({ drawerTiles, onDrawerTileClick, activeIndex, showDrawer }) {
             height="40"
             className={classes.logo}
           />
-          <Typography
-            component="h1"
-            variant="h4"
-            color="inherit"
-            noWrap
-            className={classes.title}
-          >
-            {' '}
-            UniLabs
+          <Link to="/" className={classes.title}>
+            <Typography component="h1" variant="h4" color="inherit" noWrap>
+              {' '}
+              UniLabs
+            </Typography>
+          </Link>
+          <Typography className={classes.user_details}>
+            {user ? user.email : ''}
           </Typography>
-          <Typography>{user ? user.email : ''}</Typography>
 
           {isAuthenticated ? (
             <div>
@@ -204,7 +209,7 @@ function Navbar({ drawerTiles, onDrawerTileClick, activeIndex, showDrawer }) {
                 onClose={handleClose}
               >
                 <Link to="/myProfile" className={classes.appBarLink}>
-                  <MenuItem>Change Password</MenuItem>
+                  <MenuItem>View My Profle</MenuItem>
                 </Link>
                 <MenuItem onClick={handleLogoutEvent}>Logout</MenuItem>
               </Menu>

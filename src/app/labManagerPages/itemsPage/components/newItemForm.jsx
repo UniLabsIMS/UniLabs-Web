@@ -95,7 +95,7 @@ function NewItemForm({ displayItemID }) {
       ) : (
         <div>
           {newItemError === true ? (
-            <ErrorAlert message="Failed to add new display item, This may be becuase the name is a duplicate" />
+            <ErrorAlert message="Failed to add new item.Try again later" />
           ) : (
             <div />
           )}

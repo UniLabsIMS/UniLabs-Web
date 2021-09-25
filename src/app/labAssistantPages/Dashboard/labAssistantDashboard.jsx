@@ -18,7 +18,7 @@ const getDrawerTiles = () => {
     createDrawerTile('My Lab', <HomeIcon />, <ItemCategories />),
     createDrawerTile('Borrowed Items', <HomeIcon />, <BorrowedItems />),
     createDrawerTile(
-      'Temporarily Borrowed Items',
+      'Temporarily Borrowed',
       <HomeIcon />,
       <TemporaryBorrowedItems />,
     ),
