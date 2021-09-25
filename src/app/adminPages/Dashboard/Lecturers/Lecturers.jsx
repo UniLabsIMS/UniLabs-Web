@@ -8,79 +8,73 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Zoom } from 'react-awesome-reveal';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import RegisterLecturer from './components/lecturerRegistrationForm';
+import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
+import ErrorAlert from '../../../commonComponents/errorAlert';
+import {
+  fetchLecturers,
+  resetAdminLecturerState,
+} from '../../../../store/actions/admin/adminLecturersActions';
 
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
+  table_head: {
+    fontSize: 18,
+    backgroundColor: '#404040',
+    color: 'white',
+  },
+  row: {
+    fontSize: 18,
+  },
 });
 
-function createData(id, name, department, n) {
-  return { id, name, department, n };
-}
-
-const rows = [
-  createData(
-    'L0001',
-    'Lecturer_1',
-    'Department_1',
-    <Button variant="contained" color="secondary">
-      Delete
-    </Button>,
-  ),
-  createData(
-    'L0002',
-    'Lecturer_2',
-    'Department_2',
-    <Button variant="contained" color="secondary">
-      Delete
-    </Button>,
-  ),
-  createData(
-    'L0003',
-    'Lecturer_3',
-    'Department_1',
-    <Button variant="contained" color="secondary">
-      Delete
-    </Button>,
-  ),
-  createData(
-    'L0004',
-    'Lecturer_4',
-    'Department_4',
-    <Button variant="contained" color="secondary">
-      Delete
-    </Button>,
-  ),
-  createData(
-    'L0005',
-    'Lecturer_5',
-    'Department_3',
-    <Button variant="contained" color="secondary">
-      Delete
-    </Button>,
-  ),
-  createData(
-    'L0006',
-    'Lecturer_6',
-    'Department_3',
-    <Button variant="contained" color="secondary">
-      Delete
-    </Button>,
-  ),
-  createData(
-    'L0007',
-    'Lecturer_7',
-    'Department_1',
-    <Button variant="contained" color="secondary">
-      Delete
-    </Button>,
-  ),
-];
-
-export default function StudentTable() {
+export default function LecturerTable() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const isLecturersLoading = useSelector(
+    state => state.adminLecturers.isLecturersLoading,
+  );
+  const isLecturersError = useSelector(
+    state => state.adminLecturers.isLecturersError,
+  );
+  const lecturersLst = useSelector(state => state.adminLecturers.lecturers);
+  const reload = useSelector(state => state.adminLecturers.reloadLecturers);
+
+  useEffect(() => {
+    dispatch(fetchLecturers());
+  }, [dispatch, reload]);
+  useEffect(
+    () => () => {
+      dispatch(resetAdminLecturerState());
+    },
+    [dispatch],
+  );
+
+  const allLecturers = lecturersLst.map(lecturer => (
+    <TableRow key={lecturer.id}>
+      <TableCell align="center" className={classes.row}>
+        {lecturer.lecturerId}
+      </TableCell>
+      <TableCell align="center" className={classes.row}>
+        {lecturer.name.trim() === '' ? 'Not Set' : lecturer.name}
+      </TableCell>
+      <TableCell align="center" className={classes.row}>
+        {lecturer.email}
+      </TableCell>
+      <TableCell align="center" className={classes.row}>
+        {lecturer.department.name}
+      </TableCell>
+      <TableCell align="center" className={classes.row}>
+        <Button variant="outlined" color="secondary">
+          Block
+        </Button>
+      </TableCell>
+    </TableRow>
+  ));
 
   return (
     <div className="largerContainer">
@@ -90,33 +84,60 @@ export default function StudentTable() {
             Lecturers
           </Typography>
         </Zoom>
-        <Zoom triggerOnce>
-          <RegisterLecturer />
-        </Zoom>
-        <Zoom triggerOnce>
-          <Table className={classes.table} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>ID</TableCell>
-                <TableCell align="right">Name</TableCell>
-                <TableCell align="right">Department</TableCell>
-                <TableCell align="right" />
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map(row => (
-                <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
-                    {row.id}
-                  </TableCell>
-                  <TableCell align="right">{row.name}</TableCell>
-                  <TableCell align="right">{row.department}</TableCell>
-                  <TableCell align="right">{row.n}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Zoom>
+        {isLecturersError ? (
+          <ErrorAlert message="Failed to load lecturers" />
+        ) : (
+          <div>
+            {isLecturersLoading ? (
+              <CustomLoadingIndicator minimumHeight="60vh" />
+            ) : (
+              <div>
+                <Zoom triggerOnce>
+                  <RegisterLecturer />
+                </Zoom>
+                <Zoom triggerOnce>
+                  <Table className={classes.table} aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          ID
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Name
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Email
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Department
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Block / Unblock
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>{allLecturers}</TableBody>
+                  </Table>
+                </Zoom>
+              </div>
+            )}
+          </div>
+        )}
       </TableContainer>
     </div>
   );

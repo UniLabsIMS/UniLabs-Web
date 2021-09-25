@@ -6,11 +6,20 @@ import {
   Typography,
   Container,
 } from '@material-ui/core';
-import { useState } from 'react';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addLab } from '../../../../../store/actions/admin/adminLabsActions';
+import CustomLoadingIndicator from '../../../../commonComponents/customLoadingIndicator';
+import ErrorAlert from '../../../../commonComponents/errorAlert';
+import SuccessAlert from '../../../../commonComponents/successAlert';
+import {
+  fetchDepartments,
+  resetAdminDepartmentState,
+} from '../../../../../store/actions/admin/adminDepartmentsActions';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -36,15 +45,11 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
   },
   submit: {
-    margin: theme.spacing(3, 0, 0),
+    margin: theme.spacing(3, 0, 3),
     display: 'flex',
     width: '40%',
     marginRight: theme.spacing(5),
     marginLeft: theme.spacing(5),
-  },
-  unilabsLogo: {
-    marginTop: theme.spacing(2),
-    width: '50%',
   },
   formControl: {
     marginTop: theme.spacing(2),
@@ -66,20 +71,68 @@ const useStyles = makeStyles(theme => ({
   buttons: {
     width: '40%',
   },
+  fullDiv: {
+    width: '100%',
+  },
 }));
 
 function CreateLab() {
   const classes = useStyles();
-  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
   const [department, setDepartment] = useState('');
+  const [location, setLocation] = useState('');
+  const [contactNo, setContactNo] = useState('');
+  const [contactEmail, setContactEmail] = useState('');
+  const dispatch = useDispatch();
 
-  const handleChange = event => {
-    setDepartment(event.target.value);
-  };
-
-  const handleLogin = e => {
+  const handleSubmit = e => {
     e.preventDefault();
+    dispatch(addLab(name, department, location, contactNo, contactEmail));
   };
+
+  const isDepartmentsLoading = useSelector(
+    state => state.adminDepartments.isDepartmentsLoading,
+  );
+  const isDepartmentsError = useSelector(
+    state => state.adminDepartments.isDepartmentsError,
+  );
+  const departmentsLst = useSelector(
+    state => state.adminDepartments.departments,
+  );
+  const reload = useSelector(state => state.adminDepartments.reloadDepartments);
+  useEffect(() => {
+    dispatch(fetchDepartments());
+  }, [dispatch, reload]);
+  useEffect(
+    () => () => {
+      dispatch(resetAdminDepartmentState());
+    },
+    [dispatch],
+  );
+
+  const allDepartments = departmentsLst.map(dep => (
+    <MenuItem key={dep.id} value={dep.id}>
+      {dep.name}
+    </MenuItem>
+  ));
+
+  const newStudLoading = useSelector(state => state.adminLabs.newLabLoading);
+  const newStudError = useSelector(state => state.adminLabs.newLabError);
+
+  const newStudSuccess = useSelector(state => state.adminLabs.newLabSuccess);
+
+  useEffect(() => {
+    if (newStudSuccess) {
+      setName('');
+      setDepartment('');
+      setLocation('');
+      setContactNo('');
+      setContactEmail('');
+    }
+  }, [newStudSuccess]);
+  if (newStudLoading) {
+    return <CustomLoadingIndicator />;
+  }
 
   return (
     <div className="bigContainer">
@@ -89,99 +142,114 @@ function CreateLab() {
           <div className={classes.loginForm}>
             <div className={classes.formLine}>
               <Typography component="h1" variant="h5">
-                Create a new Laboratory
+                Add New Laboratory
               </Typography>
             </div>
-            <form className={classes.form} noValidate onSubmit={handleLogin}>
-              <div className={classes.formLine}>
-                <TextField
-                  className={classes.texts}
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Name"
-                  name="email"
-                  autoComplete="email"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  // autoFocus
-                />
-                <FormControl className={classes.formControl}>
-                  <InputLabel id="demo-simple-select-label">
-                    Department
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={department}
-                    onChange={handleChange}
-                  >
-                    <MenuItem value={0}>CSE</MenuItem>
-                    <MenuItem value={1}>ENTC</MenuItem>
-                    <MenuItem value={2}>CE</MenuItem>
-                    <MenuItem value={3}>ME</MenuItem>
-                    <MenuItem value={4}>CPE</MenuItem>
-                  </Select>
-                </FormControl>
+            {newStudError === true ? (
+              <ErrorAlert message="Failed to add new lab, This may be becuase the name is a duplicate" />
+            ) : (
+              <div />
+            )}
+            {newStudSuccess === true ? (
+              <SuccessAlert message="Successfully added new lab." />
+            ) : (
+              <div />
+            )}
+            {isDepartmentsError ? (
+              <ErrorAlert message="Failed to load departments" />
+            ) : (
+              <div className={classes.fullDiv}>
+                {isDepartmentsLoading ? (
+                  <CustomLoadingIndicator minimumHeight="60vh" />
+                ) : (
+                  <form className={classes.form} onSubmit={handleSubmit}>
+                    <div className={classes.formLine}>
+                      <TextField
+                        className={classes.texts}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="name"
+                        label="Name"
+                        name="name"
+                        autoComplete="name"
+                        value={name}
+                        onChange={e => setName(e.target.value)}
+                      />
+                      <FormControl className={classes.formControl}>
+                        <InputLabel id="demo-simple-select-label">
+                          Department
+                        </InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          value={department}
+                          onChange={e => setDepartment(e.target.value)}
+                        >
+                          {allDepartments}
+                        </Select>
+                      </FormControl>
+                    </div>
+                    <div className={classes.formLine}>
+                      <TextField
+                        className={classes.texts}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="location"
+                        label="Loctaion"
+                        name="location"
+                        autoComplete="location"
+                        value={location}
+                        onChange={e => setLocation(e.target.value)}
+                      />
+                      <TextField
+                        className={classes.texts}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="contactNo"
+                        type="number"
+                        label="Contact Number"
+                        name="contactNo"
+                        autoComplete="contactNo"
+                        value={contactNo}
+                        onChange={e => setContactNo(e.target.value)}
+                      />
+                    </div>
+                    <div className={classes.formLine}>
+                      <TextField
+                        className={classes.texts}
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="contactEmail"
+                        type="email"
+                        label="Contact Email"
+                        name="contactEmail"
+                        autoComplete="contactEmail"
+                        value={contactEmail}
+                        onChange={e => setContactEmail(e.target.value)}
+                      />
+                      <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="secondary"
+                        size="small"
+                        className={classes.submit}
+                      >
+                        Submit
+                      </Button>
+                    </div>
+                  </form>
+                )}
               </div>
-              <div className={classes.formLine}>
-                <TextField
-                  className={classes.texts}
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Loctaion"
-                  name="email"
-                  autoComplete="email"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  // autoFocus
-                />
-                <TextField
-                  className={classes.texts}
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Contact Number"
-                  name="email"
-                  autoComplete="email"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  // autoFocus
-                />
-              </div>
-              <div className={classes.formLine}>
-                <TextField
-                  className={classes.texts}
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Contact Email"
-                  name="email"
-                  autoComplete="email"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  // autoFocus
-                />
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-                >
-                  Create Laboratory
-                </Button>
-              </div>
-            </form>
+            )}
           </div>
         </div>
       </Container>

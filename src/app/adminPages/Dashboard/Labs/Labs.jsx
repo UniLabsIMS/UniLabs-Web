@@ -8,72 +8,61 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Zoom } from 'react-awesome-reveal';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import CreateLab from './components/labCreationForm';
+import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
+import ErrorAlert from '../../../commonComponents/errorAlert';
+import {
+  fetchLabs,
+  resetAdminLabState,
+} from '../../../../store/actions/admin/adminLabsActions';
 
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
+  table_head: {
+    fontSize: 18,
+    backgroundColor: '#404040',
+    color: 'white',
+  },
+  row: {
+    fontSize: 18,
+  },
 });
-
-function createData(name, department, n) {
-  return { name, department, n };
-}
-
-const rows = [
-  createData(
-    'Lab_1',
-    'CSE',
-    <Button variant="contained" color="secondary">
-      Add Lecturer
-    </Button>,
-  ),
-  createData(
-    'Lab_2',
-    'CSE',
-    <Button variant="contained" color="secondary">
-      Add Lecturer
-    </Button>,
-  ),
-  createData(
-    'Lab_3',
-    'ENTC',
-    <Button variant="contained" color="secondary">
-      Add Lecturer
-    </Button>,
-  ),
-  createData(
-    'Lab_4',
-    'CE',
-    <Button variant="contained" color="secondary">
-      Add Lecturer
-    </Button>,
-  ),
-  createData(
-    'Lab_5',
-    'ME',
-    <Button variant="contained" color="secondary">
-      Add Lecturer
-    </Button>,
-  ),
-  createData(
-    'Lab_6',
-    'ME',
-    <Button variant="contained" color="secondary">
-      Add Lecturer
-    </Button>,
-  ),
-  createData(
-    'Lab_7',
-    'CPE',
-    <Button variant="contained" color="secondary">
-      Add Lecturer
-    </Button>,
-  ),
-];
 
 export default function LabTable() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const isLabsLoading = useSelector(state => state.adminLabs.isLabsLoading);
+  const isLabsError = useSelector(state => state.adminLabs.isLabsError);
+  const labsLst = useSelector(state => state.adminLabs.labs);
+  const reload = useSelector(state => state.adminLabs.reloadLabs);
+  useEffect(() => {
+    dispatch(fetchLabs());
+  }, [dispatch, reload]);
+  useEffect(
+    () => () => {
+      dispatch(resetAdminLabState());
+    },
+    [dispatch],
+  );
+  const allLabs = labsLst.map(l => (
+    <TableRow key={l.id}>
+      <TableCell className={classes.row} align="center">
+        {l.name}
+      </TableCell>
+      <TableCell className={classes.row} align="center">
+        {l.department.name}
+      </TableCell>
+      <TableCell className={classes.row} align="center">
+        <Button variant="outlined" color="primary">
+          Add Lecturer
+        </Button>
+      </TableCell>
+    </TableRow>
+  ));
 
   return (
     <div className="largerContainer">
@@ -83,31 +72,48 @@ export default function LabTable() {
             Labs
           </Typography>
         </Zoom>
-        <Zoom triggerOnce>
-          <CreateLab />
-        </Zoom>
-        <Zoom triggerOnce>
-          <Table className={classes.table} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Lab Name</TableCell>
-                <TableCell align="right">Department</TableCell>
-                <TableCell align="right" />
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map(row => (
-                <TableRow key={row.name}>
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="right">{row.department}</TableCell>
-                  <TableCell align="right">{row.n}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Zoom>
+        {isLabsError ? (
+          <ErrorAlert message="Failed to load labs" />
+        ) : (
+          <div>
+            {isLabsLoading ? (
+              <CustomLoadingIndicator minimumHeight="60vh" />
+            ) : (
+              <div>
+                <Zoom triggerOnce>
+                  <CreateLab />
+                </Zoom>
+                <Zoom triggerOnce>
+                  <Table className={classes.table} stickyHeader size="medium">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Lab Name
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Department
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Assign Lecturers
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>{allLabs}</TableBody>
+                  </Table>
+                </Zoom>
+              </div>
+            )}
+          </div>
+        )}
       </TableContainer>
     </div>
   );

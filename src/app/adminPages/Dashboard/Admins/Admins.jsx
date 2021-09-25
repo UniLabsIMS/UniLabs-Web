@@ -8,30 +8,63 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Typography } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import RegisterAdmin from './components/adminRegistrationForm';
+import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
+import ErrorAlert from '../../../commonComponents/errorAlert';
+import {
+  fetchAdmins,
+  resetAdminAdminState,
+} from '../../../../store/actions/admin/adminAdminsActions';
 
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
+  table_head: {
+    fontSize: 18,
+    backgroundColor: '#404040',
+    color: 'white',
+  },
+  row: {
+    fontSize: 18,
+  },
 });
-
-function createData(name, email, n) {
-  return { name, email, n };
-}
-
-const rows = [
-  createData('Admin_1', 'admin_1@uom.lk'),
-  createData('Admin_2', 'admin_2@uom.lk'),
-  createData('Admin_3', 'admin_3@uom.lk'),
-  createData('Admin_4', 'admin_4@uom.lk'),
-  createData('Admin_5', 'admin_5@uom.lk'),
-  createData('Admin_6', 'admin_6@uom.lk'),
-  createData('Admin_7', 'admin_7@uom.lk'),
-];
 
 export default function LabManagerTable() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const isAdminsLoading = useSelector(
+    state => state.adminAdmins.isAdminsLoading,
+  );
+  const isAdminsError = useSelector(state => state.adminAdmins.isAdminsError);
+  const adminsLst = useSelector(state => state.adminAdmins.admins);
+  const reload = useSelector(state => state.adminAdmins.reloadAdmins);
+
+  useEffect(() => {
+    dispatch(fetchAdmins());
+  }, [dispatch, reload]);
+  useEffect(
+    () => () => {
+      dispatch(resetAdminAdminState());
+    },
+    [dispatch],
+  );
+
+  const allAdmins = adminsLst.map(admin => (
+    <TableRow key={admin.id}>
+      <TableCell align="center" className={classes.row}>
+        {admin.email}
+      </TableCell>
+      <TableCell align="center" className={classes.row}>
+        {admin.name.trim() === '' ? 'Not Set' : admin.name}
+      </TableCell>
+      <TableCell align="center" className={classes.row}>
+        {admin.contactNumber.trim() === '' ? 'Not Set' : admin.contactNumber}
+      </TableCell>
+    </TableRow>
+  ));
 
   return (
     <div className="largerContainer">
@@ -41,30 +74,48 @@ export default function LabManagerTable() {
             Admins
           </Typography>
         </Zoom>
-        <Zoom triggerOnce>
-          <RegisterAdmin />
-        </Zoom>
-        <Zoom triggerOnce>
-          <Table className={classes.table} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell align="right">Email</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map(row => (
-                <TableRow key={row.name}>
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="right">{row.email}</TableCell>
-                  <TableCell align="right">{row.n}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Zoom>
+        {isAdminsError ? (
+          <ErrorAlert message="Failed to load admins" />
+        ) : (
+          <div>
+            {isAdminsLoading ? (
+              <CustomLoadingIndicator minimumHeight="60vh" />
+            ) : (
+              <div>
+                <Zoom triggerOnce>
+                  <RegisterAdmin />
+                </Zoom>
+                <Zoom triggerOnce>
+                  <Table className={classes.table} aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Email
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Name
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Contact Number
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>{allAdmins}</TableBody>
+                  </Table>
+                </Zoom>
+              </div>
+            )}
+          </div>
+        )}
       </TableContainer>
     </div>
   );

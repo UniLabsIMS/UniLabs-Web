@@ -13,9 +13,9 @@ const initialState = {
   departments: [],
   isDepartmentsLoading: false,
   isDepartmentsError: false,
-  newDepartmentsLoading: false,
-  newDepartmentsError: false,
-  newDepartmentsSuccess: false,
+  newDepartmentLoading: false,
+  newDepartmentError: false,
+  newDepartmentSuccess: false,
   reloadDepartments: false,
 };
 

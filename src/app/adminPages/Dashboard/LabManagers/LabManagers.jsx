@@ -8,79 +8,75 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Zoom } from 'react-awesome-reveal';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import RegisterLabManager from './components/labManagerRegistrationForm';
+import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
+import ErrorAlert from '../../../commonComponents/errorAlert';
+import {
+  fetchLabManagers,
+  resetAdminLabManagerState,
+} from '../../../../store/actions/admin/adminLabManagersActions';
 
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
+  table_head: {
+    fontSize: 18,
+    backgroundColor: '#404040',
+    color: 'white',
+  },
+  row: {
+    fontSize: 18,
+  },
 });
-
-function createData(name, lab, department, n) {
-  return { name, lab, department, n };
-}
-
-const rows = [
-  createData(
-    'LabManager_1',
-    'Lab_1',
-    'CSE',
-    <Button variant="contained" color="secondary">
-      Delete
-    </Button>,
-  ),
-  createData(
-    'LabManager_2',
-    'Lab_2',
-    'CSE',
-    <Button variant="contained" color="secondary">
-      Delete
-    </Button>,
-  ),
-  createData(
-    'LabManager_3',
-    'Lab_3',
-    'ENTC',
-    <Button variant="contained" color="secondary">
-      Delete
-    </Button>,
-  ),
-  createData(
-    'LabManager_4',
-    'Lab_4',
-    'CE',
-    <Button variant="contained" color="secondary">
-      Delete
-    </Button>,
-  ),
-  createData(
-    'LabManager_5',
-    'Lab_5',
-    'ME',
-    <Button variant="contained" color="secondary">
-      Delete
-    </Button>,
-  ),
-  createData(
-    'LabManager_6',
-    'Lab_6',
-    'ME',
-    <Button variant="contained" color="secondary">
-      Delete
-    </Button>,
-  ),
-  createData(
-    'LabManager_7',
-    'Lab_7',
-    'CPE',
-    <Button variant="contained" color="secondary">
-      Delete
-    </Button>,
-  ),
-];
 
 export default function LabManagerTable() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const isLabManagersLoading = useSelector(
+    state => state.adminLabManagers.isLabManagersLoading,
+  );
+  const isLabManagersError = useSelector(
+    state => state.adminLabManagers.isLabManagersError,
+  );
+  const labManagersLst = useSelector(
+    state => state.adminLabManagers.labManagers,
+  );
+  const reload = useSelector(state => state.adminLabManagers.reloadLabManagers);
+
+  useEffect(() => {
+    dispatch(fetchLabManagers());
+  }, [dispatch, reload]);
+  useEffect(
+    () => () => {
+      dispatch(resetAdminLabManagerState());
+    },
+    [dispatch],
+  );
+
+  const allLabManagers = labManagersLst.map(labManager => (
+    <TableRow key={labManager.id}>
+      <TableCell align="center" className={classes.row}>
+        {labManager.email}
+      </TableCell>
+      <TableCell align="center" className={classes.row}>
+        {labManager.name.trim() === '' ? 'Not Set' : labManager.name}
+      </TableCell>
+      <TableCell align="center" className={classes.row}>
+        {labManager.lab.name}
+      </TableCell>
+      <TableCell align="center" className={classes.row}>
+        {labManager.department.name}
+      </TableCell>
+      <TableCell align="center" className={classes.row}>
+        <Button variant="outlined" color="primary">
+          Block
+        </Button>
+      </TableCell>
+    </TableRow>
+  ));
 
   return (
     <div className="largerContainer">
@@ -90,33 +86,60 @@ export default function LabManagerTable() {
             Lab Managers
           </Typography>
         </Zoom>
-        <Zoom triggerOnce>
-          <RegisterLabManager />
-        </Zoom>
-        <Zoom triggerOnce>
-          <Table className={classes.table} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Name</TableCell>
-                <TableCell align="right">Laboratory</TableCell>
-                <TableCell align="right">Department</TableCell>
-                <TableCell align="right" />
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map(row => (
-                <TableRow key={row.name}>
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="right">{row.lab}</TableCell>
-                  <TableCell align="right">{row.department}</TableCell>
-                  <TableCell align="right">{row.n}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Zoom>
+        {isLabManagersError ? (
+          <ErrorAlert message="Failed to load labManagers" />
+        ) : (
+          <div>
+            {isLabManagersLoading ? (
+              <CustomLoadingIndicator minimumHeight="60vh" />
+            ) : (
+              <div>
+                <Zoom triggerOnce>
+                  <RegisterLabManager />
+                </Zoom>
+                <Zoom triggerOnce>
+                  <Table className={classes.table} aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Email
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Name
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Laboratory
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Department
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Block / Unblock
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>{allLabManagers}</TableBody>
+                  </Table>
+                </Zoom>
+              </div>
+            )}
+          </div>
+        )}
       </TableContainer>
     </div>
   );

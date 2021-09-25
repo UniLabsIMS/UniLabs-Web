@@ -6,11 +6,16 @@ import {
   Typography,
   Container,
 } from '@material-ui/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addAdmin } from '../../../../../store/actions/admin/adminAdminsActions';
+import CustomLoadingIndicator from '../../../../commonComponents/customLoadingIndicator';
+import ErrorAlert from '../../../../commonComponents/errorAlert';
+import SuccessAlert from '../../../../commonComponents/successAlert';
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    marginTop: theme.spacing(10),
+    marginTop: theme.spacing(5),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -42,10 +47,30 @@ const useStyles = makeStyles(theme => ({
 function RegisterAdmin() {
   const classes = useStyles();
   const [email, setEmail] = useState('');
+  const dispatch = useDispatch();
 
-  const handleLogin = e => {
+  const handleSubmit = e => {
     e.preventDefault();
+    dispatch(addAdmin(email));
   };
+
+  const newAdminLoading = useSelector(
+    state => state.adminAdmins.newAdminLoading,
+  );
+  const newAdminError = useSelector(state => state.adminAdmins.newAdminError);
+
+  const newAdminSuccess = useSelector(
+    state => state.adminAdmins.newAdminSuccess,
+  );
+
+  useEffect(() => {
+    if (newAdminSuccess) {
+      setEmail('');
+    }
+  }, [newAdminSuccess]);
+  if (newAdminLoading) {
+    return <CustomLoadingIndicator />;
+  }
 
   return (
     <div className="bigContainer">
@@ -54,13 +79,24 @@ function RegisterAdmin() {
         <div className={classes.paper}>
           <div className={classes.loginForm}>
             <Typography component="h1" variant="h5">
-              Register an Admin
+              Add New Admin
             </Typography>
-            <form className={classes.form} noValidate onSubmit={handleLogin}>
+            {newAdminError === true ? (
+              <ErrorAlert message="Failed to add new admin.Make sure that th email is not a duplicate." />
+            ) : (
+              <div />
+            )}
+            {newAdminSuccess === true ? (
+              <SuccessAlert message="Successfully Added a New Admin." />
+            ) : (
+              <div />
+            )}
+            <form className={classes.form} onSubmit={handleSubmit}>
               <TextField
                 variant="outlined"
                 margin="normal"
                 required
+                type="email"
                 fullWidth
                 id="email"
                 label="Email Address"
@@ -73,7 +109,7 @@ function RegisterAdmin() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                color="primary"
+                color="secondary"
                 className={classes.submit}
               >
                 Register Admin
