@@ -18,11 +18,19 @@ import {
   resetAdminDepartmentState,
 } from '../../../../store/actions/admin/adminDepartmentsActions';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   table: {
     minWidth: 650,
   },
-});
+  table_head: {
+    fontSize: 18,
+    backgroundColor: '#404040',
+    color: 'white',
+  },
+  row: {
+    fontSize: 18,
+  },
+}));
 
 export default function DepartmentTable() {
   const classes = useStyles();
@@ -48,8 +56,11 @@ export default function DepartmentTable() {
   );
   const allDepartments = departmentsLst.map(dep => (
     <TableRow key={dep.name}>
-      <TableCell component="th" scope="row">
+      <TableCell align="center" className={classes.row}>
         {dep.name}
+      </TableCell>
+      <TableCell align="center" className={classes.row}>
+        {dep.code}
       </TableCell>
     </TableRow>
   ));
@@ -74,10 +85,21 @@ export default function DepartmentTable() {
                   <CreateDepartment />
                 </Zoom>
                 <Zoom triggerOnce>
-                  <Table className={classes.table} aria-label="simple table">
+                  <Table className={classes.table} stickyHeader size="medium">
                     <TableHead>
                       <TableRow>
-                        <TableCell align="left">Name</TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Name
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Department Code
+                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>{allDepartments}</TableBody>

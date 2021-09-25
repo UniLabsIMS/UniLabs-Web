@@ -86,12 +86,12 @@ function RegisterLecturer() {
   const [email, setEmail] = useState('');
   const [lecturerId, setLecturerId] = useState('');
   const [department, setDepartment] = useState('');
-  const [permittedLabs, setPermittedLabs] = useState([]);
+  const [permittedLab, setPermittedLab] = useState('');
   const dispatch = useDispatch();
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(addLecturer(email, lecturerId, department, permittedLabs));
+    dispatch(addLecturer(email, lecturerId, department, [permittedLab]));
   };
 
   const permittedLabsLst = useSelector(state => state.adminLabs.labs);
@@ -109,7 +109,9 @@ function RegisterLecturer() {
     dispatch(fetchDepartments());
   }, [dispatch, reload]);
   useEffect(() => {
-    dispatch(fetchDeptLabs(department));
+    if (department) {
+      dispatch(fetchDeptLabs(department));
+    }
   }, [dispatch, department, reload]);
   useEffect(
     () => () => {
@@ -146,7 +148,7 @@ function RegisterLecturer() {
       setEmail('');
       setLecturerId('');
       setDepartment('');
-      setPermittedLabs([]);
+      setPermittedLab('');
     }
   }, [newLectSuccess]);
   if (newLectLoading) {
@@ -165,7 +167,7 @@ function RegisterLecturer() {
               </Typography>
             </div>
             {newLectError === true ? (
-              <ErrorAlert message="Failed to add new lecturer, This may be becuase the lecturer email or id is a duplicate" />
+              <ErrorAlert message="Failed to add new lecturer. Make sure all the fields are filled and email and id are not duplicates." />
             ) : (
               <div />
             )}
@@ -181,11 +183,7 @@ function RegisterLecturer() {
                 {isDepartmentsLoading ? (
                   <CustomLoadingIndicator minimumHeight="60vh" />
                 ) : (
-                  <form
-                    className={classes.form}
-                    noValidate
-                    onSubmit={handleSubmit}
-                  >
+                  <form className={classes.form} onSubmit={handleSubmit}>
                     <div className={classes.formLine}>
                       <TextField
                         className={classes.texts}
@@ -193,6 +191,7 @@ function RegisterLecturer() {
                         margin="normal"
                         required
                         fullWidth
+                        type="email"
                         id="email"
                         label="Email Address"
                         name="email"
@@ -218,7 +217,7 @@ function RegisterLecturer() {
                     <div className={classes.formLine}>
                       <FormControl className={classes.formControl}>
                         <InputLabel id="demo-simple-select-label">
-                          Department
+                          Department*
                         </InputLabel>
                         <Select
                           labelId="demo-simple-select-label"
@@ -232,14 +231,14 @@ function RegisterLecturer() {
                       {department && (
                         <FormControl className={classes.formControl}>
                           <InputLabel id="demo-simple-select-label">
-                            Permitted Labs
+                            Permitted Labs*
                           </InputLabel>
                           <Select
                             labelId="demo-simple-select-label"
                             defaultValue=""
                             id="demo-simple-select"
-                            value={permittedLabs}
-                            onChange={e => setPermittedLabs(e.target.value)}
+                            value={permittedLab}
+                            onChange={e => setPermittedLab(e.target.value)}
                           >
                             {allPermittedLabs}
                           </Select>
@@ -251,7 +250,7 @@ function RegisterLecturer() {
                         type="submit"
                         fullWidth
                         variant="contained"
-                        color="primary"
+                        color="secondary"
                         className={classes.submit}
                       >
                         Register Lecturer

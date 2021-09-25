@@ -22,6 +22,14 @@ const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
+  table_head: {
+    fontSize: 18,
+    backgroundColor: '#404040',
+    color: 'white',
+  },
+  row: {
+    fontSize: 18,
+  },
 });
 
 export default function LabTable() {
@@ -42,17 +50,16 @@ export default function LabTable() {
   );
   const allLabs = labsLst.map(l => (
     <TableRow key={l.id}>
-      <TableCell component="th" scope="row">
+      <TableCell className={classes.row} align="center">
         {l.name}
       </TableCell>
-      <TableCell component="th" scope="row">
+      <TableCell className={classes.row} align="center">
         {l.department.name}
       </TableCell>
-      <TableCell component="th" scope="row">
-        <Button variant="contained" color="secondary">
+      <TableCell className={classes.row} align="center">
+        <Button variant="outlined" color="primary">
           Add Lecturer
         </Button>
-        ,
       </TableCell>
     </TableRow>
   ));
@@ -77,12 +84,27 @@ export default function LabTable() {
                   <CreateLab />
                 </Zoom>
                 <Zoom triggerOnce>
-                  <Table className={classes.table} aria-label="simple table">
+                  <Table className={classes.table} stickyHeader size="medium">
                     <TableHead>
                       <TableRow>
-                        <TableCell>Lab Name</TableCell>
-                        <TableCell align="left">Department</TableCell>
-                        <TableCell align="right" />
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Lab Name
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Department
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Assign Lecturers
+                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>{allLabs}</TableBody>

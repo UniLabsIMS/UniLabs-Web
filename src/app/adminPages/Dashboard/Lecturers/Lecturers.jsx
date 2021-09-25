@@ -22,6 +22,14 @@ const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
+  table_head: {
+    fontSize: 18,
+    backgroundColor: '#404040',
+    color: 'white',
+  },
+  row: {
+    fontSize: 18,
+  },
 });
 
 export default function LecturerTable() {
@@ -48,18 +56,21 @@ export default function LecturerTable() {
 
   const allLecturers = lecturersLst.map(lecturer => (
     <TableRow key={lecturer.id}>
-      <TableCell component="th" scope="row">
+      <TableCell align="center" className={classes.row}>
         {lecturer.lecturerId}
       </TableCell>
-      <TableCell component="th" scope="row">
-        {lecturer.name}
+      <TableCell align="center" className={classes.row}>
+        {lecturer.name.trim() === '' ? 'Not Set' : lecturer.name}
       </TableCell>
-      <TableCell component="th" scope="row">
+      <TableCell align="center" className={classes.row}>
+        {lecturer.email}
+      </TableCell>
+      <TableCell align="center" className={classes.row}>
         {lecturer.department.name}
       </TableCell>
-      <TableCell component="th" scope="row">
-        <Button variant="contained" color="secondary">
-          Delete
+      <TableCell align="center" className={classes.row}>
+        <Button variant="outlined" color="secondary">
+          Block
         </Button>
       </TableCell>
     </TableRow>
@@ -88,10 +99,36 @@ export default function LecturerTable() {
                   <Table className={classes.table} aria-label="simple table">
                     <TableHead>
                       <TableRow>
-                        <TableCell>ID</TableCell>
-                        <TableCell align="left">Name</TableCell>
-                        <TableCell align="left">Department</TableCell>
-                        <TableCell align="right" />
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          ID
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Name
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Email
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Department
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Block Lecturer
+                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>{allLecturers}</TableBody>

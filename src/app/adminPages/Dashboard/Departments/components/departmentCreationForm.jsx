@@ -108,7 +108,7 @@ function CreateDepartment() {
           <div className={classes.newForm}>
             <div className={classes.formLine}>
               <Typography component="h1" variant="h5">
-                Create a new Department
+                Add New Department
               </Typography>
             </div>
             {newDepError === true ? (
@@ -157,10 +157,10 @@ function CreateDepartment() {
                   type="submit"
                   fullWidth
                   variant="contained"
-                  color="primary"
+                  color="secondary"
                   className={classes.submit}
                 >
-                  Create Department
+                  Submit
                 </Button>
               </div>
             </form>

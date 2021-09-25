@@ -45,15 +45,11 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
   },
   submit: {
-    margin: theme.spacing(3, 0, 0),
+    margin: theme.spacing(3, 0, 3),
     display: 'flex',
     width: '40%',
     marginRight: theme.spacing(5),
     marginLeft: theme.spacing(5),
-  },
-  unilabsLogo: {
-    marginTop: theme.spacing(2),
-    width: '50%',
   },
   formControl: {
     marginTop: theme.spacing(2),
@@ -146,11 +142,11 @@ function CreateLab() {
           <div className={classes.loginForm}>
             <div className={classes.formLine}>
               <Typography component="h1" variant="h5">
-                Create a new Laboratory
+                Add New Laboratory
               </Typography>
             </div>
             {newStudError === true ? (
-              <ErrorAlert message="Failed to add new lab, This may be becuase the lab email or name is a duplicate" />
+              <ErrorAlert message="Failed to add new lab, This may be becuase the name is a duplicate" />
             ) : (
               <div />
             )}
@@ -166,11 +162,7 @@ function CreateLab() {
                 {isDepartmentsLoading ? (
                   <CustomLoadingIndicator minimumHeight="60vh" />
                 ) : (
-                  <form
-                    className={classes.form}
-                    noValidate
-                    onSubmit={handleSubmit}
-                  >
+                  <form className={classes.form} onSubmit={handleSubmit}>
                     <div className={classes.formLine}>
                       <TextField
                         className={classes.texts}
@@ -184,7 +176,6 @@ function CreateLab() {
                         autoComplete="name"
                         value={name}
                         onChange={e => setName(e.target.value)}
-                        // autoFocus
                       />
                       <FormControl className={classes.formControl}>
                         <InputLabel id="demo-simple-select-label">
@@ -213,7 +204,6 @@ function CreateLab() {
                         autoComplete="location"
                         value={location}
                         onChange={e => setLocation(e.target.value)}
-                        // autoFocus
                       />
                       <TextField
                         className={classes.texts}
@@ -222,12 +212,12 @@ function CreateLab() {
                         required
                         fullWidth
                         id="contactNo"
+                        type="number"
                         label="Contact Number"
                         name="contactNo"
                         autoComplete="contactNo"
                         value={contactNo}
                         onChange={e => setContactNo(e.target.value)}
-                        // autoFocus
                       />
                     </div>
                     <div className={classes.formLine}>
@@ -238,21 +228,22 @@ function CreateLab() {
                         required
                         fullWidth
                         id="contactEmail"
+                        type="email"
                         label="Contact Email"
                         name="contactEmail"
                         autoComplete="contactEmail"
                         value={contactEmail}
                         onChange={e => setContactEmail(e.target.value)}
-                        // autoFocus
                       />
                       <Button
                         type="submit"
                         fullWidth
                         variant="contained"
-                        color="primary"
+                        color="secondary"
+                        size="small"
                         className={classes.submit}
                       >
-                        Create Laboratory
+                        Submit
                       </Button>
                     </div>
                   </form>

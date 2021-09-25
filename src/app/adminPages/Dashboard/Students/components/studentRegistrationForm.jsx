@@ -148,11 +148,11 @@ function RegisterStudent() {
           <div className={classes.loginForm}>
             <div className={classes.formLine}>
               <Typography component="h1" variant="h5">
-                Register a new Student
+                Add New Student
               </Typography>
             </div>
             {newStudError === true ? (
-              <ErrorAlert message="Failed to add new student, This may be becuase the student email or id is a duplicate" />
+              <ErrorAlert message="Failed to add new student. Make sure all the fields are filled and email and id are not duplicates" />
             ) : (
               <div />
             )}
@@ -168,14 +168,11 @@ function RegisterStudent() {
                 {isDepartmentsLoading ? (
                   <CustomLoadingIndicator minimumHeight="60vh" />
                 ) : (
-                  <form
-                    className={classes.form}
-                    noValidate
-                    onSubmit={handleSubmit}
-                  >
+                  <form className={classes.form} onSubmit={handleSubmit}>
                     <div className={classes.formLine}>
                       <TextField
                         className={classes.texts}
+                        type="email"
                         variant="outlined"
                         margin="normal"
                         required
@@ -205,7 +202,7 @@ function RegisterStudent() {
                     <div className={classes.formLine}>
                       <FormControl className={classes.formControl}>
                         <InputLabel id="demo-simple-select-label">
-                          Department
+                          Department*
                         </InputLabel>
                         <Select
                           labelId="demo-simple-select-label"
@@ -220,7 +217,7 @@ function RegisterStudent() {
                         type="submit"
                         fullWidth
                         variant="contained"
-                        color="primary"
+                        color="secondary"
                         className={classes.submit}
                       >
                         Register Student
