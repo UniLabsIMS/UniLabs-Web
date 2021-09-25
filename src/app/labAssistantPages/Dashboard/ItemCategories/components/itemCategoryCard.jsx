@@ -12,6 +12,7 @@ import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import { Box } from '@material-ui/core';
 import { Zoom } from 'react-awesome-reveal';
 import PropTypes from 'prop-types';
+import { LAB_ASSISTANT_DISPLAY_ITEMS_URL } from '../../../../constants';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -92,7 +93,7 @@ const ItemCategoryCard = ({ category }) => {
         <CardActions className={classes.cardActions}>
           <Link
             style={{ textDecoration: 'none' }}
-            to="/lab_assistant/category/123"
+            to={LAB_ASSISTANT_DISPLAY_ITEMS_URL.concat(`/${category.id}`)}
           >
             <Button
               variant="outlined"

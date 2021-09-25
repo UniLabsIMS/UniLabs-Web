@@ -8,6 +8,7 @@ import {
 } from '../../../../store/actions/labAssistant/labAssistantCategories';
 import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
 import ErrorAlert from '../../../commonComponents/errorAlert';
+import WarningAlert from '../../../commonComponents/warningAlert';
 import ItemCategoryCard from './components/itemCategoryCard';
 
 function ItemCategories() {
@@ -51,15 +52,21 @@ function ItemCategories() {
       {isCategoriesLoading ? (
         <CustomLoadingIndicator minimumHeight="40vh" />
       ) : (
-        <Grid
-          container
-          spacing={3}
-          justifyContent="space-around"
-          alignItems="center"
-          direction="row"
-        >
-          {allItemCategories}
-        </Grid>
+        <>
+          {categoriesLst.length === 0 ? (
+            <WarningAlert message="No categories available" />
+          ) : (
+            <Grid
+              container
+              spacing={3}
+              justifyContent="space-around"
+              alignItems="center"
+              direction="row"
+            >
+              {allItemCategories}
+            </Grid>
+          )}
+        </>
       )}
     </div>
   );

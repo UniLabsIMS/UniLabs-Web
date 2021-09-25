@@ -5,6 +5,7 @@ import labAssistantCategoriesReducer from './labAssistantReducers/labAssistantCa
 import labManagerDashReducer from './labManagerReducers/labManagerDashBoardReducer';
 import labManagerDisplayItemsReducer from './labManagerReducers/labManagerDisplayItemsReducer';
 import labManagerItemsReducer from './labManagerReducers/labManagerItemsReducer';
+import labAssistantDisplayItemsReducer from './labAssistantReducers/labAssistantDisplayItemsReducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   labManagerDisplayItems: labManagerDisplayItemsReducer,
   labManagerItems: labManagerItemsReducer,
   labAssistantCategories: labAssistantCategoriesReducer,
+  labAssistantDisplayItems: labAssistantDisplayItemsReducer,
 });
 
 export default rootReducer;
