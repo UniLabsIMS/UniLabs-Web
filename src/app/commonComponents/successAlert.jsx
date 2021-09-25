@@ -7,6 +7,7 @@ const useStyles = makeStyles(theme => ({
     width: '75%',
     margin: 'auto',
     justifyContent: 'center',
+    textAlign: 'center',
     fontWeight: 'bold',
   },
 }));

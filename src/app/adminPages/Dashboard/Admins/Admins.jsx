@@ -22,6 +22,14 @@ const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
+  table_head: {
+    fontSize: 18,
+    backgroundColor: '#404040',
+    color: 'white',
+  },
+  row: {
+    fontSize: 18,
+  },
 });
 
 export default function LabManagerTable() {
@@ -46,11 +54,14 @@ export default function LabManagerTable() {
 
   const allAdmins = adminsLst.map(admin => (
     <TableRow key={admin.id}>
-      <TableCell component="th" scope="row">
-        {admin.name}
-      </TableCell>
-      <TableCell component="th" scope="row">
+      <TableCell align="center" className={classes.row}>
         {admin.email}
+      </TableCell>
+      <TableCell align="center" className={classes.row}>
+        {admin.name.trim() === '' ? 'Not Set' : admin.name}
+      </TableCell>
+      <TableCell align="center" className={classes.row}>
+        {admin.contactNumber.trim() === '' ? 'Not Set' : admin.contactNumber}
       </TableCell>
     </TableRow>
   ));
@@ -78,8 +89,24 @@ export default function LabManagerTable() {
                   <Table className={classes.table} aria-label="simple table">
                     <TableHead>
                       <TableRow>
-                        <TableCell>Name</TableCell>
-                        <TableCell align="left">Email</TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Email
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Name
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Contact Number
+                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>{allAdmins}</TableBody>

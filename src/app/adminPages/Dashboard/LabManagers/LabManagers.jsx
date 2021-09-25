@@ -22,6 +22,14 @@ const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
+  table_head: {
+    fontSize: 18,
+    backgroundColor: '#404040',
+    color: 'white',
+  },
+  row: {
+    fontSize: 18,
+  },
 });
 
 export default function LabManagerTable() {
@@ -50,18 +58,21 @@ export default function LabManagerTable() {
 
   const allLabManagers = labManagersLst.map(labManager => (
     <TableRow key={labManager.id}>
-      <TableCell component="th" scope="row">
-        {labManager.name}
+      <TableCell align="center" className={classes.row}>
+        {labManager.email}
       </TableCell>
-      <TableCell component="th" scope="row">
+      <TableCell align="center" className={classes.row}>
+        {labManager.name.trim() === '' ? 'Not Set' : labManager.name}
+      </TableCell>
+      <TableCell align="center" className={classes.row}>
         {labManager.lab.name}
       </TableCell>
-      <TableCell component="th" scope="row">
+      <TableCell align="center" className={classes.row}>
         {labManager.department.name}
       </TableCell>
-      <TableCell component="th" scope="row">
-        <Button variant="contained" color="secondary">
-          Delete
+      <TableCell align="center" className={classes.row}>
+        <Button variant="outlined" color="primary">
+          Block
         </Button>
       </TableCell>
     </TableRow>
@@ -90,10 +101,36 @@ export default function LabManagerTable() {
                   <Table className={classes.table} aria-label="simple table">
                     <TableHead>
                       <TableRow>
-                        <TableCell>Name</TableCell>
-                        <TableCell align="left">Laboratory</TableCell>
-                        <TableCell align="left">Department</TableCell>
-                        <TableCell align="right" />
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Email
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Name
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Laboratory
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Department
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          className={classes.table_head}
+                        >
+                          Block / Unblock
+                        </TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>{allLabManagers}</TableBody>

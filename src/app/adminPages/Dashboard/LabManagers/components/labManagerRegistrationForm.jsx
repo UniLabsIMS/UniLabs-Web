@@ -140,16 +140,16 @@ function RegisterLabManager() {
           <div className={classes.loginForm}>
             <div className={classes.formLine}>
               <Typography component="h1" variant="h5">
-                Register a new Lab Manager
+                Add New Lab Manager
               </Typography>
             </div>
             {newLabManError === true ? (
-              <ErrorAlert message="Failed to add new labManager, This may be becuase the labManager email or id is a duplicate" />
+              <ErrorAlert message="Failed to add new Lab Manager. Make sure all fields are filled and email is not a duplicate." />
             ) : (
               <div />
             )}
             {newLabManSuccess === true ? (
-              <SuccessAlert message="Successfully added new labManager." />
+              <SuccessAlert message="Successfully added new Lab Manager." />
             ) : (
               <div />
             )}
@@ -160,11 +160,7 @@ function RegisterLabManager() {
                 {isLabsLoading ? (
                   <CustomLoadingIndicator minimumHeight="60vh" />
                 ) : (
-                  <form
-                    className={classes.form}
-                    noValidate
-                    onSubmit={handleSubmit}
-                  >
+                  <form className={classes.form} onSubmit={handleSubmit}>
                     <div className={classes.formLine}>
                       <TextField
                         className={classes.texts}
@@ -172,17 +168,17 @@ function RegisterLabManager() {
                         margin="normal"
                         required
                         fullWidth
+                        type="email"
                         id="email"
                         label="Email Address"
                         name="email"
                         autoComplete="email"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
-                        // autoFocus
                       />
                       <FormControl className={classes.formControl}>
                         <InputLabel id="demo-simple-select-label">
-                          Laboratory
+                          Laboratory*
                         </InputLabel>
                         <Select
                           labelId="demo-simple-select-label"
@@ -199,7 +195,7 @@ function RegisterLabManager() {
                         type="submit"
                         fullWidth
                         variant="contained"
-                        color="primary"
+                        color="secondary"
                         className={classes.submit}
                       >
                         Register Lab Manager

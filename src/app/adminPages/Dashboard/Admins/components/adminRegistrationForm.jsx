@@ -15,7 +15,7 @@ import SuccessAlert from '../../../../commonComponents/successAlert';
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    marginTop: theme.spacing(10),
+    marginTop: theme.spacing(5),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -79,23 +79,24 @@ function RegisterAdmin() {
         <div className={classes.paper}>
           <div className={classes.loginForm}>
             <Typography component="h1" variant="h5">
-              Register an Admin
+              Add New Admin
             </Typography>
             {newAdminError === true ? (
-              <ErrorAlert message="Failed to add new admin, This may be becuase the admin email is a duplicate" />
+              <ErrorAlert message="Failed to add new admin.Make sure that th email is not a duplicate." />
             ) : (
               <div />
             )}
             {newAdminSuccess === true ? (
-              <SuccessAlert message="Successfully added new admin." />
+              <SuccessAlert message="Successfully Added a New Admin." />
             ) : (
               <div />
             )}
-            <form className={classes.form} noValidate onSubmit={handleSubmit}>
+            <form className={classes.form} onSubmit={handleSubmit}>
               <TextField
                 variant="outlined"
                 margin="normal"
                 required
+                type="email"
                 fullWidth
                 id="email"
                 label="Email Address"
@@ -108,7 +109,7 @@ function RegisterAdmin() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                color="primary"
+                color="secondary"
                 className={classes.submit}
               >
                 Register Admin

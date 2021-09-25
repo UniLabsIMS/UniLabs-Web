@@ -140,11 +140,11 @@ function RegisterLabAssitant() {
           <div className={classes.loginForm}>
             <div className={classes.formLine}>
               <Typography component="h1" variant="h5">
-                Register a new Lab Assistant
+                Add New Lab Assistant
               </Typography>
             </div>
             {newLabAssisError === true ? (
-              <ErrorAlert message="Failed to add new labAssistant, This may be becuase the labAssistant email or id is a duplicate" />
+              <ErrorAlert message="Failed to add new Lab Assistant. Make sure all fields are filled and that email is not a duplicate." />
             ) : (
               <div />
             )}
@@ -160,11 +160,7 @@ function RegisterLabAssitant() {
                 {isLabsLoading ? (
                   <CustomLoadingIndicator minimumHeight="60vh" />
                 ) : (
-                  <form
-                    className={classes.form}
-                    noValidate
-                    onSubmit={handleSubmit}
-                  >
+                  <form className={classes.form} onSubmit={handleSubmit}>
                     <div className={classes.formLine}>
                       <TextField
                         className={classes.texts}
@@ -172,17 +168,17 @@ function RegisterLabAssitant() {
                         margin="normal"
                         required
                         fullWidth
+                        type="email"
                         id="email"
                         label="Email Address"
                         name="email"
                         autoComplete="email"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
-                        // autoFocus
                       />
                       <FormControl className={classes.formControl}>
                         <InputLabel id="demo-simple-select-label">
-                          Laboratory
+                          Laboratory*
                         </InputLabel>
                         <Select
                           labelId="demo-simple-select-label"
@@ -199,7 +195,7 @@ function RegisterLabAssitant() {
                         type="submit"
                         fullWidth
                         variant="contained"
-                        color="primary"
+                        color="secondary"
                         className={classes.submit}
                       >
                         Register Lab Assistant

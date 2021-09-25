@@ -231,7 +231,7 @@ function RegisterLecturer() {
                       {department && (
                         <FormControl className={classes.formControl}>
                           <InputLabel id="demo-simple-select-label">
-                            Permitted Labs*
+                            Permitted Lab*
                           </InputLabel>
                           <Select
                             labelId="demo-simple-select-label"

@@ -127,7 +127,7 @@ export default function LecturerTable() {
                           align="center"
                           className={classes.table_head}
                         >
-                          Block Lecturer
+                          Block / Unblock
                         </TableCell>
                       </TableRow>
                     </TableHead>
