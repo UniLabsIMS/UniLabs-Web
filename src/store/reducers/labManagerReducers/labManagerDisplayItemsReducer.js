@@ -2,6 +2,10 @@ import {
   DISPLAY_ITEMS_ERROR,
   DISPLAY_ITEMS_LOADED,
   DISPLAY_ITEMS_LOADING,
+  EDIT_DSP_ITEM_FAIL,
+  EDIT_DSP_ITEM_LOADING,
+  EDIT_DSP_ITEM_RESET_STATE,
+  EDIT_DSP_ITEM_SUCCESS,
   NEW_DSP_ITEM_FAIL,
   NEW_DSP_ITEM_LOADING,
   NEW_DSP_ITEM_SUCCESS,
@@ -16,6 +20,9 @@ const initialState = {
   newDisplayItemLoading: false,
   newDisplayItemError: false,
   newDisplayItemSuccess: false,
+  editDisplayItemLoading: false,
+  editDisplayItemError: false,
+  editDisplayItemSuccess: false,
   reloadDisplayItems: false,
 };
 
@@ -51,6 +58,8 @@ const labManagerDisplayItemsReducer = (state = initialState, action) => {
         isDisplayItemsError: false,
         newDisplayItemError: false,
         newDisplayItemSuccess: false,
+        editDisplayItemError: false,
+        editDisplayItemSuccess: false,
         reloadDisplayItems: false,
       };
     case NEW_DSP_ITEM_SUCCESS:
@@ -65,6 +74,36 @@ const labManagerDisplayItemsReducer = (state = initialState, action) => {
         ...state,
         newDisplayItemLoading: false,
         newDisplayItemError: true,
+      };
+    case EDIT_DSP_ITEM_LOADING:
+      return {
+        ...state,
+        editDisplayItemLoading: true,
+        isDisplayItemsError: false,
+        editDisplayItemError: false,
+        editDisplayItemSuccess: false,
+        newDisplayItemError: false,
+        newDisplayItemSuccess: false,
+      };
+    case EDIT_DSP_ITEM_SUCCESS:
+      return {
+        ...state,
+        editDisplayItemLoading: false,
+        editDisplayItemSuccess: true,
+      };
+    case EDIT_DSP_ITEM_FAIL:
+      return {
+        ...state,
+        editDisplayItemLoading: false,
+        editDisplayItemError: true,
+      };
+    case EDIT_DSP_ITEM_RESET_STATE:
+      return {
+        ...state,
+        editDisplayItemLoading: false,
+        editDisplayItemError: false,
+        editDisplayItemSuccess: false,
+        reloadDisplayItems: action.isReload,
       };
     default:
       return state;

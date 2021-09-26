@@ -4,6 +4,10 @@ import {
   DISPLAY_ITEMS_ERROR,
   DISPLAY_ITEMS_LOADED,
   DISPLAY_ITEMS_LOADING,
+  EDIT_DSP_ITEM_FAIL,
+  EDIT_DSP_ITEM_LOADING,
+  EDIT_DSP_ITEM_RESET_STATE,
+  EDIT_DSP_ITEM_SUCCESS,
   NEW_DSP_ITEM_FAIL,
   NEW_DSP_ITEM_LOADING,
   NEW_DSP_ITEM_SUCCESS,
@@ -11,6 +15,7 @@ import {
 } from '../../actionTypes/labManagerActionTypes';
 import {
   API_LAB_MANAGER_ALL_DISPLAY_ITEMS_URL,
+  API_LAB_MANAGER_EDIT_DISPLAY_ITEM_URL,
   API_LAB_MANAGER_NEW_DISPLAY_ITEM_URL,
 } from '../../apiConfig';
 import httpHeaderConfig from '../../httpHeaderConfig';
@@ -62,6 +67,35 @@ export const addDisplayItem =
         });
       });
   };
+/* Edit display items */
+export const editDisplayItem =
+  (name, description, dspID) => (dispatch, getState) => {
+    dispatch({ type: EDIT_DSP_ITEM_LOADING });
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('description', description);
+    axios
+      .put(
+        API_LAB_MANAGER_EDIT_DISPLAY_ITEM_URL.concat(`${dspID}`),
+        formData,
+        httpHeaderConfig(getState),
+      )
+      .then(res => {
+        dispatch({
+          type: EDIT_DSP_ITEM_SUCCESS,
+          payload: res.data,
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: EDIT_DSP_ITEM_FAIL,
+        });
+      });
+  };
+/* Reset Edit display items State */
+export const editDisplayItemResetState = isReload => (dispatch, getState) => {
+  dispatch({ type: EDIT_DSP_ITEM_RESET_STATE, isReload });
+};
 
 /* Reset State */
 export const resetDisplayItemsPageState = () => (dispatch, getState) => {
