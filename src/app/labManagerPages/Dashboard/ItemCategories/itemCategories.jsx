@@ -9,6 +9,7 @@ import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndic
 import ErrorAlert from '../../../commonComponents/errorAlert';
 
 function ItemCategories() {
+  const labName = useSelector(state => state.auth.user.other_details.lab.name);
   const isCategoriesLoading = useSelector(
     state => state.labManagerDashboard.isCategoriesLoading,
   );
@@ -37,6 +38,9 @@ function ItemCategories() {
   return (
     <div>
       <Zoom triggerOnce>
+        <Typography component="h2" variant="h5" gutterBottom align="center">
+          {labName.toUpperCase()}
+        </Typography>
         <Typography component="h2" variant="h4" gutterBottom align="center">
           Item Categories
         </Typography>
