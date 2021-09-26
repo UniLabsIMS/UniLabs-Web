@@ -50,6 +50,9 @@ export const API_LAB_MANAGER_ALL_DISPLAY_ITEMS_URL = API_BASE_URL.concat(
 export const API_LAB_MANAGER_NEW_DISPLAY_ITEM_URL = API_BASE_URL.concat(
   '/display-items/create/',
 );
+export const API_LAB_MANAGER_EDIT_DISPLAY_ITEM_URL = API_BASE_URL.concat(
+  '/display-items/update/',
+);
 export const API_LAB_MANAGER_ALL_ITEMS_URL = API_BASE_URL.concat(
   '/items/of-display-item/',
 ); // concat the display item id to this
