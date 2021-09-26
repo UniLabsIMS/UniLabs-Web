@@ -41,6 +41,9 @@ export const API_LAB_MANAGER_ALL_CATEGORIES_URL = API_BASE_URL.concat(
 export const API_LAB_MANAGER_NEW_CATEGORIES_URL = API_BASE_URL.concat(
   '/categories/create/',
 );
+export const API_LAB_MANAGER_EDIT_CATEGORIES_URL = API_BASE_URL.concat(
+  '/categories/update/',
+); // concat the category id to thi
 export const API_LAB_MANAGER_ALL_DISPLAY_ITEMS_URL = API_BASE_URL.concat(
   '/display-items/of-item-category/',
 ); // concat the category id to this

@@ -124,6 +124,7 @@ const ItemCategoryCard = ({ category }) => {
         >
           <div className={classes.modal_div}>
             <EditCategoryForm
+              category={category}
               onSubmitSuccess={handleEditModalClose}
               onClose={handleEditModalClose}
             />
