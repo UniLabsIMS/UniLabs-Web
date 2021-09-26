@@ -132,6 +132,7 @@ const DisplayItemsCard = ({ displayItem, categoryID }) => {
         >
           <div className={classes.modal_div}>
             <EditDisplayItemForm
+              displayItem={displayItem}
               onSubmitSuccess={handleEditModalClose}
               onClose={handleEditModalClose}
             />
