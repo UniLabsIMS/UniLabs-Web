@@ -4,6 +4,10 @@ import {
   CATEGORIES_ERROR,
   CATEGORIES_LOADED,
   CATEGORIES_LOADING,
+  EDIT_CAT_FAIL,
+  EDIT_CAT_LOADING,
+  EDIT_CAT_RESET_STATE,
+  EDIT_CAT_SUCCESS,
   NEW_CAT_FAIL,
   NEW_CAT_LOADING,
   NEW_CAT_SUCCESS,
@@ -11,6 +15,7 @@ import {
 } from '../../actionTypes/labManagerActionTypes';
 import {
   API_LAB_MANAGER_ALL_CATEGORIES_URL,
+  API_LAB_MANAGER_EDIT_CATEGORIES_URL,
   API_LAB_MANAGER_NEW_CATEGORIES_URL,
 } from '../../apiConfig';
 import httpHeaderConfig from '../../httpHeaderConfig';
@@ -65,6 +70,36 @@ export const addCategory =
         });
       });
   };
+
+/* Edit categories */
+export const editCategory =
+  (name, description, catID) => (dispatch, getState) => {
+    dispatch({ type: EDIT_CAT_LOADING });
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('description', description);
+    axios
+      .put(
+        API_LAB_MANAGER_EDIT_CATEGORIES_URL.concat(`${catID}`),
+        formData,
+        httpHeaderConfig(getState),
+      )
+      .then(res => {
+        dispatch({
+          type: EDIT_CAT_SUCCESS,
+          payload: res.data,
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: EDIT_CAT_FAIL,
+        });
+      });
+  };
+/* Reset Edit Category State */
+export const editCategoryResetState = isReload => (dispatch, getState) => {
+  dispatch({ type: EDIT_CAT_RESET_STATE, isReload });
+};
 
 /* Reset State */
 export const resetLabManagerDashboardState = () => (dispatch, getState) => {
