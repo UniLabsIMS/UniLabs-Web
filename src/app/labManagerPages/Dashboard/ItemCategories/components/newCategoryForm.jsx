@@ -109,7 +109,7 @@ function NewCategoryFrom() {
               <Grid item xs={12} sm={6}>
                 <ImagePicker
                   withIcon
-                  onChange={newFile => setFile(newFile)}
+                  onChange={newFile => setFile(newFile[0])}
                   withPreview
                 />
               </Grid>

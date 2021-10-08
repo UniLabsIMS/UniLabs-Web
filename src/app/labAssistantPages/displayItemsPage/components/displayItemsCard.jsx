@@ -16,21 +16,15 @@ import { LAB_ASSISTANT_ITEMS_URL } from '../../../constants';
 
 const useStyles = makeStyles(theme => ({
   dspCard: {
-    maxWidth: 345,
+    width: 345,
     paddingBottom: theme.spacing(1),
   },
   buttons: {
     margin: 'auto',
     display: 'flex',
-    marginBottom: theme.spacing(0.5),
   },
   content: {
     paddingBottom: theme.spacing(0),
-  },
-  modal: {
-    width: '85%',
-    margin: 'auto',
-    marginTop: theme.spacing(10),
   },
   cardActions: {
     display: 'block',
@@ -47,7 +41,11 @@ const DisplayItemsCard = ({ displayItem, categoryID }) => {
           component="img"
           alt="Contemplative Reptile"
           height="200"
-          image="/images/default-display-item-img.jpg"
+          image={
+            displayItem.image === null
+              ? '/images/default-display-item-img.svg'
+              : displayItem.image
+          }
           title="Contemplative Reptile"
         />
         <CardContent className={classes.content}>
