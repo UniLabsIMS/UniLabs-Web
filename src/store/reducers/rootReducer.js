@@ -13,6 +13,7 @@ import labManagerDisplayItemsReducer from './labManagerReducers/labManagerDispla
 import labManagerItemsReducer from './labManagerReducers/labManagerItemsReducer';
 import labAssistantDisplayItemsReducer from './labAssistantReducers/labAssistantDisplayItemsReducer';
 import labAssistantItemsReducer from './labAssistantReducers/labAssistantItemsReducer';
+import labAssistantBorrowedItemsReducer from './labAssistantReducers/labAssistantBorrowedItemsReducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   labAssistantCategories: labAssistantCategoriesReducer,
   labAssistantDisplayItems: labAssistantDisplayItemsReducer,
   labAssistantItems: labAssistantItemsReducer,
+  labAssistantBorrowedItems: labAssistantBorrowedItemsReducer,
 });
 
 export default rootReducer;

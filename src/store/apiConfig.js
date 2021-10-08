@@ -78,3 +78,7 @@ export const API_LAB_ASSISTANT_NEW_ITEM_URL =
 
 export const API_LAB_ASSISTANT_ITEM_DELETED_URL =
   API_BASE_URL.concat('/items/delete/'); // concat item id
+
+export const API_LAB_ASSISTANT_BORROWED_ITEMS_URL = API_BASE_URL.concat(
+  '/items/borrowed/from-lab/',
+); // concat lab id
