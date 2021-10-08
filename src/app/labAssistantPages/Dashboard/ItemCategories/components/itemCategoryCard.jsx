@@ -16,7 +16,7 @@ import { LAB_ASSISTANT_DISPLAY_ITEMS_URL } from '../../../../constants';
 
 const useStyles = makeStyles(theme => ({
   card: {
-    maxWidth: 345,
+    width: 345,
     paddingBottom: theme.spacing(1),
   },
   buttons: {
@@ -25,11 +25,6 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     paddingBottom: theme.spacing(0),
-  },
-  modal: {
-    width: '85%',
-    margin: 'auto',
-    marginTop: theme.spacing(10),
   },
   cardActions: {
     display: 'block',
@@ -46,7 +41,11 @@ const ItemCategoryCard = ({ category }) => {
           component="img"
           alt="Category Image"
           height="200"
-          image="/images/default-item-category-img.svg"
+          image={
+            category.image === null
+              ? '/images/default-item-category-img.svg'
+              : category.image
+          }
           title="Category Image"
         />
         <CardContent className={classes.content}>

@@ -18,13 +18,12 @@ import { LAB_MANAGER_ITEMS_URL } from '../../../constants';
 
 const useStyles = makeStyles(theme => ({
   dspCard: {
-    maxWidth: 345,
+    width: 345,
     paddingBottom: theme.spacing(1),
   },
   buttons: {
     margin: 'auto',
     display: 'flex',
-    marginBottom: theme.spacing(0.5),
   },
   content: {
     paddingBottom: theme.spacing(0),
@@ -47,10 +46,14 @@ const DisplayItemsCard = ({ displayItem, categoryID }) => {
       <Card className={classes.dspCard}>
         <CardMedia
           component="img"
-          alt="Contemplative Reptile"
+          alt="Display Item Image"
           height="200"
-          image="/images/default-display-item-img.jpg"
-          title="Contemplative Reptile"
+          image={
+            displayItem.image === null
+              ? '/images/default-display-item-img.svg'
+              : displayItem.image
+          }
+          title="Display Item Image"
         />
         <CardContent className={classes.content}>
           <PopupState variant="popover" popupId="demo-popup-popover">
@@ -123,6 +126,7 @@ const DisplayItemsCard = ({ displayItem, categoryID }) => {
             </Grid>
           </Grid>
         </CardActions>
+
         <Modal
           open={editModalState}
           aria-labelledby="edit-category-modal-title"

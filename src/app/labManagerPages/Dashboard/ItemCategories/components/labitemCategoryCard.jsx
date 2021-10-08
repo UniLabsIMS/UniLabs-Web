@@ -18,7 +18,7 @@ import { LAB_MANAGER_DISPLAY_ITEMS_URL } from '../../../../constants';
 
 const useStyles = makeStyles(theme => ({
   card: {
-    maxWidth: 345,
+    width: 345,
     paddingBottom: theme.spacing(1),
   },
   buttons: {
@@ -46,10 +46,14 @@ const ItemCategoryCard = ({ category }) => {
       <Card className={classes.card}>
         <CardMedia
           component="img"
-          alt="Contemplative Reptile"
+          alt="Category Image"
           height="200"
-          image="/images/default-item-category-img.svg"
-          title="Contemplative Reptile"
+          image={
+            category.image === null
+              ? '/images/default-item-category-img.svg'
+              : category.image
+          }
+          title="Category Image"
         />
         <CardContent className={classes.content}>
           <PopupState variant="popover" popupId="demo-popup-popover">

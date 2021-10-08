@@ -49,6 +49,7 @@ export const addDisplayItem =
     formData.append('name', name);
     formData.append('description', description);
     formData.append('item_category', categoryID);
+    formData.append('image', image);
     axios
       .post(
         API_LAB_MANAGER_NEW_DISPLAY_ITEM_URL,
