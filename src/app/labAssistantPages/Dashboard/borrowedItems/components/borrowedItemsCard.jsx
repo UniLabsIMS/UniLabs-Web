@@ -43,16 +43,16 @@ const LabAssistantBorrowedItemsCard = ({ borrowedItem }) => {
             {borrowedItem.id}
           </Typography>
           <Typography className={classes.pos} color="secondary">
-            {borrowedItem.dueDate}
+            Due on: {borrowedItem.dueDate}
           </Typography>
           <Typography component="p">
-            borrowed by -{' '}
+            Borrowed by -{' '}
             {borrowedItem.studentName.isNotEmpty
               ? borrowedItem.studentName
               : 'Name Not Set'}
             <br />
-            email - {borrowedItem.studentEmail} <br />
-            index number - {borrowedItem.studentIndexNumber} <br />
+            Email - {borrowedItem.studentEmail} <br />
+            Index Number - {borrowedItem.studentIndexNumber} <br />
           </Typography>
         </CardContent>
         <CardActions>
