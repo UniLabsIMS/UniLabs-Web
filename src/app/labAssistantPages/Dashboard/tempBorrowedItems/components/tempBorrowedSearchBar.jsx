@@ -2,6 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -17,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function TempBorrowedItemSearchBar() {
+const TempBorrowedItemSearchBar = ({ onChange, searchKey }) => {
   const classes = useStyles();
 
   return (
@@ -26,8 +27,15 @@ export default function TempBorrowedItemSearchBar() {
         className={classes.input}
         placeholder="Search By Student Index"
         inputProps={{ 'aria-label': 'Search By Student Index' }}
+        onChange={e => onChange(e.target.value)}
+        value={searchKey}
       />
       <SearchIcon />
     </Paper>
   );
-}
+};
+TempBorrowedItemSearchBar.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  searchKey: PropTypes.string.isRequired,
+};
+export default TempBorrowedItemSearchBar;

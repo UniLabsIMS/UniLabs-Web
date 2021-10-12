@@ -2,6 +2,9 @@ export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 export const API_LOGIN_URL = API_BASE_URL.concat('/auth/login/');
 export const API_REFRESH_URL = API_BASE_URL.concat('/auth/refresh-auth/');
 export const API_LOGOUT_URL = API_BASE_URL.concat('/auth/logout/');
+export const API_FORGOT_PASSWORD_URL = API_BASE_URL.concat(
+  '/auth/reset-password/',
+);
 
 // ------------------------ADMIN----------------------------------
 export const API_ADMIN_DEPARTMENTS_URL = API_BASE_URL.concat('/departments/');

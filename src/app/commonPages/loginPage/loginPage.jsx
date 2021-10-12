@@ -16,6 +16,8 @@ import { ReactComponent as Logo1 } from '../../../Logo 6.2.svg';
 import { login } from '../../../store/actions/authActions';
 import CustomLoadingIndicator from '../../commonComponents/customLoadingIndicator';
 import ErrorAlert from '../../commonComponents/errorAlert';
+import SuccessAlert from '../../commonComponents/successAlert';
+import ForgotPasswordForm from '../components/forgotPasswordForm';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -40,7 +42,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(3, 0, 0),
   },
   unilabsLogo: {
     marginTop: theme.spacing(2),
@@ -54,15 +56,36 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 'bold',
     color: theme.palette.secondary.main,
   },
+  forgotPassword: {
+    cursor: 'pointer',
+    textDecoration: 'underline',
+  },
+  forgotPassModal: {
+    width: '50%',
+    margin: 'auto',
+    marginTop: theme.spacing(10),
+  },
 }));
 
 function LoginPage() {
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [forgotPasswordModalState, setForgotPasswordModalState] =
+    useState(false);
+  const handleForgotPasswordModalOpen = () => setForgotPasswordModalState(true);
+  const handleForgotPasswordModalClose = () =>
+    setForgotPasswordModalState(false);
+
   const isLoginLoading = useSelector(state => state.auth.isLoginLoading);
   const authError = useSelector(state => state.auth.error);
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const isForgotPasswordSuccess = useSelector(
+    state => state.auth.forgotPasswordSuccess,
+  );
+  const isForgotPasswordError = useSelector(
+    state => state.auth.forgotPasswordError,
+  );
   const dispatch = useDispatch();
   const handleLogin = e => {
     e.preventDefault();
@@ -106,6 +129,16 @@ function LoginPage() {
               ) : (
                 <div />
               )}
+              {isForgotPasswordSuccess ? (
+                <SuccessAlert message="Password Reset Successful.Please check your email to have your new password." />
+              ) : (
+                <div />
+              )}
+              {isForgotPasswordError ? (
+                <ErrorAlert message="Password Reset Failed. This may be due to email being an invalid one." />
+              ) : (
+                <div />
+              )}
               <form className={classes.form} onSubmit={handleLogin}>
                 <TextField
                   variant="outlined"
@@ -133,6 +166,7 @@ function LoginPage() {
                   value={password}
                   onChange={e => setPassword(e.target.value)}
                 />
+
                 <Button
                   type="submit"
                   fullWidth
@@ -142,7 +176,18 @@ function LoginPage() {
                 >
                   Log In
                 </Button>
+                <Typography
+                  color="secondary"
+                  className={classes.forgotPassword}
+                  onClick={handleForgotPasswordModalOpen}
+                >
+                  Forgot Password?
+                </Typography>
               </form>
+              <ForgotPasswordForm
+                onClose={handleForgotPasswordModalClose}
+                open={forgotPasswordModalState}
+              />
             </Zoom>
           </div>
         </div>
