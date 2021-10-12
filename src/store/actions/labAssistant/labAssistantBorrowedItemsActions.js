@@ -16,7 +16,7 @@ export const fetchLabAssistantBorrowedItems = () => (dispatch, getState) => {
   axios
     .get(
       API_LAB_ASSISTANT_BORROWED_ITEMS_URL.concat(
-        getState().auth.user.other_details.lab.id,
+        getState().auth.user.otherDetails.lab.id,
       ),
       httpHeaderConfig(getState),
     )

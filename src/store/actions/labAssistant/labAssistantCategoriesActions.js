@@ -15,7 +15,7 @@ export const fetchLabAssistantCategories = () => (dispatch, getState) => {
   axios
     .get(
       API_LAB_ASSISTANT_ALL_CATEGORIES_URL.concat(
-        getState().auth.user.other_details.lab.id,
+        getState().auth.user.otherDetails.lab.id,
       ),
       httpHeaderConfig(getState),
     )
