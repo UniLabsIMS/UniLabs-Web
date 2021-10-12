@@ -10,8 +10,12 @@ import {
   LOGIN_SUCCESS,
   LOGOUT_FAIL,
   LOGOUT_SUCCESS,
+  UPDATE_PROFILE_ERROR,
+  UPDATE_PROFILE_LOADING,
+  UPDATE_PROFILE_SUCCESS,
 } from '../actionTypes/authActionTypes';
 import {
+  API_EDIT_PROFILE_URL,
   API_FORGOT_PASSWORD_URL,
   API_LOGIN_URL,
   API_LOGOUT_URL,
@@ -92,3 +96,25 @@ export const forgotPassword = email => (dispatch, getState) => {
       });
     });
 };
+
+export const updateProfileDetails =
+  (firstName, lastName, contactNumber) => (dispatch, getState) => {
+    dispatch({ type: UPDATE_PROFILE_LOADING });
+    const formData = new FormData();
+    formData.append('first_name', firstName);
+    formData.append('last_name', lastName);
+    formData.append('contact_number', contactNumber);
+    axios
+      .patch(`${API_EDIT_PROFILE_URL}`, formData, httpHeaderConfig(getState))
+      .then(res => {
+        dispatch({
+          type: UPDATE_PROFILE_SUCCESS,
+          payload: res.data,
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: UPDATE_PROFILE_ERROR,
+        });
+      });
+  };

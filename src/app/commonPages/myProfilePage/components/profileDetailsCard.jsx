@@ -7,9 +7,11 @@ import {
 } from '@material-ui/core';
 import { useState } from 'react';
 import { Zoom } from 'react-awesome-reveal';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import ChangePasswordForm from './changePasswordForm';
 import UpdateProfileDetailsForm from './updateProfileDetailsForm';
+
+import SuccessAlert from '../../../commonComponents/successAlert';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -59,25 +61,25 @@ const ProfileDetailsCard = () => {
   const contactNumber = useSelector(state => state.auth.user.contactNumber);
   const image = useSelector(state => state.auth.user.image);
 
+  const updateProfileSuccess = useSelector(
+    state => state.auth.updateProfileSuccess,
+  );
+
   const [editable, setEditable] = useState(false);
   const [changePwdClicked, setChangePwdClicked] = useState(false);
-
-  const handleSaveDetails = e => {
-    e.preventDefault();
-  };
 
   let childComponent = null;
   if (editable && !changePwdClicked) {
     childComponent = (
       <UpdateProfileDetailsForm
-        onSave={handleSaveDetails}
+        onSave={() => setEditable(false)}
         onCancel={() => setEditable(false)}
       />
     );
   } else if (changePwdClicked && !editable) {
     childComponent = (
       <ChangePasswordForm
-        onSave={handleSaveDetails}
+        onSave={() => setChangePwdClicked(false)}
         onCancel={() => setChangePwdClicked(false)}
       />
     );
@@ -86,6 +88,11 @@ const ProfileDetailsCard = () => {
       <Box>
         <Zoom triggerOnce>
           <div className={classes.biggerCont}>
+            {updateProfileSuccess ? (
+              <SuccessAlert message="Changes saved successfully." />
+            ) : (
+              <div />
+            )}
             <div className={classes.profileDetailBox}>
               <div className={classes.profileDetailContainer}>
                 <Typography variant="h6" className={classes.profileDetail}>

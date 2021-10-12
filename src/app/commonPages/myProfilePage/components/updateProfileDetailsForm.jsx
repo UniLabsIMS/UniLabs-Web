@@ -5,9 +5,13 @@ import {
   TextField,
   Box,
 } from '@material-ui/core';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { Zoom } from 'react-awesome-reveal';
+import { useState } from 'react';
+import ErrorAlert from '../../../commonComponents/errorAlert';
+import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
+import { updateProfileDetails } from '../../../../store/actions/authActions';
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -23,22 +27,77 @@ const useStyles = makeStyles(theme => ({
   },
   label: {
     fontSize: '18px',
-    marginTop: theme.spacing(0.5),
+    marginTop: theme.spacing(1.5),
   },
 }));
 
 const UpdateProfileDetailsForm = ({ onSave, onCancel }) => {
   const classes = useStyles();
-  const firstName = useSelector(state => state.auth.user.firstName);
-  const lastName = useSelector(state => state.auth.user.lastName);
-  const contactNumber = useSelector(state => state.auth.user.contactNumber);
+
+  const isUpdateProfileLoading = useSelector(
+    state => state.auth.isUpdateProfileLoading,
+  );
+  const updateProfileError = useSelector(
+    state => state.auth.updateProfileError,
+  );
+
+  const savedFirstName = useSelector(state => state.auth.user.firstName);
+  const savedLastName = useSelector(state => state.auth.user.lastName);
+  const savedContactNumber = useSelector(
+    state => state.auth.user.contactNumber,
+  );
+  const [firstName, setFirstName] = useState(savedFirstName);
+  const [lastName, setLastName] = useState(savedLastName);
+  const [contactNumber, setContactNumber] = useState(savedContactNumber);
+  const [validationError, setValidationError] = useState('');
+
+  const dispatch = useDispatch();
+
+  const isValid = () => {
+    if (contactNumber.length > 0) {
+      if (isNaN(contactNumber)) {
+        setValidationError('Contact Number must contain only digits');
+        return false;
+      }
+      if (contactNumber.length < 5 || contactNumber.length > 15) {
+        setValidationError('Contact Number should be between 5 and 15 digits');
+        return false;
+      }
+    }
+    setValidationError('');
+    return true;
+  };
+  const handleSubmit = e => {
+    e.preventDefault();
+    const validation = isValid();
+    if (validation) {
+      dispatch(updateProfileDetails(firstName, lastName, contactNumber));
+      setTimeout(() => {}, 500);
+      while (isUpdateProfileLoading);
+      if (!updateProfileError) onSave();
+    }
+  };
+  if (isUpdateProfileLoading) {
+    return <CustomLoadingIndicator minimumHeight="40vh" />;
+  }
   return (
     <Box align="center">
       <Zoom triggerOnce>
         <Typography component="h1" variant="h5">
           Change Profile Details
         </Typography>
-        <form className={classes.form} onSubmit={onSave}>
+        {validationError.length > 0 ? (
+          <ErrorAlert message={validationError} />
+        ) : (
+          <div />
+        )}
+        {updateProfileError ? (
+          <ErrorAlert message="Failed to save changes.Please try again later." />
+        ) : (
+          <div />
+        )}
+
+        <form className={classes.form} onSubmit={handleSubmit}>
           <div>
             <Typography align="left" className={classes.label}>
               First Name
@@ -49,10 +108,9 @@ const UpdateProfileDetailsForm = ({ onSave, onCancel }) => {
               required
               fullWidth
               id="firstName"
-              defaultValue={firstName}
               name="firstName"
-              // value={firstName}
-              // onChange={e => setFirstName(e.target.value)}
+              value={firstName}
+              onChange={e => setFirstName(e.target.value)}
             />
           </div>
           <div>
@@ -65,27 +123,27 @@ const UpdateProfileDetailsForm = ({ onSave, onCancel }) => {
               required
               fullWidth
               id="lastName"
-              defaultValue={lastName}
               name="lastName"
-              // value={lastName}
-              // onChange={e => setLastName(e.target.value)}
+              value={lastName}
+              onChange={e => setLastName(e.target.value)}
             />
           </div>
           <div>
             <Typography align="left" className={classes.label}>
               Contact Number
             </Typography>
+            <Typography align="left" color="textSecondary" fontSize="small">
+              Must be greater than 5 digits and less than 15 digits
+            </Typography>
             <TextField
               variant="outlined"
               size="small"
-              required
               fullWidth
               name="contactNumber"
-              defaultValue={contactNumber}
               type="contactNumber"
               id="contactNumber"
-              // value={password}
-              // onChange={e => setContactNum(e.target.value)}
+              value={contactNumber}
+              onChange={e => setContactNumber(e.target.value)}
             />
           </div>
           <Box m={1} />
@@ -94,7 +152,6 @@ const UpdateProfileDetailsForm = ({ onSave, onCancel }) => {
             variant="contained"
             color="primary"
             className={classes.btn}
-            onClick={onCancel}
           >
             Save Changes
           </Button>

@@ -9,6 +9,9 @@ import {
   LOGIN_SUCCESS,
   LOGOUT_FAIL,
   LOGOUT_SUCCESS,
+  UPDATE_PROFILE_ERROR,
+  UPDATE_PROFILE_LOADING,
+  UPDATE_PROFILE_SUCCESS,
 } from '../actionTypes/authActionTypes';
 import User from '../../models/user';
 
@@ -21,6 +24,9 @@ const initialState = {
   error: null,
   forgotPasswordSuccess: false,
   forgotPasswordError: false,
+  isUpdateProfileLoading: false,
+  updateProfileSuccess: false,
+  updateProfileError: false,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -31,6 +37,9 @@ const authReducer = (state = initialState, action) => {
         isAuthLoading: true,
         forgotPasswordSuccess: false,
         forgotPasswordError: false,
+        isUpdateProfileLoading: false,
+        updateProfileSuccess: false,
+        updateProfileError: false,
       };
     case LOGIN_LOADING:
       return {
@@ -89,6 +98,29 @@ const authReducer = (state = initialState, action) => {
         ...state,
         forgotPasswordSuccess: false,
         forgotPasswordError: true,
+      };
+    case UPDATE_PROFILE_LOADING: {
+      return {
+        ...state,
+        isUpdateProfileLoading: true,
+        updateProfileError: false,
+        updateProfileSuccess: false,
+      };
+    }
+    case UPDATE_PROFILE_SUCCESS:
+      return {
+        ...state,
+        user: state.user.update(action.payload),
+        isUpdateProfileLoading: false,
+        updateProfileSuccess: true,
+        updateProfileError: false,
+      };
+    case UPDATE_PROFILE_ERROR:
+      return {
+        ...state,
+        isUpdateProfileLoading: false,
+        updateProfileSuccess: false,
+        updateProfileError: true,
       };
     default:
       return state;

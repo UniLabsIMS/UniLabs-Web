@@ -10,4 +10,11 @@ export default class User {
     this.isDefaultPassword = user.is_default_password;
     this.otherDetails = user.other_details; // do not change
   }
+
+  update(data) {
+    this.firstName = data.first_name;
+    this.lastName = data.last_name;
+    this.contactNumber = data.contact_number;
+    return this;
+  }
 }
