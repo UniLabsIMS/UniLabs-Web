@@ -5,6 +5,12 @@ export const API_LOGOUT_URL = API_BASE_URL.concat('/auth/logout/');
 export const API_FORGOT_PASSWORD_URL = API_BASE_URL.concat(
   '/auth/reset-password/',
 );
+export const API_EDIT_PROFILE_URL = API_BASE_URL.concat(
+  '/auth/update-profile/',
+);
+export const API_CHANGE_PASSWORD_URL = API_BASE_URL.concat(
+  '/auth/change-password/',
+);
 
 // ------------------------ADMIN----------------------------------
 export const API_ADMIN_DEPARTMENTS_URL = API_BASE_URL.concat('/departments/');

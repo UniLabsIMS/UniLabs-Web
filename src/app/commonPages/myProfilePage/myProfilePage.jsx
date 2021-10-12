@@ -3,12 +3,7 @@ import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
 import ProfileDetailsCard from './components/profileDetailsCard';
 
-// const useStyles = makeStyles(theme => ({
-// }));
-
 function MyProfilePage() {
-  // const classes = useStyles();
-
   return (
     <PageWrapper navBar={<Navbar />}>
       <Zoom triggerOnce>

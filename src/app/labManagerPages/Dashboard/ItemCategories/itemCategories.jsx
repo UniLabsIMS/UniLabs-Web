@@ -9,7 +9,7 @@ import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndic
 import ErrorAlert from '../../../commonComponents/errorAlert';
 
 function ItemCategories() {
-  const labName = useSelector(state => state.auth.user.other_details.lab.name);
+  const labName = useSelector(state => state.auth.user.otherDetails.lab.name);
   const isCategoriesLoading = useSelector(
     state => state.labManagerDashboard.isCategoriesLoading,
   );

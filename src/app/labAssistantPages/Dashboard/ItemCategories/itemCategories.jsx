@@ -12,7 +12,7 @@ import WarningAlert from '../../../commonComponents/warningAlert';
 import ItemCategoryCard from './components/itemCategoryCard';
 
 function ItemCategories() {
-  const labName = useSelector(state => state.auth.user.other_details.lab.name);
+  const labName = useSelector(state => state.auth.user.otherDetails.lab.name);
   const isCategoriesLoading = useSelector(
     state => state.labAssistantCategories.isCategoriesLoading,
   );

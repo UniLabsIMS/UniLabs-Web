@@ -9,6 +9,12 @@ import {
   LOGIN_SUCCESS,
   LOGOUT_FAIL,
   LOGOUT_SUCCESS,
+  UPDATE_PROFILE_ERROR,
+  UPDATE_PROFILE_LOADING,
+  UPDATE_PROFILE_SUCCESS,
+  CHANGE_PASSWORD_ERROR,
+  CHANGE_PASSWORD_LOADING,
+  CHANGE_PASSWORD_SUCCESS,
 } from '../actionTypes/authActionTypes';
 import User from '../../models/user';
 
@@ -21,6 +27,12 @@ const initialState = {
   error: null,
   forgotPasswordSuccess: false,
   forgotPasswordError: false,
+  isUpdateProfileLoading: false,
+  updateProfileSuccess: false,
+  updateProfileError: false,
+  isChangePasswordLoading: false,
+  changePasswordSuccess: false,
+  changePasswordError: false,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -31,6 +43,12 @@ const authReducer = (state = initialState, action) => {
         isAuthLoading: true,
         forgotPasswordSuccess: false,
         forgotPasswordError: false,
+        isUpdateProfileLoading: false,
+        updateProfileSuccess: false,
+        updateProfileError: false,
+        isChangePasswordLoading: false,
+        changePasswordSuccess: false,
+        changePasswordError: false,
       };
     case LOGIN_LOADING:
       return {
@@ -89,6 +107,57 @@ const authReducer = (state = initialState, action) => {
         ...state,
         forgotPasswordSuccess: false,
         forgotPasswordError: true,
+      };
+    case UPDATE_PROFILE_LOADING: {
+      return {
+        ...state,
+        isUpdateProfileLoading: true,
+        updateProfileError: false,
+        updateProfileSuccess: false,
+        isChangePasswordLoading: false,
+        changePasswordSuccess: false,
+        changePasswordError: false,
+      };
+    }
+    case UPDATE_PROFILE_SUCCESS:
+      return {
+        ...state,
+        user: state.user.update(action.payload),
+        isUpdateProfileLoading: false,
+        updateProfileSuccess: true,
+        updateProfileError: false,
+      };
+    case UPDATE_PROFILE_ERROR:
+      return {
+        ...state,
+        isUpdateProfileLoading: false,
+        updateProfileSuccess: false,
+        updateProfileError: true,
+      };
+    case CHANGE_PASSWORD_LOADING: {
+      return {
+        ...state,
+        isChangePasswordLoading: true,
+        changePasswordSuccess: false,
+        changePasswordError: false,
+        isUpdateProfileLoading: false,
+        updateProfileError: false,
+        updateProfileSuccess: false,
+      };
+    }
+    case CHANGE_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        isChangePasswordLoading: false,
+        changePasswordSuccess: true,
+        changePasswordError: false,
+      };
+    case CHANGE_PASSWORD_ERROR:
+      return {
+        ...state,
+        isChangePasswordLoading: false,
+        changePasswordSuccess: false,
+        changePasswordError: true,
       };
     default:
       return state;
