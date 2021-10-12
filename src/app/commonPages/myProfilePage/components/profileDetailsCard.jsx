@@ -12,6 +12,7 @@ import ChangePasswordForm from './changePasswordForm';
 import UpdateProfileDetailsForm from './updateProfileDetailsForm';
 
 import SuccessAlert from '../../../commonComponents/successAlert';
+import ErrorAlert from '../../../commonComponents/errorAlert';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -64,6 +65,15 @@ const ProfileDetailsCard = () => {
   const updateProfileSuccess = useSelector(
     state => state.auth.updateProfileSuccess,
   );
+  const changePasswordSuccess = useSelector(
+    state => state.auth.changePasswordSuccess,
+  );
+  const changePasswordError = useSelector(
+    state => state.auth.changePasswordError,
+  );
+  const updateProfileError = useSelector(
+    state => state.auth.updateProfileError,
+  );
 
   const [editable, setEditable] = useState(false);
   const [changePwdClicked, setChangePwdClicked] = useState(false);
@@ -90,6 +100,22 @@ const ProfileDetailsCard = () => {
           <div className={classes.biggerCont}>
             {updateProfileSuccess ? (
               <SuccessAlert message="Changes saved successfully." />
+            ) : (
+              <div />
+            )}
+            {changePasswordSuccess ? (
+              <SuccessAlert message="Password changed successfully." />
+            ) : (
+              <div />
+            )}
+
+            {changePasswordError ? (
+              <ErrorAlert message="Failed to change the password.Please try again later." />
+            ) : (
+              <div />
+            )}
+            {updateProfileError ? (
+              <ErrorAlert message="Failed to save changes.Please try again later." />
             ) : (
               <div />
             )}

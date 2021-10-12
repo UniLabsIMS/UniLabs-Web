@@ -13,8 +13,12 @@ import {
   UPDATE_PROFILE_ERROR,
   UPDATE_PROFILE_LOADING,
   UPDATE_PROFILE_SUCCESS,
+  CHANGE_PASSWORD_ERROR,
+  CHANGE_PASSWORD_LOADING,
+  CHANGE_PASSWORD_SUCCESS,
 } from '../actionTypes/authActionTypes';
 import {
+  API_CHANGE_PASSWORD_URL,
   API_EDIT_PROFILE_URL,
   API_FORGOT_PASSWORD_URL,
   API_LOGIN_URL,
@@ -115,6 +119,27 @@ export const updateProfileDetails =
       .catch(err => {
         dispatch({
           type: UPDATE_PROFILE_ERROR,
+        });
+      });
+  };
+
+export const changePassword =
+  (currentPassword, newPassword) => (dispatch, getState) => {
+    dispatch({ type: CHANGE_PASSWORD_LOADING });
+    const formData = new FormData();
+    formData.append('current_password', currentPassword);
+    formData.append('new_password', newPassword);
+    axios
+      .post(`${API_CHANGE_PASSWORD_URL}`, formData, httpHeaderConfig(getState))
+      .then(res => {
+        dispatch({
+          type: CHANGE_PASSWORD_SUCCESS,
+          payload: res.data,
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: CHANGE_PASSWORD_ERROR,
         });
       });
   };

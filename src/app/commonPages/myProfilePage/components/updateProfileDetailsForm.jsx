@@ -37,9 +37,6 @@ const UpdateProfileDetailsForm = ({ onSave, onCancel }) => {
   const isUpdateProfileLoading = useSelector(
     state => state.auth.isUpdateProfileLoading,
   );
-  const updateProfileError = useSelector(
-    state => state.auth.updateProfileError,
-  );
 
   const savedFirstName = useSelector(state => state.auth.user.firstName);
   const savedLastName = useSelector(state => state.auth.user.lastName);
@@ -72,9 +69,7 @@ const UpdateProfileDetailsForm = ({ onSave, onCancel }) => {
     const validation = isValid();
     if (validation) {
       dispatch(updateProfileDetails(firstName, lastName, contactNumber));
-      setTimeout(() => {}, 500);
-      while (isUpdateProfileLoading);
-      if (!updateProfileError) onSave();
+      onSave();
     }
   };
   if (isUpdateProfileLoading) {
@@ -88,11 +83,6 @@ const UpdateProfileDetailsForm = ({ onSave, onCancel }) => {
         </Typography>
         {validationError.length > 0 ? (
           <ErrorAlert message={validationError} />
-        ) : (
-          <div />
-        )}
-        {updateProfileError ? (
-          <ErrorAlert message="Failed to save changes.Please try again later." />
         ) : (
           <div />
         )}

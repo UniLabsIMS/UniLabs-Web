@@ -12,6 +12,9 @@ import {
   UPDATE_PROFILE_ERROR,
   UPDATE_PROFILE_LOADING,
   UPDATE_PROFILE_SUCCESS,
+  CHANGE_PASSWORD_ERROR,
+  CHANGE_PASSWORD_LOADING,
+  CHANGE_PASSWORD_SUCCESS,
 } from '../actionTypes/authActionTypes';
 import User from '../../models/user';
 
@@ -27,6 +30,9 @@ const initialState = {
   isUpdateProfileLoading: false,
   updateProfileSuccess: false,
   updateProfileError: false,
+  isChangePasswordLoading: false,
+  changePasswordSuccess: false,
+  changePasswordError: false,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -40,6 +46,9 @@ const authReducer = (state = initialState, action) => {
         isUpdateProfileLoading: false,
         updateProfileSuccess: false,
         updateProfileError: false,
+        isChangePasswordLoading: false,
+        changePasswordSuccess: false,
+        changePasswordError: false,
       };
     case LOGIN_LOADING:
       return {
@@ -105,6 +114,9 @@ const authReducer = (state = initialState, action) => {
         isUpdateProfileLoading: true,
         updateProfileError: false,
         updateProfileSuccess: false,
+        isChangePasswordLoading: false,
+        changePasswordSuccess: false,
+        changePasswordError: false,
       };
     }
     case UPDATE_PROFILE_SUCCESS:
@@ -121,6 +133,31 @@ const authReducer = (state = initialState, action) => {
         isUpdateProfileLoading: false,
         updateProfileSuccess: false,
         updateProfileError: true,
+      };
+    case CHANGE_PASSWORD_LOADING: {
+      return {
+        ...state,
+        isChangePasswordLoading: true,
+        changePasswordSuccess: false,
+        changePasswordError: false,
+        isUpdateProfileLoading: false,
+        updateProfileError: false,
+        updateProfileSuccess: false,
+      };
+    }
+    case CHANGE_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        isChangePasswordLoading: false,
+        changePasswordSuccess: true,
+        changePasswordError: false,
+      };
+    case CHANGE_PASSWORD_ERROR:
+      return {
+        ...state,
+        isChangePasswordLoading: false,
+        changePasswordSuccess: false,
+        changePasswordError: true,
       };
     default:
       return state;
