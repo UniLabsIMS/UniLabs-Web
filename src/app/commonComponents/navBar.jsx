@@ -103,7 +103,7 @@ const useStyles = makeStyles(theme => ({
   active: {
     color: theme.palette.secondary.main,
   },
-  user_details: {
+  userDetails: {
     [theme.breakpoints.down('sm')]: {
       display: 'none',
     },
@@ -177,8 +177,10 @@ function Navbar({ drawerTiles, onDrawerTileClick, activeIndex, showDrawer }) {
               UniLabs
             </Typography>
           </Link>
-          <Typography className={classes.user_details}>
-            {user ? user.email : ''}
+          <Typography className={classes.userDetails}>
+            {user && user.firstName.concat(user.lastName).length > 0
+              ? user.firstName.concat(' ').concat(user.lastName)
+              : user.email}
           </Typography>
 
           {isAuthenticated ? (

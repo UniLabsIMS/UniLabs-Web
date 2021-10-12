@@ -26,7 +26,7 @@ export const fetchCategories = () => (dispatch, getState) => {
   axios
     .get(
       API_LAB_MANAGER_ALL_CATEGORIES_URL.concat(
-        getState().auth.user.other_details.lab.id,
+        getState().auth.user.otherDetails.lab.id,
       ),
       httpHeaderConfig(getState),
     )
@@ -48,7 +48,7 @@ export const addCategory =
   (name, description, image) => (dispatch, getState) => {
     dispatch({ type: NEW_CAT_LOADING });
     const formData = new FormData();
-    const lab = getState().auth.user.other_details.lab.id;
+    const lab = getState().auth.user.otherDetails.lab.id;
     formData.append('name', name);
     formData.append('description', description);
     formData.append('lab', lab);

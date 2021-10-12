@@ -7,6 +7,23 @@ import reportWebVitals from './reportWebVitals';
 import store from './store/store';
 
 const theme = createTheme({
+  overrides: {
+    MuiCssBaseline: {
+      '@global': {
+        '*::-webkit-scrollbar': {
+          width: '15px',
+        },
+        '*::-webkit-scrollbar-track': {
+          '-webkit-box-shadow': 'inset 0 0 2px grey',
+        },
+        '*::-webkit-scrollbar-thumb': {
+          backgroundColor: 'rgba(245, 0, 87,.5)',
+          outline: '1px solid #f50057',
+          borderRadius: '10px',
+        },
+      },
+    },
+  },
   typography: {
     fontFamily: [
       '"Open Sans"',

@@ -10,8 +10,16 @@ import {
   LOGIN_SUCCESS,
   LOGOUT_FAIL,
   LOGOUT_SUCCESS,
+  UPDATE_PROFILE_ERROR,
+  UPDATE_PROFILE_LOADING,
+  UPDATE_PROFILE_SUCCESS,
+  CHANGE_PASSWORD_ERROR,
+  CHANGE_PASSWORD_LOADING,
+  CHANGE_PASSWORD_SUCCESS,
 } from '../actionTypes/authActionTypes';
 import {
+  API_CHANGE_PASSWORD_URL,
+  API_EDIT_PROFILE_URL,
   API_FORGOT_PASSWORD_URL,
   API_LOGIN_URL,
   API_LOGOUT_URL,
@@ -92,3 +100,46 @@ export const forgotPassword = email => (dispatch, getState) => {
       });
     });
 };
+
+export const updateProfileDetails =
+  (firstName, lastName, contactNumber) => (dispatch, getState) => {
+    dispatch({ type: UPDATE_PROFILE_LOADING });
+    const formData = new FormData();
+    formData.append('first_name', firstName);
+    formData.append('last_name', lastName);
+    formData.append('contact_number', contactNumber);
+    axios
+      .patch(`${API_EDIT_PROFILE_URL}`, formData, httpHeaderConfig(getState))
+      .then(res => {
+        dispatch({
+          type: UPDATE_PROFILE_SUCCESS,
+          payload: res.data,
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: UPDATE_PROFILE_ERROR,
+        });
+      });
+  };
+
+export const changePassword =
+  (currentPassword, newPassword) => (dispatch, getState) => {
+    dispatch({ type: CHANGE_PASSWORD_LOADING });
+    const formData = new FormData();
+    formData.append('current_password', currentPassword);
+    formData.append('new_password', newPassword);
+    axios
+      .post(`${API_CHANGE_PASSWORD_URL}`, formData, httpHeaderConfig(getState))
+      .then(res => {
+        dispatch({
+          type: CHANGE_PASSWORD_SUCCESS,
+          payload: res.data,
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: CHANGE_PASSWORD_ERROR,
+        });
+      });
+  };
