@@ -2,6 +2,8 @@ import {
   AUTH_ERROR,
   AUTH_LOADED,
   AUTH_LOADING,
+  FORGOT_PASSWORD_ERROR,
+  FORGOT_PASSWORD_SUCCESS,
   LOGIN_FAIL,
   LOGIN_LOADING,
   LOGIN_SUCCESS,
@@ -17,6 +19,8 @@ const initialState = {
   isLoginLoading: false,
   user: null,
   error: null,
+  forgotPasswordSuccess: false,
+  forgotPasswordError: false,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -25,6 +29,8 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         isAuthLoading: true,
+        forgotPasswordSuccess: false,
+        forgotPasswordError: false,
       };
     case LOGIN_LOADING:
       return {
@@ -72,6 +78,18 @@ const authReducer = (state = initialState, action) => {
       };
     case LOGOUT_FAIL:
       return { ...state, isAuthLoading: false };
+    case FORGOT_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        forgotPasswordSuccess: true,
+        forgotPasswordError: false,
+      };
+    case FORGOT_PASSWORD_ERROR:
+      return {
+        ...state,
+        forgotPasswordSuccess: false,
+        forgotPasswordError: true,
+      };
     default:
       return state;
   }
