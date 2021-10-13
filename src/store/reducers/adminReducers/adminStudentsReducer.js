@@ -7,6 +7,9 @@ import {
   NEW_STUDENT_LOADING,
   NEW_STUDENT_SUCCESS,
   RESET_STUDENT_STATE,
+  STUDENT_BLOCK_UNBLOCK_LOADING,
+  STUDENT_BLOCK_UNBLOCK_SUCCESS,
+  STUDENT_BLOCK_UNBLOCK_ERROR,
 } from '../../actionTypes/adminActionTypes';
 
 const initialState = {
@@ -17,6 +20,9 @@ const initialState = {
   newStudentError: false,
   newStudentSuccess: false,
   reloadStudents: false,
+  studentBlockUnblockLoading: false,
+  studentBlockUnblockLSuccess: false,
+  studentBlockUnblockError: false,
 };
 
 const adminStudentsReducer = (state = initialState, action) => {
@@ -29,6 +35,9 @@ const adminStudentsReducer = (state = initialState, action) => {
         isStudentsLoading: true,
         isStudentsError: false,
         reloadStudent: false,
+        studentBlockUnblockLoading: false,
+        studentBlockUnblockLSuccess: false,
+        studentBlockUnblockError: false,
       };
     case STUDENTS_LOADED:
       return {
@@ -52,10 +61,14 @@ const adminStudentsReducer = (state = initialState, action) => {
         newStudentError: false,
         newStudentSuccess: false,
         reloadStudents: false,
+        studentBlockUnblockLoading: false,
+        studentBlockUnblockLSuccess: false,
+        studentBlockUnblockError: false,
       };
     case NEW_STUDENT_SUCCESS:
       return {
         ...state,
+        students: action.payload,
         newStudentLoading: false,
         newStudentSuccess: true,
         reloadStudents: true,
@@ -66,7 +79,30 @@ const adminStudentsReducer = (state = initialState, action) => {
         newStudentLoading: false,
         newStudentError: true,
       };
-
+    case STUDENT_BLOCK_UNBLOCK_LOADING:
+      return {
+        ...state,
+        studentBlockUnblockLoading: true,
+        studentBlockUnblockLSuccess: false,
+        studentBlockUnblockError: false,
+        newStudentLoading: false,
+        newStudentError: false,
+        newStudentSuccess: false,
+      };
+    case STUDENT_BLOCK_UNBLOCK_SUCCESS:
+      return {
+        ...state,
+        studentBlockUnblockLoading: false,
+        studentBlockUnblockLSuccess: true,
+        studentBlockUnblockError: false,
+      };
+    case STUDENT_BLOCK_UNBLOCK_ERROR:
+      return {
+        ...state,
+        studentBlockUnblockLoading: false,
+        studentBlockUnblockLSuccess: false,
+        studentBlockUnblockError: true,
+      };
     default:
       return state;
   }
