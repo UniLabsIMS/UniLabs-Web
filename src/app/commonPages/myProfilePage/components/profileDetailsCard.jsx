@@ -8,6 +8,7 @@ import {
 import { useState } from 'react';
 import { Zoom } from 'react-awesome-reveal';
 import { useSelector } from 'react-redux';
+import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import ChangePasswordForm from './changePasswordForm';
 import UpdateProfileDetailsForm from './updateProfileDetailsForm';
 
@@ -22,16 +23,42 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
   },
   profilePicContainer: {
-    marginTop: theme.spacing(2),
     alignItems: 'center',
+    position: 'relative',
+    width: '220px',
+    borderRadius: 150,
+    '&:hover': {
+      cursor: 'pointer',
+    },
   },
   profilePic: {
-    width: 250,
+    width: '100%',
     borderRadius: 150,
-    marginBottom: theme.spacing(1),
     alignItems: 'center',
+    display: 'block',
     border: '3px solid',
     borderColor: theme.palette.secondary.main,
+    backfaceVisibility: 'hidden',
+  },
+  profilePicOverlay: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    top: '50%',
+    left: '50%',
+    borderRadius: 150,
+    transition: '.5s ease',
+    backgroundColor: 'black',
+    opacity: 0,
+    transform: `translate(${-50}%, ${-50}%)`,
+    textAlign: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    '&:hover': {
+      opacity: 0.8,
+    },
   },
   biggerCont: {
     display: 'flex',
@@ -51,7 +78,18 @@ const useStyles = makeStyles(theme => ({
   btn: {
     padding: theme.spacing(1),
     width: '50%',
+    [theme.breakpoints.down('sm')]: {
+      width: '80%',
+    },
     align: 'center',
+  },
+  addPicIcon: {
+    color: 'white',
+    fontSize: 48,
+  },
+  addPicText: {
+    color: 'white',
+    fontSize: 18,
   },
 }));
 
@@ -191,11 +229,19 @@ const ProfileDetailsCard = () => {
     <Container className={classes.container}>
       <Zoom triggerOnce>
         <Box align="center">
-          <img
-            src={image != null ? image : '/images/default-avatar.jpg'}
-            alt="Profile Pic"
-            className={classes.profilePic}
-          />
+          <div className={classes.profilePicContainer}>
+            <img
+              src={image != null ? image : '/images/default-avatar.jpg'}
+              alt="Profile Pic"
+              className={classes.profilePic}
+            />
+            <Box className={classes.profilePicOverlay}>
+              <AddAPhotoIcon className={classes.addPicIcon} />
+              <Typography align="center" className={classes.addPicText}>
+                Upload New
+              </Typography>
+            </Box>
+          </div>
         </Box>
       </Zoom>
       <Zoom triggerOnce>{childComponent}</Zoom>
