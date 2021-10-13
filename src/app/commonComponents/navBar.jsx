@@ -109,6 +109,7 @@ const useStyles = makeStyles(theme => ({
   },
   profilePic: {
     width: 40,
+    height: 40,
     borderRadius: 150,
   },
 }));
@@ -185,7 +186,6 @@ function Navbar({ drawerTiles, onDrawerTileClick, activeIndex, showDrawer }) {
               ? user.firstName.concat(' ').concat(user.lastName)
               : user.email}
           </Typography>
-
           {isAuthenticated ? (
             <div>
               <IconButton
@@ -197,7 +197,11 @@ function Navbar({ drawerTiles, onDrawerTileClick, activeIndex, showDrawer }) {
                 size="medium"
               >
                 <img
-                  src="/images/default-avatar.jpg"
+                  src={
+                    user && user.image
+                      ? user.image
+                      : '/images/default-avatar.jpg'
+                  }
                   alt="Profile Pic"
                   className={classes.profilePic}
                 />
