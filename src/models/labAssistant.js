@@ -12,4 +12,9 @@ export default class LabAssistant {
     this.lab = labAssistant.lab;
     this.department = labAssistant.department;
   }
+
+  updateBlocked(newBlockValue) {
+    this.blocked = newBlockValue;
+    return this;
+  }
 }

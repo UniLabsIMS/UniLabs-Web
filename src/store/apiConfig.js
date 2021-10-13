@@ -11,6 +11,7 @@ export const API_EDIT_PROFILE_URL = API_BASE_URL.concat(
 export const API_CHANGE_PASSWORD_URL = API_BASE_URL.concat(
   '/auth/change-password/',
 );
+export const API_BLOCK_UNBLOCK_USER = API_BASE_URL.concat('/auth/block/'); // concat user id
 
 // ------------------------ADMIN----------------------------------
 export const API_ADMIN_DEPARTMENTS_URL = API_BASE_URL.concat('/departments/');

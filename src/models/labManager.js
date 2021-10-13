@@ -12,4 +12,9 @@ export default class LabManager {
     this.lab = labManager.lab;
     this.department = labManager.department;
   }
+
+  updateBlocked(newBlockValue) {
+    this.blocked = newBlockValue;
+    return this;
+  }
 }

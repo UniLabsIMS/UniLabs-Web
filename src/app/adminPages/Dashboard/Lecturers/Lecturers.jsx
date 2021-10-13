@@ -14,6 +14,7 @@ import RegisterLecturer from './components/lecturerRegistrationForm';
 import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
 import ErrorAlert from '../../../commonComponents/errorAlert';
 import {
+  blockUnblockLecturer,
   fetchLecturers,
   resetAdminLecturerState,
 } from '../../../../store/actions/admin/adminLecturersActions';
@@ -43,6 +44,12 @@ export default function LecturerTable() {
   );
   const lecturersLst = useSelector(state => state.adminLecturers.lecturers);
   const reload = useSelector(state => state.adminLecturers.reloadLecturers);
+  const lecturerBlockUnblockLoading = useSelector(
+    state => state.adminLecturers.lecturerBlockUnblockLoading,
+  );
+  const lecturerBlockUnblockError = useSelector(
+    state => state.adminLecturers.lecturerBlockUnblockError,
+  );
 
   useEffect(() => {
     dispatch(fetchLecturers());
@@ -53,6 +60,10 @@ export default function LecturerTable() {
     },
     [dispatch],
   );
+
+  const handleBlockUnblock = (userID, newBlockBool) => {
+    dispatch(blockUnblockLecturer(userID, newBlockBool));
+  };
 
   const allLecturers = lecturersLst.map(lecturer => (
     <TableRow key={lecturer.id}>
@@ -69,9 +80,25 @@ export default function LecturerTable() {
         {lecturer.department.name}
       </TableCell>
       <TableCell align="center" className={classes.row}>
-        <Button variant="outlined" color="secondary">
-          Block
-        </Button>
+        {lecturer.blocked ? (
+          <Button
+            disabled={lecturerBlockUnblockLoading}
+            variant="outlined"
+            color="primary"
+            onClick={() => handleBlockUnblock(lecturer.id, false)}
+          >
+            Unblock
+          </Button>
+        ) : (
+          <Button
+            disabled={lecturerBlockUnblockLoading}
+            variant="outlined"
+            color="secondary"
+            onClick={() => handleBlockUnblock(lecturer.id, true)}
+          >
+            Block
+          </Button>
+        )}
       </TableCell>
     </TableRow>
   ));
@@ -84,6 +111,11 @@ export default function LecturerTable() {
             Lecturers
           </Typography>
         </Zoom>
+        {lecturerBlockUnblockError ? (
+          <ErrorAlert message="Lecturer Blocking/Unblocking Failed." />
+        ) : (
+          <div />
+        )}
         {isLecturersError ? (
           <ErrorAlert message="Failed to load lecturers" />
         ) : (
