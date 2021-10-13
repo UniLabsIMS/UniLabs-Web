@@ -21,7 +21,7 @@ const initialState = {
   newLecturerSuccess: false,
   reloadLecturers: false,
   lecturerBlockUnblockLoading: false,
-  lecturerBlockUnblockLSuccess: false,
+  lecturerBlockUnblockSuccess: false,
   lecturerBlockUnblockError: false,
 };
 
@@ -36,7 +36,7 @@ const adminLecturersReducer = (state = initialState, action) => {
         isLecturersError: false,
         reloadLecturer: false,
         lecturerBlockUnblockLoading: false,
-        lecturerBlockUnblockLSuccess: false,
+        lecturerBlockUnblockSuccess: false,
         lecturerBlockUnblockError: false,
       };
     case LECTURERS_LOADED:
@@ -62,7 +62,7 @@ const adminLecturersReducer = (state = initialState, action) => {
         newLecturerSuccess: false,
         reloadLecturers: false,
         lecturerBlockUnblockLoading: false,
-        lecturerBlockUnblockLSuccess: false,
+        lecturerBlockUnblockSuccess: false,
         lecturerBlockUnblockError: false,
       };
     case NEW_LECTURER_SUCCESS:
@@ -82,7 +82,7 @@ const adminLecturersReducer = (state = initialState, action) => {
       return {
         ...state,
         lecturerBlockUnblockLoading: true,
-        lecturerBlockUnblockLSuccess: false,
+        lecturerBlockUnblockSuccess: false,
         lecturerBlockUnblockError: false,
         newLecturerLoading: false,
         newLecturerError: false,
@@ -91,15 +91,16 @@ const adminLecturersReducer = (state = initialState, action) => {
     case LECTURER_BLOCK_UNBLOCK_SUCCESS:
       return {
         ...state,
+        lecturers: action.payload,
         lecturerBlockUnblockLoading: false,
-        lecturerBlockUnblockLSuccess: true,
+        lecturerBlockUnblockSuccess: true,
         lecturerBlockUnblockError: false,
       };
     case LECTURER_BLOCK_UNBLOCK_ERROR:
       return {
         ...state,
         lecturerBlockUnblockLoading: false,
-        lecturerBlockUnblockLSuccess: false,
+        lecturerBlockUnblockSuccess: false,
         lecturerBlockUnblockError: true,
       };
     default:

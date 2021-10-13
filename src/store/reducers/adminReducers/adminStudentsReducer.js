@@ -21,7 +21,7 @@ const initialState = {
   newStudentSuccess: false,
   reloadStudents: false,
   studentBlockUnblockLoading: false,
-  studentBlockUnblockLSuccess: false,
+  studentBlockUnblockSuccess: false,
   studentBlockUnblockError: false,
 };
 
@@ -36,7 +36,7 @@ const adminStudentsReducer = (state = initialState, action) => {
         isStudentsError: false,
         reloadStudent: false,
         studentBlockUnblockLoading: false,
-        studentBlockUnblockLSuccess: false,
+        studentBlockUnblockSuccess: false,
         studentBlockUnblockError: false,
       };
     case STUDENTS_LOADED:
@@ -83,7 +83,7 @@ const adminStudentsReducer = (state = initialState, action) => {
       return {
         ...state,
         studentBlockUnblockLoading: true,
-        studentBlockUnblockLSuccess: false,
+        studentBlockUnblockSuccess: false,
         studentBlockUnblockError: false,
         newStudentLoading: false,
         newStudentError: false,
@@ -92,15 +92,16 @@ const adminStudentsReducer = (state = initialState, action) => {
     case STUDENT_BLOCK_UNBLOCK_SUCCESS:
       return {
         ...state,
+        students: action.payload,
         studentBlockUnblockLoading: false,
-        studentBlockUnblockLSuccess: true,
+        studentBlockUnblockSuccess: true,
         studentBlockUnblockError: false,
       };
     case STUDENT_BLOCK_UNBLOCK_ERROR:
       return {
         ...state,
         studentBlockUnblockLoading: false,
-        studentBlockUnblockLSuccess: false,
+        studentBlockUnblockSuccess: false,
         studentBlockUnblockError: true,
       };
     default:

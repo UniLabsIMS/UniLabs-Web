@@ -14,6 +14,7 @@ import RegisterLabManager from './components/labManagerRegistrationForm';
 import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
 import ErrorAlert from '../../../commonComponents/errorAlert';
 import {
+  blockUnblockLabManager,
   fetchLabManagers,
   resetAdminLabManagerState,
 } from '../../../../store/actions/admin/adminLabManagersActions';
@@ -45,7 +46,12 @@ export default function LabManagerTable() {
     state => state.adminLabManagers.labManagers,
   );
   const reload = useSelector(state => state.adminLabManagers.reloadLabManagers);
-
+  const labManagerBlockUnblockLoading = useSelector(
+    state => state.adminLabManagers.labManagerBlockUnblockLoading,
+  );
+  const labManagerBlockUnblockError = useSelector(
+    state => state.adminLabManagers.labManagerBlockUnblockError,
+  );
   useEffect(() => {
     dispatch(fetchLabManagers());
   }, [dispatch, reload]);
@@ -55,7 +61,9 @@ export default function LabManagerTable() {
     },
     [dispatch],
   );
-
+  const handleBlockUnblock = (userID, newBlockBool) => {
+    dispatch(blockUnblockLabManager(userID, newBlockBool));
+  };
   const allLabManagers = labManagersLst.map(labManager => (
     <TableRow key={labManager.id}>
       <TableCell align="center" className={classes.row}>
@@ -71,9 +79,25 @@ export default function LabManagerTable() {
         {labManager.department.name}
       </TableCell>
       <TableCell align="center" className={classes.row}>
-        <Button variant="outlined" color="primary">
-          Block
-        </Button>
+        {labManager.blocked ? (
+          <Button
+            disabled={labManagerBlockUnblockLoading}
+            variant="outlined"
+            color="primary"
+            onClick={() => handleBlockUnblock(labManager.id, false)}
+          >
+            Unblock
+          </Button>
+        ) : (
+          <Button
+            disabled={labManagerBlockUnblockLoading}
+            variant="outlined"
+            color="secondary"
+            onClick={() => handleBlockUnblock(labManager.id, true)}
+          >
+            Block
+          </Button>
+        )}
       </TableCell>
     </TableRow>
   ));
@@ -86,6 +110,11 @@ export default function LabManagerTable() {
             Lab Managers
           </Typography>
         </Zoom>
+        {labManagerBlockUnblockError ? (
+          <ErrorAlert message="Lab Manager Blocking/Unblocking Failed." />
+        ) : (
+          <div />
+        )}
         {isLabManagersError ? (
           <ErrorAlert message="Failed to load labManagers" />
         ) : (

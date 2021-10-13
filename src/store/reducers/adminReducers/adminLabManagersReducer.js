@@ -7,6 +7,9 @@ import {
   NEW_LAB_MANAGER_LOADING,
   NEW_LAB_MANAGER_SUCCESS,
   RESET_LAB_MANAGER_STATE,
+  LAB_MANAGER_BLOCK_UNBLOCK_LOADING,
+  LAB_MANAGER_BLOCK_UNBLOCK_SUCCESS,
+  LAB_MANAGER_BLOCK_UNBLOCK_ERROR,
 } from '../../actionTypes/adminActionTypes';
 
 const initialState = {
@@ -17,6 +20,9 @@ const initialState = {
   newLabManagerError: false,
   newLabManagerSuccess: false,
   reloadLabManagers: false,
+  labManagerBlockUnblockLoading: false,
+  labManagerBlockUnblockSuccess: false,
+  labManagerBlockUnblockError: false,
 };
 
 const adminLabManagersReducer = (state = initialState, action) => {
@@ -29,6 +35,9 @@ const adminLabManagersReducer = (state = initialState, action) => {
         isLabManagersLoading: true,
         isLabManagersError: false,
         reloadLabManager: false,
+        labManagerBlockUnblockLoading: false,
+        labManagerBlockUnblockSuccess: false,
+        labManagerBlockUnblockError: false,
       };
     case LAB_MANAGERS_LOADED:
       return {
@@ -52,6 +61,9 @@ const adminLabManagersReducer = (state = initialState, action) => {
         newLabManagerError: false,
         newLabManagerSuccess: false,
         reloadLabManagers: false,
+        labManagerBlockUnblockLoading: false,
+        labManagerBlockUnblockSuccess: false,
+        labManagerBlockUnblockError: false,
       };
     case NEW_LAB_MANAGER_SUCCESS:
       return {
@@ -65,6 +77,31 @@ const adminLabManagersReducer = (state = initialState, action) => {
         ...state,
         newLabManagerLoading: false,
         newLabManagerError: true,
+      };
+    case LAB_MANAGER_BLOCK_UNBLOCK_LOADING:
+      return {
+        ...state,
+        labManagerBlockUnblockLoading: true,
+        labManagerBlockUnblockSuccess: false,
+        labManagerBlockUnblockError: false,
+        newLabManagerLoading: false,
+        newLabManagerError: false,
+        newLabManagerSuccess: false,
+      };
+    case LAB_MANAGER_BLOCK_UNBLOCK_SUCCESS:
+      return {
+        ...state,
+        labManagers: action.payload,
+        labManagerBlockUnblockLoading: false,
+        labManagerBlockUnblockSuccess: true,
+        labManagerBlockUnblockError: false,
+      };
+    case LAB_MANAGER_BLOCK_UNBLOCK_ERROR:
+      return {
+        ...state,
+        labManagerBlockUnblockLoading: false,
+        labManagerBlockUnblockSuccess: false,
+        labManagerBlockUnblockError: true,
       };
 
     default:
