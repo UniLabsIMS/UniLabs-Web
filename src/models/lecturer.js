@@ -13,4 +13,9 @@ export default class Lecturer {
     this.department = lecturer.department;
     this.permitted_labs = lecturer.permitted_labs;
   }
+
+  updateBlocked(newBlockValue) {
+    this.blocked = newBlockValue;
+    return this;
+  }
 }

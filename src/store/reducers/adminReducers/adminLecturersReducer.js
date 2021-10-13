@@ -7,6 +7,9 @@ import {
   NEW_LECTURER_LOADING,
   NEW_LECTURER_SUCCESS,
   RESET_LECTURER_STATE,
+  LECTURER_BLOCK_UNBLOCK_LOADING,
+  LECTURER_BLOCK_UNBLOCK_SUCCESS,
+  LECTURER_BLOCK_UNBLOCK_ERROR,
 } from '../../actionTypes/adminActionTypes';
 
 const initialState = {
@@ -17,6 +20,9 @@ const initialState = {
   newLecturerError: false,
   newLecturerSuccess: false,
   reloadLecturers: false,
+  lecturerBlockUnblockLoading: false,
+  lecturerBlockUnblockSuccess: false,
+  lecturerBlockUnblockError: false,
 };
 
 const adminLecturersReducer = (state = initialState, action) => {
@@ -29,6 +35,9 @@ const adminLecturersReducer = (state = initialState, action) => {
         isLecturersLoading: true,
         isLecturersError: false,
         reloadLecturer: false,
+        lecturerBlockUnblockLoading: false,
+        lecturerBlockUnblockSuccess: false,
+        lecturerBlockUnblockError: false,
       };
     case LECTURERS_LOADED:
       return {
@@ -52,6 +61,9 @@ const adminLecturersReducer = (state = initialState, action) => {
         newLecturerError: false,
         newLecturerSuccess: false,
         reloadLecturers: false,
+        lecturerBlockUnblockLoading: false,
+        lecturerBlockUnblockSuccess: false,
+        lecturerBlockUnblockError: false,
       };
     case NEW_LECTURER_SUCCESS:
       return {
@@ -66,7 +78,31 @@ const adminLecturersReducer = (state = initialState, action) => {
         newLecturerLoading: false,
         newLecturerError: true,
       };
-
+    case LECTURER_BLOCK_UNBLOCK_LOADING:
+      return {
+        ...state,
+        lecturerBlockUnblockLoading: true,
+        lecturerBlockUnblockSuccess: false,
+        lecturerBlockUnblockError: false,
+        newLecturerLoading: false,
+        newLecturerError: false,
+        newLecturerSuccess: false,
+      };
+    case LECTURER_BLOCK_UNBLOCK_SUCCESS:
+      return {
+        ...state,
+        lecturers: action.payload,
+        lecturerBlockUnblockLoading: false,
+        lecturerBlockUnblockSuccess: true,
+        lecturerBlockUnblockError: false,
+      };
+    case LECTURER_BLOCK_UNBLOCK_ERROR:
+      return {
+        ...state,
+        lecturerBlockUnblockLoading: false,
+        lecturerBlockUnblockSuccess: false,
+        lecturerBlockUnblockError: true,
+      };
     default:
       return state;
   }

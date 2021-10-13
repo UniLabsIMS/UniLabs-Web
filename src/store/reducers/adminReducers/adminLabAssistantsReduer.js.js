@@ -7,6 +7,9 @@ import {
   NEW_LAB_ASSISTANT_LOADING,
   NEW_LAB_ASSISTANT_SUCCESS,
   RESET_LAB_ASSISTANT_STATE,
+  LAB_ASSISTANT_BLOCK_UNBLOCK_LOADING,
+  LAB_ASSISTANT_BLOCK_UNBLOCK_SUCCESS,
+  LAB_ASSISTANT_BLOCK_UNBLOCK_ERROR,
 } from '../../actionTypes/adminActionTypes';
 
 const initialState = {
@@ -17,6 +20,9 @@ const initialState = {
   newLabAssistantError: false,
   newLabAssistantSuccess: false,
   reloadLabAssistants: false,
+  labAssistantBlockUnblockLoading: false,
+  labAssistantBlockUnblockSuccess: false,
+  labAssistantBlockUnblockError: false,
 };
 
 const adminLabAssistantsReducer = (state = initialState, action) => {
@@ -29,6 +35,9 @@ const adminLabAssistantsReducer = (state = initialState, action) => {
         isLabAssistantsLoading: true,
         isLabAssistantsError: false,
         reloadLabAssistant: false,
+        labAssistantBlockUnblockLoading: false,
+        labAssistantBlockUnblockSuccess: false,
+        labAssistantBlockUnblockError: false,
       };
     case LAB_ASSISTANTS_LOADED:
       return {
@@ -52,6 +61,9 @@ const adminLabAssistantsReducer = (state = initialState, action) => {
         newLabAssistantError: false,
         newLabAssistantSuccess: false,
         reloadLabAssistants: false,
+        labAssistantBlockUnblockLoading: false,
+        labAssistantBlockUnblockSuccess: false,
+        labAssistantBlockUnblockError: false,
       };
     case NEW_LAB_ASSISTANT_SUCCESS:
       return {
@@ -66,7 +78,31 @@ const adminLabAssistantsReducer = (state = initialState, action) => {
         newLabAssistantLoading: false,
         newLabAssistantError: true,
       };
-
+    case LAB_ASSISTANT_BLOCK_UNBLOCK_LOADING:
+      return {
+        ...state,
+        labAssistantBlockUnblockLoading: true,
+        labAssistantBlockUnblockSuccess: false,
+        labAssistantBlockUnblockError: false,
+        newLabAssistantLoading: false,
+        newLabAssistantError: false,
+        newLabAssistantSuccess: false,
+      };
+    case LAB_ASSISTANT_BLOCK_UNBLOCK_SUCCESS:
+      return {
+        ...state,
+        labAssistants: action.payload,
+        labAssistantBlockUnblockLoading: false,
+        labAssistantBlockUnblockSuccess: true,
+        labAssistantBlockUnblockError: false,
+      };
+    case LAB_ASSISTANT_BLOCK_UNBLOCK_ERROR:
+      return {
+        ...state,
+        labAssistantBlockUnblockLoading: false,
+        labAssistantBlockUnblockSuccess: false,
+        labAssistantBlockUnblockError: true,
+      };
     default:
       return state;
   }

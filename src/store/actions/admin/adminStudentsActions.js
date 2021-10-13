@@ -9,10 +9,14 @@ import {
   NEW_STUDENT_LOADING,
   NEW_STUDENT_SUCCESS,
   RESET_STUDENT_STATE,
+  STUDENT_BLOCK_UNBLOCK_LOADING,
+  STUDENT_BLOCK_UNBLOCK_SUCCESS,
+  STUDENT_BLOCK_UNBLOCK_ERROR,
 } from '../../actionTypes/adminActionTypes';
 import {
   API_ADMIN_STUDENTS_URL,
   API_ADMIN_NEW_STUDENT_URL,
+  API_BLOCK_UNBLOCK_USER,
 } from '../../apiConfig';
 
 /* Load students */
@@ -52,6 +56,39 @@ export const addStudent =
       .catch(err => {
         dispatch({
           type: NEW_STUDENT_FAIL,
+        });
+      });
+  };
+
+/* Block unblock student */
+export const blockUnblockStudent =
+  (userID, isBlocked) => (dispatch, getState) => {
+    dispatch({ type: STUDENT_BLOCK_UNBLOCK_LOADING });
+    const formData = new FormData();
+    formData.append('blocked', isBlocked);
+    axios
+      .put(
+        API_BLOCK_UNBLOCK_USER.concat(`${userID}`),
+        formData,
+        httpHeaderConfig(getState),
+      )
+      .then(res => {
+        const updatedStudents = getState().adminStudents.students.map(
+          student => {
+            if (student.id === userID) {
+              return student.updateBlocked(isBlocked);
+            }
+            return student;
+          },
+        );
+        dispatch({
+          type: STUDENT_BLOCK_UNBLOCK_SUCCESS,
+          payload: updatedStudents,
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: STUDENT_BLOCK_UNBLOCK_ERROR,
         });
       });
   };

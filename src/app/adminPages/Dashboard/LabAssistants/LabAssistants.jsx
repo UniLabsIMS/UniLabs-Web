@@ -14,6 +14,7 @@ import RegisterLabAssitant from './components/assistantRegistrationForm';
 import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
 import ErrorAlert from '../../../commonComponents/errorAlert';
 import {
+  blockUnblockLabAssistant,
   fetchLabAssistants,
   resetAdminLabAssistantState,
 } from '../../../../store/actions/admin/adminLabAssistantsActions';
@@ -47,6 +48,12 @@ export default function LabAssistantTable() {
   const reload = useSelector(
     state => state.adminLabAssistants.reloadLabAssistants,
   );
+  const labAssistantBlockUnblockLoading = useSelector(
+    state => state.adminLabAssistants.labAssistantBlockUnblockLoading,
+  );
+  const labAssistantBlockUnblockError = useSelector(
+    state => state.adminLabAssistants.labAssistantBlockUnblockError,
+  );
 
   useEffect(() => {
     dispatch(fetchLabAssistants());
@@ -57,7 +64,9 @@ export default function LabAssistantTable() {
     },
     [dispatch],
   );
-
+  const handleBlockUnblock = (userID, newBlockBool) => {
+    dispatch(blockUnblockLabAssistant(userID, newBlockBool));
+  };
   const allLabAssistants = labAssistantsLst.map(labAssistant => (
     <TableRow key={labAssistant.id}>
       <TableCell align="center" className={classes.row}>
@@ -73,9 +82,25 @@ export default function LabAssistantTable() {
         {labAssistant.department.name}
       </TableCell>
       <TableCell align="center" className={classes.row}>
-        <Button variant="outlined" color="primary">
-          Block
-        </Button>
+        {labAssistant.blocked ? (
+          <Button
+            disabled={labAssistantBlockUnblockLoading}
+            variant="outlined"
+            color="primary"
+            onClick={() => handleBlockUnblock(labAssistant.id, false)}
+          >
+            Unblock
+          </Button>
+        ) : (
+          <Button
+            disabled={labAssistantBlockUnblockLoading}
+            variant="outlined"
+            color="secondary"
+            onClick={() => handleBlockUnblock(labAssistant.id, true)}
+          >
+            Block
+          </Button>
+        )}
       </TableCell>
     </TableRow>
   ));
@@ -88,6 +113,11 @@ export default function LabAssistantTable() {
             Lab Assistants
           </Typography>
         </Zoom>
+        {labAssistantBlockUnblockError ? (
+          <ErrorAlert message="Lab Assistant Blocking/Unblocking Failed." />
+        ) : (
+          <div />
+        )}
         {isLabAssistantsError ? (
           <ErrorAlert message="Failed to load labAssistants" />
         ) : (
