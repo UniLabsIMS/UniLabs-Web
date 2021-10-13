@@ -16,7 +16,6 @@ import {
 import {
   Menu as MenuIcon,
   ChevronLeft as ChevronLeftIcon,
-  AccountCircleRounded,
 } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
@@ -108,6 +107,10 @@ const useStyles = makeStyles(theme => ({
       display: 'none',
     },
   },
+  profilePic: {
+    width: 40,
+    borderRadius: 150,
+  },
 }));
 
 function Navbar({ drawerTiles, onDrawerTileClick, activeIndex, showDrawer }) {
@@ -193,7 +196,11 @@ function Navbar({ drawerTiles, onDrawerTileClick, activeIndex, showDrawer }) {
                 color="inherit"
                 size="medium"
               >
-                <AccountCircleRounded fontSize="large" />
+                <img
+                  src="/images/default-avatar.jpg"
+                  alt="Profile Pic"
+                  className={classes.profilePic}
+                />
               </IconButton>
               <Menu
                 id="menu-appbar"

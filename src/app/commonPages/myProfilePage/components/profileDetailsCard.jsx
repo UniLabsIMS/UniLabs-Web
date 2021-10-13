@@ -30,6 +30,8 @@ const useStyles = makeStyles(theme => ({
     borderRadius: 150,
     marginBottom: theme.spacing(1),
     alignItems: 'center',
+    border: '3px solid',
+    borderColor: theme.palette.secondary.main,
   },
   biggerCont: {
     display: 'flex',
@@ -190,7 +192,7 @@ const ProfileDetailsCard = () => {
       <Zoom triggerOnce>
         <Box align="center">
           <img
-            src={image != null ? image : '/images/default-avatar.svg'}
+            src={image != null ? image : '/images/default-avatar.jpg'}
             alt="Profile Pic"
             className={classes.profilePic}
           />
