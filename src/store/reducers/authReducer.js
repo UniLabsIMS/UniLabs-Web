@@ -15,6 +15,9 @@ import {
   CHANGE_PASSWORD_ERROR,
   CHANGE_PASSWORD_LOADING,
   CHANGE_PASSWORD_SUCCESS,
+  IMAGE_CHANGE_LOADING,
+  IMAGE_CHANGE_SUCCESS,
+  IMAGE_CHANGE_ERROR,
 } from '../actionTypes/authActionTypes';
 import User from '../../models/user';
 
@@ -33,6 +36,9 @@ const initialState = {
   isChangePasswordLoading: false,
   changePasswordSuccess: false,
   changePasswordError: false,
+  isImageChangeLoading: false,
+  imageChangeSuccess: false,
+  imageChangeError: false,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -49,6 +55,9 @@ const authReducer = (state = initialState, action) => {
         isChangePasswordLoading: false,
         changePasswordSuccess: false,
         changePasswordError: false,
+        isImageChangeLoading: false,
+        imageChangeSuccess: false,
+        imageChangeError: false,
       };
     case LOGIN_LOADING:
       return {
@@ -117,6 +126,9 @@ const authReducer = (state = initialState, action) => {
         isChangePasswordLoading: false,
         changePasswordSuccess: false,
         changePasswordError: false,
+        isImageChangeLoading: false,
+        imageChangeSuccess: false,
+        imageChangeError: false,
       };
     }
     case UPDATE_PROFILE_SUCCESS:
@@ -143,6 +155,9 @@ const authReducer = (state = initialState, action) => {
         isUpdateProfileLoading: false,
         updateProfileError: false,
         updateProfileSuccess: false,
+        isImageChangeLoading: false,
+        imageChangeSuccess: false,
+        imageChangeError: false,
       };
     }
     case CHANGE_PASSWORD_SUCCESS:
@@ -158,6 +173,35 @@ const authReducer = (state = initialState, action) => {
         isChangePasswordLoading: false,
         changePasswordSuccess: false,
         changePasswordError: true,
+      };
+    case IMAGE_CHANGE_LOADING: {
+      return {
+        ...state,
+        isImageChangeLoading: true,
+        imageChangeSuccess: false,
+        imageChangeError: false,
+        isUpdateProfileLoading: false,
+        updateProfileError: false,
+        updateProfileSuccess: false,
+        isChangePasswordLoading: false,
+        changePasswordSuccess: false,
+        changePasswordError: false,
+      };
+    }
+    case IMAGE_CHANGE_SUCCESS:
+      return {
+        ...state,
+        user: state.user.updateImage(action.payload),
+        isImageChangeLoading: false,
+        imageChangeSuccess: true,
+        imageChangeError: false,
+      };
+    case IMAGE_CHANGE_ERROR:
+      return {
+        ...state,
+        isImageChangeLoading: false,
+        imageChangeSuccess: false,
+        imageChangeError: true,
       };
     default:
       return state;

@@ -17,4 +17,9 @@ export default class User {
     this.contactNumber = data.contact_number;
     return this;
   }
+
+  updateImage(data) {
+    this.image = data.image;
+    return this;
+  }
 }
