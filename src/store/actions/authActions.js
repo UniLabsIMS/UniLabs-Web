@@ -16,6 +16,9 @@ import {
   CHANGE_PASSWORD_ERROR,
   CHANGE_PASSWORD_LOADING,
   CHANGE_PASSWORD_SUCCESS,
+  IMAGE_CHANGE_LOADING,
+  IMAGE_CHANGE_SUCCESS,
+  IMAGE_CHANGE_ERROR,
 } from '../actionTypes/authActionTypes';
 import {
   API_CHANGE_PASSWORD_URL,
@@ -143,3 +146,22 @@ export const changePassword =
         });
       });
   };
+
+export const updateProfileImage = image => (dispatch, getState) => {
+  dispatch({ type: IMAGE_CHANGE_LOADING });
+  const formData = new FormData();
+  formData.append('image', image);
+  axios
+    .patch(`${API_EDIT_PROFILE_URL}`, formData, httpHeaderConfig(getState))
+    .then(res => {
+      dispatch({
+        type: IMAGE_CHANGE_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: IMAGE_CHANGE_ERROR,
+      });
+    });
+};

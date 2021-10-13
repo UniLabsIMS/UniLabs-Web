@@ -8,11 +8,14 @@ import {
 import { useState } from 'react';
 import { Zoom } from 'react-awesome-reveal';
 import { useSelector } from 'react-redux';
+import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import ChangePasswordForm from './changePasswordForm';
 import UpdateProfileDetailsForm from './updateProfileDetailsForm';
 
 import SuccessAlert from '../../../commonComponents/successAlert';
 import ErrorAlert from '../../../commonComponents/errorAlert';
+import ProfileImageUploadModal from './profileImageUploadModal';
+import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -22,14 +25,46 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
   },
   profilePicContainer: {
-    marginTop: theme.spacing(2),
     alignItems: 'center',
+    position: 'relative',
+    width: '220px',
+    height: '220px',
+    borderRadius: 150,
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
+    '&:hover': {
+      cursor: 'pointer',
+    },
   },
   profilePic: {
-    width: 250,
+    width: '100%',
+    height: '100%',
     borderRadius: 150,
-    marginBottom: theme.spacing(1),
     alignItems: 'center',
+    display: 'block',
+    border: '3px solid',
+    borderColor: theme.palette.secondary.main,
+    backfaceVisibility: 'hidden',
+  },
+  profilePicOverlay: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    top: '50%',
+    left: '50%',
+    borderRadius: 150,
+    transition: '.5s ease',
+    backgroundColor: 'black',
+    opacity: 0,
+    transform: `translate(${-50}%, ${-50}%)`,
+    textAlign: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    '&:hover': {
+      opacity: 0.8,
+    },
   },
   biggerCont: {
     display: 'flex',
@@ -49,7 +84,18 @@ const useStyles = makeStyles(theme => ({
   btn: {
     padding: theme.spacing(1),
     width: '50%',
+    [theme.breakpoints.down('sm')]: {
+      width: '80%',
+    },
     align: 'center',
+  },
+  addPicIcon: {
+    color: 'white',
+    fontSize: 48,
+  },
+  addPicText: {
+    color: 'white',
+    fontSize: 18,
   },
 }));
 
@@ -61,6 +107,14 @@ const ProfileDetailsCard = () => {
   const email = useSelector(state => state.auth.user.email);
   const contactNumber = useSelector(state => state.auth.user.contactNumber);
   const image = useSelector(state => state.auth.user.image);
+
+  const isImageChangeLoading = useSelector(
+    state => state.auth.isImageChangeLoading,
+  );
+  const imageChangeSuccess = useSelector(
+    state => state.auth.imageChangeSuccess,
+  );
+  const imageChangeError = useSelector(state => state.auth.imageChangeError);
 
   const updateProfileSuccess = useSelector(
     state => state.auth.updateProfileSuccess,
@@ -75,27 +129,38 @@ const ProfileDetailsCard = () => {
     state => state.auth.updateProfileError,
   );
 
-  const [editable, setEditable] = useState(false);
-  const [changePwdClicked, setChangePwdClicked] = useState(false);
+  const [editDetailsMode, setEditDetailsMode] = useState(false);
+  const [passwordEditMode, setPasswordEditMode] = useState(false);
+  const [imageUploadMode, setImageUploadMode] = useState(false);
 
   let childComponent = null;
-  if (editable && !changePwdClicked) {
+  if (editDetailsMode && !passwordEditMode) {
     childComponent = (
       <UpdateProfileDetailsForm
-        onSave={() => setEditable(false)}
-        onCancel={() => setEditable(false)}
+        onSave={() => setEditDetailsMode(false)}
+        onCancel={() => setEditDetailsMode(false)}
       />
     );
-  } else if (changePwdClicked && !editable) {
+  } else if (passwordEditMode && !editDetailsMode) {
     childComponent = (
       <ChangePasswordForm
-        onSave={() => setChangePwdClicked(false)}
-        onCancel={() => setChangePwdClicked(false)}
+        onSave={() => setPasswordEditMode(false)}
+        onCancel={() => setPasswordEditMode(false)}
       />
     );
   } else {
     childComponent = (
       <Box>
+        {imageChangeError ? (
+          <ErrorAlert message="Failed to change profile image please try again later." />
+        ) : (
+          <div />
+        )}
+        {imageChangeSuccess ? (
+          <SuccessAlert message="Image changed successfully." />
+        ) : (
+          <div />
+        )}
         <Zoom triggerOnce>
           <div className={classes.biggerCont}>
             {updateProfileSuccess ? (
@@ -163,20 +228,20 @@ const ProfileDetailsCard = () => {
           <Box m={1} />
           <Box align="center">
             <Button
-              variant="contained"
+              variant="outlined"
               color="primary"
               className={classes.btn}
-              onClick={() => setEditable(true)}
+              onClick={() => setEditDetailsMode(true)}
             >
               Change Profile Details
             </Button>
             <Box m={1} />
             <Button
               type="submit"
-              variant="contained"
+              variant="outlined"
               color="secondary"
               className={classes.btn}
-              onClick={() => setChangePwdClicked(true)}
+              onClick={() => setPasswordEditMode(true)}
             >
               Change Password
             </Button>
@@ -189,20 +254,36 @@ const ProfileDetailsCard = () => {
     <Container className={classes.container}>
       <Zoom triggerOnce>
         <Box align="center">
-          <img
-            src={image != null ? image : '/images/default-avatar.svg'}
-            alt="Profile Pic"
-            className={classes.profilePic}
-          />
+          <Typography variant="h4">My Profile</Typography>
+          {isImageChangeLoading ? (
+            <CustomLoadingIndicator minimumHeight="40vh" />
+          ) : (
+            <Box
+              className={classes.profilePicContainer}
+              onClick={() => setImageUploadMode(true)}
+            >
+              <img
+                src={image != null ? image : '/images/default-avatar.jpg'}
+                alt="Profile Pic"
+                className={classes.profilePic}
+              />
+              <Box className={classes.profilePicOverlay}>
+                <AddAPhotoIcon className={classes.addPicIcon} />
+                <Typography align="center" className={classes.addPicText}>
+                  Upload New
+                </Typography>
+              </Box>
+            </Box>
+          )}
         </Box>
+        <ProfileImageUploadModal
+          open={imageUploadMode}
+          onClose={() => setImageUploadMode(false)}
+        />
       </Zoom>
       <Zoom triggerOnce>{childComponent}</Zoom>
     </Container>
   );
 };
-
-// CategoryCard.propTypes = {
-//   category: PropTypes.objectOf(PropTypes.elements).isRequired,
-// };
 
 export default ProfileDetailsCard;
