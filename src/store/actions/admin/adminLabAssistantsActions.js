@@ -9,10 +9,14 @@ import {
   NEW_LAB_ASSISTANT_LOADING,
   NEW_LAB_ASSISTANT_SUCCESS,
   RESET_LAB_ASSISTANT_STATE,
+  LAB_ASSISTANT_BLOCK_UNBLOCK_LOADING,
+  LAB_ASSISTANT_BLOCK_UNBLOCK_SUCCESS,
+  LAB_ASSISTANT_BLOCK_UNBLOCK_ERROR,
 } from '../../actionTypes/adminActionTypes';
 import {
   API_ADMIN_LAB_ASSISTANTS_URL,
   API_ADMIN_NEW_LAB_ASSISTANT_URL,
+  API_BLOCK_UNBLOCK_USER,
 } from '../../apiConfig';
 
 /* Load labAssistants */
@@ -53,7 +57,37 @@ export const addLabAssistant = (email, lab) => (dispatch, getState) => {
       });
     });
 };
-
+/* Block unblock lab assistant */
+export const blockUnblockLabAssistant =
+  (userID, isBlocked) => (dispatch, getState) => {
+    dispatch({ type: LAB_ASSISTANT_BLOCK_UNBLOCK_LOADING });
+    const formData = new FormData();
+    formData.append('blocked', isBlocked);
+    axios
+      .put(
+        API_BLOCK_UNBLOCK_USER.concat(`${userID}`),
+        formData,
+        httpHeaderConfig(getState),
+      )
+      .then(res => {
+        const updatedLabAssistants =
+          getState().adminLabAssistants.labAssistants.map(labAssistant => {
+            if (labAssistant.id === userID) {
+              return labAssistant.updateBlocked(isBlocked);
+            }
+            return labAssistant;
+          });
+        dispatch({
+          type: LAB_ASSISTANT_BLOCK_UNBLOCK_SUCCESS,
+          payload: updatedLabAssistants,
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: LAB_ASSISTANT_BLOCK_UNBLOCK_ERROR,
+        });
+      });
+  };
 /* Reset State */
 export const resetAdminLabAssistantState = () => (dispatch, getState) => {
   dispatch({ type: RESET_LAB_ASSISTANT_STATE });
