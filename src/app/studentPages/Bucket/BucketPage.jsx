@@ -1,11 +1,14 @@
 import { Grid, Typography, makeStyles, Box } from '@material-ui/core';
 import { Zoom } from 'react-awesome-reveal';
 import { Link, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
 import BreadcrumbsWrapper from '../../commonComponents/breadCrumbsWrapper';
 import DisplayBucketItemCard from './components/DisplayBucketItemCard';
 import RequestBucket from './components/BucketRequestForm';
+import { STUDENT_BASE_URL, STUDENT_CATEGORIES_URL } from '../../constants';
+import WarningAlert from '../../commonComponents/warningAlert';
 
 const useStyles = makeStyles(theme => ({
   link: {
@@ -21,55 +24,28 @@ const useStyles = makeStyles(theme => ({
 function BucketPage() {
   const classes = useStyles();
   const { labId } = useParams();
+  const bucketItems = useSelector(state => state.studentLabBucket.bucketItems);
 
-  const allDisplayItems = [
-    {
-      name: 'Item 1',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-display-item-img.svg',
-      id: 1,
-      quantity: 2,
-    },
-    {
-      name: 'Item 2',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-display-item-img.svg',
-      id: 2,
-      quantity: 5,
-    },
-    {
-      name: 'Item 4',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-display-item-img.svg',
-      id: 4,
-      quantity: 1,
-    },
-    {
-      name: 'Item 7',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-display-item-img.svg',
-      id: 7,
-      quantity: 4,
-    },
-  ];
+  const bucketItemsOfLab = bucketItems.filter(
+    bucketItem => bucketItem.labId === labId,
+  );
 
-  const displayItems = allDisplayItems.map(displayItem => (
-    <Grid item key={displayItem.id}>
-      <DisplayBucketItemCard displayItem={displayItem} />
+  const displayItems = bucketItemsOfLab.map(bucketItem => (
+    <Grid item key={bucketItem.displayItemId}>
+      <DisplayBucketItemCard bucketItem={bucketItem} />
     </Grid>
   ));
 
   return (
     <PageWrapper navBar={<Navbar />}>
       <BreadcrumbsWrapper>
-        <Link to="/student" className={classes.link}>
+        <Link to={STUDENT_BASE_URL} className={classes.link}>
           Labs
         </Link>
-        <Link to={`/student/lab/${labId}`} className={classes.link}>
+        <Link
+          to={STUDENT_CATEGORIES_URL.concat(labId)}
+          className={classes.link}
+        >
           Categories
         </Link>
         <Box fontSize="inherit">My Bucket</Box>
@@ -82,7 +58,11 @@ function BucketPage() {
       <Zoom triggerOnce>
         <RequestBucket />
       </Zoom>
-      <div className={classes.cards}>{displayItems}</div>
+      {bucketItemsOfLab.length === 0 ? (
+        <WarningAlert message="No items in the bucket for this lab." />
+      ) : (
+        <div className={classes.cards}>{displayItems}</div>
+      )}
     </PageWrapper>
   );
 }

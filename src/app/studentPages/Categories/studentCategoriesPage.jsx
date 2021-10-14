@@ -10,7 +10,7 @@ import CategoryCard from './components/CategoryCard';
 import CustomLoadingIndicator from '../../commonComponents/customLoadingIndicator';
 import ErrorAlert from '../../commonComponents/errorAlert';
 import { fetchCategories } from '../../../store/actions/student/studentCategoriesActions';
-import { STUDENT_BASE_URL } from '../../constants';
+import { STUDENT_BASE_URL, STUDENT_LAB_BUCKET_URL } from '../../constants';
 
 const useStyles = makeStyles(theme => ({
   link: {
@@ -85,7 +85,7 @@ function StudentCategoriesPage() {
           <Link
             className={classes.bucketButtonContainer1}
             style={{ textDecoration: 'none' }}
-            to="/student/lab-bucket/1"
+            to={STUDENT_LAB_BUCKET_URL.concat(labId)}
           >
             <Button
               className={classes.bucketButton}

@@ -18,6 +18,7 @@ import labAssistantDisplayItemsReducer from './labAssistantReducers/labAssistant
 import labAssistantItemsReducer from './labAssistantReducers/labAssistantItemsReducer';
 import labAssistantBorrowedItemsReducer from './labAssistantReducers/labAssistantBorrowedItemsReducer';
 import labAssistantTempBorrowedItemsReducer from './labAssistantReducers/labAssistantTempBorrowedItemsReducer';
+import studentLabBucketReducer from './studentReducers/studentBucketReducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
   studentLabs: studentLabsReducer,
   studentCategories: studentCategoriesReducer,
   studentDisplayItems: studentDisplayItemsReducer,
+  studentLabBucket: studentLabBucketReducer,
   labManagerDashboard: labManagerDashReducer,
   labManagerDisplayItems: labManagerDisplayItemsReducer,
   labManagerItems: labManagerItemsReducer,

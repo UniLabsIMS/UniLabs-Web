@@ -12,10 +12,11 @@ import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
   itemCard: {
-    padding: theme.spacing(1),
     marginTop: theme.spacing(1),
   },
-  itemCardImage: {},
+  itemCardImage: {
+    height: 200,
+  },
   buttons: {
     margin: theme.spacing(1),
     display: 'flex',
@@ -60,9 +61,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const DisplayBucketItemCard = ({ displayItem }) => {
+const DisplayBucketItemCard = ({ bucketItem }) => {
   const classes = useStyles();
-  //   const { labId, categoryID } = useParams();
 
   return (
     <Zoom triggerOnce>
@@ -74,7 +74,11 @@ const DisplayBucketItemCard = ({ displayItem }) => {
               component="img"
               alt="Display Item Photo"
               width="200"
-              image={displayItem.image}
+              image={
+                bucketItem.image === null
+                  ? '/images/default-display-item-img.svg'
+                  : bucketItem.image
+              }
               title="Display Item Photo"
             />
           </div>
@@ -89,13 +93,13 @@ const DisplayBucketItemCard = ({ displayItem }) => {
                       component="h2"
                       align="center"
                     >
-                      {displayItem.name}
+                      {bucketItem.name}
                     </Typography>
                     <Box p={2}>
                       <Typography variant="h6" component="h6">
                         Description
                       </Typography>
-                      <Typography>{displayItem.description}</Typography>
+                      <Typography>{bucketItem.description}</Typography>
                     </Box>
                   </div>
                 )}
@@ -111,7 +115,7 @@ const DisplayBucketItemCard = ({ displayItem }) => {
                   component="h2"
                   align="center"
                 >
-                  Quantity : {displayItem.quantity}
+                  Quantity : {bucketItem.quantity}
                 </Typography>
               </div>
               <div className={classes.btnBox}>
@@ -132,7 +136,7 @@ const DisplayBucketItemCard = ({ displayItem }) => {
 };
 
 DisplayBucketItemCard.propTypes = {
-  displayItem: PropTypes.objectOf(PropTypes.any).isRequired,
+  bucketItem: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default DisplayBucketItemCard;
