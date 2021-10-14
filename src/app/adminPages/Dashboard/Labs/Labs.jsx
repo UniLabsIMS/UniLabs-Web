@@ -18,7 +18,6 @@ import {
   resetAdminLabState,
 } from '../../../../store/actions/admin/adminLabsActions';
 import AssignLecturerModal from './components/assignLecturerModal';
-import WarningAlert from '../../../commonComponents/warningAlert';
 
 const useStyles = makeStyles({
   table: {
@@ -41,6 +40,7 @@ export default function LabTable() {
   const isLabsLoading = useSelector(state => state.adminLabs.isLabsLoading);
   const isLabsError = useSelector(state => state.adminLabs.isLabsError);
   const labsLst = useSelector(state => state.adminLabs.labs);
+  const lecturersLst = useSelector(state => state.adminLabs.lecturers);
   const reload = useSelector(state => state.adminLabs.reloadLabs);
 
   const [openAssignLecturerModal, setOpenAssignLecturerModal] = useState('');
@@ -55,7 +55,6 @@ export default function LabTable() {
     [dispatch],
   );
   const handleModalClose = () => {
-    dispatch(fetchLabs());
     setOpenAssignLecturerModal('');
   };
   const allLabs = labsLst.map(lab => (
@@ -82,9 +81,13 @@ export default function LabTable() {
           Add Lecturer
         </Button>
         <AssignLecturerModal
+          labID={lab.id}
           open={openAssignLecturerModal === lab.id}
           onClose={handleModalClose}
           assignedLecturers={lab.assignedLecturers}
+          departmentLecturers={lecturersLst.filter(
+            lecturer => lecturer.department.id === lab.department.id,
+          )}
         />
       </TableCell>
     </TableRow>

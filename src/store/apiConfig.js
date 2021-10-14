@@ -23,6 +23,9 @@ export const API_ADMIN_DEPT_LABS_URL = API_BASE_URL.concat(
   '/labs/of-department/',
 );
 export const API_ADMIN_NEW_LAB_URL = API_BASE_URL.concat('/labs/create/');
+export const API_ADMIN_LAB_ASSIGN_LECTURER_URL = API_BASE_URL.concat(
+  '/labs/assign-lecturers/',
+);
 export const API_ADMIN_ADMINS_URL = API_BASE_URL.concat('/admins/');
 export const API_ADMIN_NEW_ADMIN_URL = API_BASE_URL.concat('/admins/register/');
 export const API_ADMIN_STUDENTS_URL = API_BASE_URL.concat('/students/');

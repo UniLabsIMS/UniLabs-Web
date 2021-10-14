@@ -12,13 +12,19 @@ import {
   DEPT_LABS_ERROR,
   DEPT_LABS_LOADED,
   DEPT_LABS_LOADING,
+  LAB_ASSIGN_LECTURER_LOADING,
+  LAB_ASSIGN_LECTURER_SUCCESS,
+  LAB_ASSIGN_LECTURER_ERROR,
+  LAB_ASSIGN_LECTURER_RESET,
 } from '../../actionTypes/adminActionTypes';
 import {
   API_ADMIN_LABS_URL,
   API_ADMIN_NEW_LAB_URL,
   API_ADMIN_DEPT_LABS_URL,
   API_ADMIN_LECTURERS_URL,
+  API_ADMIN_LAB_ASSIGN_LECTURER_URL,
 } from '../../apiConfig';
+import AssignedLecturer from '../../../models/assignedLecturer';
 
 /* Load labs */
 export const fetchLabs = () => (dispatch, getState) => {
@@ -92,7 +98,42 @@ export const addLab =
       });
   };
 
+/*
+Assign lecturer */
+export const assignLecturer = (labID, lecturer) => (dispatch, getState) => {
+  dispatch({ type: LAB_ASSIGN_LECTURER_LOADING });
+  const formData = new FormData();
+  formData.append('lab', labID);
+  formData.append('lecturers', [lecturer.id]); // need to pass as a list
+  axios
+    .post(
+      API_ADMIN_LAB_ASSIGN_LECTURER_URL,
+      formData,
+      httpHeaderConfig(getState),
+    )
+    .then(res => {
+      const updatedLabs = getState().adminLabs.labs.map(lab => {
+        if (labID === lab.id) {
+          lab.assignedLecturers.push(AssignedLecturer.fromLecturer(lecturer));
+        }
+        return lab;
+      });
+      dispatch({
+        type: LAB_ASSIGN_LECTURER_SUCCESS,
+        payload: updatedLabs,
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: LAB_ASSIGN_LECTURER_ERROR,
+      });
+    });
+};
 /* Reset State */
 export const resetAdminLabState = () => (dispatch, getState) => {
   dispatch({ type: RESET_LAB_STATE });
+};
+/* Reset Lecturer Assign State */
+export const resetLabLecturerAssignState = () => (dispatch, getState) => {
+  dispatch({ type: LAB_ASSIGN_LECTURER_RESET });
 };

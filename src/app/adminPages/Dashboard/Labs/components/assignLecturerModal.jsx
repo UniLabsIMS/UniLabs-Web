@@ -14,8 +14,17 @@ import {
   InputLabel,
   Select,
   Box,
+  MenuItem,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  assignLecturer,
+  resetLabLecturerAssignState,
+} from '../../../../../store/actions/admin/adminLabsActions';
+import ErrorAlert from '../../../../commonComponents/errorAlert';
+import SuccessAlert from '../../../../commonComponents/successAlert';
 import WarningAlert from '../../../../commonComponents/warningAlert';
 
 const useStyles = makeStyles(theme => ({
@@ -45,11 +54,26 @@ const useStyles = makeStyles(theme => ({
     width: '90%',
   },
 }));
-function AssignLecturerModal({ assignedLecturers, onClose, open }) {
+function AssignLecturerModal({
+  labID,
+  assignedLecturers,
+  departmentLecturers,
+  onClose,
+  open,
+}) {
   const classes = useStyles();
-  const handleClose = () => {
-    onClose();
-  };
+  const dispatch = useDispatch();
+  const [selectedLecturerID, setSelectedLecturerID] = useState('');
+
+  const assignLecturerLoading = useSelector(
+    state => state.adminLabs.assignLecturerLoading,
+  );
+  const assignLecturerSuccess = useSelector(
+    state => state.adminLabs.assignLecturerSuccess,
+  );
+  const assignLecturerError = useSelector(
+    state => state.adminLabs.assignLecturerError,
+  );
 
   const assignedLecturersRows = assignedLecturers.map(lecturer => (
     <TableRow key={lecturer.id}>
@@ -66,6 +90,37 @@ function AssignLecturerModal({ assignedLecturers, onClose, open }) {
       </TableCell>
     </TableRow>
   ));
+  const handleClose = () => {
+    if (!assignLecturerLoading) {
+      dispatch(resetLabLecturerAssignState());
+      onClose();
+    }
+  };
+  const handleSave = e => {
+    e.preventDefault();
+    const lecturerObj = departmentLecturers.find(
+      lecturer => lecturer.id === selectedLecturerID,
+    );
+    dispatch(assignLecturer(labID, lecturerObj));
+    setSelectedLecturerID('');
+  };
+
+  const possibleLecturersForAssignment = departmentLecturers.filter(
+    lecturer => {
+      if (assignedLecturers.some(lec => lec.email === lecturer.email)) {
+        // filter out already assigned lecturers
+        return false;
+      }
+      return true;
+    },
+  );
+  const possibleMenuItemsToSelect = possibleLecturersForAssignment.map(
+    lecturer => (
+      <MenuItem key={lecturer.id} value={lecturer.id}>
+        {lecturer.email}
+      </MenuItem>
+    ),
+  );
 
   return (
     <div>
@@ -83,39 +138,58 @@ function AssignLecturerModal({ assignedLecturers, onClose, open }) {
           width="50%"
           className={classes.paper}
         >
-          <form className={classes.form}>
+          <form className={classes.form} onSubmit={handleSave}>
             <Typography component="h2" variant="h5" align="center">
               Assign Lecturers
             </Typography>
             <Typography align="center" color="error" fontSize="small">
               This Action is Irreversible.
             </Typography>
+            {assignLecturerSuccess ? (
+              <SuccessAlert message="Assignement Successful" />
+            ) : (
+              <div />
+            )}
+            {assignLecturerError ? (
+              <ErrorAlert message="Assignement Fail.Please Try Again Later." />
+            ) : (
+              <div />
+            )}
             <Box m={2} />
-            <Grid container spacing={3}>
-              <Grid item xs={12} sm={8}>
-                <FormControl className={classes.formControl}>
-                  <InputLabel id="assign-lecturer-select-label">
-                    Lecturer
-                  </InputLabel>
-                  <Select
-                    labelId="assign-lecturer-select-label"
-                    id="assign-lecturer-select"
-                  />
-                </FormControl>
+            {possibleMenuItemsToSelect.length === 0 ? (
+              <WarningAlert message="No lecturers are left for assignement to this lab." />
+            ) : (
+              <Grid container spacing={3}>
+                <Grid item xs={12} sm={8}>
+                  <FormControl className={classes.formControl}>
+                    <InputLabel id="assign-lecturer-select-label">
+                      Lecturer
+                    </InputLabel>
+                    <Select
+                      labelId="assign-lecturer-select-label"
+                      id="assign-lecturer-select"
+                      value={selectedLecturerID}
+                      onChange={e => setSelectedLecturerID(e.target.value)}
+                    >
+                      {possibleMenuItemsToSelect}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <Button
+                    disabled={selectedLecturerID.length === 0}
+                    type="submit"
+                    align="right"
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    fullWidth
+                  >
+                    Save
+                  </Button>
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={4}>
-                <Button
-                  type="submit"
-                  align="right"
-                  variant="contained"
-                  color="primary"
-                  className={classes.button}
-                  fullWidth
-                >
-                  Save
-                </Button>
-              </Grid>
-            </Grid>
+            )}
             <Box m={2} />
             <Typography component="h2" variant="h6" align="center">
               Assigned Lecturers
@@ -148,7 +222,9 @@ function AssignLecturerModal({ assignedLecturers, onClose, open }) {
   );
 }
 AssignLecturerModal.propTypes = {
+  labID: PropTypes.string.isRequired,
   assignedLecturers: PropTypes.arrayOf(PropTypes.any).isRequired,
+  departmentLecturers: PropTypes.arrayOf(PropTypes.any).isRequired,
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
 };

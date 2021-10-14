@@ -179,7 +179,7 @@ function CreateLab() {
                       />
                       <FormControl className={classes.formControl}>
                         <InputLabel id="lab-department-select-label">
-                          Department
+                          Department *
                         </InputLabel>
                         <Select
                           labelId="lab-department-select-label"
