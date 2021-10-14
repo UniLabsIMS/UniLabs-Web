@@ -6,6 +6,9 @@ import adminStudentsReducer from './adminReducers/adminStudentsReducer';
 import adminLecturersReducer from './adminReducers/adminLecturersReducer';
 import adminLabManagersReducer from './adminReducers/adminLabManagersReducer';
 import adminLabAssistantsReducer from './adminReducers/adminLabAssistantsReduer.js';
+import studentLabsReducer from './studentReducers/studentLabsReducer';
+import studentCategoriesReducer from './studentReducers/studentCategoriesReducer';
+import studentDisplayItemsReducer from './studentReducers/studentDisplayItemsReducer';
 import authReducer from './authReducer';
 import labAssistantCategoriesReducer from './labAssistantReducers/labAssistantCategoriesReducer';
 import labManagerDashReducer from './labManagerReducers/labManagerDashBoardReducer';
@@ -15,6 +18,7 @@ import labAssistantDisplayItemsReducer from './labAssistantReducers/labAssistant
 import labAssistantItemsReducer from './labAssistantReducers/labAssistantItemsReducer';
 import labAssistantBorrowedItemsReducer from './labAssistantReducers/labAssistantBorrowedItemsReducer';
 import labAssistantTempBorrowedItemsReducer from './labAssistantReducers/labAssistantTempBorrowedItemsReducer';
+import studentLabBucketReducer from './studentReducers/studentBucketReducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -25,6 +29,10 @@ const rootReducer = combineReducers({
   adminLecturers: adminLecturersReducer,
   adminLabManagers: adminLabManagersReducer,
   adminLabAssistants: adminLabAssistantsReducer,
+  studentLabs: studentLabsReducer,
+  studentCategories: studentCategoriesReducer,
+  studentDisplayItems: studentDisplayItemsReducer,
+  studentLabBucket: studentLabBucketReducer,
   labManagerDashboard: labManagerDashReducer,
   labManagerDisplayItems: labManagerDisplayItemsReducer,
   labManagerItems: labManagerItemsReducer,

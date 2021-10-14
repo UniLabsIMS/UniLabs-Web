@@ -12,11 +12,12 @@ import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import { Box } from '@material-ui/core';
 import { Zoom } from 'react-awesome-reveal';
 import PropTypes from 'prop-types';
+import { STUDENT_DISPLAY_ITEMS_URL } from '../../../constants';
 
 const useStyles = makeStyles(theme => ({
   categoryCard: {
     alignItems: 'center',
-    maxWidth: 345,
+    width: 335,
     paddingBottom: theme.spacing(1),
   },
   buttons: {
@@ -37,9 +38,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const CategoryCard = ({ category }) => {
+const CategoryCard = ({ category, labId }) => {
   const classes = useStyles();
-  // const { labId } = useParams();
 
   return (
     <Zoom triggerOnce>
@@ -48,7 +48,11 @@ const CategoryCard = ({ category }) => {
           component="img"
           alt="Category Photo"
           height="200"
-          image={category.image}
+          image={
+            category.image === null
+              ? '/images/default-item-category-img.svg'
+              : category.image
+          }
           title="Category Photo"
         />
         <CardContent className={classes.content}>
@@ -85,16 +89,7 @@ const CategoryCard = ({ category }) => {
                     <Typography variant="h6" component="h6">
                       Description
                     </Typography>
-                    <Typography>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                      sint occaecat cupidatat non proident, sunt in culpa qui
-                      officia deserunt mollit anim id est laborum
-                    </Typography>
+                    <Typography>{category.description}</Typography>
                   </Box>
                 </Popover>
               </div>
@@ -105,7 +100,9 @@ const CategoryCard = ({ category }) => {
           <Link
             className={classes.cardContents}
             style={{ textDecoration: 'none' }}
-            to={`/student/lab/category/${category.id}`}
+            to={STUDENT_DISPLAY_ITEMS_URL.concat(category.id).concat(
+              `?labId=${labId}`,
+            )}
           >
             <Button
               variant="outlined"
@@ -123,6 +120,7 @@ const CategoryCard = ({ category }) => {
 
 CategoryCard.propTypes = {
   category: PropTypes.objectOf(PropTypes.any).isRequired,
+  labId: PropTypes.string.isRequired,
 };
 
 export default CategoryCard;

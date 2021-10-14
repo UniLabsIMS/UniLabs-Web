@@ -10,26 +10,28 @@ import { Box } from '@material-ui/core';
 import { Zoom } from 'react-awesome-reveal';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  addDisplayItemToBucket,
+  decreaseItemQunatityinBucket,
+  increaseItemQunatityinBucket,
+} from '../../../../store/actions/student/studentBucketActions';
 
 const useStyles = makeStyles(theme => ({
   dspCard: {
-    padding: theme.spacing(1),
     marginTop: theme.spacing(1.5),
   },
-  dspCardImage: {},
+  dspCardImage: {
+    height: 200,
+  },
   buttons: {
-    margin: theme.spacing(1),
     display: 'flex',
   },
   content: {
     paddingBottom: theme.spacing(0),
   },
-  modal: {
-    width: '85%',
-    margin: 'auto',
-    marginTop: theme.spacing(10),
-  },
   cardContents: {
+    paddingTop: theme.spacing(2),
     alignItems: 'center',
     flexDirection: 'column',
     height: '100%',
@@ -64,12 +66,36 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     fontSize: 'large',
   },
+  descriptionBox: {
+    paddingTop: theme.spacing(2),
+  },
 }));
 
 const DisplayItemCard = ({ displayItem }) => {
   const classes = useStyles();
-  //   const { labId, categoryID } = useParams();
-  const [quantity, setQuantity] = useState(0);
+  const dispatch = useDispatch();
+  const bucketItems = useSelector(state => state.studentLabBucket.bucketItems);
+  const correspondingBucketItem = bucketItems.find(
+    bucketItem => bucketItem.displayItemId === displayItem.id,
+  );
+  const [quantity, setQuantity] = useState(
+    correspondingBucketItem ? correspondingBucketItem.quantity : 0,
+  );
+
+  const handleIntialItemAdditionToBucket = displayItemObj => {
+    setQuantity(quantity + 1);
+    dispatch(addDisplayItemToBucket(displayItemObj));
+  };
+
+  const handleIncreasingQunatityToBucket = displayItemObj => {
+    setQuantity(quantity + 1);
+    dispatch(increaseItemQunatityinBucket(displayItemObj));
+  };
+
+  const handleDecreasingQunatityToBucket = displayItemObj => {
+    setQuantity(quantity - 1);
+    dispatch(decreaseItemQunatityinBucket(displayItemObj));
+  };
 
   return (
     <Zoom triggerOnce>
@@ -81,7 +107,11 @@ const DisplayItemCard = ({ displayItem }) => {
               component="img"
               alt="Display Item Photo"
               width="200"
-              image={displayItem.image}
+              image={
+                displayItem.image === null
+                  ? '/images/default-display-item-img.svg'
+                  : displayItem.image
+              }
               title="Display Item Photo"
             />
           </div>
@@ -90,19 +120,16 @@ const DisplayItemCard = ({ displayItem }) => {
               <PopupState variant="popover" popupId="demo-popup-popover">
                 {popupState => (
                   <div>
-                    <Typography
-                      gutterBottom
-                      variant="h5"
-                      component="h2"
-                      align="center"
-                    >
+                    <Typography variant="h5" component="h2" align="left">
                       {displayItem.name}
                     </Typography>
-                    <Box p={2}>
-                      <Typography variant="h6" component="h6">
+                    <Box className={classes.descriptionBox}>
+                      <Typography variant="h6" component="h6" align="left">
                         Description
                       </Typography>
-                      <Typography>{displayItem.description}</Typography>
+                      <Typography align="justify">
+                        {displayItem.description}
+                      </Typography>
                     </Box>
                   </div>
                 )}
@@ -113,13 +140,8 @@ const DisplayItemCard = ({ displayItem }) => {
             <CardActions className={classes.cardContents}>
               <div className={classes.quantityBox}>
                 {quantity > 0 ? (
-                  <Typography
-                    gutterBottom
-                    variant="h5"
-                    component="h1"
-                    align="center"
-                  >
-                    Quantity : {quantity}
+                  <Typography variant="h6" align="right">
+                    Quantity - {quantity}
                   </Typography>
                 ) : (
                   <div />
@@ -128,10 +150,13 @@ const DisplayItemCard = ({ displayItem }) => {
               <div className={classes.btnBox}>
                 {quantity === 0 && (
                   <Button
-                    onClick={() => setQuantity(1)}
+                    onClick={() =>
+                      handleIntialItemAdditionToBucket(displayItem)
+                    }
                     variant="contained"
                     color="secondary"
                     className={classes.buttons}
+                    disabled={quantity === displayItem.itemCount}
                   >
                     Add to Bucket
                   </Button>
@@ -139,20 +164,32 @@ const DisplayItemCard = ({ displayItem }) => {
                 {quantity > 0 && (
                   <div className={classes.incDecBtns}>
                     <Button
-                      onClick={() => setQuantity(quantity - 1)}
-                      variant="contained"
+                      onClick={() =>
+                        handleDecreasingQunatityToBucket(displayItem)
+                      }
+                      variant="outlined"
                       color="secondary"
                       className={classes.buttons}
                     >
-                      -
+                      <Typography
+                        align="center"
+                        style={{ fontSize: 48, padding: 0 }}
+                      >
+                        -
+                      </Typography>
                     </Button>
                     <Button
-                      onClick={() => setQuantity(quantity + 1)}
-                      variant="contained"
+                      onClick={() =>
+                        handleIncreasingQunatityToBucket(displayItem)
+                      }
+                      variant="outlined"
                       color="secondary"
                       className={classes.buttons}
+                      disabled={quantity === displayItem.itemCount}
                     >
-                      +
+                      <Typography align="center" style={{ fontSize: 48 }}>
+                        +
+                      </Typography>
                     </Button>
                   </div>
                 )}

@@ -1,10 +1,16 @@
 import { Box, Grid, makeStyles, Typography, Button } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Zoom } from 'react-awesome-reveal';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
 import BreadcrumbsWrapper from '../../commonComponents/breadCrumbsWrapper';
 import CategoryCard from './components/CategoryCard';
+import CustomLoadingIndicator from '../../commonComponents/customLoadingIndicator';
+import ErrorAlert from '../../commonComponents/errorAlert';
+import { fetchCategories } from '../../../store/actions/student/studentCategoriesActions';
+import { STUDENT_BASE_URL, STUDENT_LAB_BUCKET_URL } from '../../constants';
 
 const useStyles = makeStyles(theme => ({
   link: {
@@ -31,73 +37,39 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     fontSize: 'large',
   },
+  gridItem: {
+    width: '28%',
+  },
 }));
 
 function StudentCategoriesPage() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { labId } = useParams();
+  const isCategoriesLoading = useSelector(
+    state => state.studentCategories.isCategoriesLoading,
+  );
+  const isCategoriesError = useSelector(
+    state => state.studentCategories.isCategoriesError,
+  );
+  const categoriesLst = useSelector(
+    state => state.studentCategories.categories,
+  );
+  const reload = useSelector(state => state.studentCategories.reloadCategories);
+  useEffect(() => {
+    dispatch(fetchCategories(labId));
+  }, [dispatch, reload, labId]);
 
-  const allCategories = [
-    {
-      name: 'Category 1',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-item-category-img.svg',
-      id: 1,
-    },
-    {
-      name: 'Category 2',
-      location:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-item-category-img.svg',
-      id: 2,
-    },
-    {
-      name: 'Category 3',
-      location:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-item-category-img.svg',
-      id: 3,
-    },
-    {
-      name: 'Category 4',
-      location:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-item-category-img.svg',
-      id: 4,
-    },
-    {
-      name: 'Category 5',
-      location:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-item-category-img.svg',
-      id: 5,
-    },
-    {
-      name: 'Category 6',
-      location:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-item-category-img.svg',
-      id: 6,
-    },
-    {
-      name: 'Category 7',
-      location:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-item-category-img.svg',
-      id: 7,
-    },
-  ];
-
-  const categories = allCategories.map(category => (
-    <Grid item key={category.id}>
-      <CategoryCard category={category} />
+  const categories = categoriesLst.map(category => (
+    <Grid item key={category.id} className={classes.gridItem}>
+      <CategoryCard category={category} labId={labId} />
     </Grid>
   ));
 
   return (
     <PageWrapper navBar={<Navbar />}>
       <BreadcrumbsWrapper>
-        <Link to="/student" className={classes.link}>
+        <Link to={STUDENT_BASE_URL} className={classes.link}>
           Labs
         </Link>
         <Box fontSize="inherit">Categories</Box>
@@ -113,7 +85,7 @@ function StudentCategoriesPage() {
           <Link
             className={classes.bucketButtonContainer1}
             style={{ textDecoration: 'none' }}
-            to="/student/lab-bucket/1"
+            to={STUDENT_LAB_BUCKET_URL.concat(labId)}
           >
             <Button
               className={classes.bucketButton}
@@ -125,15 +97,25 @@ function StudentCategoriesPage() {
           </Link>
         </div>
       </Zoom>
-      <Grid
-        container
-        spacing={3}
-        justifyContent="space-around"
-        alignItems="stretch"
-        direction="row"
-      >
-        {categories}
-      </Grid>
+      {isCategoriesError ? (
+        <ErrorAlert message="Failed to load categories" />
+      ) : (
+        <div>
+          {isCategoriesLoading ? (
+            <CustomLoadingIndicator minimumHeight="60vh" />
+          ) : (
+            <Grid
+              container
+              spacing={3}
+              justifyContent="space-around"
+              alignItems="stretch"
+              direction="row"
+            >
+              {categories}
+            </Grid>
+          )}
+        </div>
+      )}
     </PageWrapper>
   );
 }

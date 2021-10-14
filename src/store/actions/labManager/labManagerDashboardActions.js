@@ -52,7 +52,9 @@ export const addCategory =
     formData.append('name', name);
     formData.append('description', description);
     formData.append('lab', lab);
-    formData.append('image', image);
+    if (image !== null) {
+      formData.append('image', image);
+    }
     axios
       .post(
         API_LAB_MANAGER_NEW_CATEGORIES_URL,

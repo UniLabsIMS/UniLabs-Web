@@ -6,5 +6,6 @@ export default class DisplayItem {
     this.description = displayItem.description;
     this.category = displayItem.category;
     this.lab = displayItem.lab;
+    this.itemCount = displayItem.item_count;
   }
 }

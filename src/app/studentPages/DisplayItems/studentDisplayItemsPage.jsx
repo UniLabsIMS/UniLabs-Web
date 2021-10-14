@@ -1,10 +1,16 @@
 import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useLocation } from 'react-router-dom';
 import { Zoom } from 'react-awesome-reveal';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
 import BreadcrumbsWrapper from '../../commonComponents/breadCrumbsWrapper';
 import DisplayItemCard from './components/DisplayItemCard';
+import CustomLoadingIndicator from '../../commonComponents/customLoadingIndicator';
+import ErrorAlert from '../../commonComponents/errorAlert';
+import { fetchDisplayItems } from '../../../store/actions/student/studentDisplayItemsActions';
+import { STUDENT_BASE_URL, STUDENT_CATEGORIES_URL } from '../../constants';
 
 const useStyles = makeStyles(theme => ({
   link: {
@@ -19,61 +25,26 @@ const useStyles = makeStyles(theme => ({
 
 function StudentDisplayItemsPage() {
   const classes = useStyles();
-  const { labId } = useParams();
+  const labId = new URLSearchParams(useLocation().search).get('labId');
+  const dispatch = useDispatch();
+  const { categoryId } = useParams();
+  const isDisplayItemsLoading = useSelector(
+    state => state.studentDisplayItems.isDisplayItemsLoading,
+  );
+  const isDisplayItemsError = useSelector(
+    state => state.studentDisplayItems.isDisplayItemsError,
+  );
+  const displayItemsLst = useSelector(
+    state => state.studentDisplayItems.displayItems,
+  );
+  const reload = useSelector(
+    state => state.studentDisplayItems.reloadDisplayItems,
+  );
+  useEffect(() => {
+    dispatch(fetchDisplayItems(categoryId));
+  }, [dispatch, reload, categoryId]);
 
-  const allDisplayItems = [
-    {
-      name: 'Item 1',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-display-item-img.svg',
-      id: 1,
-    },
-    {
-      name: 'Item 2',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-display-item-img.svg',
-      id: 2,
-    },
-    {
-      name: 'Item 3',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-display-item-img.svg',
-      id: 3,
-    },
-    {
-      name: 'Item 4',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-display-item-img.svg',
-      id: 4,
-    },
-    {
-      name: 'Item 5',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-display-item-img.svg',
-      id: 5,
-    },
-    {
-      name: 'Item 6',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-display-item-img.svg',
-      id: 6,
-    },
-    {
-      name: 'Item 7',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      image: '/images/default-display-item-img.svg',
-      id: 7,
-    },
-  ];
-
-  const displayItems = allDisplayItems.map(displayItem => (
+  const displayItems = displayItemsLst.map(displayItem => (
     <Grid item key={displayItem.id}>
       <DisplayItemCard displayItem={displayItem} />
     </Grid>
@@ -82,10 +53,13 @@ function StudentDisplayItemsPage() {
   return (
     <PageWrapper navBar={<Navbar />}>
       <BreadcrumbsWrapper>
-        <Link to="/student" className={classes.link}>
+        <Link to={STUDENT_BASE_URL} className={classes.link}>
           Labs
         </Link>
-        <Link to={`/student/lab/${labId}`} className={classes.link}>
+        <Link
+          to={STUDENT_CATEGORIES_URL.concat(labId)}
+          className={classes.link}
+        >
           Categories
         </Link>
         <Box fontSize="inherit">Items</Box>
@@ -95,7 +69,17 @@ function StudentDisplayItemsPage() {
           Items
         </Typography>
       </Zoom>
-      <div className={classes.cards}>{displayItems}</div>
+      {isDisplayItemsError ? (
+        <ErrorAlert message="Failed to load display items" />
+      ) : (
+        <div>
+          {isDisplayItemsLoading ? (
+            <CustomLoadingIndicator minimumHeight="60vh" />
+          ) : (
+            <div className={classes.cards}>{displayItems}</div>
+          )}
+        </div>
+      )}
     </PageWrapper>
   );
 }

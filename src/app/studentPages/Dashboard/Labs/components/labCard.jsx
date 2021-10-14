@@ -12,11 +12,12 @@ import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import { Box } from '@material-ui/core';
 import { Zoom } from 'react-awesome-reveal';
 import PropTypes from 'prop-types';
+import { STUDENT_CATEGORIES_URL } from '../../../../constants';
 
 const useStyles = makeStyles(theme => ({
   labCard: {
     alignItems: 'center',
-    maxWidth: 345,
+    width: 330,
     paddingBottom: theme.spacing(1),
   },
   buttons: {
@@ -25,11 +26,6 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     paddingBottom: theme.spacing(0),
-  },
-  modal: {
-    width: '85%',
-    margin: 'auto',
-    marginTop: theme.spacing(10),
   },
   cardContents: {
     alignItems: 'center',
@@ -47,10 +43,9 @@ const LabCard = ({ lab }) => {
           component="img"
           alt="Lab Photo"
           height="200"
-          image={lab.image}
+          image={lab.image === null ? '/images/default-lab-img.svg' : lab.image}
           title="Lab Photo"
         />
-        {/* <h1>{lab.name}</h1> */}
         <CardContent className={classes.content}>
           <PopupState variant="popover" popupId="demo-popup-popover">
             {popupState => (
@@ -83,18 +78,9 @@ const LabCard = ({ lab }) => {
                 >
                   <Box p={2}>
                     <Typography variant="h6" component="h6">
-                      Description
+                      Location
                     </Typography>
-                    <Typography>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                      sint occaecat cupidatat non proident, sunt in culpa qui
-                      officia deserunt mollit anim id est laborum
-                    </Typography>
+                    <Typography>{lab.location}</Typography>
                   </Box>
                 </Popover>
               </div>
@@ -105,7 +91,7 @@ const LabCard = ({ lab }) => {
           <Link
             className={classes.cardContents}
             style={{ textDecoration: 'none' }}
-            to={`/student/lab/${lab.id}`}
+            to={STUDENT_CATEGORIES_URL.concat(lab.id)}
           >
             <Button
               variant="outlined"
