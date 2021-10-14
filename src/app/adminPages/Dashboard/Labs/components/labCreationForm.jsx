@@ -178,12 +178,12 @@ function CreateLab() {
                         onChange={e => setName(e.target.value)}
                       />
                       <FormControl className={classes.formControl}>
-                        <InputLabel id="demo-simple-select-label">
+                        <InputLabel id="lab-department-select-label">
                           Department
                         </InputLabel>
                         <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
+                          labelId="lab-department-select-label"
+                          id="lab-department-select"
                           value={department}
                           onChange={e => setDepartment(e.target.value)}
                         >

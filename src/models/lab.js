@@ -1,3 +1,5 @@
+import AssignedLecturer from './assignedLecturer';
+
 export default class Lab {
   constructor(lab) {
     this.id = lab.id;
@@ -8,5 +10,8 @@ export default class Lab {
     this.contactEmail = lab.contact_email;
     this.image = lab.image;
     this.createdAt = lab.created_at;
+    this.assignedLecturers = lab.assigened_lecturers.map(
+      data => new AssignedLecturer(data),
+    );
   }
 }

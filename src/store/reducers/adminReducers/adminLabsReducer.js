@@ -37,7 +37,7 @@ const adminLabsReducer = (state = initialState, action) => {
       return {
         ...state,
         isLabsLoading: false,
-        labs: action.payload.map(obj => new Lab(obj)),
+        labs: action.payload.labs.map(obj => new Lab(obj)),
         isLabsError: false,
       };
     case LABS_ERROR:

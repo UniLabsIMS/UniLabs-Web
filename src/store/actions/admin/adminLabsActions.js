@@ -17,6 +17,7 @@ import {
   API_ADMIN_LABS_URL,
   API_ADMIN_NEW_LAB_URL,
   API_ADMIN_DEPT_LABS_URL,
+  API_ADMIN_LECTURERS_URL,
 } from '../../apiConfig';
 
 /* Load labs */
@@ -25,10 +26,19 @@ export const fetchLabs = () => (dispatch, getState) => {
   axios
     .get(API_ADMIN_LABS_URL, httpHeaderConfig(getState))
     .then(res => {
-      dispatch({
-        type: LABS_LOADED,
-        payload: res.data,
-      });
+      axios
+        .get(API_ADMIN_LECTURERS_URL, httpHeaderConfig(getState))
+        .then(resLecs => {
+          dispatch({
+            type: LABS_LOADED,
+            payload: { labs: res.data, lecturers: resLecs.data },
+          });
+        })
+        .catch(err => {
+          dispatch({
+            type: LABS_ERROR,
+          });
+        });
     })
     .catch(err => {
       dispatch({

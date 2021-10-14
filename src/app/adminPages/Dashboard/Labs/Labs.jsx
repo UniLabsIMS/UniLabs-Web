@@ -9,7 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Zoom } from 'react-awesome-reveal';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import CreateLab from './components/labCreationForm';
 import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
 import ErrorAlert from '../../../commonComponents/errorAlert';
@@ -17,6 +17,8 @@ import {
   fetchLabs,
   resetAdminLabState,
 } from '../../../../store/actions/admin/adminLabsActions';
+import AssignLecturerModal from './components/assignLecturerModal';
+import WarningAlert from '../../../commonComponents/warningAlert';
 
 const useStyles = makeStyles({
   table: {
@@ -35,10 +37,14 @@ const useStyles = makeStyles({
 export default function LabTable() {
   const classes = useStyles();
   const dispatch = useDispatch();
+
   const isLabsLoading = useSelector(state => state.adminLabs.isLabsLoading);
   const isLabsError = useSelector(state => state.adminLabs.isLabsError);
   const labsLst = useSelector(state => state.adminLabs.labs);
   const reload = useSelector(state => state.adminLabs.reloadLabs);
+
+  const [openAssignLecturerModal, setOpenAssignLecturerModal] = useState('');
+
   useEffect(() => {
     dispatch(fetchLabs());
   }, [dispatch, reload]);
@@ -48,18 +54,38 @@ export default function LabTable() {
     },
     [dispatch],
   );
-  const allLabs = labsLst.map(l => (
-    <TableRow key={l.id}>
+  const handleModalClose = () => {
+    dispatch(fetchLabs());
+    setOpenAssignLecturerModal('');
+  };
+  const allLabs = labsLst.map(lab => (
+    <TableRow key={lab.id}>
       <TableCell className={classes.row} align="center">
-        {l.name}
+        {lab.name}
+        {lab.assignedLecturers.length === 0 ? (
+          <Typography style={{ color: 'red' }}>
+            No Lecturers Assigned
+          </Typography>
+        ) : (
+          ''
+        )}
       </TableCell>
       <TableCell className={classes.row} align="center">
-        {l.department.name}
+        {lab.department.name}
       </TableCell>
       <TableCell className={classes.row} align="center">
-        <Button variant="outlined" color="primary">
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => setOpenAssignLecturerModal(lab.id)}
+        >
           Add Lecturer
         </Button>
+        <AssignLecturerModal
+          open={openAssignLecturerModal === lab.id}
+          onClose={handleModalClose}
+          assignedLecturers={lab.assignedLecturers}
+        />
       </TableCell>
     </TableRow>
   ));
