@@ -14,6 +14,7 @@ import RegisterStudent from './components/studentRegistrationForm';
 import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
 import ErrorAlert from '../../../commonComponents/errorAlert';
 import {
+  blockUnblockStudent,
   fetchStudents,
   resetAdminStudentState,
 } from '../../../../store/actions/admin/adminStudentsActions';
@@ -43,6 +44,12 @@ export default function StudentTable() {
   );
   const studentsLst = useSelector(state => state.adminStudents.students);
   const reload = useSelector(state => state.adminStudents.reloadStudents);
+  const studentBlockUnblockLoading = useSelector(
+    state => state.adminStudents.studentBlockUnblockLoading,
+  );
+  const studentBlockUnblockError = useSelector(
+    state => state.adminStudents.studentBlockUnblockError,
+  );
 
   useEffect(() => {
     dispatch(fetchStudents());
@@ -53,6 +60,10 @@ export default function StudentTable() {
     },
     [dispatch],
   );
+
+  const handleBlockUnblock = (userID, newBlockBool) => {
+    dispatch(blockUnblockStudent(userID, newBlockBool));
+  };
 
   const allStudents = studentsLst.map(student => (
     <TableRow key={student.id}>
@@ -69,9 +80,25 @@ export default function StudentTable() {
         {student.department.name}
       </TableCell>
       <TableCell align="center" className={classes.row}>
-        <Button variant="outlined" color="secondary">
-          Block
-        </Button>
+        {student.blocked ? (
+          <Button
+            disabled={studentBlockUnblockLoading}
+            variant="outlined"
+            color="primary"
+            onClick={() => handleBlockUnblock(student.id, false)}
+          >
+            Unblock
+          </Button>
+        ) : (
+          <Button
+            disabled={studentBlockUnblockLoading}
+            variant="outlined"
+            color="secondary"
+            onClick={() => handleBlockUnblock(student.id, true)}
+          >
+            Block
+          </Button>
+        )}
       </TableCell>
     </TableRow>
   ));
@@ -84,6 +111,11 @@ export default function StudentTable() {
             Students
           </Typography>
         </Zoom>
+        {studentBlockUnblockError ? (
+          <ErrorAlert message="Student Blocking/Unblocking Failed." />
+        ) : (
+          <div />
+        )}
         {isStudentsError ? (
           <ErrorAlert message="Failed to load students" />
         ) : (

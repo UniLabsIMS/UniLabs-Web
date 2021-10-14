@@ -7,6 +7,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Zoom } from 'react-awesome-reveal';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -25,9 +26,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function LabAssistantBorrowedItemsCard() {
+const LabAssistantBorrowedItemsCard = ({ borrowedItem }) => {
   const classes = useStyles();
-
   return (
     <Zoom triggerOnce>
       <Card className={classes.card}>
@@ -37,18 +37,22 @@ export default function LabAssistantBorrowedItemsCard() {
             color="textSecondary"
             gutterBottom
           >
-            Display Item Name
+            {borrowedItem.displayItemName}
           </Typography>
           <Typography variant="h5" component="h2">
-            f43abdcfer
+            {borrowedItem.id}
           </Typography>
           <Typography className={classes.pos} color="secondary">
-            Due on : 2021/09/27
+            Due on: {borrowedItem.dueDate}
           </Typography>
           <Typography component="p">
-            borrowed by - Student Name <br />
-            email - student@gmail.com <br />
-            index number - 180594V <br />
+            Borrowed by -{' '}
+            {borrowedItem.studentName.isNotEmpty
+              ? borrowedItem.studentName
+              : 'Name Not Set'}
+            <br />
+            Email - {borrowedItem.studentEmail} <br />
+            Index Number - {borrowedItem.studentIndexNumber} <br />
           </Typography>
         </CardContent>
         <CardActions>
@@ -57,4 +61,9 @@ export default function LabAssistantBorrowedItemsCard() {
       </Card>
     </Zoom>
   );
-}
+};
+LabAssistantBorrowedItemsCard.propTypes = {
+  borrowedItem: PropTypes.objectOf(PropTypes.any).isRequired,
+};
+
+export default LabAssistantBorrowedItemsCard;

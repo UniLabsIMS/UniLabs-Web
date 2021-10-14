@@ -14,6 +14,7 @@ import { Link, useParams, useLocation } from 'react-router-dom';
 import { Zoom } from 'react-awesome-reveal';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import RefreshIcon from '@material-ui/icons/Refresh';
 import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
 import BreadcrumbsWrapper from '../../commonComponents/breadCrumbsWrapper';
@@ -100,7 +101,12 @@ function LabAssistantItemsPage() {
       </BreadcrumbsWrapper>
       <Zoom triggerOnce>
         <Typography component="h2" variant="h4" gutterBottom align="center">
-          Items
+          Items{'  '}
+          <RefreshIcon
+            color="secondary"
+            style={{ cursor: 'pointer' }}
+            onClick={() => dispatch(fetchLabAssistantItems(displayItemId))}
+          />
         </Typography>
       </Zoom>
       <Box m={2} />

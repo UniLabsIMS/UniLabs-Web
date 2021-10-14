@@ -12,4 +12,9 @@ export default class Student {
     this.blocked = student.blocked;
     this.department = student.department;
   }
+
+  updateBlocked(newBlockValue) {
+    this.blocked = newBlockValue;
+    return this;
+  }
 }

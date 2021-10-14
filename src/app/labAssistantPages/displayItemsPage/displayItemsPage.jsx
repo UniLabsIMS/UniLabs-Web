@@ -21,6 +21,9 @@ const useStyles = makeStyles(theme => ({
     textDecoration: 'none',
     color: theme.palette.secondary.main,
   },
+  title: {
+    marginBottom: theme.spacing(3),
+  },
 }));
 
 function LabAssistantDisplayItemsPage() {
@@ -63,7 +66,13 @@ function LabAssistantDisplayItemsPage() {
         <Box fontSize="inherit">Display Items</Box>
       </BreadcrumbsWrapper>
       <Zoom triggerOnce>
-        <Typography component="h2" variant="h4" gutterBottom align="center">
+        <Typography
+          component="h2"
+          variant="h4"
+          gutterBottom
+          align="center"
+          className={classes.title}
+        >
           Display Items
         </Typography>
       </Zoom>

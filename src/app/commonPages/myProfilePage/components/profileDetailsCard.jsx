@@ -1,70 +1,70 @@
 import {
   Button,
-  CssBaseline,
   makeStyles,
   Container,
   Typography,
-  TextField,
+  Box,
 } from '@material-ui/core';
 import { useState } from 'react';
 import { Zoom } from 'react-awesome-reveal';
+import { useSelector } from 'react-redux';
+import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
+import ChangePasswordForm from './changePasswordForm';
+import UpdateProfileDetailsForm from './updateProfileDetailsForm';
+
+import SuccessAlert from '../../../commonComponents/successAlert';
+import ErrorAlert from '../../../commonComponents/errorAlert';
+import ProfileImageUploadModal from './profileImageUploadModal';
+import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
 
 const useStyles = makeStyles(theme => ({
-  bigContainer: {
-    marginTop: theme.spacing(1),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+  container: {
     width: '100%',
-  },
-  paper: {
-    width: '100%',
-    marginTop: theme.spacing(1),
-    display: 'flex',
+    marginTop: 'auto',
     flexDirection: 'column',
     alignItems: 'center',
   },
   profilePicContainer: {
-    marginTop: theme.spacing(2),
+    alignItems: 'center',
+    position: 'relative',
+    width: '220px',
+    height: '220px',
+    borderRadius: 150,
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
+    '&:hover': {
+      cursor: 'pointer',
+    },
   },
   profilePic: {
-    width: 250,
+    width: '100%',
+    height: '100%',
     borderRadius: 150,
-  },
-  form: {
-    width: '60%',
-    marginTop: theme.spacing(1),
-    display: 'flex',
-    flexDirection: 'column',
     alignItems: 'center',
+    display: 'block',
+    border: '3px solid',
+    borderColor: theme.palette.secondary.main,
+    backfaceVisibility: 'hidden',
   },
-  form2: {
-    width: '60%',
-    marginTop: theme.spacing(1),
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  form1: {
+  profilePicOverlay: {
+    position: 'absolute',
+    height: '100%',
     width: '100%',
-    marginTop: theme.spacing(1),
+    top: '50%',
+    left: '50%',
+    borderRadius: 150,
+    transition: '.5s ease',
+    backgroundColor: 'black',
+    opacity: 0,
+    transform: `translate(${-50}%, ${-50}%)`,
+    textAlign: 'center',
     display: 'flex',
     flexDirection: 'column',
+    justifyContent: 'center',
     alignItems: 'center',
-  },
-  loginForm: {
-    width: '100%',
-    marginTop: theme.spacing(0),
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  changeDetailsBtn: {
-    width: '60%',
-    margin: theme.spacing(1, 0, 2),
-    padding: theme.spacing(1),
-  },
-  typeWriterWrapper: {
-    fontWeight: 'bold',
-    color: theme.palette.secondary.main,
+    '&:hover': {
+      opacity: 0.8,
+    },
   },
   biggerCont: {
     display: 'flex',
@@ -81,301 +81,209 @@ const useStyles = makeStyles(theme => ({
   profileDetailValContainer: {
     margin: theme.spacing(1),
   },
-  formLine: {
-    margin: theme.spacing(0),
-  },
-  formLabel: {
-    margin: theme.spacing(0),
-    marginTop: theme.spacing(1),
-  },
-  formTextArea: {
-    marginTop: theme.spacing(0.5),
-  },
-  saveBtn: {
-    marginTop: theme.spacing(2),
+  btn: {
     padding: theme.spacing(1),
+    width: '50%',
+    [theme.breakpoints.down('sm')]: {
+      width: '80%',
+    },
+    align: 'center',
+  },
+  addPicIcon: {
+    color: 'white',
+    fontSize: 48,
+  },
+  addPicText: {
+    color: 'white',
+    fontSize: 18,
   },
 }));
 
 const ProfileDetailsCard = () => {
   const classes = useStyles();
-  //   const [profileDetails, setProfileDetails] = useState({
-  //     email: '180978@uom.lk',
-  //     firstName: 'Gowantha',
-  //     lastName: 'Charithal',
-  //     contactNum: '0711234567',
-  //     image: '/images/Avatar.svg',
-  //   });
-  const profileDetails = {
-    email: '180978@uom.lk',
-    firstName: 'Gowantha',
-    lastName: 'Charithal',
-    contactNum: '0711234567',
-    image: '/images/Avatar.svg',
-  };
-  const [editable, setEditable] = useState(false);
-  const [changePwdClicked, setChangePwdClicked] = useState(false);
 
-  const handleSaveDetails = e => {
-    e.preventDefault();
-  };
+  const firstName = useSelector(state => state.auth.user.firstName);
+  const lastName = useSelector(state => state.auth.user.lastName);
+  const email = useSelector(state => state.auth.user.email);
+  const contactNumber = useSelector(state => state.auth.user.contactNumber);
+  const image = useSelector(state => state.auth.user.image);
 
+  const isImageChangeLoading = useSelector(
+    state => state.auth.isImageChangeLoading,
+  );
+  const imageChangeSuccess = useSelector(
+    state => state.auth.imageChangeSuccess,
+  );
+  const imageChangeError = useSelector(state => state.auth.imageChangeError);
+
+  const updateProfileSuccess = useSelector(
+    state => state.auth.updateProfileSuccess,
+  );
+  const changePasswordSuccess = useSelector(
+    state => state.auth.changePasswordSuccess,
+  );
+  const changePasswordError = useSelector(
+    state => state.auth.changePasswordError,
+  );
+  const updateProfileError = useSelector(
+    state => state.auth.updateProfileError,
+  );
+
+  const [editDetailsMode, setEditDetailsMode] = useState(false);
+  const [passwordEditMode, setPasswordEditMode] = useState(false);
+  const [imageUploadMode, setImageUploadMode] = useState(false);
+
+  let childComponent = null;
+  if (editDetailsMode && !passwordEditMode) {
+    childComponent = (
+      <UpdateProfileDetailsForm
+        onSave={() => setEditDetailsMode(false)}
+        onCancel={() => setEditDetailsMode(false)}
+      />
+    );
+  } else if (passwordEditMode && !editDetailsMode) {
+    childComponent = (
+      <ChangePasswordForm
+        onSave={() => setPasswordEditMode(false)}
+        onCancel={() => setPasswordEditMode(false)}
+      />
+    );
+  } else {
+    childComponent = (
+      <Box>
+        {imageChangeError ? (
+          <ErrorAlert message="Failed to change profile image please try again later." />
+        ) : (
+          <div />
+        )}
+        {imageChangeSuccess ? (
+          <SuccessAlert message="Image changed successfully." />
+        ) : (
+          <div />
+        )}
+        <Zoom triggerOnce>
+          <div className={classes.biggerCont}>
+            {updateProfileSuccess ? (
+              <SuccessAlert message="Changes saved successfully." />
+            ) : (
+              <div />
+            )}
+            {changePasswordSuccess ? (
+              <SuccessAlert message="Password changed successfully." />
+            ) : (
+              <div />
+            )}
+
+            {changePasswordError ? (
+              <ErrorAlert message="Failed to change the password.Please try again later." />
+            ) : (
+              <div />
+            )}
+            {updateProfileError ? (
+              <ErrorAlert message="Failed to save changes.Please try again later." />
+            ) : (
+              <div />
+            )}
+            <div className={classes.profileDetailBox}>
+              <div className={classes.profileDetailContainer}>
+                <Typography variant="h6" className={classes.profileDetail}>
+                  Email
+                </Typography>
+                <Typography variant="h6" className={classes.profileDetail}>
+                  Name
+                </Typography>
+                <Typography variant="h6" className={classes.profileDetail}>
+                  Contact Number
+                </Typography>
+              </div>
+              <div className={classes.profileDetailContainer}>
+                <Typography variant="h6" className={classes.profileDetail}>
+                  {' '}
+                  :
+                </Typography>
+                <Typography variant="h6" className={classes.profileDetail}>
+                  {' '}
+                  :
+                </Typography>
+                <Typography variant="h6" className={classes.profileDetail}>
+                  {' '}
+                  :{' '}
+                </Typography>
+              </div>
+              <div className={classes.profileDetailValContainer}>
+                <Typography variant="h6" className={classes.profileDetailVal}>
+                  {email}
+                </Typography>
+                <Typography variant="h6" className={classes.profileDetailVal}>
+                  {firstName.concat(lastName).trim().length > 0
+                    ? `${firstName} ${lastName}`
+                    : 'Not Set'}
+                </Typography>
+                <Typography variant="h6" className={classes.profileDetailVal}>
+                  {contactNumber.length > 0 ? contactNumber : 'Not Set'}
+                </Typography>
+              </div>
+            </div>
+          </div>
+          <Box m={1} />
+          <Box align="center">
+            <Button
+              variant="outlined"
+              color="primary"
+              className={classes.btn}
+              onClick={() => setEditDetailsMode(true)}
+            >
+              Change Profile Details
+            </Button>
+            <Box m={1} />
+            <Button
+              type="submit"
+              variant="outlined"
+              color="secondary"
+              className={classes.btn}
+              onClick={() => setPasswordEditMode(true)}
+            >
+              Change Password
+            </Button>
+          </Box>
+        </Zoom>
+      </Box>
+    );
+  }
   return (
-    <div>
-      <Container component="main" className={classes.bigContainer}>
-        <CssBaseline />
-        <div className={classes.paper}>
-          <Zoom triggerOnce className={classes.profilePicContainer}>
-            <img
-              src={profileDetails.image}
-              alt="Profile Pic"
-              className={classes.profilePic}
-            />
-          </Zoom>
-          {!changePwdClicked && !editable && (
-            <div className={classes.loginForm}>
-              <Zoom triggerOnce className={classes.form1}>
-                <form className={classes.form} noValidate>
-                  <div className={classes.biggerCont}>
-                    <div className={classes.profileDetailBox}>
-                      <div className={classes.profileDetailContainer}>
-                        <h2 className={classes.profileDetail}>Email</h2>
-                        <h2 className={classes.profileDetail}>Name</h2>
-                        <h2 className={classes.profileDetail}>
-                          Contact Number
-                        </h2>
-                      </div>
-                      <div className={classes.profileDetailContainer}>
-                        <h2 className={classes.profileDetail}> :</h2>
-                        <h2 className={classes.profileDetail}> :</h2>
-                        <h2 className={classes.profileDetail}> : </h2>
-                      </div>
-                      <div className={classes.profileDetailValContainer}>
-                        <h2 className={classes.profileDetailVal}>
-                          {profileDetails.email}
-                        </h2>
-                        <h2 className={classes.profileDetailVal}>
-                          {`${profileDetails.firstName} ${profileDetails.lastName}`}
-                        </h2>
-                        <h2 className={classes.profileDetailVal}>
-                          {profileDetails.contactNum}
-                        </h2>
-                      </div>
-                    </div>
-                  </div>
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.changeDetailsBtn}
-                    onClick={() => setEditable(true)}
-                  >
-                    Change Profile Details
-                  </Button>
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.changeDetailsBtn}
-                    onClick={() => setChangePwdClicked(true)}
-                  >
-                    Change Password
-                  </Button>
-                </form>
-              </Zoom>
-            </div>
-          )}
-          {!changePwdClicked && editable && (
-            <div className={classes.loginForm}>
-              <Zoom triggerOnce className={classes.form1}>
-                <Typography component="h1" variant="h5">
-                  Change Profile Details
+    <Container className={classes.container}>
+      <Zoom triggerOnce>
+        <Box align="center">
+          <Typography variant="h4">My Profile</Typography>
+          {isImageChangeLoading ? (
+            <CustomLoadingIndicator minimumHeight="40vh" />
+          ) : (
+            <Box
+              className={classes.profilePicContainer}
+              onClick={() => setImageUploadMode(true)}
+            >
+              <img
+                src={image != null ? image : '/images/default-avatar.jpg'}
+                alt="Profile Pic"
+                className={classes.profilePic}
+              />
+              <Box className={classes.profilePicOverlay}>
+                <AddAPhotoIcon className={classes.addPicIcon} />
+                <Typography align="center" className={classes.addPicText}>
+                  Upload New
                 </Typography>
-                <form
-                  className={classes.form2}
-                  noValidate
-                  onSubmit={handleSaveDetails}
-                >
-                  <div className={classes.formLine}>
-                    <h3 className={classes.formLabel}>Email</h3>
-                    <TextField
-                      disabled
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      fullWidth
-                      name="email"
-                      defaultValue={profileDetails.email}
-                      type="email"
-                      id="email"
-                      className={classes.formTextArea}
-                      // value={email}
-                      // onChange={e => setEmail(e.target.value)}
-                    />
-                  </div>
-                  <div className={classes.formLine}>
-                    <h3 className={classes.formLabel}>First Name</h3>
-                    <TextField
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      fullWidth
-                      id="firstName"
-                      defaultValue={profileDetails.firstName}
-                      name="firstName"
-                      className={classes.formTextArea}
-                      // value={firstName}
-                      // onChange={e => setFirstName(e.target.value)}
-                    />
-                  </div>
-                  <div className={classes.formLine}>
-                    <h3 className={classes.formLabel}>Last Name</h3>
-                    <TextField
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      fullWidth
-                      id="lastName"
-                      defaultValue={profileDetails.lastName}
-                      name="lastName"
-                      className={classes.formTextArea}
-                      // value={lastName}
-                      // onChange={e => setLastName(e.target.value)}
-                    />
-                  </div>
-                  <div className={classes.formLine}>
-                    <h3 className={classes.formLabel}>Contact Number</h3>
-                    <TextField
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      fullWidth
-                      name="contactNum"
-                      defaultValue={profileDetails.contactNum}
-                      type="contactNum"
-                      id="contactNum"
-                      className={classes.formTextArea}
-                      // value={password}
-                      // onChange={e => setContactNum(e.target.value)}
-                    />
-                  </div>
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.saveBtn}
-                    onClick={() => setEditable(false)}
-                  >
-                    Save Changes
-                  </Button>
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.saveBtn}
-                    onClick={() => setEditable(false)}
-                  >
-                    Cancel
-                  </Button>
-                </form>
-              </Zoom>
-            </div>
+              </Box>
+            </Box>
           )}
-          {changePwdClicked && (
-            <div className={classes.loginForm}>
-              <Zoom triggerOnce className={classes.form1}>
-                <Typography component="h1" variant="h5">
-                  Change Password
-                </Typography>
-                <form
-                  className={classes.form2}
-                  noValidate
-                  //   onSubmit={handleSaveDetails}
-                >
-                  <div className={classes.formLine}>
-                    <TextField
-                      disabled
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      fullWidth
-                      name="curretPwd"
-                      label="Current Password"
-                      type="curretPwd"
-                      id="curretPwd"
-                      className={classes.formTextArea}
-                      // value={curretPwd}
-                      // onChange={e => setEmail(e.target.value)}
-                    />
-                  </div>
-                  <div className={classes.formLine}>
-                    <TextField
-                      disabled
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      fullWidth
-                      name="newPwd"
-                      label="New Password"
-                      type="newPwd"
-                      id="newPwd"
-                      className={classes.formTextArea}
-                      // value={newPwd}
-                      // onChange={e => setEmail(e.target.value)}
-                    />
-                  </div>
-                  <div className={classes.formLine}>
-                    <TextField
-                      disabled
-                      variant="outlined"
-                      margin="normal"
-                      required
-                      fullWidth
-                      name="confirmNewPwd"
-                      label="Confirm New Password"
-                      type="confirmNewPwd"
-                      id="confirmNewPwd"
-                      className={classes.formTextArea}
-                      // value={confirmNewPwd}
-                      // onChange={e => setEmail(e.target.value)}
-                    />
-                  </div>
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.saveBtn}
-                    onClick={() => setChangePwdClicked(false)}
-                  >
-                    Change Password
-                  </Button>
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={classes.saveBtn}
-                    onClick={() => setChangePwdClicked(false)}
-                  >
-                    Cancel
-                  </Button>
-                </form>
-              </Zoom>
-            </div>
-          )}
-        </div>
-      </Container>
-    </div>
+        </Box>
+        <ProfileImageUploadModal
+          open={imageUploadMode}
+          onClose={() => setImageUploadMode(false)}
+        />
+      </Zoom>
+      <Zoom triggerOnce>{childComponent}</Zoom>
+    </Container>
   );
 };
-
-// CategoryCard.propTypes = {
-//   category: PropTypes.objectOf(PropTypes.elements).isRequired,
-// };
 
 export default ProfileDetailsCard;

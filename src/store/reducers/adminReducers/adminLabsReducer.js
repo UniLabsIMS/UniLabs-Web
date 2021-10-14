@@ -1,4 +1,5 @@
 import Lab from '../../../models/lab';
+import Lecturer from '../../../models/lecturer';
 import {
   LABS_ERROR,
   LABS_LOADED,
@@ -10,16 +11,24 @@ import {
   DEPT_LABS_ERROR,
   DEPT_LABS_LOADED,
   DEPT_LABS_LOADING,
+  LAB_ASSIGN_LECTURER_LOADING,
+  LAB_ASSIGN_LECTURER_SUCCESS,
+  LAB_ASSIGN_LECTURER_ERROR,
+  LAB_ASSIGN_LECTURER_RESET,
 } from '../../actionTypes/adminActionTypes';
 
 const initialState = {
   labs: [],
+  lecturers: [], // needed to assign lecturers
   isLabsLoading: false,
   isLabsError: false,
   newLabLoading: false,
   newLabError: false,
   newLabSuccess: false,
   reloadLabs: false,
+  assignLecturerLoading: false,
+  assignLecturerSuccess: false,
+  assignLecturerError: false,
 };
 
 const adminLabsReducer = (state = initialState, action) => {
@@ -37,7 +46,8 @@ const adminLabsReducer = (state = initialState, action) => {
       return {
         ...state,
         isLabsLoading: false,
-        labs: action.payload.map(obj => new Lab(obj)),
+        labs: action.payload.labs.map(obj => new Lab(obj)),
+        lecturers: action.payload.lecturers.map(obj => new Lecturer(obj)),
         isLabsError: false,
       };
     case LABS_ERROR:
@@ -45,6 +55,7 @@ const adminLabsReducer = (state = initialState, action) => {
         ...state,
         isLabsLoading: false,
         labs: [],
+        lecturers: [],
         isLabsError: true,
       };
     case NEW_LAB_LOADING:
@@ -89,6 +100,35 @@ const adminLabsReducer = (state = initialState, action) => {
         isLabsLoading: false,
         labs: [],
         isLabsError: true,
+      };
+    case LAB_ASSIGN_LECTURER_LOADING:
+      return {
+        ...state,
+        assignLecturerLoading: true,
+        assignLecturerSuccess: false,
+        assignLecturerError: false,
+      };
+    case LAB_ASSIGN_LECTURER_SUCCESS:
+      return {
+        ...state,
+        labs: action.payload,
+        assignLecturerLoading: false,
+        assignLecturerSuccess: true,
+        assignLecturerError: false,
+      };
+    case LAB_ASSIGN_LECTURER_ERROR:
+      return {
+        ...state,
+        assignLecturerLoading: false,
+        assignLecturerSuccess: false,
+        assignLecturerError: true,
+      };
+    case LAB_ASSIGN_LECTURER_RESET:
+      return {
+        ...state,
+        assignLecturerLoading: false,
+        assignLecturerSuccess: false,
+        assignLecturerError: false,
       };
     default:
       return state;

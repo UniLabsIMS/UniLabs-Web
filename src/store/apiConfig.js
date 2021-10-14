@@ -1,8 +1,17 @@
-// export const API_BASE_URL = 'https://unilabs-api.herokuapp.com';
-export const API_BASE_URL = 'http://127.0.0.1:8000';
+export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 export const API_LOGIN_URL = API_BASE_URL.concat('/auth/login/');
 export const API_REFRESH_URL = API_BASE_URL.concat('/auth/refresh-auth/');
 export const API_LOGOUT_URL = API_BASE_URL.concat('/auth/logout/');
+export const API_FORGOT_PASSWORD_URL = API_BASE_URL.concat(
+  '/auth/reset-password/',
+);
+export const API_EDIT_PROFILE_URL = API_BASE_URL.concat(
+  '/auth/update-profile/',
+);
+export const API_CHANGE_PASSWORD_URL = API_BASE_URL.concat(
+  '/auth/change-password/',
+);
+export const API_BLOCK_UNBLOCK_USER = API_BASE_URL.concat('/auth/block/'); // concat user id
 
 // ------------------------ADMIN----------------------------------
 export const API_ADMIN_DEPARTMENTS_URL = API_BASE_URL.concat('/departments/');
@@ -14,6 +23,9 @@ export const API_ADMIN_DEPT_LABS_URL = API_BASE_URL.concat(
   '/labs/of-department/',
 );
 export const API_ADMIN_NEW_LAB_URL = API_BASE_URL.concat('/labs/create/');
+export const API_ADMIN_LAB_ASSIGN_LECTURER_URL = API_BASE_URL.concat(
+  '/labs/assign-lecturers/',
+);
 export const API_ADMIN_ADMINS_URL = API_BASE_URL.concat('/admins/');
 export const API_ADMIN_NEW_ADMIN_URL = API_BASE_URL.concat('/admins/register/');
 export const API_ADMIN_STUDENTS_URL = API_BASE_URL.concat('/students/');
@@ -88,3 +100,7 @@ export const API_LAB_ASSISTANT_NEW_ITEM_URL =
 
 export const API_LAB_ASSISTANT_ITEM_DELETED_URL =
   API_BASE_URL.concat('/items/delete/'); // concat item id
+
+export const API_LAB_ASSISTANT_BORROWED_ITEMS_URL = API_BASE_URL.concat(
+  '/items/borrowed/from-lab/',
+); // concat lab id
