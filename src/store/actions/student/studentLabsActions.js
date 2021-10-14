@@ -2,26 +2,26 @@
 import axios from 'axios';
 import httpHeaderConfig from '../../httpHeaderConfig';
 import {
-  LABS_ERROR,
-  LABS_LOADED,
-  LABS_LOADING,
+  STUDENT_LABS_ERROR,
+  STUDENT_LABS_LOADED,
+  STUDENT_LABS_LOADING,
 } from '../../actionTypes/studentActionTypes';
 import { API_STUDENT_LABS_URL } from '../../apiConfig';
 
 /* Load labs */
-export const fetchLabs = () => (dispatch, getState) => {
-  dispatch({ type: LABS_LOADING });
+export const fetchLabsStudent = () => (dispatch, getState) => {
+  dispatch({ type: STUDENT_LABS_LOADING });
   axios
     .get(API_STUDENT_LABS_URL, httpHeaderConfig(getState))
     .then(res => {
       dispatch({
-        type: LABS_LOADED,
+        type: STUDENT_LABS_LOADED,
         payload: res.data,
       });
     })
     .catch(err => {
       dispatch({
-        type: LABS_ERROR,
+        type: STUDENT_LABS_ERROR,
       });
     });
 };

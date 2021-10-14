@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import LabCard from './components/labCard';
 import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
 import ErrorAlert from '../../../commonComponents/errorAlert';
-import { fetchLabs } from '../../../../store/actions/student/studentLabsActions';
+import { fetchLabsStudent } from '../../../../store/actions/student/studentLabsActions';
 
 const useStyles = makeStyles(theme => ({
   gridItem: {
@@ -21,7 +21,7 @@ function Labs() {
   const labsLst = useSelector(state => state.studentLabs.labs);
   const reload = useSelector(state => state.studentLabs.reloadLabs);
   useEffect(() => {
-    dispatch(fetchLabs());
+    dispatch(fetchLabsStudent());
   }, [dispatch, reload]);
 
   const labs = labsLst.map(l => (

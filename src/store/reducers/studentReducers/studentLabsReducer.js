@@ -1,8 +1,8 @@
 import Lab from '../../../models/lab';
 import {
-  LABS_ERROR,
-  LABS_LOADED,
-  LABS_LOADING,
+  STUDENT_LABS_ERROR,
+  STUDENT_LABS_LOADED,
+  STUDENT_LABS_LOADING,
 } from '../../actionTypes/studentActionTypes';
 
 const initialState = {
@@ -14,21 +14,21 @@ const initialState = {
 
 const studentLabsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case LABS_LOADING:
+    case STUDENT_LABS_LOADING:
       return {
         ...state,
         isLabsLoading: true,
         isLabsError: false,
         reloadLabs: false,
       };
-    case LABS_LOADED:
+    case STUDENT_LABS_LOADED:
       return {
         ...state,
         isLabsLoading: false,
         labs: action.payload.map(obj => new Lab(obj)),
         isLabsError: false,
       };
-    case LABS_ERROR:
+    case STUDENT_LABS_ERROR:
       return {
         ...state,
         isLabsLoading: false,
