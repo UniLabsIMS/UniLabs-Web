@@ -1,5 +1,5 @@
 import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useLocation } from 'react-router-dom';
 import { Zoom } from 'react-awesome-reveal';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
@@ -10,6 +10,7 @@ import DisplayItemCard from './components/DisplayItemCard';
 import CustomLoadingIndicator from '../../commonComponents/customLoadingIndicator';
 import ErrorAlert from '../../commonComponents/errorAlert';
 import { fetchDisplayItems } from '../../../store/actions/student/studentDisplayItemsActions';
+import { STUDENT_BASE_URL, STUDENT_CATEGORIES_URL } from '../../constants';
 
 const useStyles = makeStyles(theme => ({
   link: {
@@ -24,6 +25,7 @@ const useStyles = makeStyles(theme => ({
 
 function StudentDisplayItemsPage() {
   const classes = useStyles();
+  const labId = new URLSearchParams(useLocation().search).get('labId');
   const dispatch = useDispatch();
   const { categoryId } = useParams();
   const isDisplayItemsLoading = useSelector(
@@ -42,8 +44,6 @@ function StudentDisplayItemsPage() {
     dispatch(fetchDisplayItems(categoryId));
   }, [dispatch, reload, categoryId]);
 
-  // const labId = displayItemsLst[0].lab.id;
-
   const displayItems = displayItemsLst.map(displayItem => (
     <Grid item key={displayItem.id}>
       <DisplayItemCard displayItem={displayItem} />
@@ -53,12 +53,15 @@ function StudentDisplayItemsPage() {
   return (
     <PageWrapper navBar={<Navbar />}>
       <BreadcrumbsWrapper>
-        <Link to="/student" className={classes.link}>
+        <Link to={STUDENT_BASE_URL} className={classes.link}>
           Labs
         </Link>
-        {/* <Link to={`/student/lab/${}`} className={classes.link}>
+        <Link
+          to={STUDENT_CATEGORIES_URL.concat(labId)}
+          className={classes.link}
+        >
           Categories
-        </Link> */}
+        </Link>
         <Box fontSize="inherit">Items</Box>
       </BreadcrumbsWrapper>
       <Zoom triggerOnce>

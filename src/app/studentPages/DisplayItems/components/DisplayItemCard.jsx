@@ -13,23 +13,19 @@ import { useState } from 'react';
 
 const useStyles = makeStyles(theme => ({
   dspCard: {
-    padding: theme.spacing(1),
     marginTop: theme.spacing(1.5),
   },
-  dspCardImage: {},
+  dspCardImage: {
+    height: 200,
+  },
   buttons: {
-    margin: theme.spacing(1),
     display: 'flex',
   },
   content: {
     paddingBottom: theme.spacing(0),
   },
-  modal: {
-    width: '85%',
-    margin: 'auto',
-    marginTop: theme.spacing(10),
-  },
   cardContents: {
+    paddingTop: theme.spacing(2),
     alignItems: 'center',
     flexDirection: 'column',
     height: '100%',
@@ -64,11 +60,13 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     fontSize: 'large',
   },
+  descriptionBox: {
+    paddingTop: theme.spacing(2),
+  },
 }));
 
 const DisplayItemCard = ({ displayItem }) => {
   const classes = useStyles();
-  //   const { labId, categoryID } = useParams();
   const [quantity, setQuantity] = useState(0);
 
   return (
@@ -81,7 +79,11 @@ const DisplayItemCard = ({ displayItem }) => {
               component="img"
               alt="Display Item Photo"
               width="200"
-              image={displayItem.image}
+              image={
+                displayItem.image === null
+                  ? '/images/default-display-item-img.svg'
+                  : displayItem.image
+              }
               title="Display Item Photo"
             />
           </div>
@@ -90,19 +92,16 @@ const DisplayItemCard = ({ displayItem }) => {
               <PopupState variant="popover" popupId="demo-popup-popover">
                 {popupState => (
                   <div>
-                    <Typography
-                      gutterBottom
-                      variant="h5"
-                      component="h2"
-                      align="center"
-                    >
+                    <Typography variant="h5" component="h2" align="left">
                       {displayItem.name}
                     </Typography>
-                    <Box p={2}>
-                      <Typography variant="h6" component="h6">
+                    <Box className={classes.descriptionBox}>
+                      <Typography variant="h6" component="h6" align="left">
                         Description
                       </Typography>
-                      <Typography>{displayItem.description}</Typography>
+                      <Typography align="justify">
+                        {displayItem.description}
+                      </Typography>
                     </Box>
                   </div>
                 )}
@@ -113,13 +112,8 @@ const DisplayItemCard = ({ displayItem }) => {
             <CardActions className={classes.cardContents}>
               <div className={classes.quantityBox}>
                 {quantity > 0 ? (
-                  <Typography
-                    gutterBottom
-                    variant="h5"
-                    component="h1"
-                    align="center"
-                  >
-                    Quantity : {quantity}
+                  <Typography variant="h6" align="right">
+                    Quantity - {quantity}
                   </Typography>
                 ) : (
                   <div />
@@ -140,19 +134,26 @@ const DisplayItemCard = ({ displayItem }) => {
                   <div className={classes.incDecBtns}>
                     <Button
                       onClick={() => setQuantity(quantity - 1)}
-                      variant="contained"
+                      variant="outlined"
                       color="secondary"
                       className={classes.buttons}
                     >
-                      -
+                      <Typography
+                        align="center"
+                        style={{ fontSize: 48, padding: 0 }}
+                      >
+                        -
+                      </Typography>
                     </Button>
                     <Button
                       onClick={() => setQuantity(quantity + 1)}
-                      variant="contained"
+                      variant="outlined"
                       color="secondary"
                       className={classes.buttons}
                     >
-                      +
+                      <Typography align="center" style={{ fontSize: 48 }}>
+                        +
+                      </Typography>
                     </Button>
                   </div>
                 )}

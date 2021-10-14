@@ -29,3 +29,9 @@ export const LAB_ASSISTANT_DISPLAY_ITEMS_URL =
   LAB_ASSISTANT_BASE_URL.concat('/category'); // add the id dynamically at the end
 export const LAB_ASSISTANT_ITEMS_URL =
   LAB_ASSISTANT_BASE_URL.concat('/display_item'); // add the dsp id
+
+// student other urls
+export const STUDENT_CATEGORIES_URL = STUDENT_BASE_URL.concat('/lab/'); // concat lab id
+export const STUDENT_DISPLAY_ITEMS_URL =
+  STUDENT_BASE_URL.concat('/lab/category/'); // concat cat id
+export const STUDENT_LAB_BUCKET_URL = STUDENT_BASE_URL.concat('/lab-bucket/'); // concat lab id

@@ -12,11 +12,12 @@ import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import { Box } from '@material-ui/core';
 import { Zoom } from 'react-awesome-reveal';
 import PropTypes from 'prop-types';
+import { STUDENT_DISPLAY_ITEMS_URL } from '../../../constants';
 
 const useStyles = makeStyles(theme => ({
   categoryCard: {
     alignItems: 'center',
-    maxWidth: 345,
+    width: 335,
     paddingBottom: theme.spacing(1),
   },
   buttons: {
@@ -37,7 +38,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const CategoryCard = ({ category }) => {
+const CategoryCard = ({ category, labId }) => {
   const classes = useStyles();
 
   return (
@@ -47,7 +48,11 @@ const CategoryCard = ({ category }) => {
           component="img"
           alt="Category Photo"
           height="200"
-          image={category.image}
+          image={
+            category.image === null
+              ? '/images/default-item-category-img.svg'
+              : category.image
+          }
           title="Category Photo"
         />
         <CardContent className={classes.content}>
@@ -95,7 +100,9 @@ const CategoryCard = ({ category }) => {
           <Link
             className={classes.cardContents}
             style={{ textDecoration: 'none' }}
-            to={`/student/lab/category/${category.id}`}
+            to={STUDENT_DISPLAY_ITEMS_URL.concat(category.id).concat(
+              `?labId=${labId}`,
+            )}
           >
             <Button
               variant="outlined"
@@ -113,6 +120,7 @@ const CategoryCard = ({ category }) => {
 
 CategoryCard.propTypes = {
   category: PropTypes.objectOf(PropTypes.any).isRequired,
+  labId: PropTypes.string.isRequired,
 };
 
 export default CategoryCard;

@@ -10,6 +10,7 @@ import CategoryCard from './components/CategoryCard';
 import CustomLoadingIndicator from '../../commonComponents/customLoadingIndicator';
 import ErrorAlert from '../../commonComponents/errorAlert';
 import { fetchCategories } from '../../../store/actions/student/studentCategoriesActions';
+import { STUDENT_BASE_URL } from '../../constants';
 
 const useStyles = makeStyles(theme => ({
   link: {
@@ -61,14 +62,14 @@ function StudentCategoriesPage() {
 
   const categories = categoriesLst.map(category => (
     <Grid item key={category.id} className={classes.gridItem}>
-      <CategoryCard category={category} />
+      <CategoryCard category={category} labId={labId} />
     </Grid>
   ));
 
   return (
     <PageWrapper navBar={<Navbar />}>
       <BreadcrumbsWrapper>
-        <Link to="/student" className={classes.link}>
+        <Link to={STUDENT_BASE_URL} className={classes.link}>
           Labs
         </Link>
         <Box fontSize="inherit">Categories</Box>

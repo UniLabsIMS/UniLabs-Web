@@ -12,11 +12,12 @@ import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import { Box } from '@material-ui/core';
 import { Zoom } from 'react-awesome-reveal';
 import PropTypes from 'prop-types';
+import { STUDENT_CATEGORIES_URL } from '../../../../constants';
 
 const useStyles = makeStyles(theme => ({
   labCard: {
     alignItems: 'center',
-    maxWidth: 345,
+    width: 330,
     paddingBottom: theme.spacing(1),
   },
   buttons: {
@@ -25,11 +26,6 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     paddingBottom: theme.spacing(0),
-  },
-  modal: {
-    width: '85%',
-    margin: 'auto',
-    marginTop: theme.spacing(10),
   },
   cardContents: {
     alignItems: 'center',
@@ -45,13 +41,11 @@ const LabCard = ({ lab }) => {
       <Card className={classes.labCard}>
         <CardMedia
           component="img"
-          // alt="Lab Photo"
           alt="Lab Photo"
           height="200"
-          image={lab.image}
+          image={lab.image === null ? '/images/default-lab-img.svg' : lab.image}
           title="Lab Photo"
         />
-        {/* <h1>{lab.name}</h1> */}
         <CardContent className={classes.content}>
           <PopupState variant="popover" popupId="demo-popup-popover">
             {popupState => (
@@ -97,7 +91,7 @@ const LabCard = ({ lab }) => {
           <Link
             className={classes.cardContents}
             style={{ textDecoration: 'none' }}
-            to={`/student/lab/${lab.id}`}
+            to={STUDENT_CATEGORIES_URL.concat(lab.id)}
           >
             <Button
               variant="outlined"
