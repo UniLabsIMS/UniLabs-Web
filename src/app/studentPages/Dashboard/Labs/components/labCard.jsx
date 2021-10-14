@@ -45,6 +45,7 @@ const LabCard = ({ lab }) => {
       <Card className={classes.labCard}>
         <CardMedia
           component="img"
+          // alt="Lab Photo"
           alt="Lab Photo"
           height="200"
           image={lab.image}
@@ -83,18 +84,9 @@ const LabCard = ({ lab }) => {
                 >
                   <Box p={2}>
                     <Typography variant="h6" component="h6">
-                      Description
+                      Location
                     </Typography>
-                    <Typography>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                      sint occaecat cupidatat non proident, sunt in culpa qui
-                      officia deserunt mollit anim id est laborum
-                    </Typography>
+                    <Typography>{lab.location}</Typography>
                   </Box>
                 </Popover>
               </div>

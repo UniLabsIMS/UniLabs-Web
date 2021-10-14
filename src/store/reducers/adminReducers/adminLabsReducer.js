@@ -31,7 +31,7 @@ const adminLabsReducer = (state = initialState, action) => {
         ...state,
         isLabsLoading: true,
         isLabsError: false,
-        reloadLab: false,
+        reloadLabs: false,
       };
     case LABS_LOADED:
       return {
@@ -74,7 +74,7 @@ const adminLabsReducer = (state = initialState, action) => {
         ...state,
         isLabsLoading: true,
         isLabsError: false,
-        reloadLab: false,
+        reloadLabs: false,
       };
     case DEPT_LABS_LOADED:
       return {
