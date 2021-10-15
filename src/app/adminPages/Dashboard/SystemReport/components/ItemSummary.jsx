@@ -20,11 +20,11 @@ const ItemSummary = ({
   tempBorrowedItems,
 }) => {
   const classes = useStyles();
-  const userStatCards = [];
-  userStatCards.push(
+  const itemStatCards = [];
+  itemStatCards.push(
     <CountCard title="Total Items" key="Total Items" count={totalItems} />,
   );
-  userStatCards.push(
+  itemStatCards.push(
     <CountCard
       title="Available"
       key="Available"
@@ -33,7 +33,7 @@ const ItemSummary = ({
       showPercentage
     />,
   );
-  userStatCards.push(
+  itemStatCards.push(
     <CountCard
       title="Damaged"
       key="Damaged"
@@ -42,7 +42,7 @@ const ItemSummary = ({
       showPercentage
     />,
   );
-  userStatCards.push(
+  itemStatCards.push(
     <CountCard
       title="Borrowed"
       key="Borrowed"
@@ -51,7 +51,7 @@ const ItemSummary = ({
       showPercentage
     />,
   );
-  userStatCards.push(
+  itemStatCards.push(
     <CountCard
       title="Temporarily Borrowed"
       key="Temporarily Borrowed"
@@ -111,7 +111,7 @@ const ItemSummary = ({
             alignItems="center"
             direction="row"
           >
-            {userStatCards}
+            {itemStatCards}
           </Grid>
         </Grid>
       </Grid>
