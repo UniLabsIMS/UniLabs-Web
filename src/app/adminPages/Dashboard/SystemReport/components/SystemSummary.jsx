@@ -42,7 +42,7 @@ const SystemSummary = ({
     <Box>
       <Zoom triggerOnce>
         <Typography variant="h4" gutterBottom align="center">
-          User Summary
+          System Summary
         </Typography>
       </Zoom>
 
