@@ -5,6 +5,8 @@ import {
   makeStyles,
   Typography,
   Container,
+  Grid,
+  Box,
 } from '@material-ui/core';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -20,59 +22,34 @@ import {
   fetchDepartments,
   resetAdminDepartmentState,
 } from '../../../../../store/actions/admin/adminDepartmentsActions';
+import ImagePicker from '../../../../commonComponents/imagePicker';
 
 const useStyles = makeStyles(theme => ({
-  paper: {
-    marginTop: theme.spacing(5),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
   form: {
-    width: '100%',
+    width: '80%',
     marginTop: theme.spacing(1),
   },
-  loginForm: {
-    width: '100%',
-    marginTop: theme.spacing(0),
-    marginBottom: theme.spacing(3),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 3),
-    display: 'flex',
-    width: '40%',
-    marginRight: theme.spacing(5),
-    marginLeft: theme.spacing(5),
-  },
   formControl: {
-    marginTop: theme.spacing(2),
-    marginRight: theme.spacing(5),
-    marginLeft: theme.spacing(5),
-    margin: theme.spacing(0),
-    width: '40%',
-  },
-  formLine: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  texts: {
-    display: 'flex',
-    width: '40%',
-    marginRight: theme.spacing(5),
-    marginLeft: theme.spacing(5),
-  },
-  buttons: {
-    width: '40%',
-  },
-  fullDiv: {
     width: '100%',
+  },
+  grid: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+  },
+  button: {
+    width: '50%',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+    },
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(2),
+  },
+  imagePreview: {
+    marginTop: theme.spacing(2),
+    width: '150px',
+    height: '120px',
+    border: '1px solid',
+    borderColor: theme.palette.primary.main,
   },
 }));
 
@@ -83,11 +60,12 @@ function CreateLab() {
   const [location, setLocation] = useState('');
   const [contactNo, setContactNo] = useState('');
   const [contactEmail, setContactEmail] = useState('');
+  const [file, setFile] = useState(undefined);
   const dispatch = useDispatch();
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(addLab(name, department, location, contactNo, contactEmail));
+    dispatch(addLab(name, department, location, contactNo, contactEmail, file));
   };
 
   const isDepartmentsLoading = useSelector(
@@ -135,125 +113,143 @@ function CreateLab() {
   }
 
   return (
-    <div className="bigContainer">
+    <Box align="center">
       <Container component="main">
         <CssBaseline />
-        <div className={classes.paper}>
-          <div className={classes.loginForm}>
-            <div className={classes.formLine}>
-              <Typography component="h1" variant="h5">
-                Add New Laboratory
-              </Typography>
-            </div>
+        <Box>
+          <Box>
+            <Typography component="h1" variant="h5">
+              Add New Laboratory
+            </Typography>
             {newStudError === true ? (
               <ErrorAlert message="Failed to add new lab, This may be becuase the name is a duplicate" />
             ) : (
-              <div />
+              <Box />
             )}
             {newStudSuccess === true ? (
               <SuccessAlert message="Successfully added new lab." />
             ) : (
-              <div />
+              <Box />
             )}
             {isDepartmentsError ? (
               <ErrorAlert message="Failed to load departments" />
             ) : (
-              <div className={classes.fullDiv}>
+              <Box>
                 {isDepartmentsLoading ? (
                   <CustomLoadingIndicator minimumHeight="60vh" />
                 ) : (
                   <form className={classes.form} onSubmit={handleSubmit}>
-                    <div className={classes.formLine}>
-                      <TextField
-                        className={classes.texts}
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="name"
-                        label="Name"
-                        name="name"
-                        autoComplete="name"
-                        value={name}
-                        onChange={e => setName(e.target.value)}
-                      />
-                      <FormControl className={classes.formControl}>
-                        <InputLabel id="lab-department-select-label">
-                          Department *
-                        </InputLabel>
-                        <Select
-                          labelId="lab-department-select-label"
-                          id="lab-department-select"
-                          value={department}
-                          onChange={e => setDepartment(e.target.value)}
-                        >
-                          {allDepartments}
-                        </Select>
-                      </FormControl>
-                    </div>
-                    <div className={classes.formLine}>
-                      <TextField
-                        className={classes.texts}
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="location"
-                        label="Loctaion"
-                        name="location"
-                        autoComplete="location"
-                        value={location}
-                        onChange={e => setLocation(e.target.value)}
-                      />
-                      <TextField
-                        className={classes.texts}
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="contactNo"
-                        type="number"
-                        label="Contact Number"
-                        name="contactNo"
-                        autoComplete="contactNo"
-                        value={contactNo}
-                        onChange={e => setContactNo(e.target.value)}
-                      />
-                    </div>
-                    <div className={classes.formLine}>
-                      <TextField
-                        className={classes.texts}
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="contactEmail"
-                        type="email"
-                        label="Contact Email"
-                        name="contactEmail"
-                        autoComplete="contactEmail"
-                        value={contactEmail}
-                        onChange={e => setContactEmail(e.target.value)}
-                      />
-                      <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="secondary"
-                        size="small"
-                        className={classes.submit}
-                      >
-                        Submit
-                      </Button>
-                    </div>
+                    <Grid container spacing={3} alignItems="flex-start">
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          margin="normal"
+                          required
+                          fullWidth
+                          id="name"
+                          label="Name"
+                          name="name"
+                          autoComplete="name"
+                          value={name}
+                          onChange={e => setName(e.target.value)}
+                        />
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          margin="normal"
+                          required
+                          fullWidth
+                          id="location"
+                          label="Loctaion"
+                          name="location"
+                          autoComplete="location"
+                          value={location}
+                          onChange={e => setLocation(e.target.value)}
+                        />
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          margin="normal"
+                          required
+                          fullWidth
+                          id="contactNo"
+                          type="number"
+                          label="Contact Number"
+                          name="contactNo"
+                          autoComplete="contactNo"
+                          value={contactNo}
+                          onChange={e => setContactNo(e.target.value)}
+                        />
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          margin="normal"
+                          required
+                          fullWidth
+                          id="contactEmail"
+                          type="email"
+                          label="Contact Email"
+                          name="contactEmail"
+                          autoComplete="contactEmail"
+                          value={contactEmail}
+                          onChange={e => setContactEmail(e.target.value)}
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <FormControl fullWidth>
+                          <InputLabel id="lab-department-select-label">
+                            Department *
+                          </InputLabel>
+                          <Select
+                            fullWidth
+                            labelId="lab-department-select-label"
+                            id="lab-department-select"
+                            required
+                            value={department}
+                            onChange={e => setDepartment(e.target.value)}
+                          >
+                            {allDepartments}
+                          </Select>
+                        </FormControl>
+                        {file === undefined ? (
+                          <ImagePicker
+                            withIcon
+                            onChange={newFile => setFile(newFile[0])}
+                          />
+                        ) : (
+                          <Box>
+                            <img
+                              src={URL.createObjectURL(file)}
+                              alt={file.name}
+                              className={classes.imagePreview}
+                            />
+                            <ImagePicker
+                              onChange={newFile => setFile(newFile[0])}
+                              className={classes.imagePicker}
+                            />
+                          </Box>
+                        )}
+                      </Grid>
+                    </Grid>
+                    <Button
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      color="secondary"
+                      size="small"
+                      className={classes.button}
+                    >
+                      Submit
+                    </Button>
                   </form>
                 )}
-              </div>
+              </Box>
             )}
-          </div>
-        </div>
+          </Box>
+        </Box>
       </Container>
-    </div>
+    </Box>
   );
 }
 
