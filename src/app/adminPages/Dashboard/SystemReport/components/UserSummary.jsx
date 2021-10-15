@@ -104,7 +104,7 @@ const UserSummary = ({
                 data={[
                   [
                     'Element',
-                    'Density',
+                    'Count',
                     { role: 'style' },
                     {
                       sourceColumn: 0,

@@ -46,6 +46,9 @@ export const API_ADMIN_NEW_LAB_ASSISTANT_URL = API_BASE_URL.concat(
   '/lab-assistants/register/',
 );
 
+export const API_ADMIN_SYSTEM_REPORT_URL = API_BASE_URL.concat(
+  '/admins/system-report/',
+);
 // ------------------------STUDENT----------------------------------
 export const API_STUDENT_LABS_URL = API_BASE_URL.concat('/labs/');
 export const API_STUDENT_CATEGORIES_URL = API_BASE_URL.concat(
