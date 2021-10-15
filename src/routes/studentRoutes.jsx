@@ -32,7 +32,7 @@ function StudentRoutes() {
           exact
         />
         <ProtectedStudentRoute
-          path={`${path}/lab/category/:categoryID`}
+          path={`${path}/lab/category/:categoryId`}
           component={StudentDisplayItemsPage}
           exact
         />
