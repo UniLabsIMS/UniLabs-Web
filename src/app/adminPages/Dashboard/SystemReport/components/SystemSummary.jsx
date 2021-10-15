@@ -10,32 +10,32 @@ const SystemSummary = ({
   totalDisplayItems,
   totalItems,
 }) => {
-  const userStatCards = [];
-  userStatCards.push(
+  const systemStatCards = [];
+  systemStatCards.push(
     <CountCard
       title="Total Departments"
       key="Total Departments"
       count={totalDepartments}
     />,
   );
-  userStatCards.push(
+  systemStatCards.push(
     <CountCard title="Total Labs" key="Total Labs" count={totalLabs} />,
   );
-  userStatCards.push(
+  systemStatCards.push(
     <CountCard
       title="Total Categories"
       key="Total Categories"
       count={totalCategories}
     />,
   );
-  userStatCards.push(
+  systemStatCards.push(
     <CountCard
       title="Total Display Items"
       key="Total Display Items"
       count={totalDisplayItems}
     />,
   );
-  userStatCards.push(
+  systemStatCards.push(
     <CountCard title="Total Items" key="Total Items" count={totalItems} />,
   );
   return (
@@ -53,7 +53,7 @@ const SystemSummary = ({
         alignItems="center"
         direction="row"
       >
-        {userStatCards}
+        {systemStatCards}
       </Grid>
     </Box>
   );

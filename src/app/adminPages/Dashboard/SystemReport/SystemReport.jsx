@@ -1,7 +1,15 @@
-import { Box, Typography } from '@material-ui/core';
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  makeStyles,
+  MenuItem,
+  Select,
+  Typography,
+} from '@material-ui/core';
 import { Zoom } from 'react-awesome-reveal';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ItemSummary from './components/ItemSummary';
 import SystemSummary from './components/SystemSummary';
 import UserSummary from './components/UserSummary';
@@ -11,15 +19,29 @@ import {
   fetchSystemReport,
   resetSystemReportState,
 } from '../../../../store/actions/admin/adminSystemReportActions';
+import LabSummary from './components/LabSummary';
+import WarningAlert from '../../../commonComponents/warningAlert';
+
+const useStyles = makeStyles(theme => ({
+  form: {
+    width: '80%',
+    marginTop: theme.spacing(1),
+  },
+  formControl: {
+    width: '30%',
+  },
+  select: {
+    fontSize: 24,
+  },
+  selectLabel: {
+    fontSize: 24,
+  },
+}));
 
 const SystemReport = () => {
+  const classes = useStyles();
   const dispatch = useDispatch();
-  const isSystemReportLoading = useSelector(
-    state => state.adminSystemReport.isSystemReportLoading,
-  );
-  const systemReportError = useSelector(
-    state => state.adminSystemReport.systemReportError,
-  );
+
   useEffect(() => {
     dispatch(fetchSystemReport());
   }, [dispatch]);
@@ -33,8 +55,25 @@ const SystemReport = () => {
     },
     [dispatch],
   );
+  const isSystemReportLoading = useSelector(
+    state => state.adminSystemReport.isSystemReportLoading,
+  );
+  const systemReportError = useSelector(
+    state => state.adminSystemReport.systemReportError,
+  );
+  const isLabReportLoading = useSelector(
+    state => state.adminSystemReport.isLabReportLoading,
+  );
+  const labs = useSelector(state => state.adminSystemReport.labs);
+  const [selectedLabID, setSelectedLabID] = useState('');
+
+  const possibleMenuItemsToSelect = labs.map(lab => (
+    <MenuItem key={lab.id} value={lab.id}>
+      {`${lab.department.code} - ${lab.name}`}
+    </MenuItem>
+  ));
   return (
-    <Box>
+    <Box align="center">
       <Zoom triggerOnce>
         <Typography variant="h4" gutterBottom align="center">
           System Report
@@ -72,6 +111,38 @@ const SystemReport = () => {
                 totalDisplayItems={systemReport.displayItemCount}
                 totalItems={systemReport.itemCount}
               />
+              <Box m={5} />
+              <Typography variant="h4" align="center">
+                Lab Summary
+              </Typography>
+              <Typography variant="h6" align="center" color="secondary">
+                Please Select a Lab to Load the Lab Report
+              </Typography>
+              <Box m={3} />
+              <FormControl className={classes.formControl}>
+                <InputLabel
+                  id="lab-report-lab-select-label"
+                  className={classes.selectLabel}
+                >
+                  Select a Lab
+                </InputLabel>
+                <Select
+                  disabled={isLabReportLoading}
+                  labelId="lab-report-lab-select-label"
+                  id="lab-report-lab-select"
+                  value={selectedLabID}
+                  onChange={e => setSelectedLabID(e.target.value)}
+                  className={classes.select}
+                >
+                  {possibleMenuItemsToSelect}
+                </Select>
+              </FormControl>
+              <Box m={5} />
+              {selectedLabID.length > 0 ? (
+                <LabSummary labId={selectedLabID} />
+              ) : (
+                <WarningAlert message="No lab selected" />
+              )}
             </Box>
           )}
         </Box>
