@@ -3,11 +3,19 @@ import {
   DECREASE_ITEM_BUCKET_QUNATITY,
   INCREASE_ITEM_BUCKET_QUNATITY,
   REMOVE_FROM_BUCKET,
+  STUDENT_BUCKET_LECTURERS_ERROR,
+  STUDENT_BUCKET_LECTURERS_LOADED,
+  STUDENT_BUCKET_LECTURERS_LOADING,
 } from '../../actionTypes/studentActionTypes';
 import BucketItem from '../../../models/bucketItem';
+import BucketLecturer from '../../../models/bucketLecturer';
 
 const initialState = {
   bucketItems: [],
+  lecturers: [],
+  isBucketLoading: false,
+  bucketLoaded: false,
+  bucketError: false,
 };
 
 const studentLabBucketReducer = (state = initialState, action) => {
@@ -53,6 +61,28 @@ const studentLabBucketReducer = (state = initialState, action) => {
         bucketItems: updatedBucketItems,
       };
     }
+    case STUDENT_BUCKET_LECTURERS_LOADING:
+      return {
+        ...state,
+        isBucketLoading: true,
+        bucketLoaded: false,
+        bucketError: false,
+      };
+    case STUDENT_BUCKET_LECTURERS_LOADED:
+      return {
+        ...state,
+        lecturers: action.payload.map(obj => new BucketLecturer(obj)),
+        isBucketLoading: false,
+        bucketLoaded: true,
+        bucketError: false,
+      };
+    case STUDENT_BUCKET_LECTURERS_ERROR:
+      return {
+        ...state,
+        isBucketLoading: false,
+        bucketLoaded: false,
+        bucketError: true,
+      };
     default:
       return state;
   }

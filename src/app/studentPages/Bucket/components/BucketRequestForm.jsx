@@ -10,6 +10,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -67,10 +68,16 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function RequestBucket() {
+function BucketRequestForm() {
   const classes = useStyles();
   const [reason, setReason] = useState('');
   const [lecturer, setLecturer] = useState('');
+  const labLecturers = useSelector(state => state.studentLabBucket.lecturers);
+  const lecturerSelectData = labLecturers.map(lec => (
+    <MenuItem key={lec.id} value={lec.id}>
+      {lec.email}
+    </MenuItem>
+  ));
 
   const handleChange = event => {
     setLecturer(event.target.value);
@@ -114,11 +121,7 @@ function RequestBucket() {
                     value={lecturer}
                     onChange={handleChange}
                   >
-                    <MenuItem value={0}>Lecturer 1</MenuItem>
-                    <MenuItem value={1}>Lecturer 2</MenuItem>
-                    <MenuItem value={2}>Lecturer 3</MenuItem>
-                    <MenuItem value={3}>Lecturer 4</MenuItem>
-                    <MenuItem value={4}>Lecturer 5</MenuItem>
+                    {lecturerSelectData}
                   </Select>
                 </FormControl>
                 <Button
@@ -139,4 +142,4 @@ function RequestBucket() {
   );
 }
 
-export default RequestBucket;
+export default BucketRequestForm;
