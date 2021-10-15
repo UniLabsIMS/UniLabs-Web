@@ -10,6 +10,10 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
+import { addRequest } from '../../../../store/actions/student/studentBucketActions';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -26,7 +30,7 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     marginTop: theme.spacing(1),
   },
-  loginForm: {
+  requestForm: {
     width: '100%',
     marginTop: theme.spacing(0),
     marginBottom: theme.spacing(3),
@@ -67,17 +71,26 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function RequestBucket() {
+const BucketRequestForm = ({ bucketItems }) => {
   const classes = useStyles();
+  const { labId } = useParams();
   const [reason, setReason] = useState('');
   const [lecturer, setLecturer] = useState('');
+  const dispatch = useDispatch();
+  const labLecturers = useSelector(state => state.studentLabBucket.lecturers);
+  const lecturerSelectData = labLecturers.map(lec => (
+    <MenuItem key={lec.id} value={lec.id}>
+      {lec.email}
+    </MenuItem>
+  ));
 
   const handleChange = event => {
     setLecturer(event.target.value);
   };
 
-  const handleLogin = e => {
+  const handleSubmit = e => {
     e.preventDefault();
+    dispatch(addRequest(lecturer, labId, reason, bucketItems));
   };
 
   return (
@@ -85,8 +98,8 @@ function RequestBucket() {
       <Container component="main">
         <CssBaseline />
         <div className={classes.paper}>
-          <div className={classes.loginForm}>
-            <form className={classes.form} noValidate onSubmit={handleLogin}>
+          <div className={classes.requestForm}>
+            <form className={classes.form} onSubmit={handleSubmit}>
               <div className={classes.formLine}>
                 <TextField
                   className={classes.texts}
@@ -100,7 +113,6 @@ function RequestBucket() {
                   autoComplete="reason"
                   value={reason}
                   onChange={e => setReason(e.target.value)}
-                  // autoFocus
                 />
               </div>
               <div className={classes.formLine}>
@@ -111,14 +123,11 @@ function RequestBucket() {
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
+                    required
                     value={lecturer}
                     onChange={handleChange}
                   >
-                    <MenuItem value={0}>Lecturer 1</MenuItem>
-                    <MenuItem value={1}>Lecturer 2</MenuItem>
-                    <MenuItem value={2}>Lecturer 3</MenuItem>
-                    <MenuItem value={3}>Lecturer 4</MenuItem>
-                    <MenuItem value={4}>Lecturer 5</MenuItem>
+                    {lecturerSelectData}
                   </Select>
                 </FormControl>
                 <Button
@@ -137,6 +146,8 @@ function RequestBucket() {
       </Container>
     </div>
   );
-}
-
-export default RequestBucket;
+};
+BucketRequestForm.propTypes = {
+  bucketItems: PropTypes.arrayOf(PropTypes.any).isRequired,
+};
+export default BucketRequestForm;

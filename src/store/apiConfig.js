@@ -55,6 +55,10 @@ export const API_STUDENT_DISPLAY_ITEMS_URL = API_BASE_URL.concat(
   '/display-items/of-item-category/',
 ); // concat the category id to this
 
+export const API_STUDENT_NEW_REQUEST_URL =
+  API_BASE_URL.concat('/requests/create/');
+export const API_STUDENT_LECTURERS_OF_LAB_URL =
+  API_BASE_URL.concat('/lecturers/of-lab/'); // concat lab id
 // ---------------------LABMANAGER-------------------------------
 export const API_LAB_MANAGER_ALL_CATEGORIES_URL = API_BASE_URL.concat(
   '/categories/of-lab/',

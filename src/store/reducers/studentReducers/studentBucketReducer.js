@@ -3,11 +3,25 @@ import {
   DECREASE_ITEM_BUCKET_QUNATITY,
   INCREASE_ITEM_BUCKET_QUNATITY,
   REMOVE_FROM_BUCKET,
+  STUDENT_BUCKET_LECTURERS_ERROR,
+  STUDENT_BUCKET_LECTURERS_LOADED,
+  STUDENT_BUCKET_LECTURERS_LOADING,
+  REQUEST_CREATE_LOADING,
+  REQUEST_CREATE_SUCCESS,
+  REQUEST_CREATE_ERROR,
 } from '../../actionTypes/studentActionTypes';
 import BucketItem from '../../../models/bucketItem';
+import BucketLecturer from '../../../models/bucketLecturer';
 
 const initialState = {
   bucketItems: [],
+  lecturers: [],
+  isBucketLoading: false,
+  bucketLoaded: false,
+  bucketError: false,
+  isNewRequestLaoding: false,
+  newRequestSuccess: false,
+  newRequestError: false,
 };
 
 const studentLabBucketReducer = (state = initialState, action) => {
@@ -53,6 +67,63 @@ const studentLabBucketReducer = (state = initialState, action) => {
         bucketItems: updatedBucketItems,
       };
     }
+    case STUDENT_BUCKET_LECTURERS_LOADING:
+      return {
+        ...state,
+        isBucketLoading: true,
+        bucketLoaded: false,
+        bucketError: false,
+        isNewRequestLaoding: false,
+        newRequestSuccess: false,
+        newRequestError: false,
+      };
+    case STUDENT_BUCKET_LECTURERS_LOADED:
+      return {
+        ...state,
+        lecturers: action.payload.map(obj => new BucketLecturer(obj)),
+        isBucketLoading: false,
+        bucketLoaded: true,
+        bucketError: false,
+      };
+    case STUDENT_BUCKET_LECTURERS_ERROR:
+      return {
+        ...state,
+        isBucketLoading: false,
+        bucketLoaded: false,
+        bucketError: true,
+      };
+    case REQUEST_CREATE_LOADING:
+      return {
+        ...state,
+        isNewRequestLaoding: true,
+        newRequestSuccess: false,
+        newRequestError: false,
+      };
+    case REQUEST_CREATE_SUCCESS: {
+      const requestedBucketItems = action.payload;
+      const updatedBucketItems = state.bucketItems.filter(bucketItem => {
+        const foundItem = requestedBucketItems.find(
+          requestItem => requestItem.displayItemId === bucketItem.displayItemId,
+        );
+        if (foundItem) return false;
+        return true;
+      });
+
+      return {
+        ...state,
+        bucketItems: updatedBucketItems,
+        isNewRequestLaoding: false,
+        newRequestSuccess: true,
+        newRequestError: false,
+      };
+    }
+    case REQUEST_CREATE_ERROR:
+      return {
+        ...state,
+        isNewRequestLaoding: false,
+        newRequestSuccess: false,
+        newRequestError: true,
+      };
     default:
       return state;
   }

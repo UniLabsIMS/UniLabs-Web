@@ -1,14 +1,19 @@
 import { Grid, Typography, makeStyles, Box } from '@material-ui/core';
 import { Zoom } from 'react-awesome-reveal';
 import { Link, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
 import BreadcrumbsWrapper from '../../commonComponents/breadCrumbsWrapper';
 import DisplayBucketItemCard from './components/DisplayBucketItemCard';
-import RequestBucket from './components/BucketRequestForm';
 import { STUDENT_BASE_URL, STUDENT_CATEGORIES_URL } from '../../constants';
 import WarningAlert from '../../commonComponents/warningAlert';
+import CustomLoadingIndicator from '../../commonComponents/customLoadingIndicator';
+import ErrorAlert from '../../commonComponents/errorAlert';
+import SuccessAlert from '../../commonComponents/successAlert';
+import { fetchLabLecturers } from '../../../store/actions/student/studentBucketActions';
+import BucketRequestForm from './components/BucketRequestForm';
 
 const useStyles = makeStyles(theme => ({
   link: {
@@ -36,6 +41,29 @@ function BucketPage() {
     </Grid>
   ));
 
+  const isBucketLoading = useSelector(
+    state => state.studentLabBucket.isBucketLoading,
+  );
+  const bucketError = useSelector(state => state.studentLabBucket.bucketError);
+  const isNewRequestLaoding = useSelector(
+    state => state.studentLabBucket.isNewRequestLaoding,
+  );
+  const newRequestSuccess = useSelector(
+    state => state.studentLabBucket.newRequestSuccess,
+  );
+  const newRequestError = useSelector(
+    state => state.studentLabBucket.newRequestError,
+  );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchLabLecturers(labId));
+  }, [dispatch, labId]);
+
+  if (isBucketLoading || isNewRequestLaoding) {
+    return <CustomLoadingIndicator />;
+  }
+
   return (
     <PageWrapper navBar={<Navbar />}>
       <BreadcrumbsWrapper>
@@ -55,13 +83,37 @@ function BucketPage() {
           My Bucket
         </Typography>
       </Zoom>
-      <Zoom triggerOnce>
-        <RequestBucket />
-      </Zoom>
-      {bucketItemsOfLab.length === 0 ? (
-        <WarningAlert message="No items in the bucket for this lab." />
+      {newRequestSuccess ? (
+        <>
+          <SuccessAlert message="Successfully added new requests." />
+          <Box m={2} />
+        </>
       ) : (
-        <div className={classes.cards}>{displayItems}</div>
+        <div />
+      )}
+      {newRequestError ? (
+        <>
+          <ErrorAlert message="Failed to submit the request. Make sure you have no currenlty pending requests for this lab." />
+          <Box m={2} />
+        </>
+      ) : (
+        <div />
+      )}
+      {bucketError ? (
+        <ErrorAlert message="Failed to laod the lab bucket" />
+      ) : (
+        <div>
+          {bucketItemsOfLab.length === 0 ? (
+            <WarningAlert message="No items in the bucket for this lab." />
+          ) : (
+            <div>
+              <Zoom triggerOnce>
+                <BucketRequestForm bucketItems={bucketItemsOfLab} />
+              </Zoom>
+              <div className={classes.cards}>{displayItems}</div>
+            </div>
+          )}
+        </div>
       )}
     </PageWrapper>
   );
