@@ -74,7 +74,7 @@ export const fetchDeptLabs = deptID => (dispatch, getState) => {
 
 /* Add lab */
 export const addLab =
-  (name, department, location, contactNo, contactEmail) =>
+  (name, department, location, contactNo, contactEmail, image) =>
   (dispatch, getState) => {
     dispatch({ type: NEW_LAB_LOADING });
     const formData = new FormData();
@@ -83,6 +83,9 @@ export const addLab =
     formData.append('location', location);
     formData.append('contact_no', contactNo);
     formData.append('contact_email', contactEmail);
+    if (image) {
+      formData.append('image', image);
+    }
     axios
       .post(API_ADMIN_NEW_LAB_URL, formData, httpHeaderConfig(getState))
       .then(res => {
