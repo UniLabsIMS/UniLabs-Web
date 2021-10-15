@@ -7,9 +7,16 @@ import {
   STUDENT_BUCKET_LECTURERS_ERROR,
   STUDENT_BUCKET_LECTURERS_LOADED,
   STUDENT_BUCKET_LECTURERS_LOADING,
+  REQUEST_CREATE_LOADING,
+  REQUEST_CREATE_SUCCESS,
+  REQUEST_CREATE_ERROR,
 } from '../../actionTypes/studentActionTypes';
-import { API_STUDENT_LECTURERS_OF_LAB_URL } from '../../apiConfig';
+import {
+  API_STUDENT_LECTURERS_OF_LAB_URL,
+  API_STUDENT_NEW_REQUEST_URL,
+} from '../../apiConfig';
 import httpHeaderConfig from '../../httpHeaderConfig';
+import httpHeaderConfigJSON from '../../httpHeaderConfigJSON';
 
 export const addDisplayItemToBucket =
   displayItemObj => (dispatch, getState) => {
@@ -38,34 +45,36 @@ export const decreaseItemQunatityinBucket =
 
 /* Add new req */
 export const addRequest =
-  (studentId, lecturerId, labId, reason, bucketItems) =>
-  (dispatch, getState) => {
-    // dispatch({ type: NEW_CAT_LOADING });
-    // const formData = new FormData();
-    // const lab = getState().auth.user.otherDetails.lab.id;
-    // formData.append('name', name);
-    // formData.append('description', description);
-    // formData.append('lab', lab);
-    // if (image !== null) {
-    //   formData.append('image', image);
-    // }
-    // axios
-    //   .post(
-    //     API_LAB_MANAGER_NEW_CATEGORIES_URL,
-    //     formData,
-    //     httpHeaderConfig(getState),
-    //   )
-    //   .then(res => {
-    //     dispatch({
-    //       type: NEW_CAT_SUCCESS,
-    //       payload: res.data,
-    //     });
-    //   })
-    //   .catch(err => {
-    //     dispatch({
-    //       type: NEW_CAT_FAIL,
-    //     });
-    //   });
+  (lecturerId, labId, reason, requestedBucketItems) => (dispatch, getState) => {
+    dispatch({ type: REQUEST_CREATE_LOADING });
+
+    const studentId = getState().auth.user.id;
+    const requestedItems = {};
+    requestedBucketItems.forEach(
+      // eslint-disable-next-line no-return-assign
+      bucketItem =>
+        (requestedItems[bucketItem.displayItemId] = bucketItem.quantity),
+    );
+    const data = {
+      student: studentId,
+      lecturer: lecturerId,
+      lab: labId,
+      reason,
+      display_items_dict: requestedItems,
+    };
+    axios
+      .post(API_STUDENT_NEW_REQUEST_URL, data, httpHeaderConfigJSON(getState))
+      .then(res => {
+        dispatch({
+          type: REQUEST_CREATE_SUCCESS,
+          payload: requestedBucketItems,
+        });
+      })
+      .catch(err => {
+        dispatch({
+          type: REQUEST_CREATE_ERROR,
+        });
+      });
   };
 
 /* Load lecturers of lab */

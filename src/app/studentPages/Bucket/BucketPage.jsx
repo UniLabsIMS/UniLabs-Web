@@ -11,6 +11,7 @@ import { STUDENT_BASE_URL, STUDENT_CATEGORIES_URL } from '../../constants';
 import WarningAlert from '../../commonComponents/warningAlert';
 import CustomLoadingIndicator from '../../commonComponents/customLoadingIndicator';
 import ErrorAlert from '../../commonComponents/errorAlert';
+import SuccessAlert from '../../commonComponents/successAlert';
 import { fetchLabLecturers } from '../../../store/actions/student/studentBucketActions';
 import BucketRequestForm from './components/BucketRequestForm';
 
@@ -44,13 +45,22 @@ function BucketPage() {
     state => state.studentLabBucket.isBucketLoading,
   );
   const bucketError = useSelector(state => state.studentLabBucket.bucketError);
+  const isNewRequestLaoding = useSelector(
+    state => state.studentLabBucket.isNewRequestLaoding,
+  );
+  const newRequestSuccess = useSelector(
+    state => state.studentLabBucket.newRequestSuccess,
+  );
+  const newRequestError = useSelector(
+    state => state.studentLabBucket.newRequestError,
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchLabLecturers(labId));
   }, [dispatch, labId]);
 
-  if (isBucketLoading) {
+  if (isBucketLoading || isNewRequestLaoding) {
     return <CustomLoadingIndicator />;
   }
 
@@ -73,6 +83,22 @@ function BucketPage() {
           My Bucket
         </Typography>
       </Zoom>
+      {newRequestSuccess ? (
+        <>
+          <SuccessAlert message="Successfully added new requests." />
+          <Box m={2} />
+        </>
+      ) : (
+        <div />
+      )}
+      {newRequestError ? (
+        <>
+          <ErrorAlert message="Failed to submit the request. Make sure you have no currenlty pending requests for this lab." />
+          <Box m={2} />
+        </>
+      ) : (
+        <div />
+      )}
       {bucketError ? (
         <ErrorAlert message="Failed to laod the lab bucket" />
       ) : (
@@ -82,7 +108,7 @@ function BucketPage() {
           ) : (
             <div>
               <Zoom triggerOnce>
-                <BucketRequestForm />
+                <BucketRequestForm bucketItems={bucketItemsOfLab} />
               </Zoom>
               <div className={classes.cards}>{displayItems}</div>
             </div>
