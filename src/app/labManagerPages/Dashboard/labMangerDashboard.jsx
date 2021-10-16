@@ -6,7 +6,7 @@ import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
 import ItemCategories from './ItemCategories/itemCategories';
 import InventorySummary from './inventorySummary/inventorySummary';
-import { resetLabManagerDashboardState } from '../../../store/actions/labManager/labManagerDashboardActions';
+import { resetLabManagerCategoriesState } from '../../../store/actions/labManager/labManagerCategoriesActions';
 
 const createDrawerTile = (title, icon, component) => ({
   title,
@@ -39,7 +39,7 @@ export default function LabManagerDashboard() {
   };
   useEffect(
     () => () => {
-      dispatch(resetLabManagerDashboardState());
+      dispatch(resetLabManagerCategoriesState());
     },
     [dispatch],
   );

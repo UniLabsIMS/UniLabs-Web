@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addCategory } from '../../../../../store/actions/labManager/labManagerDashboardActions';
+import { addCategory } from '../../../../../store/actions/labManager/labManagerCategoriesActions';
 import ImagePicker from '../../../../commonComponents/imagePicker';
 import CustomLoadingIndicator from '../../../../commonComponents/customLoadingIndicator';
 import ErrorAlert from '../../../../commonComponents/errorAlert';
@@ -60,14 +60,14 @@ function NewCategoryFrom() {
     dispatch(addCategory(name, description, file));
   };
   const newCatLoading = useSelector(
-    state => state.labManagerDashboard.newCategoryLoading,
+    state => state.labManagerCategories.newCategoryLoading,
   );
   const newCatError = useSelector(
-    state => state.labManagerDashboard.newCategoryError,
+    state => state.labManagerCategories.newCategoryError,
   );
 
   const newCatSuccess = useSelector(
-    state => state.labManagerDashboard.newCategorySuccess,
+    state => state.labManagerCategories.newCategorySuccess,
   );
   useEffect(() => {
     if (newCatSuccess) {
