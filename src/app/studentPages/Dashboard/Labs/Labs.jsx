@@ -79,20 +79,22 @@ function Labs() {
         </Typography>
       </Zoom>
       <Box m={3} />
-      <FormControl className={classes.formControl}>
-        <Typography className={classes.selectLabel}>
-          Filter by Department
-        </Typography>
-        <Select
-          displayEmpty
-          id="student-labs-department-select"
-          value={selectedDepartmentID}
-          onChange={e => setSelectedDepartmentID(e.target.value)}
-          className={classes.select}
-        >
-          {possibleDepartmentsToSelect}
-        </Select>
-      </FormControl>
+      <Zoom triggerOnce>
+        <FormControl className={classes.formControl}>
+          <Typography className={classes.selectLabel}>
+            Filter by Department
+          </Typography>
+          <Select
+            displayEmpty
+            id="student-labs-department-select"
+            value={selectedDepartmentID}
+            onChange={e => setSelectedDepartmentID(e.target.value)}
+            className={classes.select}
+          >
+            {possibleDepartmentsToSelect}
+          </Select>
+        </FormControl>
+      </Zoom>
       <Box m={5} />
       {isLabsError ? (
         <ErrorAlert message="Failed to load labs" />
