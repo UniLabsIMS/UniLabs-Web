@@ -8,6 +8,8 @@ const useStyles = makeStyles(theme => ({
     height: 200,
     paddingBottom: theme.spacing(1),
     marginTop: theme.spacing(3),
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

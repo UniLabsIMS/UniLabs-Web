@@ -9,5 +9,7 @@ export default class LabReport {
     this.tempBorrowedItemCount = reportData.temp_borrowed_item_count;
     this.labAssistantCount = reportData.lab_assistant_count;
     this.labManagerCount = reportData.lab_manager_count;
+    this.totalRequestCount = reportData.request_count;
+    this.pendingRequestCount = reportData.pending_request_count;
   }
 }

@@ -15,5 +15,7 @@ export default class SystemReport {
     this.damagedItemCount = reportData.damaged_item_count;
     this.borrowedItemCount = reportData.borrowed_item_count;
     this.tempBorrowedItemCount = reportData.temp_borrowed_item_count;
+    this.totalRequestCount = reportData.request_count;
+    this.pendingRequestCount = reportData.pending_request_count;
   }
 }

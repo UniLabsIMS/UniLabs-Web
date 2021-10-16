@@ -110,6 +110,8 @@ const SystemReport = () => {
                 totalCategories={systemReport.categoryCount}
                 totalDisplayItems={systemReport.displayItemCount}
                 totalItems={systemReport.itemCount}
+                totalRequests={systemReport.totalRequestCount}
+                totalPendingRequests={systemReport.pendingRequestCount}
               />
               <Box m={5} />
               <Typography variant="h4" align="center">
