@@ -16,6 +16,8 @@ import ErrorAlert from '../../../commonComponents/errorAlert';
 import { fetchLecturerRequests } from '../../../../store/actions/lecturer/lecturerRequestsActions';
 import LecturerPermittedLab from '../../../../models/lecturerPermittedLab';
 import WarningAlert from '../../../commonComponents/warningAlert';
+import SuccessAlert from '../../../commonComponents/successAlert';
+import { resetApproveorDeclineState } from '../../../../store/actions/lecturer/lecturerApproveOrDeclineRequesrActions';
 
 const useStyles = makeStyles(theme => ({
   link: {
@@ -51,6 +53,9 @@ function StudentRequestsPage() {
     state => state.lecturerRequests.isRequestsError,
   );
   const lecturerReqLst = useSelector(state => state.lecturerRequests.requests);
+  const isApprovalOrDeclineSuccess = useSelector(
+    state => state.lecturerApproveOrDeclineRequest.isApprovalOrDeclineSuccess,
+  );
   const lecturer = useSelector(state => state.auth.user);
   let permittedLabs = [];
   if (lecturer.otherDetails.permitted_labs) {
@@ -63,6 +68,12 @@ function StudentRequestsPage() {
   useEffect(() => {
     dispatch(fetchLecturerRequests());
   }, [dispatch, reload]);
+  useEffect(
+    () => () => {
+      dispatch(resetApproveorDeclineState());
+    },
+    [dispatch],
+  );
 
   const filteredRequests = lecturerReqLst.filter(studentReq => {
     if (filterLabId.length > 0) {
@@ -96,6 +107,7 @@ function StudentRequestsPage() {
         </Typography>
       </Zoom>
       <Box m={2} />
+
       {isRequestsError ? (
         <ErrorAlert message="Failed to load requests" />
       ) : (
@@ -117,8 +129,15 @@ function StudentRequestsPage() {
             </FormControl>
           </Zoom>
           <Box m={5} />
+          {isApprovalOrDeclineSuccess ? (
+            <Zoom triggerOnce>
+              <SuccessAlert message="Request Approval/Decline Successful" />
+            </Zoom>
+          ) : (
+            <Box />
+          )}
 
-          <Box>
+          <Box m={2}>
             {isRequestsLoading ? (
               <CustomLoadingIndicator minimumHeight="60vh" />
             ) : (

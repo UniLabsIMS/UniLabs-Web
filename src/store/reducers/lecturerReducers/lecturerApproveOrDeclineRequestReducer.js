@@ -2,6 +2,7 @@ import {
   LECTURER_REQUEST_APPROVE_OR_DECLINE_LOADING,
   LECTURER_REQUEST_APPROVE_OR_DECLINE_SUCCESS,
   LECTURER_REQUEST_APPROVE_OR_DECLINE_FAIL,
+  LECTURER_REQUEST_APPROVE_OR_DECLINE_RESET,
 } from '../../actionTypes/lecturerActionTypes';
 
 const initialState = {
@@ -12,6 +13,8 @@ const initialState = {
 
 const lecturerRequestsReducer = (state = initialState, action) => {
   switch (action.type) {
+    case LECTURER_REQUEST_APPROVE_OR_DECLINE_RESET:
+      return initialState;
     case LECTURER_REQUEST_APPROVE_OR_DECLINE_LOADING:
       return {
         ...state,
