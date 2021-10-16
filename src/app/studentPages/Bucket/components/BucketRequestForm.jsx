@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 import { addRequest } from '../../../../store/actions/student/studentBucketActions';
+import WarningAlert from '../../../commonComponents/warningAlert';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -78,6 +79,9 @@ const BucketRequestForm = ({ bucketItems }) => {
   const [lecturer, setLecturer] = useState('');
   const dispatch = useDispatch();
   const labLecturers = useSelector(state => state.studentLabBucket.lecturers);
+  const isActiveRequestForLab = useSelector(
+    state => state.studentLabBucket.isActiveRequestForLab,
+  );
   const lecturerSelectData = labLecturers.map(lec => (
     <MenuItem key={lec.id} value={lec.id}>
       {lec.email}
@@ -100,6 +104,9 @@ const BucketRequestForm = ({ bucketItems }) => {
         <div className={classes.paper}>
           <div className={classes.requestForm}>
             <form className={classes.form} onSubmit={handleSubmit}>
+              {isActiveRequestForLab && (
+                <WarningAlert message="You already have one pending request for this lab." />
+              )}
               <div className={classes.formLine}>
                 <TextField
                   className={classes.texts}
@@ -136,6 +143,7 @@ const BucketRequestForm = ({ bucketItems }) => {
                   variant="contained"
                   color="primary"
                   className={classes.submit}
+                  disabled={isActiveRequestForLab}
                 >
                   Place Request
                 </Button>

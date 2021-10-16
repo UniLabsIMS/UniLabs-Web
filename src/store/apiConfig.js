@@ -54,6 +54,7 @@ export const API_ADMIN_LAB_REPORT_URL =
 
 // ------------------------STUDENT----------------------------------
 export const API_STUDENT_LABS_URL = API_BASE_URL.concat('/labs/');
+export const API_STUDENT_DEPARTMENTS_URL = API_BASE_URL.concat('/departments/');
 export const API_STUDENT_CATEGORIES_URL = API_BASE_URL.concat(
   '/categories/of-lab/',
 ); // concat the lab id to this
@@ -65,6 +66,16 @@ export const API_STUDENT_NEW_REQUEST_URL =
   API_BASE_URL.concat('/requests/create/');
 export const API_STUDENT_LECTURERS_OF_LAB_URL =
   API_BASE_URL.concat('/lecturers/of-lab/'); // concat lab id
+export const API_STUDENT_CHECK_WHETHER_ACTIVE_REQUEST_IN_LAB_URL =
+  API_BASE_URL.concat('/requests/check-student-active-request/'); // concat lab id
+// ------------------------LECTURER----------------------------------
+export const API_LECTURER_REQUESTS_URL = API_BASE_URL.concat(
+  '/requests/lecturer-requests/',
+);
+export const API_LECTURER_REQUEST_URL = API_BASE_URL.concat('/requests/'); // concat req id
+export const API_LECTURER_APPROVE_OR_DECLINE_REQUESTS_URL = API_BASE_URL.concat(
+  '/requests/approve-or-decline/',
+); // concat req id
 
 // ---------------------LABMANAGER-------------------------------
 export const API_LAB_MANAGER_ALL_CATEGORIES_URL = API_BASE_URL.concat(

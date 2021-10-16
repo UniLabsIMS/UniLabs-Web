@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
 import BreadcrumbsWrapper from '../../commonComponents/breadCrumbsWrapper';
-import DisplayBucketItemCard from './components/DisplayBucketItemCard';
 import { STUDENT_BASE_URL, STUDENT_CATEGORIES_URL } from '../../constants';
 import WarningAlert from '../../commonComponents/warningAlert';
 import CustomLoadingIndicator from '../../commonComponents/customLoadingIndicator';
@@ -14,6 +13,7 @@ import ErrorAlert from '../../commonComponents/errorAlert';
 import SuccessAlert from '../../commonComponents/successAlert';
 import { fetchLabLecturers } from '../../../store/actions/student/studentBucketActions';
 import BucketRequestForm from './components/BucketRequestForm';
+import BucketItemCard from './components/BucketItemCard';
 
 const useStyles = makeStyles(theme => ({
   link: {
@@ -35,9 +35,9 @@ function BucketPage() {
     bucketItem => bucketItem.labId === labId,
   );
 
-  const displayItems = bucketItemsOfLab.map(bucketItem => (
+  const bucketItemsList = bucketItemsOfLab.map(bucketItem => (
     <Grid item key={bucketItem.displayItemId}>
-      <DisplayBucketItemCard bucketItem={bucketItem} />
+      <BucketItemCard bucketItem={bucketItem} />
     </Grid>
   ));
 
@@ -110,7 +110,7 @@ function BucketPage() {
               <Zoom triggerOnce>
                 <BucketRequestForm bucketItems={bucketItemsOfLab} />
               </Zoom>
-              <div className={classes.cards}>{displayItems}</div>
+              <div className={classes.cards}>{bucketItemsList}</div>
             </div>
           )}
         </div>

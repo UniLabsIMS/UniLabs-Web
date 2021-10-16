@@ -11,6 +11,7 @@ import CustomLoadingIndicator from '../../commonComponents/customLoadingIndicato
 import ErrorAlert from '../../commonComponents/errorAlert';
 import { fetchDisplayItems } from '../../../store/actions/student/studentDisplayItemsActions';
 import { STUDENT_BASE_URL, STUDENT_CATEGORIES_URL } from '../../constants';
+import LabBucketEntranceCard from '../../commonComponents/labBucketEntranceCard';
 
 const useStyles = makeStyles(theme => ({
   link: {
@@ -69,6 +70,7 @@ function StudentDisplayItemsPage() {
           Items
         </Typography>
       </Zoom>
+      <LabBucketEntranceCard labId={labId} />
       {isDisplayItemsError ? (
         <ErrorAlert message="Failed to load display items" />
       ) : (

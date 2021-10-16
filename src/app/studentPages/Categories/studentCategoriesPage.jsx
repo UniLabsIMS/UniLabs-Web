@@ -1,4 +1,4 @@
-import { Box, Grid, makeStyles, Typography, Button } from '@material-ui/core';
+import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
 import { Link, useParams } from 'react-router-dom';
 import { Zoom } from 'react-awesome-reveal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,42 +10,20 @@ import CategoryCard from './components/CategoryCard';
 import CustomLoadingIndicator from '../../commonComponents/customLoadingIndicator';
 import ErrorAlert from '../../commonComponents/errorAlert';
 import { fetchCategories } from '../../../store/actions/student/studentCategoriesActions';
-import { STUDENT_BASE_URL, STUDENT_LAB_BUCKET_URL } from '../../constants';
+import { STUDENT_BASE_URL } from '../../constants';
+import LabBucketEntranceCard from '../../commonComponents/labBucketEntranceCard';
 
 const useStyles = makeStyles(theme => ({
   link: {
     textDecoration: 'none',
     color: theme.palette.secondary.main,
   },
-  bucketButtonContainer: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(5),
-  },
-  bucketButtonContainer1: {
-    width: '30%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  bucketButton: {
-    width: '100%',
-    padding: theme.spacing(2),
-    alignItems: 'center',
-    fontSize: 'large',
-  },
-  gridItem: {
-    width: '28%',
-  },
 }));
 
-function StudentCategoriesPage() {
+const StudentCategoriesPage = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const { labId } = useParams();
+
   const isCategoriesLoading = useSelector(
     state => state.studentCategories.isCategoriesLoading,
   );
@@ -56,12 +34,14 @@ function StudentCategoriesPage() {
     state => state.studentCategories.categories,
   );
   const reload = useSelector(state => state.studentCategories.reloadCategories);
+
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchCategories(labId));
   }, [dispatch, reload, labId]);
 
   const categories = categoriesLst.map(category => (
-    <Grid item key={category.id} className={classes.gridItem}>
+    <Grid item key={category.id}>
       <CategoryCard category={category} labId={labId} />
     </Grid>
   ));
@@ -70,37 +50,24 @@ function StudentCategoriesPage() {
     <PageWrapper navBar={<Navbar />}>
       <BreadcrumbsWrapper>
         <Link to={STUDENT_BASE_URL} className={classes.link}>
-          Labs
+          All Labs
         </Link>
         <Box fontSize="inherit">Categories</Box>
       </BreadcrumbsWrapper>
-      <Zoom triggerOnce>
-        <Typography component="h2" variant="h4" gutterBottom align="center">
-          Categories
-        </Typography>
-      </Zoom>
 
       <Zoom triggerOnce>
-        <div className={classes.bucketButtonContainer}>
-          <Link
-            className={classes.bucketButtonContainer1}
-            style={{ textDecoration: 'none' }}
-            to={STUDENT_LAB_BUCKET_URL.concat(labId)}
-          >
-            <Button
-              className={classes.bucketButton}
-              color="secondary"
-              variant="contained"
-            >
-              My Bucket
-            </Button>
-          </Link>
-        </div>
+        <Typography component="h2" variant="h4" gutterBottom align="center">
+          Item Categories
+        </Typography>
       </Zoom>
+      <Box m={5} />
+      <LabBucketEntranceCard labId={labId} />
+      <Box m={5} />
+
       {isCategoriesError ? (
         <ErrorAlert message="Failed to load categories" />
       ) : (
-        <div>
+        <Box>
           {isCategoriesLoading ? (
             <CustomLoadingIndicator minimumHeight="60vh" />
           ) : (
@@ -114,10 +81,10 @@ function StudentCategoriesPage() {
               {categories}
             </Grid>
           )}
-        </div>
+        </Box>
       )}
     </PageWrapper>
   );
-}
+};
 
 export default StudentCategoriesPage;

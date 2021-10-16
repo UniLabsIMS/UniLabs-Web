@@ -49,12 +49,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const DisplayItemCard = ({ displayItem }) => {
+const BucketItemCard = ({ bucketItem }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const bucketItems = useSelector(state => state.studentLabBucket.bucketItems);
   const correspondingBucketItem = bucketItems.find(
-    bucketItem => bucketItem.displayItemId === displayItem.id,
+    item => item.displayItemId === bucketItem.displayItemId,
   );
   const [quantity, setQuantity] = useState(
     correspondingBucketItem ? correspondingBucketItem.quantity : 0,
@@ -87,9 +87,9 @@ const DisplayItemCard = ({ displayItem }) => {
                 alt="Display Item Photo"
                 height="220"
                 image={
-                  displayItem.image === null
+                  bucketItem.image === null
                     ? '/images/default-display-item-img.svg'
-                    : displayItem.image
+                    : bucketItem.image
                 }
                 title="Display Item Photo"
               />
@@ -110,7 +110,7 @@ const DisplayItemCard = ({ displayItem }) => {
                           component="h2"
                           className={classes.cardTextContent}
                         >
-                          {displayItem.name}
+                          {bucketItem.name}
                         </Typography>
                         <Box>
                           <Typography
@@ -123,12 +123,9 @@ const DisplayItemCard = ({ displayItem }) => {
                           <Typography
                             className={classes.cardDescriptionContent}
                           >
-                            {displayItem.description.length > 250
-                              ? `${displayItem.description.substring(
-                                  1,
-                                  250,
-                                )}...`
-                              : displayItem.description}
+                            {bucketItem.description.length > 250
+                              ? `${bucketItem.description.substring(1, 250)}...`
+                              : bucketItem.description}
                           </Typography>
                         </Box>
                       </Box>
@@ -144,7 +141,9 @@ const DisplayItemCard = ({ displayItem }) => {
                             <Grid item xs={4}>
                               <Button
                                 onClick={() =>
-                                  handleDecreasingQunatityToBucket(displayItem)
+                                  handleDecreasingQunatityToBucket(
+                                    bucketItem.parentDisplayItemObj,
+                                  )
                                 }
                                 variant="outlined"
                                 color="secondary"
@@ -165,11 +164,15 @@ const DisplayItemCard = ({ displayItem }) => {
                             <Grid item xs={4}>
                               <Button
                                 onClick={() =>
-                                  handleIncreasingQunatityToBucket(displayItem)
+                                  handleIncreasingQunatityToBucket(
+                                    bucketItem.parentDisplayItemObj,
+                                  )
                                 }
                                 variant="outlined"
                                 color="secondary"
-                                disabled={quantity === displayItem.itemCount}
+                                disabled={
+                                  quantity === bucketItem.maxPossibleQuantity
+                                }
                               >
                                 <Typography
                                   align="center"
@@ -188,11 +191,15 @@ const DisplayItemCard = ({ displayItem }) => {
                         {quantity === 0 && (
                           <Button
                             onClick={() =>
-                              handleIntialItemAdditionToBucket(displayItem)
+                              handleIntialItemAdditionToBucket(
+                                bucketItem.parentDisplayItemObj,
+                              )
                             }
                             variant="contained"
                             color="secondary"
-                            disabled={quantity === displayItem.itemCount}
+                            disabled={
+                              quantity === bucketItem.maxPossibleQuantity
+                            }
                           >
                             Add to Bucket
                           </Button>
@@ -210,8 +217,8 @@ const DisplayItemCard = ({ displayItem }) => {
   );
 };
 
-DisplayItemCard.propTypes = {
-  displayItem: PropTypes.objectOf(PropTypes.any).isRequired,
+BucketItemCard.propTypes = {
+  bucketItem: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
-export default DisplayItemCard;
+export default BucketItemCard;

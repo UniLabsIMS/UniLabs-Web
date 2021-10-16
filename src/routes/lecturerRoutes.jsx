@@ -20,7 +20,7 @@ function LecturerRoutes() {
           exact
         />
         <ProtectedLecturerRoute
-          path={`${path}/request/:request_id`}
+          path={`${path}/request/:requestId`}
           component={LecturerRequestViewPage}
           exact
         />

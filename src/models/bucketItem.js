@@ -8,6 +8,8 @@ export default class BucketItem {
     this.category = displayItemObj.category;
     this.lab = displayItemObj.lab;
     this.quantity = 1;
+    this.maxPossibleQuantity = displayItemObj.itemCount;
+    this.parentDisplayItemObj = displayItemObj; // to edit bucket from bucket page
   }
 
   increaseQuantity() {

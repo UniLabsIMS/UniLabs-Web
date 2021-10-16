@@ -35,3 +35,6 @@ export const STUDENT_CATEGORIES_URL = STUDENT_BASE_URL.concat('/lab/'); // conca
 export const STUDENT_DISPLAY_ITEMS_URL =
   STUDENT_BASE_URL.concat('/lab/category/'); // concat cat id
 export const STUDENT_LAB_BUCKET_URL = STUDENT_BASE_URL.concat('/lab-bucket/'); // concat lab id
+
+// lecturer other urls
+export const LECTURER_REQUEST_URL = LECTURER_BASE_URL.concat('/request/'); // concat request id

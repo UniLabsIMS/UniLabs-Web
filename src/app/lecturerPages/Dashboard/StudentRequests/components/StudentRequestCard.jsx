@@ -9,6 +9,7 @@ import PopupState from 'material-ui-popup-state';
 import { Box } from '@material-ui/core';
 import { Zoom } from 'react-awesome-reveal';
 import PropTypes from 'prop-types';
+import { LECTURER_REQUEST_URL } from '../../../../constants';
 
 const useStyles = makeStyles(theme => ({
   reqCard: {
@@ -80,12 +81,22 @@ const StudentRequestCard = ({ studentReq }) => {
                   <div>
                     <Box p={2} className={classes.cardDetial}>
                       <Typography variant="h6" component="h6">
-                        Student Name : {studentReq.studentName}
+                        Student ID : {studentReq.student.student_id}
+                      </Typography>
+                    </Box>
+                    {/* <Box p={2} className={classes.cardDetial}>
+                      <Typography variant="h6" component="h6">
+                        Student Email : {studentReq.student.email}
+                      </Typography>
+                    </Box> */}
+                    <Box p={2} className={classes.cardDetial}>
+                      <Typography variant="h6" component="h6">
+                        Laboratory : {studentReq.lab.name}
                       </Typography>
                     </Box>
                     <Box p={2} className={classes.cardDetial}>
                       <Typography variant="h6" component="h6">
-                        Created at : {studentReq.createdAt}
+                        Created at : {studentReq.createdAt.substring(0, 10)}
                       </Typography>
                     </Box>
                   </div>
@@ -100,7 +111,7 @@ const StudentRequestCard = ({ studentReq }) => {
                 <Link
                   className={classes.cardContents}
                   style={{ textDecoration: 'none' }}
-                  to="/lecturer/request/456"
+                  to={LECTURER_REQUEST_URL.concat(studentReq.id)}
                 >
                   <Button
                     variant="contained"
