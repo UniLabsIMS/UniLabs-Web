@@ -11,35 +11,22 @@ import { Zoom } from 'react-awesome-reveal';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
-  expenseCard: {
+  card: {
     alignItems: 'center',
-    maxWidth: 345,
+    width: 330,
     paddingBottom: theme.spacing(1),
   },
-  buttons: {
-    margin: theme.spacing(0, 0, 0),
-    display: 'flex',
-  },
-  content: {
-    paddingBottom: theme.spacing(0),
-  },
-  modal: {
-    width: '85%',
-    margin: 'auto',
-    marginTop: theme.spacing(10),
-  },
-  cardContents: {
-    alignItems: 'center',
-    flexDirection: 'column',
+  quantityText: {
+    fontSize: 18,
+    letterSpacing: theme.spacing(0.2),
   },
 }));
 
 const DisplayItemCard = ({ reqItem }) => {
   const classes = useStyles();
-
   return (
     <Zoom triggerOnce>
-      <Card className={classes.expenseCard}>
+      <Card className={classes.card}>
         <CardMedia
           component="img"
           alt="Display Item Photo"
@@ -55,12 +42,7 @@ const DisplayItemCard = ({ reqItem }) => {
           <PopupState variant="popover" popupId="demo-popup-popover">
             {popupState => (
               <div>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  align="center"
-                >
+                <Typography gutterBottom variant="h5" align="center">
                   {reqItem.displayItem.name}
                   <InfoOutlinedIcon
                     color="secondary"
@@ -68,13 +50,17 @@ const DisplayItemCard = ({ reqItem }) => {
                     {...bindTrigger(popupState)}
                   />
                 </Typography>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  align="center"
-                >
-                  Quantity : {reqItem.quantity}
+                <Typography align="center" className={classes.quantityText}>
+                  Quantity Requested:{' '}
+                  {reqItem.quantity < 10
+                    ? `0${reqItem.quantity}`
+                    : reqItem.quantity}
+                </Typography>
+                <Typography align="center" className={classes.quantityText}>
+                  Total in Lab :{' '}
+                  {reqItem.displayItem.itemCount < 10
+                    ? `0${reqItem.displayItem.itemCount}`
+                    : reqItem.displayItem.itemCount}
                 </Typography>
 
                 <Popover
@@ -90,9 +76,7 @@ const DisplayItemCard = ({ reqItem }) => {
                   }}
                 >
                   <Box p={2}>
-                    <Typography variant="h6" component="h6">
-                      Description
-                    </Typography>
+                    <Typography variant="h6">Description</Typography>
                     <Typography>{reqItem.displayItem.description}</Typography>
                   </Box>
                 </Popover>

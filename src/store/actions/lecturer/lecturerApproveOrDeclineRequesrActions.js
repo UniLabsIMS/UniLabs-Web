@@ -5,6 +5,7 @@ import {
   LECTURER_REQUEST_APPROVE_OR_DECLINE_LOADING,
   LECTURER_REQUEST_APPROVE_OR_DECLINE_SUCCESS,
   LECTURER_REQUEST_APPROVE_OR_DECLINE_FAIL,
+  LECTURER_REQUEST_APPROVE_OR_DECLINE_RESET,
 } from '../../actionTypes/lecturerActionTypes';
 import { API_LECTURER_APPROVE_OR_DECLINE_REQUESTS_URL } from '../../apiConfig';
 
@@ -32,3 +33,7 @@ export const ApproveorDeclineStudentRequest =
         });
       });
   };
+
+export const resetApproveorDeclineState = () => (dispatch, getState) => {
+  dispatch({ type: LECTURER_REQUEST_APPROVE_OR_DECLINE_RESET });
+};
