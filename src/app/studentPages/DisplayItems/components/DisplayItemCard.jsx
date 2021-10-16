@@ -35,6 +35,18 @@ const useStyles = makeStyles(theme => ({
     fontSize: 48,
     padding: 0,
   },
+  cardTextContent: {
+    textAlign: 'left',
+    [theme.breakpoints.down('xs')]: {
+      textAlign: 'center',
+    },
+  },
+  cardDescriptionContent: {
+    textAlign: 'justify',
+    [theme.breakpoints.down('xs')]: {
+      textAlign: 'center',
+    },
+  },
 }));
 
 const DisplayItemCard = ({ displayItem }) => {
@@ -66,8 +78,8 @@ const DisplayItemCard = ({ displayItem }) => {
   return (
     <Zoom triggerOnce>
       <Card className={classes.card}>
-        <Box align="center">
-          <Grid container alignItems="flex-start" justify="center">
+        <Box>
+          <Grid container alignItems="flex-start">
             <Grid item xs={12} sm={12} md={4}>
               <CardMedia
                 className={classes.dspCardImage}
@@ -93,14 +105,24 @@ const DisplayItemCard = ({ displayItem }) => {
                   <Box>
                     <CardContent className={classes.cardContent}>
                       <Box>
-                        <Typography variant="h5" component="h2" align="left">
+                        <Typography
+                          variant="h5"
+                          component="h2"
+                          className={classes.cardTextContent}
+                        >
                           {displayItem.name}
                         </Typography>
                         <Box>
-                          <Typography variant="h6" component="h6" align="left">
+                          <Typography
+                            variant="h6"
+                            component="h6"
+                            className={classes.cardTextContent}
+                          >
                             Description
                           </Typography>
-                          <Typography align="justify">
+                          <Typography
+                            className={classes.cardDescriptionContent}
+                          >
                             {displayItem.description.length > 250
                               ? `${displayItem.description.substring(
                                   1,
@@ -113,12 +135,12 @@ const DisplayItemCard = ({ displayItem }) => {
                     </CardContent>
                   </Box>
                 </Grid>
-                <Grid item xs={12} sm={4} justify="center">
-                  <Box>
+                <Grid item xs={12} sm={4}>
+                  <Box align="center">
                     <CardActions className={classes.cardActions}>
                       <Box>
                         {quantity > 0 ? (
-                          <Grid container alignItems="center" justify="center">
+                          <Grid container alignItems="center">
                             <Grid item xs={4}>
                               <Button
                                 onClick={() =>

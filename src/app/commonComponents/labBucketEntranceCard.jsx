@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Zoom } from 'react-awesome-reveal';
 import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import { STUDENT_LAB_BUCKET_URL } from '../constants';
 
 const useStyles = makeStyles(theme => ({
@@ -27,9 +28,22 @@ const useStyles = makeStyles(theme => ({
 }));
 const LabBucketEntranceCard = ({ labId }) => {
   const classes = useStyles();
-  const itemsInBucketCount = useSelector(
+  const totalCountofItemsFromAllLabs = useSelector(
     state => state.studentLabBucket.totalItemCount,
   );
+  const bucketItems = useSelector(state => state.studentLabBucket.bucketItems);
+  const [itemsInBucketCount, setItemsInBucketCount] = useState(0);
+
+  useEffect(() => {
+    const itemsOfLab = bucketItems.filter(
+      bucketItem => bucketItem.labId === labId,
+    );
+    let count = 0;
+    itemsOfLab.forEach(item => {
+      count += item.quantity;
+    });
+    setItemsInBucketCount(count);
+  }, [bucketItems, totalCountofItemsFromAllLabs, labId]);
 
   return (
     <Zoom triggerOnce>
