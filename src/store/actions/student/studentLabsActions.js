@@ -6,7 +6,10 @@ import {
   STUDENT_LABS_LOADED,
   STUDENT_LABS_LOADING,
 } from '../../actionTypes/studentActionTypes';
-import { API_STUDENT_LABS_URL } from '../../apiConfig';
+import {
+  API_STUDENT_DEPARTMENTS_URL,
+  API_STUDENT_LABS_URL,
+} from '../../apiConfig';
 
 /* Load labs */
 export const fetchLabsStudent = () => (dispatch, getState) => {
@@ -14,10 +17,19 @@ export const fetchLabsStudent = () => (dispatch, getState) => {
   axios
     .get(API_STUDENT_LABS_URL, httpHeaderConfig(getState))
     .then(res => {
-      dispatch({
-        type: STUDENT_LABS_LOADED,
-        payload: res.data,
-      });
+      axios
+        .get(API_STUDENT_DEPARTMENTS_URL, httpHeaderConfig(getState))
+        .then(depRes => {
+          dispatch({
+            type: STUDENT_LABS_LOADED,
+            payload: { labs: res.data, departments: depRes.data },
+          });
+        })
+        .catch(err => {
+          dispatch({
+            type: STUDENT_LABS_ERROR,
+          });
+        });
     })
     .catch(err => {
       dispatch({

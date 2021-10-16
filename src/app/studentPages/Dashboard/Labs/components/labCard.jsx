@@ -50,18 +50,16 @@ const LabCard = ({ lab }) => {
           <PopupState variant="popover" popupId="demo-popup-popover">
             {popupState => (
               <div>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  align="center"
-                >
-                  {lab.name}
+                <Typography variant="h6" component="h2" align="center">
+                  {`${lab.department.code} ${lab.name}`}
                   <InfoOutlinedIcon
                     color="secondary"
                     fontSize="small" // eslint-disable-next-line react/jsx-props-no-spreading
                     {...bindTrigger(popupState)}
                   />
+                </Typography>
+                <Typography align="center">
+                  Department: {lab.department.name}
                 </Typography>
 
                 <Popover
@@ -77,10 +75,11 @@ const LabCard = ({ lab }) => {
                   }}
                 >
                   <Box p={2}>
-                    <Typography variant="h6" component="h6">
-                      Location
-                    </Typography>
+                    <Typography color="primary">Location</Typography>
                     <Typography>{lab.location}</Typography>
+                    <Typography color="primary">Contact Details</Typography>
+                    <Typography>Email: {lab.contactEmail}</Typography>
+                    <Typography>Contact Number: {lab.contactNo}</Typography>
                   </Box>
                 </Popover>
               </div>

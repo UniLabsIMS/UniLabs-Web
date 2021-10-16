@@ -1,4 +1,5 @@
 import Lab from '../../../models/lab';
+import Department from '../../../models/department';
 import {
   STUDENT_LABS_ERROR,
   STUDENT_LABS_LOADED,
@@ -7,6 +8,7 @@ import {
 
 const initialState = {
   labs: [],
+  departments: [],
   isLabsLoading: false,
   isLabsError: false,
   reloadLabs: false,
@@ -25,7 +27,8 @@ const studentLabsReducer = (state = initialState, action) => {
       return {
         ...state,
         isLabsLoading: false,
-        labs: action.payload.map(obj => new Lab(obj)),
+        labs: action.payload.labs.map(obj => new Lab(obj)),
+        departments: action.payload.departments.map(obj => new Department(obj)),
         isLabsError: false,
       };
     case STUDENT_LABS_ERROR:
@@ -33,6 +36,7 @@ const studentLabsReducer = (state = initialState, action) => {
         ...state,
         isLabsLoading: false,
         labs: [],
+        departments: [],
         isLabsError: true,
       };
     default:

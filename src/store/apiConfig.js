@@ -54,6 +54,7 @@ export const API_ADMIN_LAB_REPORT_URL =
 
 // ------------------------STUDENT----------------------------------
 export const API_STUDENT_LABS_URL = API_BASE_URL.concat('/labs/');
+export const API_STUDENT_DEPARTMENTS_URL = API_BASE_URL.concat('/departments/');
 export const API_STUDENT_CATEGORIES_URL = API_BASE_URL.concat(
   '/categories/of-lab/',
 ); // concat the lab id to this
