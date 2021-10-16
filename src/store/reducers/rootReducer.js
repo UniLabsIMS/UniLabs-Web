@@ -9,6 +9,9 @@ import adminLabAssistantsReducer from './adminReducers/adminLabAssistantsReduer.
 import studentLabsReducer from './studentReducers/studentLabsReducer';
 import studentCategoriesReducer from './studentReducers/studentCategoriesReducer';
 import studentDisplayItemsReducer from './studentReducers/studentDisplayItemsReducer';
+import lecturerRequestsReducer from './lecturerReducers/lecturerRequestsReducer';
+import lecturerRequestReducer from './lecturerReducers/lecturerRequestReducer';
+import lecturerApproveOrDeclineRequestReducer from './lecturerReducers/lecturerApproveOrDeclineRequestReducer';
 import authReducer from './authReducer';
 import labAssistantCategoriesReducer from './labAssistantReducers/labAssistantCategoriesReducer';
 import labManagerDashReducer from './labManagerReducers/labManagerDashBoardReducer';
@@ -33,6 +36,9 @@ const rootReducer = combineReducers({
   studentCategories: studentCategoriesReducer,
   studentDisplayItems: studentDisplayItemsReducer,
   studentLabBucket: studentLabBucketReducer,
+  lecturerRequests: lecturerRequestsReducer,
+  lecturerRequest: lecturerRequestReducer,
+  lecturerApproveOrDeclineRequest: lecturerApproveOrDeclineRequestReducer,
   labManagerDashboard: labManagerDashReducer,
   labManagerDisplayItems: labManagerDisplayItemsReducer,
   labManagerItems: labManagerItemsReducer,
