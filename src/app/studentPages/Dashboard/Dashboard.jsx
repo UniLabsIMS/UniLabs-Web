@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
 import Labs from './Labs/Labs';
-import BurrowedItemsTable from './Borrowed Items/BurrowedItems';
+import BorrowedItemsTable from './Borrowed Items/BorrowedItems';
 import { ReactComponent as LabIcon } from '../../../icons/Lab.svg';
 import { ReactComponent as BorrowIcon } from '../../../icons/Borrow.svg';
 
@@ -21,7 +21,7 @@ const getDrawerTiles = () => {
     createDrawerTile(
       'Burrowed Items',
       <BorrowIcon style={{ width: 24 }} />,
-      <BurrowedItemsTable />,
+      <BorrowedItemsTable />,
     ),
   );
   return drawerTiles;

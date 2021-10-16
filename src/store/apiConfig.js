@@ -64,10 +64,16 @@ export const API_STUDENT_DISPLAY_ITEMS_URL = API_BASE_URL.concat(
 
 export const API_STUDENT_NEW_REQUEST_URL =
   API_BASE_URL.concat('/requests/create/');
+
 export const API_STUDENT_LECTURERS_OF_LAB_URL =
   API_BASE_URL.concat('/lecturers/of-lab/'); // concat lab id
+
 export const API_STUDENT_CHECK_WHETHER_ACTIVE_REQUEST_IN_LAB_URL =
   API_BASE_URL.concat('/requests/check-student-active-request/'); // concat lab id
+
+export const API_STUDENT_CURRENTLY_BORROWED_ITEMS_URL = API_BASE_URL.concat(
+  '/items/borrowed/by-student/',
+); // concat student id
 // ------------------------LECTURER----------------------------------
 export const API_LECTURER_REQUESTS_URL = API_BASE_URL.concat(
   '/requests/lecturer-requests/',

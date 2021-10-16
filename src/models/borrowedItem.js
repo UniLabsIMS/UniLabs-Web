@@ -9,5 +9,8 @@ export default class BorrowedItem {
       .concat(borrowedItemData.student.last_name);
     this.studentEmail = borrowedItemData.student.email;
     this.studentIndexNumber = borrowedItemData.student.student_id;
+    this.labName = borrowedItemData.lab.name;
+    this.labEmail = borrowedItemData.lab.contact_email;
+    this.labContactNo = borrowedItemData.lab.contact_no;
   }
 }
