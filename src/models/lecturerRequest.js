@@ -4,6 +4,7 @@ export default class LecturerRequest {
   constructor(lecturerRequest) {
     this.id = lecturerRequest.id;
     this.lab = lecturerRequest.lab;
+    this.labId = lecturerRequest.lab.id;
     this.student = lecturerRequest.student;
     // this.student = new Student(lecturerRequest.student);
     this.lecturer = lecturerRequest.lecturer;
