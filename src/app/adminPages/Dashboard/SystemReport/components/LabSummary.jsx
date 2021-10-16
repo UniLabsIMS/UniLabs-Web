@@ -8,7 +8,6 @@ import CountCard from './CountCard';
 import { fetchLabReport } from '../../../../../store/actions/admin/adminSystemReportActions';
 import CustomLoadingIndicator from '../../../../commonComponents/customLoadingIndicator';
 import ErrorAlert from '../../../../commonComponents/errorAlert';
-import StrechedCountCard from './StrechedCountCard';
 
 const useStyles = makeStyles(theme => ({
   graphCard: {
@@ -36,7 +35,7 @@ const LabSummary = ({ labId }) => {
   );
 
   if (isLabReportLoading || (!labReport && !labReportError)) {
-    return <CustomLoadingIndicator minimumHeight="5vh" />;
+    return <CustomLoadingIndicator minimumHeight="15vh" />;
   }
   if (labReportError) {
     return <ErrorAlert message="Failed to load lab report" />;
@@ -144,13 +143,12 @@ const LabSummary = ({ labId }) => {
         alignItems="center"
         direction="row"
       >
-        <StrechedCountCard
-          title="Lab Managers"
-          count={labReport.labManagerCount}
-        />
-        <StrechedCountCard
-          title="Lab Assistants"
-          count={labReport.labAssistantCount}
+        <CountCard title="Lab Managers" count={labReport.labManagerCount} />
+        <CountCard title="Lab Assistants" count={labReport.labAssistantCount} />
+        <CountCard title="Total Requests" count={labReport.totalRequestCount} />
+        <CountCard
+          title="Pending Requests"
+          count={labReport.pendingRequestCount}
         />
       </Grid>
     </Box>

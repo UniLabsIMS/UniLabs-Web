@@ -9,6 +9,8 @@ const SystemSummary = ({
   totalCategories,
   totalDisplayItems,
   totalItems,
+  totalRequests,
+  totalPendingRequests,
 }) => {
   const systemStatCards = [];
   systemStatCards.push(
@@ -38,6 +40,20 @@ const SystemSummary = ({
   systemStatCards.push(
     <CountCard title="Total Items" key="Total Items" count={totalItems} />,
   );
+  systemStatCards.push(
+    <CountCard
+      title="Total Requests"
+      key="Total Requests"
+      count={totalRequests}
+    />,
+  );
+  systemStatCards.push(
+    <CountCard
+      title="Total Pending Requests"
+      key="Total Pending Requests"
+      count={totalPendingRequests}
+    />,
+  );
   return (
     <Box>
       <Zoom triggerOnce>
@@ -64,5 +80,7 @@ SystemSummary.propTypes = {
   totalCategories: PropTypes.number.isRequired,
   totalDisplayItems: PropTypes.number.isRequired,
   totalItems: PropTypes.number.isRequired,
+  totalRequests: PropTypes.number.isRequired,
+  totalPendingRequests: PropTypes.number.isRequired,
 };
 export default SystemSummary;
