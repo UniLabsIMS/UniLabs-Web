@@ -94,6 +94,9 @@ export const API_LAB_MANAGER_NEW_ITEM_URL =
 export const API_LAB_MANAGER_ITEM_DELETED_URL =
   API_BASE_URL.concat('/items/delete/'); // concat item id
 
+export const API_LAB_MANAGER_LAB_REPORT_URL =
+  API_BASE_URL.concat('/labs/lab-report/'); // concat lab id
+
 // ---------------------LABASSISTANT-------------------------------
 export const API_LAB_ASSISTANT_ALL_CATEGORIES_URL = API_BASE_URL.concat(
   '/categories/of-lab/',
