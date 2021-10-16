@@ -8,7 +8,7 @@ import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import { Box } from '@material-ui/core';
 import { Zoom } from 'react-awesome-reveal';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
   expenseCard: {
@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const DisplayItemCard = () => {
+const DisplayItemCard = ({ reqItem }) => {
   const classes = useStyles();
 
   return (
@@ -42,11 +42,14 @@ const DisplayItemCard = () => {
       <Card className={classes.expenseCard}>
         <CardMedia
           component="img"
-          alt="Category Photo"
+          alt="Display Item Photo"
           height="200"
-          //   image={reqItem.image}
-          image="/images/default-display-item-img.svg"
-          title="Category Photo"
+          image={
+            reqItem.displayItem.image === null
+              ? '/images/default-display-item-img.svg'
+              : reqItem.displayItem.image
+          }
+          title="Display Item Photo"
         />
         <CardContent className={classes.content}>
           <PopupState variant="popover" popupId="demo-popup-popover">
@@ -58,13 +61,20 @@ const DisplayItemCard = () => {
                   component="h2"
                   align="center"
                 >
-                  {/* {reqItem.name} */}
-                  Name
+                  {reqItem.displayItem.name}
                   <InfoOutlinedIcon
                     color="secondary"
                     fontSize="small" // eslint-disable-next-line react/jsx-props-no-spreading
                     {...bindTrigger(popupState)}
                   />
+                </Typography>
+                <Typography
+                  gutterBottom
+                  variant="h5"
+                  component="h2"
+                  align="center"
+                >
+                  Quantity : {reqItem.quantity}
                 </Typography>
 
                 <Popover
@@ -83,16 +93,7 @@ const DisplayItemCard = () => {
                     <Typography variant="h6" component="h6">
                       Description
                     </Typography>
-                    <Typography>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                      sint occaecat cupidatat non proident, sunt in culpa qui
-                      officia deserunt mollit anim id est laborum
-                    </Typography>
+                    <Typography>{reqItem.displayItem.description}</Typography>
                   </Box>
                 </Popover>
               </div>
@@ -104,8 +105,8 @@ const DisplayItemCard = () => {
   );
 };
 
-// DisplayItemCard.propTypes = {
-//   reqItem: PropTypes.objectOf(PropTypes.elements).isRequired,
-// };
+DisplayItemCard.propTypes = {
+  reqItem: PropTypes.objectOf(PropTypes.any).isRequired,
+};
 
 export default DisplayItemCard;

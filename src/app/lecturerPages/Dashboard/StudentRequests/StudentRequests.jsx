@@ -1,6 +1,11 @@
 import { Grid, makeStyles, Typography } from '@material-ui/core';
 import { Zoom } from 'react-awesome-reveal';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import StudentRequestCard from './components/StudentRequestCard';
+import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
+import ErrorAlert from '../../../commonComponents/errorAlert';
+import { fetchLecturerRequests } from '../../../../store/actions/lecturer/lecturerRequestsActions';
 
 const useStyles = makeStyles(theme => ({
   link: {
@@ -15,170 +20,20 @@ const useStyles = makeStyles(theme => ({
 
 function StudentRequestsPage() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const isRequestsLoading = useSelector(
+    state => state.lecturerRequests.isRequestsLoading,
+  );
+  const isRequestsError = useSelector(
+    state => state.lecturerRequests.isRequestsError,
+  );
+  const lecturerReqLst = useSelector(state => state.lecturerRequests.requests);
+  const reload = useSelector(state => state.lecturerRequests.reloadRequests);
+  useEffect(() => {
+    dispatch(fetchLecturerRequests());
+  }, [dispatch, reload]);
 
-  const allStudentRequests = [
-    {
-      lab: 'Lab1',
-      studentName: 'Student 1',
-      reason:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      createdAt: '01/01/2020',
-      requestedItems: [
-        {
-          name: 'Item 1',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 1,
-        },
-        {
-          name: 'Item 2',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 2,
-        },
-        {
-          name: 'Item 3',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 3,
-        },
-        {
-          name: 'Item 4',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 4,
-        },
-        {
-          name: 'Item 5',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 5,
-        },
-        {
-          name: 'Item 6',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 6,
-        },
-        {
-          name: 'Item 7',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 7,
-        },
-      ],
-      id: 1,
-    },
-    {
-      lab: 'Lab1',
-      studentName: 'Student 2',
-      reason:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      createdAt: '01/01/2020',
-      requestedItems: [
-        {
-          name: 'Item 6',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 6,
-        },
-        {
-          name: 'Item 7',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 7,
-        },
-      ],
-      id: 2,
-    },
-    {
-      lab: 'Lab1',
-      studentName: 'Student 3',
-      reason:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      createdAt: '01/01/2020',
-      requestedItems: [
-        {
-          name: 'Item 1',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 1,
-        },
-        {
-          name: 'Item 2',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 2,
-        },
-        {
-          name: 'Item 3',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 3,
-        },
-        {
-          name: 'Item 7',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 7,
-        },
-      ],
-      id: 3,
-    },
-    {
-      lab: 'Lab1',
-      studentName: 'Student 4',
-      reason:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      createdAt: '01/01/2020',
-      requestedItems: [
-        {
-          name: 'Item 1',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 1,
-        },
-        {
-          name: 'Item 2',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 2,
-        },
-        {
-          name: 'Item 4',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 4,
-        },
-        {
-          name: 'Item 6',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 6,
-        },
-      ],
-      id: 4,
-    },
-  ];
-
-  const requests = allStudentRequests.map(studentReq => (
+  const requests = lecturerReqLst.map(studentReq => (
     <Grid item key={studentReq.id}>
       <StudentRequestCard studentReq={studentReq} />
     </Grid>
@@ -191,7 +46,17 @@ function StudentRequestsPage() {
           All Student Requests
         </Typography>
       </Zoom>
-      <div className={classes.cards}>{requests}</div>
+      {isRequestsError ? (
+        <ErrorAlert message="Failed to load requests" />
+      ) : (
+        <div>
+          {isRequestsLoading ? (
+            <CustomLoadingIndicator minimumHeight="60vh" />
+          ) : (
+            <div className={classes.cards}>{requests}</div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
