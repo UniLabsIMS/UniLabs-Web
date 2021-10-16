@@ -1,8 +1,8 @@
-import { Box, Grid, makeStyles, Typography, Button } from '@material-ui/core';
+import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
 import { Link, useParams } from 'react-router-dom';
 import { Zoom } from 'react-awesome-reveal';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
 import BreadcrumbsWrapper from '../../commonComponents/breadCrumbsWrapper';
@@ -17,35 +17,30 @@ const useStyles = makeStyles(theme => ({
     textDecoration: 'none',
     color: theme.palette.secondary.main,
   },
-  bucketButtonContainer: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(5),
-  },
-  bucketButtonContainer1: {
-    width: '30%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  bucketButton: {
-    width: '100%',
+  bucketCard: {
+    maxWidth: 700,
     padding: theme.spacing(2),
-    alignItems: 'center',
-    fontSize: 'large',
+    margin: 'auto',
+    cursor: 'pointer',
   },
-  gridItem: {
-    width: '28%',
+  bucketTitle: {
+    textDecoration: 'none',
+    color: theme.palette.secondary.main,
+    fontSize: 26,
+    fontWeight: 600,
+  },
+  bucketItemCount: {
+    textDecoration: 'none',
+    color: 'grey',
+    fontWeight: 500,
+    fontSize: 22,
   },
 }));
 
-function StudentCategoriesPage() {
+const StudentCategoriesPage = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const { labId } = useParams();
+
   const isCategoriesLoading = useSelector(
     state => state.studentCategories.isCategoriesLoading,
   );
@@ -56,12 +51,25 @@ function StudentCategoriesPage() {
     state => state.studentCategories.categories,
   );
   const reload = useSelector(state => state.studentCategories.reloadCategories);
+  const bucketItems = useSelector(state => state.studentLabBucket.bucketItems);
+
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchCategories(labId));
   }, [dispatch, reload, labId]);
 
+  const bucketItemsOfLab = bucketItems.filter(
+    bucketItem => bucketItem.labId === labId,
+  );
+
+  let count = 0;
+  bucketItemsOfLab.forEach(bucketItem => {
+    count += bucketItem.quantity;
+  });
+  const [itemsInBucketCount] = useState(count);
+
   const categories = categoriesLst.map(category => (
-    <Grid item key={category.id} className={classes.gridItem}>
+    <Grid item key={category.id}>
       <CategoryCard category={category} labId={labId} />
     </Grid>
   ));
@@ -70,37 +78,49 @@ function StudentCategoriesPage() {
     <PageWrapper navBar={<Navbar />}>
       <BreadcrumbsWrapper>
         <Link to={STUDENT_BASE_URL} className={classes.link}>
-          Labs
+          All Labs
         </Link>
         <Box fontSize="inherit">Categories</Box>
       </BreadcrumbsWrapper>
-      <Zoom triggerOnce>
-        <Typography component="h2" variant="h4" gutterBottom align="center">
-          Categories
-        </Typography>
-      </Zoom>
 
       <Zoom triggerOnce>
-        <div className={classes.bucketButtonContainer}>
-          <Link
-            className={classes.bucketButtonContainer1}
-            style={{ textDecoration: 'none' }}
-            to={STUDENT_LAB_BUCKET_URL.concat(labId)}
-          >
-            <Button
-              className={classes.bucketButton}
-              color="secondary"
-              variant="contained"
-            >
-              My Bucket
-            </Button>
-          </Link>
-        </div>
+        <Typography component="h2" variant="h4" gutterBottom align="center">
+          Item Categories
+        </Typography>
       </Zoom>
+      <Box m={5} />
+      <Zoom triggerOnce>
+        <Link
+          style={{ textDecoration: 'none' }}
+          to={STUDENT_LAB_BUCKET_URL.concat(labId)}
+        >
+          <Box
+            border={3}
+            borderRadius={5}
+            borderColor="primary.main"
+            className={classes.bucketCard}
+            fontSize="h5.fontSize"
+            align="center"
+          >
+            <Box m={3} />
+            <Typography className={classes.bucketTitle}>
+              Go to Lab Bucket
+            </Typography>
+            <Typography className={classes.bucketItemCount}>
+              {itemsInBucketCount < 10
+                ? `0${itemsInBucketCount}`
+                : itemsInBucketCount}{' '}
+              Items in the Bucket.
+            </Typography>
+          </Box>
+        </Link>
+      </Zoom>
+      <Box m={5} />
+
       {isCategoriesError ? (
         <ErrorAlert message="Failed to load categories" />
       ) : (
-        <div>
+        <Box>
           {isCategoriesLoading ? (
             <CustomLoadingIndicator minimumHeight="60vh" />
           ) : (
@@ -114,10 +134,10 @@ function StudentCategoriesPage() {
               {categories}
             </Grid>
           )}
-        </div>
+        </Box>
       )}
     </PageWrapper>
   );
-}
+};
 
 export default StudentCategoriesPage;
