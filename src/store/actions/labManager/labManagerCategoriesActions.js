@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import axios from 'axios';
 import {
   CATEGORIES_ERROR,
@@ -11,7 +10,7 @@ import {
   NEW_CAT_FAIL,
   NEW_CAT_LOADING,
   NEW_CAT_SUCCESS,
-  RESET_DASHBOARD_STATE,
+  RESET_CATEGORIES_STATE,
 } from '../../actionTypes/labManagerActionTypes';
 import {
   API_LAB_MANAGER_ALL_CATEGORIES_URL,
@@ -52,7 +51,7 @@ export const addCategory =
     formData.append('name', name);
     formData.append('description', description);
     formData.append('lab', lab);
-    if (image !== null) {
+    if (image) {
       formData.append('image', image);
     }
     axios
@@ -105,6 +104,6 @@ export const editCategoryResetState = isReload => (dispatch, getState) => {
 };
 
 /* Reset State */
-export const resetLabManagerDashboardState = () => (dispatch, getState) => {
-  dispatch({ type: RESET_DASHBOARD_STATE });
+export const resetLabManagerCategoriesState = () => (dispatch, getState) => {
+  dispatch({ type: RESET_CATEGORIES_STATE });
 };

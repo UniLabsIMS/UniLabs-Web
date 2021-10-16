@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import axios from 'axios';
 import {
   DISPLAY_ITEMS_ERROR,
@@ -49,7 +48,7 @@ export const addDisplayItem =
     formData.append('name', name);
     formData.append('description', description);
     formData.append('item_category', categoryID);
-    if (image !== null) {
+    if (image) {
       formData.append('image', image);
     }
     axios

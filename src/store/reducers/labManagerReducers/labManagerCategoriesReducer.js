@@ -9,7 +9,7 @@ import {
   NEW_CAT_FAIL,
   NEW_CAT_LOADING,
   NEW_CAT_SUCCESS,
-  RESET_DASHBOARD_STATE,
+  RESET_CATEGORIES_STATE,
 } from '../../actionTypes/labManagerActionTypes';
 import Category from '../../../models/category';
 
@@ -26,9 +26,9 @@ const initialState = {
   reloadCategories: false,
 };
 
-const labManagerDashReducer = (state = initialState, action) => {
+const labManagerCategoriesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case RESET_DASHBOARD_STATE:
+    case RESET_CATEGORIES_STATE:
       return initialState;
     case CATEGORIES_LOADING:
       return {
@@ -109,4 +109,4 @@ const labManagerDashReducer = (state = initialState, action) => {
       return state;
   }
 };
-export default labManagerDashReducer;
+export default labManagerCategoriesReducer;
