@@ -37,12 +37,18 @@ const useStyles = makeStyles(theme => ({
   content: {
     paddingBottom: theme.spacing(0),
   },
+  imagePreview: {
+    width: 150,
+    height: 80,
+    border: '1px solid',
+    borderColor: theme.palette.primary.main,
+  },
 }));
 
 function NewCategoryFrom() {
   const classes = useStyles();
   const [formState, setFormState] = useState(false);
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState(undefined);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const dispatch = useDispatch();
@@ -50,7 +56,7 @@ function NewCategoryFrom() {
     setFormState(true);
   };
   const handleFormClose = () => {
-    setFile(null);
+    setFile(undefined);
     setName('');
     setDescription('');
     setFormState(false);
@@ -107,11 +113,21 @@ function NewCategoryFrom() {
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <ImagePicker
-                  withIcon
-                  onChange={newFile => setFile(newFile[0])}
-                  withPreview
-                />
+                {file === undefined ? (
+                  <ImagePicker
+                    withIcon
+                    onChange={newFile => setFile(newFile[0])}
+                  />
+                ) : (
+                  <Box align="center">
+                    <img
+                      src={URL.createObjectURL(file)}
+                      alt={file.name}
+                      className={classes.imagePreview}
+                    />
+                    <ImagePicker onChange={newFile => setFile(newFile[0])} />
+                  </Box>
+                )}
               </Grid>
             </Grid>
             <Grid container spacing={3} alignItems="flex-end">

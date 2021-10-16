@@ -51,7 +51,7 @@ export const addCategory =
     formData.append('name', name);
     formData.append('description', description);
     formData.append('lab', lab);
-    if (image !== null) {
+    if (image) {
       formData.append('image', image);
     }
     axios
