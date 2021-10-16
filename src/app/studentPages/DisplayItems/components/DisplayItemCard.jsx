@@ -5,8 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import PopupState from 'material-ui-popup-state';
-import { Box } from '@material-ui/core';
+import { Box, Grid } from '@material-ui/core';
 import { Zoom } from 'react-awesome-reveal';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
@@ -18,56 +17,23 @@ import {
 } from '../../../../store/actions/student/studentBucketActions';
 
 const useStyles = makeStyles(theme => ({
-  dspCard: {
-    marginTop: theme.spacing(1.5),
+  card: {
+    marginTop: theme.spacing(2),
+    border: '1px solid',
+    borderColor: theme.palette.secondary.main,
   },
-  dspCardImage: {
-    height: 200,
+  cardContent: {
+    paddingTop: theme.spacing(0),
   },
-  buttons: {
-    display: 'flex',
+  nestedGrid: {
+    marginTop: theme.spacing(2),
   },
-  content: {
-    paddingBottom: theme.spacing(0),
+  cardActions: {
+    display: 'block',
   },
-  cardContents: {
-    paddingTop: theme.spacing(2),
-    alignItems: 'center',
-    flexDirection: 'column',
-    height: '100%',
-  },
-  fullCard: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  cardImg: {
-    width: '25%',
-  },
-  cardRest: {
-    width: '45%',
-  },
-  cardActionBox: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    width: '30%',
-  },
-  quantityBox: {
-    alignItems: 'center',
-    height: '50%',
-  },
-  btnBox: {
-    flexDirection: 'row',
-    height: '50%',
-  },
-  incDecBtns: {
-    alignItems: 'center',
-    display: 'flex',
-    flexDirection: 'row',
-    width: '100%',
-    fontSize: 'large',
-  },
-  descriptionBox: {
-    paddingTop: theme.spacing(2),
+  incrementDecrementButtons: {
+    fontSize: 48,
+    padding: 0,
   },
 }));
 
@@ -99,104 +65,124 @@ const DisplayItemCard = ({ displayItem }) => {
 
   return (
     <Zoom triggerOnce>
-      <Card className={classes.dspCard}>
-        <div className={classes.fullCard}>
-          <div className={classes.cardImg}>
-            <CardMedia
-              className={classes.dspCardImage}
-              component="img"
-              alt="Display Item Photo"
-              width="200"
-              image={
-                displayItem.image === null
-                  ? '/images/default-display-item-img.svg'
-                  : displayItem.image
-              }
-              title="Display Item Photo"
-            />
-          </div>
-          <div className={classes.cardRest}>
-            <CardContent className={classes.content}>
-              <PopupState variant="popover" popupId="demo-popup-popover">
-                {popupState => (
-                  <div>
-                    <Typography variant="h5" component="h2" align="left">
-                      {displayItem.name}
-                    </Typography>
-                    <Box className={classes.descriptionBox}>
-                      <Typography variant="h6" component="h6" align="left">
-                        Description
-                      </Typography>
-                      <Typography align="justify">
-                        {displayItem.description}
-                      </Typography>
-                    </Box>
-                  </div>
-                )}
-              </PopupState>
-            </CardContent>
-          </div>
-          <div className={classes.cardActionBox}>
-            <CardActions className={classes.cardContents}>
-              <div className={classes.quantityBox}>
-                {quantity > 0 ? (
-                  <Typography variant="h6" align="right">
-                    Quantity - {quantity}
-                  </Typography>
-                ) : (
-                  <div />
-                )}
-              </div>
-              <div className={classes.btnBox}>
-                {quantity === 0 && (
-                  <Button
-                    onClick={() =>
-                      handleIntialItemAdditionToBucket(displayItem)
-                    }
-                    variant="contained"
-                    color="secondary"
-                    className={classes.buttons}
-                    disabled={quantity === displayItem.itemCount}
-                  >
-                    Add to Bucket
-                  </Button>
-                )}
-                {quantity > 0 && (
-                  <div className={classes.incDecBtns}>
-                    <Button
-                      onClick={() =>
-                        handleDecreasingQunatityToBucket(displayItem)
-                      }
-                      variant="outlined"
-                      color="secondary"
-                      className={classes.buttons}
-                    >
-                      <Typography
-                        align="center"
-                        style={{ fontSize: 48, padding: 0 }}
-                      >
-                        -
-                      </Typography>
-                    </Button>
-                    <Button
-                      onClick={() =>
-                        handleIncreasingQunatityToBucket(displayItem)
-                      }
-                      variant="outlined"
-                      color="secondary"
-                      className={classes.buttons}
-                      disabled={quantity === displayItem.itemCount}
-                    >
-                      <Typography align="center" style={{ fontSize: 48 }}>
-                        +
-                      </Typography>
-                    </Button>
-                  </div>
-                )}
-              </div>
-            </CardActions>
-          </div>
-        </div>
+      <Card className={classes.card}>
+        <Box align="center">
+          <Grid container alignItems="flex-start" justify="center">
+            <Grid item xs={12} sm={12} md={4}>
+              <CardMedia
+                className={classes.dspCardImage}
+                component="img"
+                alt="Display Item Photo"
+                height="220"
+                image={
+                  displayItem.image === null
+                    ? '/images/default-display-item-img.svg'
+                    : displayItem.image
+                }
+                title="Display Item Photo"
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={8}>
+              <Grid
+                container
+                spacing={3}
+                alignItems="flex-start"
+                className={classes.nestedGrid}
+              >
+                <Grid item xs={12} sm={8}>
+                  <Box>
+                    <CardContent className={classes.cardContent}>
+                      <Box>
+                        <Typography variant="h5" component="h2" align="left">
+                          {displayItem.name}
+                        </Typography>
+                        <Box>
+                          <Typography variant="h6" component="h6" align="left">
+                            Description
+                          </Typography>
+                          <Typography align="justify">
+                            {displayItem.description.length > 250
+                              ? `${displayItem.description.substring(
+                                  1,
+                                  250,
+                                )}...`
+                              : displayItem.description}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </CardContent>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={4} justify="center">
+                  <Box>
+                    <CardActions className={classes.cardActions}>
+                      <Box>
+                        {quantity > 0 ? (
+                          <Grid container alignItems="center" justify="center">
+                            <Grid item xs={4}>
+                              <Button
+                                onClick={() =>
+                                  handleDecreasingQunatityToBucket(displayItem)
+                                }
+                                variant="outlined"
+                                color="secondary"
+                              >
+                                <Typography
+                                  align="center"
+                                  className={classes.incrementDecrementButtons}
+                                >
+                                  -
+                                </Typography>
+                              </Button>
+                            </Grid>
+                            <Grid item xs={4}>
+                              <Typography variant="h4">
+                                {quantity < 10 ? `0${quantity}` : quantity}
+                              </Typography>
+                            </Grid>
+                            <Grid item xs={4}>
+                              <Button
+                                onClick={() =>
+                                  handleIncreasingQunatityToBucket(displayItem)
+                                }
+                                variant="outlined"
+                                color="secondary"
+                                disabled={quantity === displayItem.itemCount}
+                              >
+                                <Typography
+                                  align="center"
+                                  className={classes.incrementDecrementButtons}
+                                >
+                                  +
+                                </Typography>
+                              </Button>
+                            </Grid>
+                          </Grid>
+                        ) : (
+                          <Box />
+                        )}
+                      </Box>
+                      <Box>
+                        {quantity === 0 && (
+                          <Button
+                            onClick={() =>
+                              handleIntialItemAdditionToBucket(displayItem)
+                            }
+                            variant="contained"
+                            color="secondary"
+                            disabled={quantity === displayItem.itemCount}
+                          >
+                            Add to Bucket
+                          </Button>
+                        )}
+                      </Box>
+                    </CardActions>
+                  </Box>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Box>
       </Card>
     </Zoom>
   );
