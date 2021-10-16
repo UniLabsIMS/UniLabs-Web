@@ -16,6 +16,8 @@ import BucketLecturer from '../../../models/bucketLecturer';
 const initialState = {
   bucketItems: [],
   lecturers: [],
+  isActiveRequestForLab: false,
+  totalItemCount: 0,
   isBucketLoading: false,
   bucketLoaded: false,
   bucketError: false,
@@ -32,6 +34,7 @@ const studentLabBucketReducer = (state = initialState, action) => {
       return {
         ...state,
         bucketItems: updatedBucketItems,
+        totalItemCount: state.totalItemCount + 1,
       };
     }
     case INCREASE_ITEM_BUCKET_QUNATITY: {
@@ -44,6 +47,7 @@ const studentLabBucketReducer = (state = initialState, action) => {
       return {
         ...state,
         bucketItems: updatedBucketItems,
+        totalItemCount: state.totalItemCount + 1,
       };
     }
     case DECREASE_ITEM_BUCKET_QUNATITY: {
@@ -56,6 +60,7 @@ const studentLabBucketReducer = (state = initialState, action) => {
       return {
         ...state,
         bucketItems: updatedBucketItems,
+        totalItemCount: state.totalItemCount - 1,
       };
     }
     case REMOVE_FROM_BUCKET: {
@@ -80,7 +85,8 @@ const studentLabBucketReducer = (state = initialState, action) => {
     case STUDENT_BUCKET_LECTURERS_LOADED:
       return {
         ...state,
-        lecturers: action.payload.map(obj => new BucketLecturer(obj)),
+        lecturers: action.payload.lecturers.map(obj => new BucketLecturer(obj)),
+        isActiveRequestForLab: JSON.parse(action.payload.check),
         isBucketLoading: false,
         bucketLoaded: true,
         bucketError: false,

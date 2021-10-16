@@ -14,6 +14,7 @@ import {
 import {
   API_STUDENT_LECTURERS_OF_LAB_URL,
   API_STUDENT_NEW_REQUEST_URL,
+  API_STUDENT_CHECK_WHETHER_ACTIVE_REQUEST_IN_LAB_URL,
 } from '../../apiConfig';
 import httpHeaderConfig from '../../httpHeaderConfig';
 import httpHeaderConfigJSON from '../../httpHeaderConfigJSON';
@@ -86,10 +87,22 @@ export const fetchLabLecturers = labId => (dispatch, getState) => {
       httpHeaderConfig(getState),
     )
     .then(res => {
-      dispatch({
-        type: STUDENT_BUCKET_LECTURERS_LOADED,
-        payload: res.data,
-      });
+      axios
+        .get(
+          API_STUDENT_CHECK_WHETHER_ACTIVE_REQUEST_IN_LAB_URL.concat(labId),
+          httpHeaderConfig(getState),
+        )
+        .then(checkRes => {
+          dispatch({
+            type: STUDENT_BUCKET_LECTURERS_LOADED,
+            payload: { lecturers: res.data, check: checkRes.data.state },
+          });
+        })
+        .catch(err => {
+          dispatch({
+            type: STUDENT_BUCKET_LECTURERS_ERROR,
+          });
+        });
     })
     .catch(err => {
       dispatch({

@@ -3,10 +3,10 @@ import { Zoom } from 'react-awesome-reveal';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import ItemSummary from './components/itemSummary';
-import StrechedCountCard from './components/StrechedCountCard';
 import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
 import ErrorAlert from '../../../commonComponents/errorAlert';
 import { fetchLabReport } from '../../../../store/actions/labManager/labManagerLabReportActions';
+import CountCard from './components/countCard';
 
 const LabSummary = () => {
   const dispatch = useDispatch();
@@ -45,21 +45,29 @@ const LabSummary = () => {
                 alignItems="center"
                 direction="row"
               >
-                <StrechedCountCard
+                <CountCard
                   title="Lab Managers Assigned"
                   count={labReport.labManagerCount}
                 />
-                <StrechedCountCard
+                <CountCard
                   title="Lab Assistants Assigned"
                   count={labReport.labAssistantCount}
                 />
-                <StrechedCountCard
+                <CountCard
                   title="Total Categories"
                   count={labReport.categoryCount}
                 />
-                <StrechedCountCard
+                <CountCard
                   title="Total Display Items"
                   count={labReport.displayItemCount}
+                />
+                <CountCard
+                  title="Total Requests"
+                  count={labReport.totalRequestCount}
+                />
+                <CountCard
+                  title="Pending Requests"
+                  count={labReport.pendingRequestCount}
                 />
               </Grid>
 

@@ -9,6 +9,9 @@ import adminLabAssistantsReducer from './adminReducers/adminLabAssistantsReduer.
 import studentLabsReducer from './studentReducers/studentLabsReducer';
 import studentCategoriesReducer from './studentReducers/studentCategoriesReducer';
 import studentDisplayItemsReducer from './studentReducers/studentDisplayItemsReducer';
+import lecturerRequestsReducer from './lecturerReducers/lecturerRequestsReducer';
+import lecturerRequestReducer from './lecturerReducers/lecturerRequestReducer';
+import lecturerApproveOrDeclineRequestReducer from './lecturerReducers/lecturerApproveOrDeclineRequestReducer';
 import authReducer from './authReducer';
 import labAssistantCategoriesReducer from './labAssistantReducers/labAssistantCategoriesReducer';
 import labManagerCategoriesReducer from './labManagerReducers/labManagerCategoriesReducer';
@@ -21,6 +24,7 @@ import labAssistantTempBorrowedItemsReducer from './labAssistantReducers/labAssi
 import studentLabBucketReducer from './studentReducers/studentBucketReducer';
 import adminSystemReportReducer from './adminReducers/adminSystemReportReducer';
 import labManagerLabReportReducer from './labManagerReducers/labMangerLabReportReducer';
+import studentBorrowedItemsReducer from './studentReducers/studentBorrowedItemsReducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -36,7 +40,11 @@ const rootReducer = combineReducers({
   studentCategories: studentCategoriesReducer,
   studentDisplayItems: studentDisplayItemsReducer,
   studentLabBucket: studentLabBucketReducer,
+  studentBorrowedItems: studentBorrowedItemsReducer,
   labManagerCategories: labManagerCategoriesReducer,
+  lecturerRequests: lecturerRequestsReducer,
+  lecturerRequest: lecturerRequestReducer,
+  lecturerApproveOrDeclineRequest: lecturerApproveOrDeclineRequestReducer,
   labManagerDisplayItems: labManagerDisplayItemsReducer,
   labManagerItems: labManagerItemsReducer,
   labManagerLabReport: labManagerLabReportReducer,

@@ -8,63 +8,59 @@ import Popover from '@material-ui/core/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import { Box } from '@material-ui/core';
 import { Zoom } from 'react-awesome-reveal';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
-  expenseCard: {
+  card: {
     alignItems: 'center',
-    maxWidth: 345,
+    width: 330,
     paddingBottom: theme.spacing(1),
   },
-  buttons: {
-    margin: theme.spacing(0, 0, 0),
-    display: 'flex',
-  },
-  content: {
-    paddingBottom: theme.spacing(0),
-  },
-  modal: {
-    width: '85%',
-    margin: 'auto',
-    marginTop: theme.spacing(10),
-  },
-  cardContents: {
-    alignItems: 'center',
-    flexDirection: 'column',
+  quantityText: {
+    fontSize: 18,
+    letterSpacing: theme.spacing(0.2),
   },
 }));
 
-const DisplayItemCard = () => {
+const DisplayItemCard = ({ reqItem }) => {
   const classes = useStyles();
-
   return (
     <Zoom triggerOnce>
-      <Card className={classes.expenseCard}>
+      <Card className={classes.card}>
         <CardMedia
           component="img"
-          alt="Category Photo"
+          alt="Display Item Photo"
           height="200"
-          //   image={reqItem.image}
-          image="/images/default-display-item-img.svg"
-          title="Category Photo"
+          image={
+            reqItem.displayItem.image === null
+              ? '/images/default-display-item-img.svg'
+              : reqItem.displayItem.image
+          }
+          title="Display Item Photo"
         />
         <CardContent className={classes.content}>
           <PopupState variant="popover" popupId="demo-popup-popover">
             {popupState => (
               <div>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  align="center"
-                >
-                  {/* {reqItem.name} */}
-                  Name
+                <Typography gutterBottom variant="h5" align="center">
+                  {reqItem.displayItem.name}
                   <InfoOutlinedIcon
                     color="secondary"
                     fontSize="small" // eslint-disable-next-line react/jsx-props-no-spreading
                     {...bindTrigger(popupState)}
                   />
+                </Typography>
+                <Typography align="center" className={classes.quantityText}>
+                  Quantity Requested:{' '}
+                  {reqItem.quantity < 10
+                    ? `0${reqItem.quantity}`
+                    : reqItem.quantity}
+                </Typography>
+                <Typography align="center" className={classes.quantityText}>
+                  Total in Lab :{' '}
+                  {reqItem.displayItem.itemCount < 10
+                    ? `0${reqItem.displayItem.itemCount}`
+                    : reqItem.displayItem.itemCount}
                 </Typography>
 
                 <Popover
@@ -80,19 +76,8 @@ const DisplayItemCard = () => {
                   }}
                 >
                   <Box p={2}>
-                    <Typography variant="h6" component="h6">
-                      Description
-                    </Typography>
-                    <Typography>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                      sint occaecat cupidatat non proident, sunt in culpa qui
-                      officia deserunt mollit anim id est laborum
-                    </Typography>
+                    <Typography variant="h6">Description</Typography>
+                    <Typography>{reqItem.displayItem.description}</Typography>
                   </Box>
                 </Popover>
               </div>
@@ -104,8 +89,8 @@ const DisplayItemCard = () => {
   );
 };
 
-// DisplayItemCard.propTypes = {
-//   reqItem: PropTypes.objectOf(PropTypes.elements).isRequired,
-// };
+DisplayItemCard.propTypes = {
+  reqItem: PropTypes.objectOf(PropTypes.any).isRequired,
+};
 
 export default DisplayItemCard;

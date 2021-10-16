@@ -1,198 +1,160 @@
-import { Grid, makeStyles, Typography } from '@material-ui/core';
+import {
+  Box,
+  FormControl,
+  Grid,
+  makeStyles,
+  MenuItem,
+  Select,
+  Typography,
+} from '@material-ui/core';
 import { Zoom } from 'react-awesome-reveal';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import StudentRequestCard from './components/StudentRequestCard';
+import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
+import ErrorAlert from '../../../commonComponents/errorAlert';
+import { fetchLecturerRequests } from '../../../../store/actions/lecturer/lecturerRequestsActions';
+import LecturerPermittedLab from '../../../../models/lecturerPermittedLab';
+import WarningAlert from '../../../commonComponents/warningAlert';
+import SuccessAlert from '../../../commonComponents/successAlert';
+import { resetApproveorDeclineState } from '../../../../store/actions/lecturer/lecturerApproveOrDeclineRequesrActions';
 
 const useStyles = makeStyles(theme => ({
   link: {
     textDecoration: 'none',
     color: theme.palette.secondary.main,
   },
-  cards: {
-    width: '100%',
-    borderRadius: '5',
+  container: {
+    maxWidth: 900,
+  },
+  formControl: {
+    width: '30%',
+    [theme.breakpoints.down('sm')]: {
+      width: '90%',
+    },
+  },
+  select: {
+    fontSize: 18,
+  },
+  selectLabel: {
+    fontSize: 22,
   },
 }));
 
 function StudentRequestsPage() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const [filterLabId, setFilterLabId] = useState('');
 
-  const allStudentRequests = [
-    {
-      lab: 'Lab1',
-      studentName: 'Student 1',
-      reason:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      createdAt: '01/01/2020',
-      requestedItems: [
-        {
-          name: 'Item 1',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 1,
-        },
-        {
-          name: 'Item 2',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 2,
-        },
-        {
-          name: 'Item 3',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 3,
-        },
-        {
-          name: 'Item 4',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 4,
-        },
-        {
-          name: 'Item 5',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 5,
-        },
-        {
-          name: 'Item 6',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 6,
-        },
-        {
-          name: 'Item 7',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 7,
-        },
-      ],
-      id: 1,
-    },
-    {
-      lab: 'Lab1',
-      studentName: 'Student 2',
-      reason:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      createdAt: '01/01/2020',
-      requestedItems: [
-        {
-          name: 'Item 6',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 6,
-        },
-        {
-          name: 'Item 7',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 7,
-        },
-      ],
-      id: 2,
-    },
-    {
-      lab: 'Lab1',
-      studentName: 'Student 3',
-      reason:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      createdAt: '01/01/2020',
-      requestedItems: [
-        {
-          name: 'Item 1',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 1,
-        },
-        {
-          name: 'Item 2',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 2,
-        },
-        {
-          name: 'Item 3',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 3,
-        },
-        {
-          name: 'Item 7',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 7,
-        },
-      ],
-      id: 3,
-    },
-    {
-      lab: 'Lab1',
-      studentName: 'Student 4',
-      reason:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-      createdAt: '01/01/2020',
-      requestedItems: [
-        {
-          name: 'Item 1',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 1,
-        },
-        {
-          name: 'Item 2',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 2,
-        },
-        {
-          name: 'Item 4',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 4,
-        },
-        {
-          name: 'Item 6',
-          description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lobortis.',
-          image: '/images/default-display-item-img.svg',
-          id: 6,
-        },
-      ],
-      id: 4,
-    },
-  ];
+  const isRequestsLoading = useSelector(
+    state => state.lecturerRequests.isRequestsLoading,
+  );
+  const isRequestsError = useSelector(
+    state => state.lecturerRequests.isRequestsError,
+  );
+  const lecturerReqLst = useSelector(state => state.lecturerRequests.requests);
+  const isApprovalOrDeclineSuccess = useSelector(
+    state => state.lecturerApproveOrDeclineRequest.isApprovalOrDeclineSuccess,
+  );
+  const lecturer = useSelector(state => state.auth.user);
+  let permittedLabs = [];
+  if (lecturer.otherDetails.permitted_labs) {
+    permittedLabs = lecturer.otherDetails.permitted_labs.map(
+      lab => new LecturerPermittedLab(lab),
+    );
+  }
 
-  const requests = allStudentRequests.map(studentReq => (
+  const reload = useSelector(state => state.lecturerRequests.reloadRequests);
+  useEffect(() => {
+    dispatch(fetchLecturerRequests());
+  }, [dispatch, reload]);
+  useEffect(
+    () => () => {
+      dispatch(resetApproveorDeclineState());
+    },
+    [dispatch],
+  );
+
+  const filteredRequests = lecturerReqLst.filter(studentReq => {
+    if (filterLabId.length > 0) {
+      if (studentReq.labId !== filterLabId) return false;
+    }
+    return true;
+  });
+
+  const requests = filteredRequests.map(studentReq => (
     <Grid item key={studentReq.id}>
       <StudentRequestCard studentReq={studentReq} />
     </Grid>
   ));
 
+  const possibleLabsToSelectFrom = permittedLabs.map(lab => (
+    <MenuItem key={lab.id} value={lab.id}>
+      {lab.name}
+    </MenuItem>
+  ));
+  possibleLabsToSelectFrom.unshift(
+    <MenuItem key="All" value="">
+      All Labs
+    </MenuItem>,
+  );
+
   return (
-    <div>
+    <Box align="center">
       <Zoom triggerOnce>
         <Typography component="h2" variant="h4" gutterBottom align="center">
-          All Student Requests
+          New Requests
         </Typography>
       </Zoom>
-      <div className={classes.cards}>{requests}</div>
-    </div>
+      <Box m={2} />
+
+      {isRequestsError ? (
+        <ErrorAlert message="Failed to load requests" />
+      ) : (
+        <Box>
+          <Zoom triggerOnce>
+            <FormControl className={classes.formControl}>
+              <Typography className={classes.selectLabel}>
+                Filter by Lab
+              </Typography>
+              <Select
+                displayEmpty
+                id="student-labs-department-select"
+                value={filterLabId}
+                onChange={e => setFilterLabId(e.target.value)}
+                className={classes.select}
+              >
+                {possibleLabsToSelectFrom}
+              </Select>
+            </FormControl>
+          </Zoom>
+          <Box m={5} />
+          {isApprovalOrDeclineSuccess ? (
+            <Zoom triggerOnce>
+              <SuccessAlert message="Request Approval/Decline Successful" />
+            </Zoom>
+          ) : (
+            <Box />
+          )}
+
+          <Box m={2}>
+            {isRequestsLoading ? (
+              <CustomLoadingIndicator minimumHeight="60vh" />
+            ) : (
+              <Box>
+                {requests.length === 0 ? (
+                  <Zoom triggerOnce>
+                    <WarningAlert message="No New Requests" />
+                  </Zoom>
+                ) : (
+                  <Box className={classes.container}>{requests}</Box>
+                )}
+              </Box>
+            )}
+          </Box>
+        </Box>
+      )}
+    </Box>
   );
 }
 

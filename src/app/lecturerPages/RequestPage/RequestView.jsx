@@ -1,148 +1,261 @@
-import {
-  Grid,
-  makeStyles,
-  Typography,
-  Button,
-  Card,
-  CardContent,
-  Box,
-} from '@material-ui/core';
+import { Grid, makeStyles, Typography, Button, Box } from '@material-ui/core';
 import { Zoom } from 'react-awesome-reveal';
-import { Link } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
 import DisplayItemCard from './components/DisplayItemCard';
 import BreadcrumbsWrapper from '../../commonComponents/breadCrumbsWrapper';
+import CustomLoadingIndicator from '../../commonComponents/customLoadingIndicator';
+import ErrorAlert from '../../commonComponents/errorAlert';
+import { fetchLecturerRequest } from '../../../store/actions/lecturer/lecturerRequestActions';
+import { ApproveorDeclineStudentRequest } from '../../../store/actions/lecturer/lecturerApproveOrDeclineRequesrActions';
+import {
+  APPROVE_REQUEST,
+  DECLINE_REQUEST,
+  LECTURER_BASE_URL,
+} from '../../constants';
 
 const useStyles = makeStyles(theme => ({
-  expenseCard: {
-    padding: theme.spacing(1),
-    paddingTop: theme.spacing(1),
-    margin: theme.spacing(0.5),
-  },
-  reasonBox: {
-    display: 'flex',
-    alignItems: 'left',
-  },
-  content: {
-    margin: theme.spacing(0),
-    padding: theme.spacing(0),
-    marginLeft: theme.spacing(4),
-  },
-  btnContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'left',
-  },
-  buttons: {
-    margin: theme.spacing(1),
-    padding: theme.spacing(1),
-  },
   link: {
+    textDecoration: 'none',
     color: theme.palette.secondary.main,
+  },
+  reasonCard: {
+    maxWidth: 900,
+    padding: theme.spacing(2),
+    margin: 'auto',
+    border: '1px solid',
+    borderColor: 'grey',
+    borderRadius: 10,
+    marginBottom: theme.spacing(3),
+  },
+  mainText: {
+    fontSize: 20,
+    fontWeight: 500,
+    letterSpacing: theme.spacing(0.1),
+    textAlign: 'left',
+    [theme.breakpoints.down('sm')]: {
+      textAlign: 'center',
+    },
+  },
+  mainRightText: {
+    fontSize: 20,
+    fontWeight: 500,
+    letterSpacing: theme.spacing(0.1),
+    textAlign: 'right',
+    [theme.breakpoints.down('sm')]: {
+      textAlign: 'center',
+    },
+  },
+  reasonTitle: {
+    fontSize: 20,
+    fontWeight: 500,
+    letterSpacing: theme.spacing(0.1),
+    textAlign: 'center',
+  },
+  declineButton: {
+    letterSpacing: theme.spacing(0.2),
+    backgroundColor: 'Red',
+    color: 'white',
+    '&:hover': {
+      backgroundColor: 'DarkRed',
+    },
+  },
+  approveButton: {
+    letterSpacing: theme.spacing(0.2),
+    backgroundColor: 'Green',
+    color: 'white',
+    '&:hover': {
+      backgroundColor: 'DarkGreen',
+    },
+  },
+  returnBtn: {
+    width: '50%',
   },
 }));
 
 function LecturerRequestViewPage() {
   const classes = useStyles();
+  const history = useHistory();
+  const { requestId } = useParams();
+  const dispatch = useDispatch();
+  const isRequestLoading = useSelector(
+    state => state.lecturerRequest.isRequestLoading,
+  );
+  const isRequestError = useSelector(
+    state => state.lecturerRequest.isRequestsError,
+  );
+  const request = useSelector(state => state.lecturerRequest.request);
+  const reload = useSelector(state => state.lecturerRequest.reloadRequest);
+  const isApprovalOrDeclineLoading = useSelector(
+    state => state.lecturerApproveOrDeclineRequest.isApprovalOrDeclineLoading,
+  );
+  const isApprovalOrDeclineSuccess = useSelector(
+    state => state.lecturerApproveOrDeclineRequest.isApprovalOrDeclineSuccess,
+  );
+  const isApprovalOrDeclineError = useSelector(
+    state => state.lecturerApproveOrDeclineRequest.isApprovalOrDeclineError,
+  );
 
-  const allRequestedItems = [0, 1, 2, 3, 4, 5, 6];
+  useEffect(() => {
+    dispatch(fetchLecturerRequest(requestId));
+  }, [dispatch, reload, requestId]);
 
-  const reqItems = allRequestedItems.map(reqItem => (
-    <Grid item key={allRequestedItems.indexOf(reqItem)}>
-      <DisplayItemCard />
-    </Grid>
-  ));
+  useEffect(() => {
+    if (isApprovalOrDeclineSuccess) history.push(LECTURER_BASE_URL);
+  }, [isApprovalOrDeclineSuccess, history]);
+
+  const reqItems = () =>
+    request.requestedDisplayItems.map(reqItem => (
+      <Grid item key={reqItem.id}>
+        <DisplayItemCard reqItem={reqItem} />
+      </Grid>
+    ));
+
+  const handleApproval = reqState => {
+    dispatch(ApproveorDeclineStudentRequest(requestId, `${reqState}dhg`));
+  };
 
   return (
     <PageWrapper navBar={<Navbar />}>
       <BreadcrumbsWrapper>
-        <Link to="/lecturer" className={classes.link}>
+        <Link to={LECTURER_BASE_URL} className={classes.link}>
           Home
         </Link>
         <Box fontSize="inherit">Request</Box>
       </BreadcrumbsWrapper>
-      <div>
-        <Zoom triggerOnce>
-          <Typography component="h2" variant="h4" gutterBottom align="center">
-            Student&apos;s Request
-          </Typography>
-        </Zoom>
-        {/* <LecturerRequestViewPage req={req} viewAllReqs={viewAllReqs} /> */}
-      </div>
-      <Zoom triggerOnce>
-        <Card className={classes.expenseCard}>
-          <CardContent className={classes.content}>
-            <div className={classes.reasonBox}>
-              <Typography
-                gutterBottom
-                variant="h4"
-                component="h2"
-                align="center"
-              >
-                Reason
-              </Typography>
-            </div>
-          </CardContent>
-          <CardContent className={classes.content}>
-            <div className={classes.reasonBox}>
-              <Typography
-                gutterBottom
-                variant="h6"
-                component="h2"
-                align="justify"
-                className={classes.lines}
-              >
-                {` Dummy Request Reason`}
-              </Typography>
-            </div>
-            <div className={classes.btnContainer}>
-              <Button
-                onClick={() => {}}
-                variant="contained"
-                color="secondary"
-                className={classes.buttons}
-              >
-                Accept
-              </Button>
-              <Button
-                onClick={() => {}}
-                variant="contained"
-                color="secondary"
-                className={classes.buttons}
-              >
-                Decline
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </Zoom>
-      <Zoom triggerOnce>
-        <Card className={classes.expenseCard}>
-          <CardContent className={classes.content}>
-            <div className={classes.reasonBox}>
-              <Typography
-                gutterBottom
-                variant="h4"
-                component="h2"
-                align="center"
-              >
-                Requested Items
-              </Typography>
-            </div>
-          </CardContent>
 
-          <Grid
-            container
-            spacing={3}
-            justifyContent="space-around"
-            alignItems="stretch"
-            direction="row"
-          >
-            {reqItems}
-          </Grid>
-        </Card>
-      </Zoom>
+      <Box>
+        {request && (
+          <Box>
+            <Zoom triggerOnce>
+              <Typography variant="h4" align="center">
+                Student Request
+              </Typography>
+              <Box m={2} />
+            </Zoom>
+            <Box m={5} />
+          </Box>
+        )}
+        {isApprovalOrDeclineError ? (
+          <>
+            <ErrorAlert message="Failed to approve of decline the request" />
+            <Box m={2} />
+          </>
+        ) : (
+          <Box />
+        )}
+        {isRequestError ? (
+          <ErrorAlert message="Failed to load display items" />
+        ) : (
+          <Box>
+            {isRequestLoading || isApprovalOrDeclineLoading ? (
+              <CustomLoadingIndicator minimumHeight="60vh" />
+            ) : (
+              <>
+                {request && (
+                  <Box>
+                    <Zoom triggerOnce>
+                      <Box align="center" className={classes.reasonCard}>
+                        <Grid container alignItems="flex-start">
+                          <Grid item xs={12} sm={12} md={6}>
+                            {request.studentName.length > 1 && (
+                              <Typography className={classes.mainText}>
+                                Student Name : {request.studentName}
+                              </Typography>
+                            )}
+                            <Typography className={classes.mainText}>
+                              Index Number : {request.studentIndex}
+                            </Typography>
+                            <Typography className={classes.mainText}>
+                              Email : {request.student.email}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={12} sm={12} md={6}>
+                            <Typography className={classes.mainRightText}>
+                              Lab : {request.lab.name}
+                            </Typography>
+                            <Typography className={classes.mainRightText}>
+                              Department : {request.studentDepartment}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                        <Box m={2} />
+                        <Typography className={classes.reasonTitle}>
+                          Reason
+                        </Typography>
+
+                        <Typography
+                          align={
+                            request.reason.length > 75 ? 'justify' : 'center'
+                          }
+                        >
+                          {request.reason}
+                        </Typography>
+
+                        <Box m={3}>
+                          <Grid container alignItems="flex-start" spacing={2}>
+                            <Grid item xs={12} sm={6}>
+                              <Button
+                                onClick={() => {
+                                  handleApproval(DECLINE_REQUEST);
+                                }}
+                                variant="contained"
+                                fullWidth
+                                className={classes.declineButton}
+                              >
+                                Decline
+                              </Button>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                              <Button
+                                onClick={() => {
+                                  handleApproval(APPROVE_REQUEST);
+                                }}
+                                variant="contained"
+                                fullWidth
+                                className={classes.approveButton}
+                              >
+                                Accept
+                              </Button>
+                            </Grid>
+                          </Grid>
+                        </Box>
+                      </Box>
+                    </Zoom>
+
+                    <Zoom triggerOnce>
+                      <Box>
+                        <Box>
+                          <Typography
+                            variant="h4"
+                            align="center"
+                            color="textSecondary"
+                          >
+                            Requested Items
+                          </Typography>
+                        </Box>
+
+                        <Grid
+                          container
+                          spacing={3}
+                          justifyContent="space-around"
+                          alignItems="stretch"
+                          direction="row"
+                        >
+                          {reqItems()}
+                        </Grid>
+                      </Box>
+                    </Zoom>
+                  </Box>
+                )}
+              </>
+            )}
+          </Box>
+        )}
+      </Box>
     </PageWrapper>
   );
 }
