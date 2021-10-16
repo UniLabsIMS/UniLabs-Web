@@ -1,9 +1,27 @@
 import { Box, Grid, Typography } from '@material-ui/core';
 import { Zoom } from 'react-awesome-reveal';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import ItemSummary from './components/itemSummary';
 import StrechedCountCard from './components/StrechedCountCard';
+import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
+import ErrorAlert from '../../../commonComponents/errorAlert';
+import { fetchLabReport } from '../../../../store/actions/labManager/labManagerLabReportActions';
 
-function LabSummary() {
+const LabSummary = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchLabReport());
+  }, [dispatch]);
+
+  const isLabReportLoading = useSelector(
+    state => state.labManagerLabReport.isLabReportLoading,
+  );
+  const labReport = useSelector(state => state.labManagerLabReport.labReport);
+  const labReportError = useSelector(
+    state => state.labManagerLabReport.labReportError,
+  );
+
   return (
     <div>
       <Zoom triggerOnce>
@@ -12,30 +30,54 @@ function LabSummary() {
         </Typography>
       </Zoom>
       <Box m={3} />
-      <Grid
-        container
-        spacing={3}
-        justifyContent="space-around"
-        alignItems="center"
-        direction="row"
-      >
-        <StrechedCountCard title="Lab Managers Assigned" count={4} />
-        <StrechedCountCard title="Lab Assistants Assigned" count={12} />
-        <StrechedCountCard title="Total Categories" count={4} />
-        <StrechedCountCard title="Total Display Items" count={12} />
-      </Grid>
+      {labReportError ? (
+        <ErrorAlert message="Failed to load lab report" />
+      ) : (
+        <Box>
+          {isLabReportLoading || !labReport ? (
+            <CustomLoadingIndicator />
+          ) : (
+            <Box>
+              <Grid
+                container
+                spacing={3}
+                justifyContent="space-around"
+                alignItems="center"
+                direction="row"
+              >
+                <StrechedCountCard
+                  title="Lab Managers Assigned"
+                  count={labReport.labManagerCount}
+                />
+                <StrechedCountCard
+                  title="Lab Assistants Assigned"
+                  count={labReport.labAssistantCount}
+                />
+                <StrechedCountCard
+                  title="Total Categories"
+                  count={labReport.categoryCount}
+                />
+                <StrechedCountCard
+                  title="Total Display Items"
+                  count={labReport.displayItemCount}
+                />
+              </Grid>
 
-      <Box m={7} />
+              <Box m={7} />
 
-      <ItemSummary
-        totalItems={25}
-        availableItems={8}
-        damagedItems={7}
-        borrowedItems={6}
-        tempBorrowedItems={4}
-      />
+              <ItemSummary
+                totalItems={labReport.itemCount}
+                availableItems={labReport.availableItemCount}
+                damagedItems={labReport.damagedItemCount}
+                borrowedItems={labReport.borrowedItemCount}
+                tempBorrowedItems={labReport.tempBorrowedItemCount}
+              />
+            </Box>
+          )}
+        </Box>
+      )}
     </div>
   );
-}
+};
 
 export default LabSummary;
