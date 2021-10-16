@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import HomeIcon from '@material-ui/icons/Home';
-import BarChartIcon from '@material-ui/icons/BarChart';
 import { useDispatch } from 'react-redux';
 import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
 import ItemCategories from './ItemCategories/itemCategories';
 import InventorySummary from './inventorySummary/inventorySummary';
 import { resetLabManagerDashboardState } from '../../../store/actions/labManager/labManagerDashboardActions';
+import { ReactComponent as Graphs } from '../../../icons/Graphs.svg';
+import { ReactComponent as Home } from '../../../icons/Home.svg';
 
 const createDrawerTile = (title, icon, component) => ({
   title,
@@ -17,12 +17,16 @@ const createDrawerTile = (title, icon, component) => ({
 const getDrawerTiles = () => {
   const drawerTiles = [];
   drawerTiles.push(
-    createDrawerTile('My Lab', <HomeIcon />, <ItemCategories />),
+    createDrawerTile(
+      'My Lab',
+      <Home style={{ width: 24 }} />,
+      <ItemCategories />,
+    ),
   );
   drawerTiles.push(
     createDrawerTile(
       'Inventory Summary',
-      <BarChartIcon />,
+      <Graphs style={{ width: 24 }} />,
       <InventorySummary />,
     ),
   );
