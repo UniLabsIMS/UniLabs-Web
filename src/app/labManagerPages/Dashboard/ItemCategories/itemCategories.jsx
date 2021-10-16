@@ -4,7 +4,10 @@ import { Zoom } from 'react-awesome-reveal';
 import { useDispatch, useSelector } from 'react-redux';
 import ItemCategoryCard from './components/labitemCategoryCard';
 import NewCategoryFrom from './components/newCategoryForm';
-import { fetchCategories } from '../../../../store/actions/labManager/labManagerCategoriesActions';
+import {
+  fetchCategories,
+  resetLabManagerCategoriesState,
+} from '../../../../store/actions/labManager/labManagerCategoriesActions';
 import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
 import ErrorAlert from '../../../commonComponents/errorAlert';
 
@@ -32,6 +35,12 @@ function ItemCategories() {
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch, reload]);
+  useEffect(
+    () => () => {
+      dispatch(resetLabManagerCategoriesState());
+    },
+    [dispatch],
+  );
   if (isCategoriesError) {
     return <ErrorAlert message="Failed to load resources" />;
   }
