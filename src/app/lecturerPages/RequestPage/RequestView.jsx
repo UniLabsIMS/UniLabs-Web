@@ -115,7 +115,7 @@ function LecturerRequestViewPage() {
     ));
 
   const handleApproval = reqState => {
-    dispatch(ApproveorDeclineStudentRequest(requestId, `${reqState}dhg`));
+    dispatch(ApproveorDeclineStudentRequest(requestId, reqState));
   };
 
   return (
