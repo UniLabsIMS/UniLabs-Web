@@ -256,7 +256,7 @@ describe('labManager - CategoriesReducer', () => {
       reloadCategories: true,
     });
   });
-  it('return current state for invalid action type', () => {
+  it('returns current state for invalid action type', () => {
     const reducer = labManagerCategoriesReducer(initialState, {
       type: 'Invalid Type',
       isReload: true,
