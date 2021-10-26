@@ -19,17 +19,19 @@ export const fetchLabAssistantCategories = () => (dispatch, getState) => {
       ),
       httpHeaderConfig(getState),
     )
-    .then(res => {
-      dispatch({
-        type: CATEGORIES_LOADED,
-        payload: res.data,
-      });
-    })
-    .catch(err => {
-      dispatch({
-        type: CATEGORIES_ERROR,
-      });
-    });
+    .then(
+      res => {
+        dispatch({
+          type: CATEGORIES_LOADED,
+          payload: res.data,
+        });
+      },
+      err => {
+        dispatch({
+          type: CATEGORIES_ERROR,
+        });
+      },
+    );
 };
 
 /* Reset State */

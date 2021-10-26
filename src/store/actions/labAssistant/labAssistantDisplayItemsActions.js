@@ -18,17 +18,19 @@ export const fetchLabAssistantDisplayItems =
         API_LAB_ASSISTANT_ALL_DISPLAY_ITEMS_URL.concat(categoryID.toString()),
         httpHeaderConfig(getState),
       )
-      .then(res => {
-        dispatch({
-          type: DISPLAY_ITEMS_LOADED,
-          payload: res.data,
-        });
-      })
-      .catch(err => {
-        dispatch({
-          type: DISPLAY_ITEMS_ERROR,
-        });
-      });
+      .then(
+        res => {
+          dispatch({
+            type: DISPLAY_ITEMS_LOADED,
+            payload: res.data,
+          });
+        },
+        err => {
+          dispatch({
+            type: DISPLAY_ITEMS_ERROR,
+          });
+        },
+      );
   };
 
 /* Reset State */

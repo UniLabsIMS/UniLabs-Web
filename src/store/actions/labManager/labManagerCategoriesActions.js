@@ -29,17 +29,19 @@ export const fetchCategories = () => (dispatch, getState) => {
       ),
       httpHeaderConfig(getState),
     )
-    .then(res => {
-      dispatch({
-        type: CATEGORIES_LOADED,
-        payload: res.data,
-      });
-    })
-    .catch(err => {
-      dispatch({
-        type: CATEGORIES_ERROR,
-      });
-    });
+    .then(
+      res => {
+        dispatch({
+          type: CATEGORIES_LOADED,
+          payload: res.data,
+        });
+      },
+      err => {
+        dispatch({
+          type: CATEGORIES_ERROR,
+        });
+      },
+    );
 };
 
 /* Add categories */
@@ -60,17 +62,19 @@ export const addCategory =
         formData,
         httpHeaderConfig(getState),
       )
-      .then(res => {
-        dispatch({
-          type: NEW_CAT_SUCCESS,
-          payload: res.data,
-        });
-      })
-      .catch(err => {
-        dispatch({
-          type: NEW_CAT_FAIL,
-        });
-      });
+      .then(
+        res => {
+          dispatch({
+            type: NEW_CAT_SUCCESS,
+            payload: res.data,
+          });
+        },
+        err => {
+          dispatch({
+            type: NEW_CAT_FAIL,
+          });
+        },
+      );
   };
 
 /* Edit categories */
@@ -86,17 +90,19 @@ export const editCategory =
         formData,
         httpHeaderConfig(getState),
       )
-      .then(res => {
-        dispatch({
-          type: EDIT_CAT_SUCCESS,
-          payload: res.data,
-        });
-      })
-      .catch(err => {
-        dispatch({
-          type: EDIT_CAT_FAIL,
-        });
-      });
+      .then(
+        res => {
+          dispatch({
+            type: EDIT_CAT_SUCCESS,
+            payload: res.data,
+          });
+        },
+        err => {
+          dispatch({
+            type: EDIT_CAT_FAIL,
+          });
+        },
+      );
   };
 /* Reset Edit Category State */
 export const editCategoryResetState = isReload => (dispatch, getState) => {

@@ -20,20 +20,23 @@ export const fetchLabAssistantBorrowedItems = () => (dispatch, getState) => {
       ),
       httpHeaderConfig(getState),
     )
-    .then(res => {
-      const allBorrowedItems = res.data.filter(
-        borrowedItemData => borrowedItemData.item.state === ITEM_STATE_BORROWED,
-      );
-      dispatch({
-        type: BORROWED_ITEMS_LOADED,
-        payload: allBorrowedItems,
-      });
-    })
-    .catch(err => {
-      dispatch({
-        type: BORROWED_ITEMS_ERROR,
-      });
-    });
+    .then(
+      res => {
+        const allBorrowedItems = res.data.filter(
+          borrowedItemData =>
+            borrowedItemData.item.state === ITEM_STATE_BORROWED,
+        );
+        dispatch({
+          type: BORROWED_ITEMS_LOADED,
+          payload: allBorrowedItems,
+        });
+      },
+      err => {
+        dispatch({
+          type: BORROWED_ITEMS_ERROR,
+        });
+      },
+    );
 };
 
 /* Reset State */

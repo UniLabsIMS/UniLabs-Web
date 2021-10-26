@@ -21,21 +21,23 @@ export const fetchLabAssistantTempBorrowedItems =
         ),
         httpHeaderConfig(getState),
       )
-      .then(res => {
-        const allBorrowedItems = res.data.filter(
-          borrowedItemData =>
-            borrowedItemData.item.state === ITEM_STATE_TEMP_BORROWED,
-        );
-        dispatch({
-          type: TEMP_BORROWED_ITEMS_LOADED,
-          payload: allBorrowedItems,
-        });
-      })
-      .catch(err => {
-        dispatch({
-          type: TEMP_BORROWED_ITEMS_ERROR,
-        });
-      });
+      .then(
+        res => {
+          const allBorrowedItems = res.data.filter(
+            borrowedItemData =>
+              borrowedItemData.item.state === ITEM_STATE_TEMP_BORROWED,
+          );
+          dispatch({
+            type: TEMP_BORROWED_ITEMS_LOADED,
+            payload: allBorrowedItems,
+          });
+        },
+        err => {
+          dispatch({
+            type: TEMP_BORROWED_ITEMS_ERROR,
+          });
+        },
+      );
   };
 
 /* Reset State */

@@ -29,47 +29,47 @@ import AssignedLecturer from '../../../models/assignedLecturer';
 /* Load labs */
 export const fetchLabs = () => (dispatch, getState) => {
   dispatch({ type: LABS_LOADING });
-  axios
-    .get(API_ADMIN_LABS_URL, httpHeaderConfig(getState))
-    .then(res => {
-      axios
-        .get(API_ADMIN_LECTURERS_URL, httpHeaderConfig(getState))
-        .then(resLecs => {
+  axios.get(API_ADMIN_LABS_URL, httpHeaderConfig(getState)).then(
+    res => {
+      axios.get(API_ADMIN_LECTURERS_URL, httpHeaderConfig(getState)).then(
+        resLecs => {
           dispatch({
             type: LABS_LOADED,
             payload: { labs: res.data, lecturers: resLecs.data },
           });
-        })
-        .catch(err => {
+        },
+        err => {
           dispatch({
             type: LABS_ERROR,
           });
-        });
-    })
-    .catch(err => {
+        },
+      );
+    },
+    err => {
       dispatch({
         type: LABS_ERROR,
       });
-    });
+    },
+  );
 };
 
 /* Load deptLabs */
 export const fetchDeptLabs = deptID => (dispatch, getState) => {
   dispatch({ type: DEPT_LABS_LOADING });
   const API_ADMIN_DEPT_LABS_FINAL_URL = API_ADMIN_DEPT_LABS_URL.concat(deptID);
-  axios
-    .get(API_ADMIN_DEPT_LABS_FINAL_URL, httpHeaderConfig(getState))
-    .then(res => {
+  axios.get(API_ADMIN_DEPT_LABS_FINAL_URL, httpHeaderConfig(getState)).then(
+    res => {
       dispatch({
         type: DEPT_LABS_LOADED,
         payload: res.data,
       });
-    })
-    .catch(err => {
+    },
+    err => {
       dispatch({
         type: DEPT_LABS_ERROR,
       });
-    });
+    },
+  );
 };
 
 /* Add lab */
@@ -88,17 +88,19 @@ export const addLab =
     }
     axios
       .post(API_ADMIN_NEW_LAB_URL, formData, httpHeaderConfig(getState))
-      .then(res => {
-        dispatch({
-          type: NEW_LAB_SUCCESS,
-          payload: res.data,
-        });
-      })
-      .catch(err => {
-        dispatch({
-          type: NEW_LAB_FAIL,
-        });
-      });
+      .then(
+        res => {
+          dispatch({
+            type: NEW_LAB_SUCCESS,
+            payload: res.data,
+          });
+        },
+        err => {
+          dispatch({
+            type: NEW_LAB_FAIL,
+          });
+        },
+      );
   };
 
 /*
@@ -114,23 +116,25 @@ export const assignLecturer = (labID, lecturer) => (dispatch, getState) => {
       formData,
       httpHeaderConfig(getState),
     )
-    .then(res => {
-      const updatedLabs = getState().adminLabs.labs.map(lab => {
-        if (labID === lab.id) {
-          lab.assignedLecturers.push(AssignedLecturer.fromLecturer(lecturer));
-        }
-        return lab;
-      });
-      dispatch({
-        type: LAB_ASSIGN_LECTURER_SUCCESS,
-        payload: updatedLabs,
-      });
-    })
-    .catch(err => {
-      dispatch({
-        type: LAB_ASSIGN_LECTURER_ERROR,
-      });
-    });
+    .then(
+      res => {
+        const updatedLabs = getState().adminLabs.labs.map(lab => {
+          if (labID === lab.id) {
+            lab.assignedLecturers.push(AssignedLecturer.fromLecturer(lecturer));
+          }
+          return lab;
+        });
+        dispatch({
+          type: LAB_ASSIGN_LECTURER_SUCCESS,
+          payload: updatedLabs,
+        });
+      },
+      err => {
+        dispatch({
+          type: LAB_ASSIGN_LECTURER_ERROR,
+        });
+      },
+    );
 };
 /* Reset State */
 export const resetAdminLabState = () => (dispatch, getState) => {

@@ -14,26 +14,26 @@ import {
 /* Load labs */
 export const fetchLabsStudent = () => (dispatch, getState) => {
   dispatch({ type: STUDENT_LABS_LOADING });
-  axios
-    .get(API_STUDENT_LABS_URL, httpHeaderConfig(getState))
-    .then(res => {
-      axios
-        .get(API_STUDENT_DEPARTMENTS_URL, httpHeaderConfig(getState))
-        .then(depRes => {
+  axios.get(API_STUDENT_LABS_URL, httpHeaderConfig(getState)).then(
+    res => {
+      axios.get(API_STUDENT_DEPARTMENTS_URL, httpHeaderConfig(getState)).then(
+        depRes => {
           dispatch({
             type: STUDENT_LABS_LOADED,
             payload: { labs: res.data, departments: depRes.data },
           });
-        })
-        .catch(err => {
+        },
+        err => {
           dispatch({
             type: STUDENT_LABS_ERROR,
           });
-        });
-    })
-    .catch(err => {
+        },
+      );
+    },
+    err => {
       dispatch({
         type: STUDENT_LABS_ERROR,
       });
-    });
+    },
+  );
 };

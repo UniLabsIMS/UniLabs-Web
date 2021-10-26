@@ -27,17 +27,19 @@ export const fetchDisplayItems = categoryID => (dispatch, getState) => {
       API_LAB_MANAGER_ALL_DISPLAY_ITEMS_URL.concat(categoryID.toString()),
       httpHeaderConfig(getState),
     )
-    .then(res => {
-      dispatch({
-        type: DISPLAY_ITEMS_LOADED,
-        payload: res.data,
-      });
-    })
-    .catch(err => {
-      dispatch({
-        type: DISPLAY_ITEMS_ERROR,
-      });
-    });
+    .then(
+      res => {
+        dispatch({
+          type: DISPLAY_ITEMS_LOADED,
+          payload: res.data,
+        });
+      },
+      err => {
+        dispatch({
+          type: DISPLAY_ITEMS_ERROR,
+        });
+      },
+    );
 };
 
 /* Add display item */
@@ -57,17 +59,19 @@ export const addDisplayItem =
         formData,
         httpHeaderConfig(getState),
       )
-      .then(res => {
-        dispatch({
-          type: NEW_DSP_ITEM_SUCCESS,
-          payload: res.data,
-        });
-      })
-      .catch(err => {
-        dispatch({
-          type: NEW_DSP_ITEM_FAIL,
-        });
-      });
+      .then(
+        res => {
+          dispatch({
+            type: NEW_DSP_ITEM_SUCCESS,
+            payload: res.data,
+          });
+        },
+        err => {
+          dispatch({
+            type: NEW_DSP_ITEM_FAIL,
+          });
+        },
+      );
   };
 /* Edit display items */
 export const editDisplayItem =
@@ -82,17 +86,19 @@ export const editDisplayItem =
         formData,
         httpHeaderConfig(getState),
       )
-      .then(res => {
-        dispatch({
-          type: EDIT_DSP_ITEM_SUCCESS,
-          payload: res.data,
-        });
-      })
-      .catch(err => {
-        dispatch({
-          type: EDIT_DSP_ITEM_FAIL,
-        });
-      });
+      .then(
+        res => {
+          dispatch({
+            type: EDIT_DSP_ITEM_SUCCESS,
+            payload: res.data,
+          });
+        },
+        err => {
+          dispatch({
+            type: EDIT_DSP_ITEM_FAIL,
+          });
+        },
+      );
   };
 /* Reset Edit display items State */
 export const editDisplayItemResetState = isReload => (dispatch, getState) => {

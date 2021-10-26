@@ -21,17 +21,19 @@ export const ApproveorDeclineStudentRequest =
         formData,
         httpHeaderConfig(getState),
       )
-      .then(res => {
-        dispatch({
-          type: LECTURER_REQUEST_APPROVE_OR_DECLINE_SUCCESS,
-          payload: res.data,
-        });
-      })
-      .catch(err => {
-        dispatch({
-          type: LECTURER_REQUEST_APPROVE_OR_DECLINE_FAIL,
-        });
-      });
+      .then(
+        res => {
+          dispatch({
+            type: LECTURER_REQUEST_APPROVE_OR_DECLINE_SUCCESS,
+            payload: res.data,
+          });
+        },
+        err => {
+          dispatch({
+            type: LECTURER_REQUEST_APPROVE_OR_DECLINE_FAIL,
+          });
+        },
+      );
   };
 
 export const resetApproveorDeclineState = () => (dispatch, getState) => {

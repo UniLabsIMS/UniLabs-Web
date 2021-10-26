@@ -65,17 +65,19 @@ export const addRequest =
     };
     axios
       .post(API_STUDENT_NEW_REQUEST_URL, data, httpHeaderConfigJSON(getState))
-      .then(res => {
-        dispatch({
-          type: REQUEST_CREATE_SUCCESS,
-          payload: requestedBucketItems,
-        });
-      })
-      .catch(err => {
-        dispatch({
-          type: REQUEST_CREATE_ERROR,
-        });
-      });
+      .then(
+        res => {
+          dispatch({
+            type: REQUEST_CREATE_SUCCESS,
+            payload: requestedBucketItems,
+          });
+        },
+        err => {
+          dispatch({
+            type: REQUEST_CREATE_ERROR,
+          });
+        },
+      );
   };
 
 /* Load lecturers of lab */
@@ -86,27 +88,31 @@ export const fetchLabLecturers = labId => (dispatch, getState) => {
       API_STUDENT_LECTURERS_OF_LAB_URL.concat(labId),
       httpHeaderConfig(getState),
     )
-    .then(res => {
-      axios
-        .get(
-          API_STUDENT_CHECK_WHETHER_ACTIVE_REQUEST_IN_LAB_URL.concat(labId),
-          httpHeaderConfig(getState),
-        )
-        .then(checkRes => {
-          dispatch({
-            type: STUDENT_BUCKET_LECTURERS_LOADED,
-            payload: { lecturers: res.data, check: checkRes.data.state },
-          });
-        })
-        .catch(err => {
-          dispatch({
-            type: STUDENT_BUCKET_LECTURERS_ERROR,
-          });
+    .then(
+      res => {
+        axios
+          .get(
+            API_STUDENT_CHECK_WHETHER_ACTIVE_REQUEST_IN_LAB_URL.concat(labId),
+            httpHeaderConfig(getState),
+          )
+          .then(
+            checkRes => {
+              dispatch({
+                type: STUDENT_BUCKET_LECTURERS_LOADED,
+                payload: { lecturers: res.data, check: checkRes.data.state },
+              });
+            },
+            err => {
+              dispatch({
+                type: STUDENT_BUCKET_LECTURERS_ERROR,
+              });
+            },
+          );
+      },
+      err => {
+        dispatch({
+          type: STUDENT_BUCKET_LECTURERS_ERROR,
         });
-    })
-    .catch(err => {
-      dispatch({
-        type: STUDENT_BUCKET_LECTURERS_ERROR,
-      });
-    });
+      },
+    );
 };

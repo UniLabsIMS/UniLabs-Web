@@ -17,19 +17,19 @@ import {
 /* Load departments */
 export const fetchDepartments = () => (dispatch, getState) => {
   dispatch({ type: DEPARTMENTS_LOADING });
-  axios
-    .get(API_ADMIN_DEPARTMENTS_URL, httpHeaderConfig(getState))
-    .then(res => {
+  axios.get(API_ADMIN_DEPARTMENTS_URL, httpHeaderConfig(getState)).then(
+    res => {
       dispatch({
         type: DEPARTMENTS_LOADED,
         payload: res.data,
       });
-    })
-    .catch(err => {
+    },
+    err => {
       dispatch({
         type: DEPARTMENTS_ERROR,
       });
-    });
+    },
+  );
 };
 
 /* Add department */
@@ -40,17 +40,19 @@ export const addDepartment = (name, code) => (dispatch, getState) => {
   formData.append('code', code);
   axios
     .post(API_ADMIN_NEW_DEPARTMENT_URL, formData, httpHeaderConfig(getState))
-    .then(res => {
-      dispatch({
-        type: NEW_DEPARTMENT_SUCCESS,
-        payload: res.data,
-      });
-    })
-    .catch(err => {
-      dispatch({
-        type: NEW_DEPARTMENT_FAIL,
-      });
-    });
+    .then(
+      res => {
+        dispatch({
+          type: NEW_DEPARTMENT_SUCCESS,
+          payload: res.data,
+        });
+      },
+      err => {
+        dispatch({
+          type: NEW_DEPARTMENT_FAIL,
+        });
+      },
+    );
 };
 
 /* Reset State */

@@ -11,17 +11,17 @@ import { API_LECTURER_REQUESTS_URL } from '../../apiConfig';
 /* Load requests */
 export const fetchLecturerRequests = () => (dispatch, getState) => {
   dispatch({ type: LECTURER_REQUESTS_LOADING });
-  axios
-    .get(API_LECTURER_REQUESTS_URL, httpHeaderConfig(getState))
-    .then(res => {
+  axios.get(API_LECTURER_REQUESTS_URL, httpHeaderConfig(getState)).then(
+    res => {
       dispatch({
         type: LECTURER_REQUESTS_LOADED,
         payload: res.data,
       });
-    })
-    .catch(err => {
+    },
+    err => {
       dispatch({
         type: LECTURER_REQUESTS_ERROR,
       });
-    });
+    },
+  );
 };

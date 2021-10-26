@@ -22,19 +22,19 @@ import {
 /* Load labManagers */
 export const fetchLabManagers = () => (dispatch, getState) => {
   dispatch({ type: LAB_MANAGERS_LOADING });
-  axios
-    .get(API_ADMIN_LAB_MANAGERS_URL, httpHeaderConfig(getState))
-    .then(res => {
+  axios.get(API_ADMIN_LAB_MANAGERS_URL, httpHeaderConfig(getState)).then(
+    res => {
       dispatch({
         type: LAB_MANAGERS_LOADED,
         payload: res.data,
       });
-    })
-    .catch(err => {
+    },
+    err => {
       dispatch({
         type: LAB_MANAGERS_ERROR,
       });
-    });
+    },
+  );
 };
 
 /* Add labManager */
@@ -45,17 +45,19 @@ export const addLabManager = (email, lab) => (dispatch, getState) => {
   formData.append('lab', lab);
   axios
     .post(API_ADMIN_NEW_LAB_MANAGER_URL, formData, httpHeaderConfig(getState))
-    .then(res => {
-      dispatch({
-        type: NEW_LAB_MANAGER_SUCCESS,
-        payload: res.data,
-      });
-    })
-    .catch(err => {
-      dispatch({
-        type: NEW_LAB_MANAGER_FAIL,
-      });
-    });
+    .then(
+      res => {
+        dispatch({
+          type: NEW_LAB_MANAGER_SUCCESS,
+          payload: res.data,
+        });
+      },
+      err => {
+        dispatch({
+          type: NEW_LAB_MANAGER_FAIL,
+        });
+      },
+    );
 };
 /* Block unblock lab manager */
 export const blockUnblockLabManager =
@@ -69,25 +71,26 @@ export const blockUnblockLabManager =
         formData,
         httpHeaderConfig(getState),
       )
-      .then(res => {
-        const updatedLabManagers = getState().adminLabManagers.labManagers.map(
-          labManager => {
-            if (labManager.id === userID) {
-              return labManager.updateBlocked(isBlocked);
-            }
-            return labManager;
-          },
-        );
-        dispatch({
-          type: LAB_MANAGER_BLOCK_UNBLOCK_SUCCESS,
-          payload: updatedLabManagers,
-        });
-      })
-      .catch(err => {
-        dispatch({
-          type: LAB_MANAGER_BLOCK_UNBLOCK_ERROR,
-        });
-      });
+      .then(
+        res => {
+          const updatedLabManagers =
+            getState().adminLabManagers.labManagers.map(labManager => {
+              if (labManager.id === userID) {
+                return labManager.updateBlocked(isBlocked);
+              }
+              return labManager;
+            });
+          dispatch({
+            type: LAB_MANAGER_BLOCK_UNBLOCK_SUCCESS,
+            payload: updatedLabManagers,
+          });
+        },
+        err => {
+          dispatch({
+            type: LAB_MANAGER_BLOCK_UNBLOCK_ERROR,
+          });
+        },
+      );
   };
 /* Reset State */
 export const resetAdminLabManagerState = () => (dispatch, getState) => {
