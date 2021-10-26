@@ -18,6 +18,7 @@ import LecturerPermittedLab from '../../../../models/lecturerPermittedLab';
 import WarningAlert from '../../../commonComponents/warningAlert';
 import SuccessAlert from '../../../commonComponents/successAlert';
 import { resetApproveorDeclineState } from '../../../../store/actions/lecturer/lecturerApproveOrDeclineRequesrActions';
+import DefaultPasswordWarining from '../../../commonComponents/defaultPasswordWarning';
 
 const useStyles = makeStyles(theme => ({
   link: {
@@ -45,6 +46,9 @@ function StudentRequestsPage() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [filterLabId, setFilterLabId] = useState('');
+  const isDefaultPassword = useSelector(
+    state => state.auth.user.isDefaultPassword,
+  );
 
   const isRequestsLoading = useSelector(
     state => state.lecturerRequests.isRequestsLoading,
@@ -106,6 +110,7 @@ function StudentRequestsPage() {
           New Requests
         </Typography>
       </Zoom>
+      {isDefaultPassword ? <DefaultPasswordWarining /> : <div />}
       <Box m={2} />
 
       {isRequestsError ? (
