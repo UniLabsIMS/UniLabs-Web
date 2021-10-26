@@ -5,4 +5,5 @@ export default {
   post: jest.fn(() => Promise.resolve({ data: 'mocked' })),
   put: jest.fn(() => Promise.resolve({ data: 'mocked' })),
   patch: jest.fn(() => Promise.resolve({ data: 'mocked' })),
+  delete: jest.fn(() => Promise.resolve({ data: 'mocked' })),
 };

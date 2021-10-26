@@ -26,7 +26,7 @@ import { displayItemResponseData } from '../../../data/displayItemResponseData';
 
 const mockStore = configureMockStore([thunk]);
 
-describe('Lab Manager Caregories Actions', () => {
+describe('Lab Manager Display Items Actions', () => {
   let store;
 
   beforeEach(() => {
@@ -153,7 +153,7 @@ describe('Lab Manager Caregories Actions', () => {
     });
   });
 
-  describe('Edit Category Reset State', () => {
+  describe('Edit Display Item Reset State', () => {
     it('dispatches EDIT_DSP_ITEM_RESET_STATE action and reload state', () => {
       store.dispatch(editDisplayItemResetState(true));
       const actions = store.getActions();

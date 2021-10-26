@@ -11,8 +11,8 @@ export const categoryResponseData = {
     created_at: '2021-08-20T03:07:38.376806Z',
     department: 'c0362f47-3d88-4712-a934-6899c8584ee1',
   },
-  name: 'Test Img New',
-  image: 'http://localhost:8000/media/item_categories/Wallpaper_6_ZrQctFd.jpg',
-  description: 'Test ims',
+  name: 'Test',
+  image: 'http://localhost:8000/media/item_categories/test.jpg',
+  description: 'Test',
   created_at: '2021-10-16T08:02:30.425823Z',
 };
