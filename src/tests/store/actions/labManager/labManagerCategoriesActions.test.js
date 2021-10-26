@@ -22,6 +22,7 @@ import {
   NEW_CAT_SUCCESS,
   RESET_CATEGORIES_STATE,
 } from '../../../../store/actionTypes/labManagerActionTypes';
+import { categoryResponseData } from '../../../data/categoryResponseData';
 
 const mockStore = configureMockStore([thunk]);
 
@@ -39,7 +40,7 @@ describe('Lab Manager Caregories Actions', () => {
 
   describe('Fetch Categories', () => {
     it('dispatches CATEGORIES_LOADED action and returns data on success', async () => {
-      const responseData = [{ id: 1, name: 'Category Name' }];
+      const responseData = [categoryResponseData];
 
       mockAxios.get.mockImplementationOnce(() =>
         Promise.resolve({
@@ -56,7 +57,7 @@ describe('Lab Manager Caregories Actions', () => {
       expect(actions[1].payload).toEqual(responseData);
     });
 
-    it('dispatches NEW_CAT_FAIL action on faliure', async () => {
+    it('dispatches CATEGORIES_ERROR action on faliure', async () => {
       mockAxios.get.mockRejectedValueOnce(new Error('Error'));
 
       await store.dispatch(fetchCategories());
@@ -70,7 +71,7 @@ describe('Lab Manager Caregories Actions', () => {
 
   describe('Add Category', () => {
     it('dispatches NEW_CAT_SUCCESS action and returns data on success', async () => {
-      const responseData = [{ id: 1, name: 'Category Name' }];
+      const responseData = categoryResponseData;
 
       mockAxios.post.mockImplementationOnce(() =>
         Promise.resolve({
@@ -101,7 +102,7 @@ describe('Lab Manager Caregories Actions', () => {
 
   describe('Edit Category', () => {
     it('dispatches EDIT_CAT_SUCCESS action and returns data on success', async () => {
-      const responseData = [{ id: 1, name: 'Category Name' }];
+      const responseData = categoryResponseData;
 
       mockAxios.put.mockImplementationOnce(() =>
         Promise.resolve({
@@ -141,7 +142,7 @@ describe('Lab Manager Caregories Actions', () => {
     });
   });
 
-  describe('EReset State', () => {
+  describe('Reset State', () => {
     it('dispatches RESET_CATEGORIES_STATE action', () => {
       store.dispatch(resetLabManagerCategoriesState());
       const actions = store.getActions();
