@@ -15,7 +15,12 @@ const initialState = {
 const labManagerLabReportReducer = (state = initialState, action) => {
   switch (action.type) {
     case LAB_REPORT_LOADING:
-      return initialState;
+      return {
+        ...state,
+        islabReportLoading: true,
+        labReportSuccess: false,
+        labReportError: false,
+      };
     case LAB_REPORT_LOADED:
       return {
         ...state,
