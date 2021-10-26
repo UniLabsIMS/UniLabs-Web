@@ -163,6 +163,7 @@ const authReducer = (state = initialState, action) => {
     case CHANGE_PASSWORD_SUCCESS:
       return {
         ...state,
+        user: state.user.removeDefaultPasswordFlag(),
         isChangePasswordLoading: false,
         changePasswordSuccess: true,
         changePasswordError: false,

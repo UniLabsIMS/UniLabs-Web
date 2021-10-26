@@ -39,6 +39,8 @@ export const STUDENT_LAB_BUCKET_URL = STUDENT_BASE_URL.concat('/lab-bucket/'); /
 // lecturer other urls
 export const LECTURER_REQUEST_URL = LECTURER_BASE_URL.concat('/request/'); // concat request id
 
+// my profile URL
+export const PROFILE_URL = '/myProfile';
 // Request Approve or Decline State
 
 export const APPROVE_REQUEST = 'Approved';

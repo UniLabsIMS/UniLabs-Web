@@ -23,6 +23,7 @@ import { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../store/actions/authActions';
+import { PROFILE_URL } from '../constants';
 
 const drawerWidth = 240;
 
@@ -222,7 +223,7 @@ function Navbar({ drawerTiles, onDrawerTileClick, activeIndex, showDrawer }) {
                 open={menuOpen}
                 onClose={handleClose}
               >
-                <Link to="/myProfile" className={classes.appBarLink}>
+                <Link to={PROFILE_URL} className={classes.appBarLink}>
                   <MenuItem>View My Profle</MenuItem>
                 </Link>
                 <MenuItem onClick={handleLogoutEvent}>Logout</MenuItem>

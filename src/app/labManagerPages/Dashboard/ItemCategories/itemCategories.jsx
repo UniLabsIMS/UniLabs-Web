@@ -10,9 +10,13 @@ import {
 } from '../../../../store/actions/labManager/labManagerCategoriesActions';
 import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
 import ErrorAlert from '../../../commonComponents/errorAlert';
+import DefaultPasswordWarining from '../../../commonComponents/defaultPasswordWarning';
 
 function ItemCategories() {
   const labName = useSelector(state => state.auth.user.otherDetails.lab.name);
+  const isDefaultPassword = useSelector(
+    state => state.auth.user.isDefaultPassword,
+  );
   const isCategoriesLoading = useSelector(
     state => state.labManagerCategories.isCategoriesLoading,
   );
@@ -54,6 +58,7 @@ function ItemCategories() {
           Item Categories
         </Typography>
       </Zoom>
+      {isDefaultPassword ? <DefaultPasswordWarining /> : <div />}
       <Zoom triggerOnce>
         <NewCategoryFrom />
       </Zoom>
