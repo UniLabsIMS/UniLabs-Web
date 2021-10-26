@@ -18,6 +18,7 @@ import {
   fetchStudents,
   resetAdminStudentState,
 } from '../../../../store/actions/admin/adminStudentsActions';
+import DefaultPasswordWarining from '../../../commonComponents/defaultPasswordWarning';
 
 const useStyles = makeStyles({
   table: {
@@ -36,6 +37,9 @@ const useStyles = makeStyles({
 export default function StudentTable() {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const isDefaultPassword = useSelector(
+    state => state.auth.user.isDefaultPassword,
+  );
   const isStudentsLoading = useSelector(
     state => state.adminStudents.isStudentsLoading,
   );
@@ -111,6 +115,7 @@ export default function StudentTable() {
             Students
           </Typography>
         </Zoom>
+        {isDefaultPassword ? <DefaultPasswordWarining /> : <div />}
         {studentBlockUnblockError ? (
           <ErrorAlert message="Student Blocking/Unblocking Failed." />
         ) : (

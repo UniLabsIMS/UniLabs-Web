@@ -15,6 +15,7 @@ import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndic
 import ErrorAlert from '../../../commonComponents/errorAlert';
 import { fetchLabsStudent } from '../../../../store/actions/student/studentLabsActions';
 import WarningAlert from '../../../commonComponents/warningAlert';
+import DefaultPasswordWarining from '../../../commonComponents/defaultPasswordWarning';
 
 const useStyles = makeStyles(theme => ({
   gridItem: {},
@@ -36,6 +37,9 @@ function Labs() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [selectedDepartmentID, setSelectedDepartmentID] = useState('');
+  const isDefaultPassword = useSelector(
+    state => state.auth.user.isDefaultPassword,
+  );
 
   const isLabsLoading = useSelector(state => state.studentLabs.isLabsLoading);
   const isLabsError = useSelector(state => state.studentLabs.isLabsError);
@@ -78,6 +82,7 @@ function Labs() {
           Laboratories
         </Typography>
       </Zoom>
+      {isDefaultPassword ? <DefaultPasswordWarining /> : <div />}
       <Box m={3} />
       <Zoom triggerOnce>
         <FormControl className={classes.formControl}>

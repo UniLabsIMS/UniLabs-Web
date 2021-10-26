@@ -19,7 +19,7 @@ const getDrawerTiles = () => {
   );
   drawerTiles.push(
     createDrawerTile(
-      'Burrowed Items',
+      'Borrowed Items',
       <BorrowIcon style={{ width: 24 }} />,
       <BorrowedItemsTable />,
     ),

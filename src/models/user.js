@@ -22,4 +22,9 @@ export default class User {
     this.image = data.image;
     return this;
   }
+
+  removeDefaultPasswordFlag() {
+    this.isDefaultPassword = false;
+    return this;
+  }
 }
