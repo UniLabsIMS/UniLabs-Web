@@ -16,17 +16,19 @@ export const fetchStudentBorrowedItems = () => (dispatch, getState) => {
       API_STUDENT_CURRENTLY_BORROWED_ITEMS_URL.concat(getState().auth.user.id),
       httpHeaderConfig(getState),
     )
-    .then(res => {
-      dispatch({
-        type: STUDENT_BORROWED_ITEMS_LOADED,
-        payload: res.data,
-      });
-    })
-    .catch(err => {
-      dispatch({
-        type: STUDENT_BORROWED_ITEMS_ERROR,
-      });
-    });
+    .then(
+      res => {
+        dispatch({
+          type: STUDENT_BORROWED_ITEMS_LOADED,
+          payload: res.data,
+        });
+      },
+      err => {
+        dispatch({
+          type: STUDENT_BORROWED_ITEMS_ERROR,
+        });
+      },
+    );
 };
 
 /* Reset State */

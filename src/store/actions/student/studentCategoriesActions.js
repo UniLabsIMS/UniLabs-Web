@@ -16,15 +16,17 @@ export const fetchCategories = labId => (dispatch, getState) => {
       API_STUDENT_CATEGORIES_URL.concat(labId.toString()),
       httpHeaderConfig(getState),
     )
-    .then(res => {
-      dispatch({
-        type: CATEGORIES_LOADED,
-        payload: res.data,
-      });
-    })
-    .catch(err => {
-      dispatch({
-        type: CATEGORIES_ERROR,
-      });
-    });
+    .then(
+      res => {
+        dispatch({
+          type: CATEGORIES_LOADED,
+          payload: res.data,
+        });
+      },
+      err => {
+        dispatch({
+          type: CATEGORIES_ERROR,
+        });
+      },
+    );
 };

@@ -13,15 +13,17 @@ export const fetchLecturerRequest = requestId => (dispatch, getState) => {
   dispatch({ type: LECTURER_REQUEST_LOADING });
   axios
     .get(API_LECTURER_REQUEST_URL.concat(requestId), httpHeaderConfig(getState))
-    .then(res => {
-      dispatch({
-        type: LECTURER_REQUEST_LOADED,
-        payload: res.data,
-      });
-    })
-    .catch(err => {
-      dispatch({
-        type: LECTURER_REQUEST_ERROR,
-      });
-    });
+    .then(
+      res => {
+        dispatch({
+          type: LECTURER_REQUEST_LOADED,
+          payload: res.data,
+        });
+      },
+      err => {
+        dispatch({
+          type: LECTURER_REQUEST_ERROR,
+        });
+      },
+    );
 };

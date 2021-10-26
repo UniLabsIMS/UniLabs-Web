@@ -18,15 +18,17 @@ export const fetchLabReport = () => (dispatch, getState) => {
       ),
       httpHeaderConfig(getState),
     )
-    .then(res => {
-      dispatch({
-        type: LAB_REPORT_LOADED,
-        payload: res.data,
-      });
-    })
-    .catch(err => {
-      dispatch({
-        type: LAB_REPORT_ERROR,
-      });
-    });
+    .then(
+      res => {
+        dispatch({
+          type: LAB_REPORT_LOADED,
+          payload: res.data,
+        });
+      },
+      err => {
+        dispatch({
+          type: LAB_REPORT_ERROR,
+        });
+      },
+    );
 };

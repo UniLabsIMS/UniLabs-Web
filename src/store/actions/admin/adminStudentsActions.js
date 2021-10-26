@@ -22,19 +22,19 @@ import {
 /* Load students */
 export const fetchStudents = () => (dispatch, getState) => {
   dispatch({ type: STUDENTS_LOADING });
-  axios
-    .get(API_ADMIN_STUDENTS_URL, httpHeaderConfig(getState))
-    .then(res => {
+  axios.get(API_ADMIN_STUDENTS_URL, httpHeaderConfig(getState)).then(
+    res => {
       dispatch({
         type: STUDENTS_LOADED,
         payload: res.data,
       });
-    })
-    .catch(err => {
+    },
+    err => {
       dispatch({
         type: STUDENTS_ERROR,
       });
-    });
+    },
+  );
 };
 
 /* Add student */
@@ -47,17 +47,19 @@ export const addStudent =
     formData.append('department', department);
     axios
       .post(API_ADMIN_NEW_STUDENT_URL, formData, httpHeaderConfig(getState))
-      .then(res => {
-        dispatch({
-          type: NEW_STUDENT_SUCCESS,
-          payload: res.data,
-        });
-      })
-      .catch(err => {
-        dispatch({
-          type: NEW_STUDENT_FAIL,
-        });
-      });
+      .then(
+        res => {
+          dispatch({
+            type: NEW_STUDENT_SUCCESS,
+            payload: res.data,
+          });
+        },
+        err => {
+          dispatch({
+            type: NEW_STUDENT_FAIL,
+          });
+        },
+      );
   };
 
 /* Block unblock student */
@@ -72,25 +74,27 @@ export const blockUnblockStudent =
         formData,
         httpHeaderConfig(getState),
       )
-      .then(res => {
-        const updatedStudents = getState().adminStudents.students.map(
-          student => {
-            if (student.id === userID) {
-              return student.updateBlocked(isBlocked);
-            }
-            return student;
-          },
-        );
-        dispatch({
-          type: STUDENT_BLOCK_UNBLOCK_SUCCESS,
-          payload: updatedStudents,
-        });
-      })
-      .catch(err => {
-        dispatch({
-          type: STUDENT_BLOCK_UNBLOCK_ERROR,
-        });
-      });
+      .then(
+        res => {
+          const updatedStudents = getState().adminStudents.students.map(
+            student => {
+              if (student.id === userID) {
+                return student.updateBlocked(isBlocked);
+              }
+              return student;
+            },
+          );
+          dispatch({
+            type: STUDENT_BLOCK_UNBLOCK_SUCCESS,
+            payload: updatedStudents,
+          });
+        },
+        err => {
+          dispatch({
+            type: STUDENT_BLOCK_UNBLOCK_ERROR,
+          });
+        },
+      );
   };
 
 /* Reset State */

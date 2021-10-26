@@ -27,17 +27,19 @@ export const fetchItems = displayItemID => (dispatch, getState) => {
       API_LAB_MANAGER_ALL_ITEMS_URL.concat(displayItemID.toString()),
       httpHeaderConfig(getState),
     )
-    .then(res => {
-      dispatch({
-        type: ITEMS_LOADED,
-        payload: res.data,
-      });
-    })
-    .catch(err => {
-      dispatch({
-        type: ITEMS_ERROR,
-      });
-    });
+    .then(
+      res => {
+        dispatch({
+          type: ITEMS_LOADED,
+          payload: res.data,
+        });
+      },
+      err => {
+        dispatch({
+          type: ITEMS_ERROR,
+        });
+      },
+    );
 };
 
 /* Add item */
@@ -47,17 +49,19 @@ export const addItem = displayItemID => (dispatch, getState) => {
   formData.append('display_item', displayItemID);
   axios
     .post(API_LAB_MANAGER_NEW_ITEM_URL, formData, httpHeaderConfig(getState))
-    .then(res => {
-      dispatch({
-        type: NEW_ITEM_SUCCESS,
-        payload: res.data,
-      });
-    })
-    .catch(err => {
-      dispatch({
-        type: NEW_ITEM_FAIL,
-      });
-    });
+    .then(
+      res => {
+        dispatch({
+          type: NEW_ITEM_SUCCESS,
+          payload: res.data,
+        });
+      },
+      err => {
+        dispatch({
+          type: NEW_ITEM_FAIL,
+        });
+      },
+    );
 };
 
 /* delete item */
@@ -68,17 +72,19 @@ export const deleteItem = itemID => (dispatch, getState) => {
       API_LAB_MANAGER_ITEM_DELETED_URL.concat(`${itemID}`),
       httpHeaderConfig(getState),
     )
-    .then(res => {
-      dispatch({
-        type: ITEM_DELETE_SUCCESS,
-        payload: res.data,
-      });
-    })
-    .catch(err => {
-      dispatch({
-        type: ITEM_DELETE_FAIL,
-      });
-    });
+    .then(
+      res => {
+        dispatch({
+          type: ITEM_DELETE_SUCCESS,
+          payload: res.data,
+        });
+      },
+      err => {
+        dispatch({
+          type: ITEM_DELETE_FAIL,
+        });
+      },
+    );
 };
 
 export const cleanNewItemState = () => (dispatch, getState) => {

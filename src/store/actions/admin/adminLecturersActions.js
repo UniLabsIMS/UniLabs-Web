@@ -22,19 +22,19 @@ import {
 /* Load lecturer */
 export const fetchLecturers = () => (dispatch, getState) => {
   dispatch({ type: LECTURERS_LOADING });
-  axios
-    .get(API_ADMIN_LECTURERS_URL, httpHeaderConfig(getState))
-    .then(res => {
+  axios.get(API_ADMIN_LECTURERS_URL, httpHeaderConfig(getState)).then(
+    res => {
       dispatch({
         type: LECTURERS_LOADED,
         payload: res.data,
       });
-    })
-    .catch(err => {
+    },
+    err => {
       dispatch({
         type: LECTURERS_ERROR,
       });
-    });
+    },
+  );
 };
 
 /* Add lecturer */
@@ -48,17 +48,19 @@ export const addLecturer =
     formData.append('permitted_labs', permittedLabs);
     axios
       .post(API_ADMIN_NEW_LECTURER_URL, formData, httpHeaderConfig(getState))
-      .then(res => {
-        dispatch({
-          type: NEW_LECTURER_SUCCESS,
-          payload: res.data,
-        });
-      })
-      .catch(err => {
-        dispatch({
-          type: NEW_LECTURER_FAIL,
-        });
-      });
+      .then(
+        res => {
+          dispatch({
+            type: NEW_LECTURER_SUCCESS,
+            payload: res.data,
+          });
+        },
+        err => {
+          dispatch({
+            type: NEW_LECTURER_FAIL,
+          });
+        },
+      );
   };
 
 /* Block unblock lecturer */
@@ -73,25 +75,27 @@ export const blockUnblockLecturer =
         formData,
         httpHeaderConfig(getState),
       )
-      .then(res => {
-        const updatedLecturers = getState().adminLecturers.lecturers.map(
-          lecturer => {
-            if (lecturer.id === userID) {
-              return lecturer.updateBlocked(isBlocked);
-            }
-            return lecturer;
-          },
-        );
-        dispatch({
-          type: LECTURER_BLOCK_UNBLOCK_SUCCESS,
-          payload: updatedLecturers,
-        });
-      })
-      .catch(err => {
-        dispatch({
-          type: LECTURER_BLOCK_UNBLOCK_ERROR,
-        });
-      });
+      .then(
+        res => {
+          const updatedLecturers = getState().adminLecturers.lecturers.map(
+            lecturer => {
+              if (lecturer.id === userID) {
+                return lecturer.updateBlocked(isBlocked);
+              }
+              return lecturer;
+            },
+          );
+          dispatch({
+            type: LECTURER_BLOCK_UNBLOCK_SUCCESS,
+            payload: updatedLecturers,
+          });
+        },
+        err => {
+          dispatch({
+            type: LECTURER_BLOCK_UNBLOCK_ERROR,
+          });
+        },
+      );
   };
 /* Reset State */
 export const resetAdminLecturerState = () => (dispatch, getState) => {

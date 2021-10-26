@@ -22,19 +22,19 @@ import {
 /* Load labAssistants */
 export const fetchLabAssistants = () => (dispatch, getState) => {
   dispatch({ type: LAB_ASSISTANTS_LOADING });
-  axios
-    .get(API_ADMIN_LAB_ASSISTANTS_URL, httpHeaderConfig(getState))
-    .then(res => {
+  axios.get(API_ADMIN_LAB_ASSISTANTS_URL, httpHeaderConfig(getState)).then(
+    res => {
       dispatch({
         type: LAB_ASSISTANTS_LOADED,
         payload: res.data,
       });
-    })
-    .catch(err => {
+    },
+    err => {
       dispatch({
         type: LAB_ASSISTANTS_ERROR,
       });
-    });
+    },
+  );
 };
 
 /* Add labAssistant */
@@ -45,17 +45,19 @@ export const addLabAssistant = (email, lab) => (dispatch, getState) => {
   formData.append('lab', lab);
   axios
     .post(API_ADMIN_NEW_LAB_ASSISTANT_URL, formData, httpHeaderConfig(getState))
-    .then(res => {
-      dispatch({
-        type: NEW_LAB_ASSISTANT_SUCCESS,
-        payload: res.data,
-      });
-    })
-    .catch(err => {
-      dispatch({
-        type: NEW_LAB_ASSISTANT_FAIL,
-      });
-    });
+    .then(
+      res => {
+        dispatch({
+          type: NEW_LAB_ASSISTANT_SUCCESS,
+          payload: res.data,
+        });
+      },
+      err => {
+        dispatch({
+          type: NEW_LAB_ASSISTANT_FAIL,
+        });
+      },
+    );
 };
 /* Block unblock lab assistant */
 export const blockUnblockLabAssistant =
@@ -69,24 +71,26 @@ export const blockUnblockLabAssistant =
         formData,
         httpHeaderConfig(getState),
       )
-      .then(res => {
-        const updatedLabAssistants =
-          getState().adminLabAssistants.labAssistants.map(labAssistant => {
-            if (labAssistant.id === userID) {
-              return labAssistant.updateBlocked(isBlocked);
-            }
-            return labAssistant;
+      .then(
+        res => {
+          const updatedLabAssistants =
+            getState().adminLabAssistants.labAssistants.map(labAssistant => {
+              if (labAssistant.id === userID) {
+                return labAssistant.updateBlocked(isBlocked);
+              }
+              return labAssistant;
+            });
+          dispatch({
+            type: LAB_ASSISTANT_BLOCK_UNBLOCK_SUCCESS,
+            payload: updatedLabAssistants,
           });
-        dispatch({
-          type: LAB_ASSISTANT_BLOCK_UNBLOCK_SUCCESS,
-          payload: updatedLabAssistants,
-        });
-      })
-      .catch(err => {
-        dispatch({
-          type: LAB_ASSISTANT_BLOCK_UNBLOCK_ERROR,
-        });
-      });
+        },
+        err => {
+          dispatch({
+            type: LAB_ASSISTANT_BLOCK_UNBLOCK_ERROR,
+          });
+        },
+      );
   };
 /* Reset State */
 export const resetAdminLabAssistantState = () => (dispatch, getState) => {
