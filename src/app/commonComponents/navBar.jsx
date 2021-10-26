@@ -97,10 +97,11 @@ const useStyles = makeStyles(theme => ({
   },
   itemIcon: {
     paddingLeft: '8px',
-    // paddingRight: '9px',
+    width: 24,
   },
   active: {
     color: theme.palette.secondary.main,
+    fill: theme.palette.secondary.main,
   },
   userDetails: {
     [theme.breakpoints.down('sm')]: {

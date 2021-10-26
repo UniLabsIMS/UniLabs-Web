@@ -15,6 +15,7 @@ import { ReactComponent as LabAssistantIcon } from '../../../icons/LabAssistant.
 import { ReactComponent as AdminIcon } from '../../../icons/Admin.svg';
 import { ReactComponent as DepartmentIcon } from '../../../icons/Department.svg';
 import { ReactComponent as LabIcon } from '../../../icons/Lab.svg';
+import { ReactComponent as GraphIcon } from '../../../icons/Graphs.svg';
 import SystemReport from './SystemReport/SystemReport';
 
 const createDrawerTile = (title, icon, component) => ({
@@ -73,7 +74,7 @@ const getDrawerTiles = () => {
   drawerTiles.push(
     createDrawerTile(
       'System Report',
-      <LabIcon style={{ width: 24 }} />,
+      <GraphIcon style={{ width: 24 }} />,
       <SystemReport />,
     ),
   );

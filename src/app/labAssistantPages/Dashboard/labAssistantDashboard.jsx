@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import HomeIcon from '@material-ui/icons/Home';
 import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
 import ItemCategories from './ItemCategories/itemCategories';
 import BorrowedItems from './borrowedItems/borrowedItems';
 import TemporaryBorrowedItems from './tempBorrowedItems/tempBorrowedItems';
+import { ReactComponent as HomeIcon } from '../../../icons/Home.svg';
+import { ReactComponent as ItemIcon } from '../../../icons/Item.svg';
+import { ReactComponent as AltItemIcon } from '../../../icons/Lab.svg';
 
 const createDrawerTile = (title, icon, component) => ({
   title,
@@ -15,11 +17,19 @@ const createDrawerTile = (title, icon, component) => ({
 const getDrawerTiles = () => {
   const drawerTiles = [];
   drawerTiles.push(
-    createDrawerTile('My Lab', <HomeIcon />, <ItemCategories />),
-    createDrawerTile('Borrowed Items', <HomeIcon />, <BorrowedItems />),
+    createDrawerTile(
+      'My Lab',
+      <HomeIcon style={{ width: 24 }} />,
+      <ItemCategories />,
+    ),
+    createDrawerTile(
+      'Borrowed Items',
+      <ItemIcon style={{ width: 24 }} />,
+      <BorrowedItems />,
+    ),
     createDrawerTile(
       'Temporarily Borrowed',
-      <HomeIcon />,
+      <AltItemIcon style={{ width: 24 }} />,
       <TemporaryBorrowedItems />,
     ),
   );
