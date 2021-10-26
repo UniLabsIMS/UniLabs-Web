@@ -14,7 +14,7 @@ import {
 } from '../../../../store/actionTypes/labManagerActionTypes';
 import labManagerDisplayItemsReducer from '../../../../store/reducers/labManagerReducers/labManagerDisplayItemsReducer';
 
-describe('labManager - Display Items Reducer', () => {
+describe('Lab Manager - Display Items Reducer', () => {
   const initialState = {
     displayItems: [],
     isDisplayItemsLoading: false,

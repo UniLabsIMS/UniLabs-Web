@@ -13,7 +13,7 @@ import {
 } from '../../../../store/actionTypes/labManagerActionTypes';
 import labManagerCategoriesReducer from '../../../../store/reducers/labManagerReducers/labManagerCategoriesReducer';
 
-describe('labManager - CategoriesReducer', () => {
+describe('Lab Manager - Categories Reducer', () => {
   const initialState = {
     categories: [],
     isCategoriesLoading: false,
