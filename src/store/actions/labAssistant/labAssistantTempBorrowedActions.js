@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import axios from 'axios';
 import { ITEM_STATE_TEMP_BORROWED } from '../../../app/constants';
 import {
