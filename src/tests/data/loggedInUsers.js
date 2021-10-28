@@ -73,3 +73,57 @@ export const loggedInAdmin = new User({
   blocked: false,
   other_details: null,
 });
+
+export const loggedInStudent = new User({
+  id: 'b4745f69-fbb8-4010-aa91-f73745d58a90',
+  token: '786755987aeef15095da523f424fd0062b9569dc108c4f7bc700c0c1ddd7cd66',
+  email: 'student@example.com',
+  role: 'Student',
+  first_name: '',
+  last_name: '',
+  contact_number: '',
+  image: null,
+  is_default_password: true,
+  blocked: false,
+  other_details: {
+    student_id: '180123',
+    department: {
+      id: 'd4b7f05c-82ef-4187-b407-e19a6e574d19',
+      name: 'CSE',
+      code: '123',
+    },
+  },
+});
+
+export const loggedInLecturer = new User({
+  id: '35b18863-44b8-469c-874c-c36b1c28c43f',
+  token: '1a8b3c4ff2ad46970c036ce1608d9096f7977a2df4509e8be85ea9c722ac439d',
+  email: 'lecturer@example.com',
+  role: 'Lecturer',
+  first_name: '',
+  last_name: '',
+  contact_number: '',
+  image: null,
+  is_default_password: true,
+  blocked: false,
+  other_details: {
+    lecturer_id: '65434',
+    department: {
+      id: 'd4b7f05c-82ef-4187-b407-e19a6e574d19',
+      name: 'CSE',
+      code: '123',
+    },
+    permitted_labs: [
+      {
+        id: '086fc6e5-2d8f-4760-a7ea-b8781ae4ae86',
+        name: 'CSE Level 1',
+        location: 'string',
+        contact_no: 'string',
+        contact_email: 'user@example.com',
+        image: null,
+        created_at: '2021-09-23T10:59:06.820326Z',
+        department: 'd4b7f05c-82ef-4187-b407-e19a6e574d19',
+      },
+    ],
+  },
+});
