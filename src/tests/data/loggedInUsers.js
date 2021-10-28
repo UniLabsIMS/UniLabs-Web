@@ -73,3 +73,24 @@ export const loggedInAdmin = new User({
   blocked: false,
   other_details: null,
 });
+
+export const loggedInStudent = new User({
+  id: 'b4745f69-fbb8-4010-aa91-f73745d58a90',
+  token: '786755987aeef15095da523f424fd0062b9569dc108c4f7bc700c0c1ddd7cd66',
+  email: 'student@example.com',
+  role: 'Student',
+  first_name: '',
+  last_name: '',
+  contact_number: '',
+  image: null,
+  is_default_password: true,
+  blocked: false,
+  other_details: {
+    student_id: '180123',
+    department: {
+      id: 'd4b7f05c-82ef-4187-b407-e19a6e574d19',
+      name: 'CSE',
+      code: '123',
+    },
+  },
+});
