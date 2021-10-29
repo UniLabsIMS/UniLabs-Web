@@ -175,7 +175,7 @@ const ProfileDetailsCard = () => {
             )}
 
             {changePasswordError ? (
-              <ErrorAlert message="Failed to change the password.Please try again later." />
+              <ErrorAlert message="Failed to change password. Please make sure your password obey the constarints given." />
             ) : (
               <div />
             )}
