@@ -27,6 +27,11 @@ const useStyles = makeStyles(theme => ({
     fontSize: '18px',
     marginTop: theme.spacing(1.5),
   },
+  hint: {
+    fontSize: '14px',
+    marginTop: theme.spacing(1.5),
+    color: 'grey',
+  },
 }));
 const ChangePasswordForm = ({ onSave, onCancel }) => {
   const classes = useStyles();
@@ -42,10 +47,14 @@ const ChangePasswordForm = ({ onSave, onCancel }) => {
   const [validationError, setValidationError] = useState('');
   const dispatch = useDispatch();
   const isValid = () => {
-    if (newPass.length < 6 || newPass.length > 31) {
+    if (newPass.length < 8 || newPass.length > 31) {
       setValidationError(
-        'Password should be more than 5 characters and less than 32 characters',
+        'Password should be at least 8 characters long and less than 32 characters',
       );
+      return false;
+    }
+    if (!isNaN(newPass)) {
+      setValidationError('Password cannot entirely be numeric');
       return false;
     }
     if (newPass !== confirmationPass) {
@@ -95,7 +104,12 @@ const ChangePasswordForm = ({ onSave, onCancel }) => {
             onChange={e => setCurrentPass(e.target.value)}
           />
           <Typography align="left" className={classes.label}>
-            New Password (Must be greater than 5 less than 32 characters)
+            New Password
+          </Typography>
+          <Typography align="justify" className={classes.hint}>
+            Your password, cannot be too similar to other information, must
+            contain at least 8 characters and not more than 31 characters,
+            cannot be a commonly used password and cannot be entirely numeric.
           </Typography>
           <TextField
             variant="outlined"
