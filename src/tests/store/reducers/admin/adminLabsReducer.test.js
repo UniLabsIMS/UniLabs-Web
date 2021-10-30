@@ -1,5 +1,3 @@
-import { List } from '@material-ui/core';
-import Lab from '../../../../models/lab';
 import {
   LABS_ERROR,
   LABS_LOADED,
