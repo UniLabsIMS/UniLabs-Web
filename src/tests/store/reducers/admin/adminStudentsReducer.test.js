@@ -13,7 +13,7 @@ import {
 
 import adminStudentsReducer from '../../../../store/reducers/adminReducers/adminStudentsReducer';
 
-describe('Admin - Lecturers Reducer', () => {
+describe('Admin - Students Reducer', () => {
   const initialState = {
     students: [],
     isStudentsLoading: false,
