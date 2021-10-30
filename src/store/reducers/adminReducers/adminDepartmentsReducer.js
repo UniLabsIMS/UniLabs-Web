@@ -28,7 +28,7 @@ const adminDepartmentsReducer = (state = initialState, action) => {
         ...state,
         isDepartmentsLoading: true,
         isDepartmentsError: false,
-        reloadDepartment: false,
+        reloadDepartments: false,
       };
     case DEPARTMENTS_LOADED:
       return {
