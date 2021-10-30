@@ -13,7 +13,7 @@ import {
 
 import adminLabAssistantsReducer from '../../../../store/reducers/adminReducers/adminLabAssistantsReduer.js';
 
-describe('Admin - Department Reducer', () => {
+describe('Admin - Lab Manager Reducer', () => {
   const initialState = {
     labAssistants: [],
     isLabAssistantsLoading: false,
@@ -57,7 +57,7 @@ describe('Admin - Department Reducer', () => {
     });
   });
 
-  it('handles DEPARTMENT_LOADED event as expected', () => {
+  it('handles LAB_ASSISTANTS_LOADED event as expected', () => {
     const testStartState = {
       ...initialState,
       isLabAssistantsLoading: true,
@@ -81,7 +81,7 @@ describe('Admin - Department Reducer', () => {
     });
   });
 
-  it('handles Departments_ERROR event as expected', () => {
+  it('handles LAB_ASSISTANTS_ERROR event as expected', () => {
     const testStartState = {
       ...initialState,
       isLabAssistantsLoading: true,
