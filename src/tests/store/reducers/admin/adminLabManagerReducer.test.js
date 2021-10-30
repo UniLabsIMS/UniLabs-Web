@@ -207,11 +207,12 @@ describe('Admin - Lab Manager Reducer', () => {
 
     const reducer = adminLabManagersReducer(testStartState, {
       type: LAB_MANAGER_BLOCK_UNBLOCK_SUCCESS,
+      payload: [],
     });
 
     expect(reducer).toEqual({
       ...testStartState,
-      labManagers: Array.updatedArray,
+      labManagers: [],
       labManagerBlockUnblockLoading: false,
       labManagerBlockUnblockSuccess: true,
       labManagerBlockUnblockError: false,
