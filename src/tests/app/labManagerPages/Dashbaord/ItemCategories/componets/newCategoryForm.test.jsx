@@ -11,6 +11,13 @@ jest.mock('../../../../../../app/commonComponents/imagePicker', () => ({
   __esModule: true,
   default: () => <div>Image Form</div>,
 }));
+const mockAddCategory = jest.fn();
+jest.mock(
+  '../../../../../../store/actions/labManager/labManagerCategoriesActions',
+  () => ({
+    addCategory: () => mockAddCategory,
+  }),
+);
 describe('Lab Manager - New Category Form', () => {
   let store;
 
@@ -113,6 +120,7 @@ describe('Lab Manager - New Category Form', () => {
     fireEvent.click(submitButton);
 
     expect(store.dispatch).toHaveBeenCalledTimes(1);
+    expect(store.dispatch).toHaveBeenCalledWith(mockAddCategory);
   });
   it('should render error messages as expected', () => {
     store = mockStore({

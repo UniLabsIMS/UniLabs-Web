@@ -9,7 +9,15 @@ import 'intersection-observer';
 import EditCategoryForm from '../../../../../../app/labManagerPages/Dashboard/ItemCategories/components/editCategoryForm';
 
 const mockStore = configureMockStore([thunk]);
-
+const mockEditCategory = jest.fn();
+const mockEditCategoryResetState = jest.fn();
+jest.mock(
+  '../../../../../../store/actions/labManager/labManagerCategoriesActions',
+  () => ({
+    editCategory: () => mockEditCategory,
+    editCategoryResetState: () => mockEditCategoryResetState,
+  }),
+);
 describe('Lab Manager - Edit Category Form', () => {
   let store;
   let category;
@@ -123,6 +131,29 @@ describe('Lab Manager - Edit Category Form', () => {
     fireEvent.click(submitButton);
 
     expect(store.dispatch).toHaveBeenCalledTimes(1);
+    expect(store.dispatch).toHaveBeenCalledWith(mockEditCategory);
+  });
+  it('should handle closes as expected', () => {
+    render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <EditCategoryForm
+            category={category}
+            open
+            onSubmitSuccess={onSuccess}
+            onClose={onClose}
+          />
+        </BrowserRouter>
+      </Provider>,
+    );
+
+    const closeButton = screen.getByRole('button', {
+      name: /Close/i,
+    });
+    fireEvent.click(closeButton);
+
+    expect(store.dispatch).toHaveBeenCalledTimes(1);
+    expect(store.dispatch).toHaveBeenCalledWith(mockEditCategoryResetState);
   });
   it('should render error messages as expected', () => {
     store = mockStore({
