@@ -1,15 +1,16 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import 'intersection-observer';
-import BorrowedItemSearchBar from '../../../../../../app/labAssistantPages/Dashboard/borrowedItems/components/borrowedItemSearchBar';
 
-describe('Lab Assistant - Borrowed Item Search', () => {
+import 'intersection-observer';
+import TempBorrowedItemSearchBar from '../../../../../../app/labAssistantPages/Dashboard/tempBorrowedItems/components/tempBorrowedSearchBar';
+
+describe('Lab Assistant - Temp Borrowed Item Search', () => {
   const mockOnchange = jest.fn();
 
   it('should render as expected', () => {
     render(
       <BrowserRouter>
-        <BorrowedItemSearchBar onChange={mockOnchange} searchKey="key" />
+        <TempBorrowedItemSearchBar onChange={mockOnchange} searchKey="key" />
       </BrowserRouter>,
     );
     const inputElement = screen.getByPlaceholderText(
@@ -21,7 +22,7 @@ describe('Lab Assistant - Borrowed Item Search', () => {
   it('should handle value changes as expected expected', () => {
     render(
       <BrowserRouter>
-        <BorrowedItemSearchBar onChange={mockOnchange} searchKey="key" />
+        <TempBorrowedItemSearchBar onChange={mockOnchange} searchKey="key" />
       </BrowserRouter>,
     );
     const inputElement = screen.getByPlaceholderText(
