@@ -6,23 +6,22 @@ import { BrowserRouter } from 'react-router-dom';
 import { Table, TableBody } from '@material-ui/core';
 import { itemResponseData } from '../../../../data/itemResponseData';
 import Item from '../../../../../models/item';
-import { loggedInLabManager } from '../../../../data/loggedInUsers';
+import { loggedInLabAssistant } from '../../../../data/loggedInUsers';
 import 'intersection-observer';
-import SingleItemRow from '../../../../../app/labManagerPages/itemsPage/components/singleItemRow';
+import SingleItemRow from '../../../../../app/labAssistantPages/itemsPage/components/singleItemRow';
 
 const mockStore = configureMockStore([thunk]);
 jest.mock('react-component-export-image', () => ({
   exportComponentAsPNG: () => <div>Export</div>,
 }));
-
-describe('Lab Manager - Item Row', () => {
+describe('Lab Assistant - Item Row', () => {
   let store;
   const itemOne = new Item(itemResponseData);
   const itemTwo = new Item(itemResponseData);
 
   beforeEach(() => {
     store = mockStore({
-      labManagerItems: {
+      labAssistantItems: {
         items: [itemOne, itemTwo],
         isItemsLoading: false,
         isItemsError: false,
@@ -31,12 +30,12 @@ describe('Lab Manager - Item Row', () => {
         newItemSuccess: false,
         newItemID: null,
         deleteItemLoading: false,
-        deleteItemSucess: false,
+        deleteItemSuccess: false,
         deleteItemError: false,
         reloadItems: false,
       },
       auth: {
-        user: loggedInLabManager,
+        user: loggedInLabAssistant,
       },
     });
   });
