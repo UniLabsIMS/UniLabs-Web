@@ -22,7 +22,7 @@ const initialState = {
   newItemSuccess: false,
   newItemID: null,
   deleteItemLoading: false,
-  deleteItemSucess: false,
+  deleteItemSuccess: false,
   deleteItemError: false,
   reloadItems: false,
 };

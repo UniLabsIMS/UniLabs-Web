@@ -6,13 +6,13 @@ import { BrowserRouter } from 'react-router-dom';
 import 'intersection-observer';
 import { itemResponseData } from '../../../data/itemResponseData';
 import Item from '../../../../models/item';
-import { loggedInLabManager } from '../../../data/loggedInUsers';
-import LabManagerItemsPage from '../../../../app/labManagerPages/itemsPage/labManagerItemsPage';
+import { loggedInLabAssistant } from '../../../data/loggedInUsers';
+import LabAssistantItemsPage from '../../../../app/labAssistantPages/itemsPage/itemsPage';
 
 const mockStore = configureMockStore([thunk]);
 // mock nested components
 jest.mock(
-  '../../../../app/labManagerPages/itemsPage/components/newItemForm',
+  '../../../../app/labAssistantPages/itemsPage/components/newItemForm',
   () => ({
     __esModule: true,
     default: () => <div>NewItemForm</div>,
@@ -23,7 +23,7 @@ jest.mock('../../../../app/commonComponents/breadCrumbsWrapper', () => ({
   default: () => <div>Breadcrumbs</div>,
 }));
 jest.mock(
-  '../../../../app/labManagerPages/itemsPage/components/singleItemRow',
+  '../../../../app/labAssistantPages/itemsPage/components/singleItemRow',
   () => ({
     __esModule: true,
     default: () => (
@@ -40,24 +40,24 @@ jest.mock(
 const mockFetch = jest.fn();
 const mockResetFunctions = jest.fn();
 jest.mock(
-  '../../../../store/actions/labManager/labManagerItemsActions',
+  '../../../../store/actions/labAssistant/labAssistantItemsActions',
   () => ({
-    fetchItems: () => mockFetch,
-    resetItemsPageState: () => mockResetFunctions,
+    fetchLabAssistantItems: () => mockFetch,
+    resetLabAssistantItemsPageState: () => mockResetFunctions,
   }),
 );
 jest.mock('../../../../app/commonComponents/customLoadingIndicator', () => ({
   __esModule: true,
   default: () => <div>Loading</div>,
 }));
-describe('Lab Manager -  Items Page', () => {
+describe('Lab Assistant -  Items Page', () => {
   let store;
   const itemOne = new Item(itemResponseData);
   const itemTwo = new Item(itemResponseData);
 
   beforeEach(() => {
     store = mockStore({
-      labManagerItems: {
+      labAssistantItems: {
         items: [itemOne, itemTwo],
         isItemsLoading: false,
         isItemsError: false,
@@ -66,12 +66,12 @@ describe('Lab Manager -  Items Page', () => {
         newItemSuccess: false,
         newItemID: null,
         deleteItemLoading: false,
-        deleteItemSucess: false,
+        deleteItemSuccess: false,
         deleteItemError: false,
         reloadItems: false,
       },
       auth: {
-        user: loggedInLabManager,
+        user: loggedInLabAssistant,
       },
     });
   });
@@ -80,7 +80,7 @@ describe('Lab Manager -  Items Page', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <LabManagerItemsPage />
+          <LabAssistantItemsPage />
         </BrowserRouter>
       </Provider>,
     );
@@ -97,7 +97,7 @@ describe('Lab Manager -  Items Page', () => {
   });
   it('should render delete item error/success messages successfully', () => {
     store = mockStore({
-      labManagerItems: {
+      labAssistantItems: {
         items: [itemOne, itemTwo],
         isItemsLoading: false,
         isItemsError: false,
@@ -111,13 +111,13 @@ describe('Lab Manager -  Items Page', () => {
         reloadItems: false,
       },
       auth: {
-        user: loggedInLabManager,
+        user: loggedInLabAssistant,
       },
     });
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <LabManagerItemsPage />
+          <LabAssistantItemsPage />
         </BrowserRouter>
       </Provider>,
     );
@@ -131,7 +131,7 @@ describe('Lab Manager -  Items Page', () => {
   });
   it('should display warning message when no items present', () => {
     store = mockStore({
-      labManagerItems: {
+      labAssistantItems: {
         items: [],
         isItemsLoading: false,
         isItemsError: false,
@@ -145,13 +145,13 @@ describe('Lab Manager -  Items Page', () => {
         reloadItems: false,
       },
       auth: {
-        user: loggedInLabManager,
+        user: loggedInLabAssistant,
       },
     });
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <LabManagerItemsPage />
+          <LabAssistantItemsPage />
         </BrowserRouter>
       </Provider>,
     );
@@ -161,7 +161,7 @@ describe('Lab Manager -  Items Page', () => {
   });
   it('should display loading widget when loading is true', () => {
     store = mockStore({
-      labManagerItems: {
+      labAssistantItems: {
         items: [],
         isItemsLoading: true,
         isItemsError: false,
@@ -175,13 +175,13 @@ describe('Lab Manager -  Items Page', () => {
         reloadItems: false,
       },
       auth: {
-        user: loggedInLabManager,
+        user: loggedInLabAssistant,
       },
     });
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <LabManagerItemsPage />
+          <LabAssistantItemsPage />
         </BrowserRouter>
       </Provider>,
     );
@@ -191,7 +191,7 @@ describe('Lab Manager -  Items Page', () => {
   });
   it('should display error message when item loading fails', () => {
     store = mockStore({
-      labManagerItems: {
+      labAssistantItems: {
         items: [],
         isItemsLoading: false,
         isItemsError: true,
@@ -205,13 +205,13 @@ describe('Lab Manager -  Items Page', () => {
         reloadItems: false,
       },
       auth: {
-        user: loggedInLabManager,
+        user: loggedInLabAssistant,
       },
     });
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <LabManagerItemsPage />
+          <LabAssistantItemsPage />
         </BrowserRouter>
       </Provider>,
     );
