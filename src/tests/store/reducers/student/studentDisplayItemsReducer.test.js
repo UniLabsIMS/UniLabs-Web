@@ -5,7 +5,7 @@ import {
 } from '../../../../store/actionTypes/studentActionTypes';
 import studentDisplayItemsReducer from '../../../../store/reducers/studentReducers/studentDisplayItemsReducer';
 
-describe('Student - Borrowed Items Reducer', () => {
+describe('Student - Display Items Reducer', () => {
   const initialState = {
     displayItems: [],
     isDisplayItemsLoading: false,

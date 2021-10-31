@@ -5,7 +5,7 @@ import {
 } from '../../../../store/actionTypes/studentActionTypes';
 import studentLabsReducer from '../../../../store/reducers/studentReducers/studentLabsReducer';
 
-describe('Student - Borrowed Items Reducer', () => {
+describe('Student - Lab Reducer', () => {
   const initialState = {
     labs: [],
     departments: [],

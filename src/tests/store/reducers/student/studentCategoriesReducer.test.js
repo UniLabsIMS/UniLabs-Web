@@ -5,7 +5,7 @@ import {
 } from '../../../../store/actionTypes/studentActionTypes';
 import studentCategoriesReducer from '../../../../store/reducers/studentReducers/studentCategoriesReducer';
 
-describe('Student - Borrowed Items Reducer', () => {
+describe('Student - Categories Reducer', () => {
   const initialState = {
     categories: [],
     isCategoriesLoading: false,
