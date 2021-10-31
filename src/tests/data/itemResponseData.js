@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/prefer-default-export
-export const itemReponseData = {
+export const itemResponseData = {
   id: '8dhg3bz9a',
   display_item: {
     id: 'b946f0b4-958a-4a2a-910a-a783dbc2d993',
