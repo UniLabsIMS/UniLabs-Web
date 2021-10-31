@@ -7,11 +7,11 @@ import BorrowedItem from '../../../../../../models/borrowedItem';
 import { borrowedItemData } from '../../../../../data/borrowedItemData';
 import 'intersection-observer';
 import { loggedInLabAssistant } from '../../../../../data/loggedInUsers';
-import LabAssistantBorrowedItemsCard from '../../../../../../app/labAssistantPages/Dashboard/borrowedItems/components/borrowedItemsCard';
+import LabAssistantTempBorrowedItemsCard from '../../../../../../app/labAssistantPages/Dashboard/tempBorrowedItems/components/tempBorrowedItemsCard';
 
 const mockStore = configureMockStore([thunk]);
 
-describe('Lab Assistant - Borrowed Item Card', () => {
+describe('Lab Assistant - Temp Borrowed Item Card', () => {
   let store;
   let borrowedItem;
   let borrowedItem2;
@@ -19,12 +19,13 @@ describe('Lab Assistant - Borrowed Item Card', () => {
   beforeEach(() => {
     borrowedItem = new BorrowedItem(borrowedItemData);
     borrowedItem2 = new BorrowedItem(borrowedItemData);
+    borrowedItem2.id = '4ErfdTv';
     store = mockStore({
-      labAssistantBorrowedItems: {
-        borrowedItems: [borrowedItem, borrowedItem2],
-        isborrowedItemsLoading: false,
-        isborrowedItemsError: false,
-        reloadborrowedItems: false,
+      labAssistantTempBorrowedItems: {
+        tempBorrowedItems: [borrowedItem, borrowedItem2],
+        isTempBorrowedItemsLoading: false,
+        isTempBorrowedItemsError: false,
+        reloadTempBorrowedItems: false,
       },
       auth: {
         user: loggedInLabAssistant,
@@ -37,7 +38,7 @@ describe('Lab Assistant - Borrowed Item Card', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <LabAssistantBorrowedItemsCard borrowedItem={borrowedItem} />
+          <LabAssistantTempBorrowedItemsCard tempBorrowedItem={borrowedItem} />
         </BrowserRouter>
       </Provider>,
     );
@@ -46,7 +47,7 @@ describe('Lab Assistant - Borrowed Item Card', () => {
     const emailComponent = screen.getByText(/Email - student3@example.com/i);
     const indexComponent = screen.getByText(/Index Number - 180345/i);
     const dueDateComponent = screen.getByText(
-      `Due on: ${borrowedItem.dueDate}`,
+      `Due on : ${borrowedItem.dueDate}`,
     );
     const emailButton = screen.getByRole('button', {
       name: /Email Student/i,
