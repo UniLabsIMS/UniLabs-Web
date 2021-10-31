@@ -7,7 +7,10 @@ import 'intersection-observer';
 import NewCategoryForm from '../../../../../../app/labManagerPages/Dashboard/ItemCategories/components/newCategoryForm';
 
 const mockStore = configureMockStore([thunk]);
-
+jest.mock('../../../../../../app/commonComponents/imagePicker', () => ({
+  __esModule: true,
+  default: () => <div>Image Form</div>,
+}));
 describe('Lab Manager - New Category Form', () => {
   let store;
 
@@ -41,6 +44,7 @@ describe('Lab Manager - New Category Form', () => {
     const initailComponent = screen.getByText(/Click to Add New Category/i);
     fireEvent.click(initailComponent); // open form
     const titleComponent = screen.getByText(/Add New Category/i);
+    const imageFormComponent = screen.getByText(/Image Form/i);
     const nameTextField = screen.getByRole('textbox', {
       name: /name/i,
     });
@@ -57,6 +61,7 @@ describe('Lab Manager - New Category Form', () => {
 
     expect(nameTextField).toBeInTheDocument();
     expect(descTextField).toBeInTheDocument();
+    expect(imageFormComponent).toBeInTheDocument();
     expect(nameTextField.value).toBe('');
     expect(descTextField.value).toBe('');
     expect(closeButton).toBeInTheDocument();
