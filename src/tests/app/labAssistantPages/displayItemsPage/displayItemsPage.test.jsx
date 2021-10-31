@@ -30,6 +30,10 @@ jest.mock(
     resetLabAssistantDisplayItemsPageState: () => mockResetFunctions,
   }),
 );
+jest.mock('../../../../app/commonComponents/customLoadingIndicator', () => ({
+  __esModule: true,
+  default: () => <div>Loading</div>,
+}));
 describe('Lab Assistant - Display Items Page', () => {
   let store;
   const displayItemOne = new DisplayItem(displayItemResponseData);
@@ -65,5 +69,74 @@ describe('Lab Assistant - Display Items Page', () => {
     expect(breadcrumbsComponent).toBeInTheDocument();
     expect(cardComponents.length).toBe(2);
     expect(mockFetch).toHaveBeenCalledTimes(1);
+  });
+  it('should show warning message is no display items are present', () => {
+    store = mockStore({
+      labAssistantDisplayItems: {
+        displayItems: [],
+        isDisplayItemsLoading: false,
+        isDisplayItemsError: false,
+        reloadDisplayItems: false,
+      },
+      auth: {
+        user: loggedInLabAssistant,
+      },
+    });
+    render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <LabAssistantDisplayItemsPage />
+        </BrowserRouter>
+      </Provider>,
+    );
+
+    const warningComponent = screen.getByText(/No display Items Added/i);
+    expect(warningComponent).toBeInTheDocument();
+  });
+  it('should show loading widget when loading is true', () => {
+    store = mockStore({
+      labAssistantDisplayItems: {
+        displayItems: [],
+        isDisplayItemsLoading: true,
+        isDisplayItemsError: false,
+        reloadDisplayItems: false,
+      },
+      auth: {
+        user: loggedInLabAssistant,
+      },
+    });
+    render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <LabAssistantDisplayItemsPage />
+        </BrowserRouter>
+      </Provider>,
+    );
+
+    const loadingComponent = screen.getByText(/Loading/i);
+    expect(loadingComponent).toBeInTheDocument();
+  });
+  it('should show error message i display items loading fails', () => {
+    store = mockStore({
+      labAssistantDisplayItems: {
+        displayItems: [],
+        isDisplayItemsLoading: false,
+        isDisplayItemsError: true,
+        reloadDisplayItems: false,
+      },
+      auth: {
+        user: loggedInLabAssistant,
+      },
+    });
+    render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <LabAssistantDisplayItemsPage />
+        </BrowserRouter>
+      </Provider>,
+    );
+
+    const errorComponent = screen.getByText(/Failed to load resources/i);
+    expect(errorComponent).toBeInTheDocument();
   });
 });

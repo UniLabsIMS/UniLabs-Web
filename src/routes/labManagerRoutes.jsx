@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import Error404 from '../app/commonComponents/error404';
 import LabManagerDashboard from '../app/labManagerPages/Dashboard/labMangerDashboard';
 import ProtectedLabManagerRoute from './components/protectedLabManagerRoute';
-import LabManagerDisplayItemsPage from '../app/labManagerPages/displayItemsPage/dispalyItemsPage';
+import LabManagerDisplayItemsPage from '../app/labManagerPages/displayItemsPage/displayItemsPage';
 import LabManagerItemsPage from '../app/labManagerPages/itemsPage/labManagerItemsPage';
 
 function LabManagerRoutes() {
