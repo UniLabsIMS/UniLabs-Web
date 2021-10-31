@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function NewDisplayItemFrom({ categoryID }) {
+function NewDisplayItemForm({ categoryID }) {
   const classes = useStyles();
   const [formState, setFormState] = useState(false);
   const [file, setFile] = useState(undefined);
@@ -197,8 +197,8 @@ function NewDisplayItemFrom({ categoryID }) {
     </div>
   );
 }
-NewDisplayItemFrom.propTypes = {
+NewDisplayItemForm.propTypes = {
   categoryID: PropTypes.string.isRequired,
 };
 
-export default NewDisplayItemFrom;
+export default NewDisplayItemForm;

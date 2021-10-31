@@ -81,7 +81,7 @@ function EditDisplayItemForm({ displayItem, onSubmitSuccess, onClose, open }) {
       >
         <form className={classes.form} onSubmit={handleSubmit}>
           <Typography component="h2" variant="h5" gutterBottom align="center">
-            Edit DisplayItem
+            Edit Display Item
           </Typography>
           {editLoading ? (
             <CustomLoadingIndicator minimumHeight="40vh" />
