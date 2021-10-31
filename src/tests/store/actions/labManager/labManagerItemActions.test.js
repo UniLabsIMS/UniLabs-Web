@@ -22,7 +22,7 @@ import {
   ITEM_DELETE_SUCCESS,
   ITEM_DELETE_FAIL,
 } from '../../../../store/actionTypes/labManagerActionTypes';
-import { itemReponseData } from '../../../data/itemResponseData';
+import { itemResponseData } from '../../../data/itemResponseData';
 
 const mockStore = configureMockStore([thunk]);
 
@@ -40,7 +40,7 @@ describe('Lab Manager Items Actions', () => {
 
   describe('Fetch Items', () => {
     it('dispatches ITEMS_LOADED action and returns data on success', async () => {
-      const responseData = [itemReponseData];
+      const responseData = [itemResponseData];
 
       mockAxios.get.mockImplementationOnce(() =>
         Promise.resolve({

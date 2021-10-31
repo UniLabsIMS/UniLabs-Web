@@ -91,7 +91,7 @@ function NewCategoryFrom() {
             Add New Category
           </Typography>
           {newCatError === true ? (
-            <ErrorAlert message="Failed to add new category, This may be becuase the category name is a duplicate" />
+            <ErrorAlert message="Failed to add new category. This may be becuase the category name is a duplicate" />
           ) : (
             <div />
           )}

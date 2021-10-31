@@ -7,7 +7,7 @@ import PageWrapper from '../../commonComponents/PageWrapper';
 import Navbar from '../../commonComponents/navBar';
 import DisplayItemsCard from './components/displayItemsCard';
 import BreadcrumbsWrapper from '../../commonComponents/breadCrumbsWrapper';
-import NewDisplayItemFrom from './components/newDisplayItemForm';
+import NewDisplayItemForm from './components/newDisplayItemForm';
 import {
   fetchDisplayItems,
   resetDisplayItemsPageState,
@@ -74,7 +74,7 @@ function LabManagerDisplayItemsPage() {
       ) : (
         <div>
           <Zoom triggerOnce>
-            <NewDisplayItemFrom categoryID={categoryId} />
+            <NewDisplayItemForm categoryID={categoryId} />
           </Zoom>
           {isDisplayItemsLoading ? (
             <CustomLoadingIndicator minimumHeight="40vh" />
