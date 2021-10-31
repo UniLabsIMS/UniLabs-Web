@@ -5,18 +5,18 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { itemResponseData } from '../../../../data/itemResponseData';
 import Item from '../../../../../models/item';
-import { loggedInLabManager } from '../../../../data/loggedInUsers';
+import { loggedInLabAssistant } from '../../../../data/loggedInUsers';
 import 'intersection-observer';
-import NewItemForm from '../../../../../app/labManagerPages/itemsPage/components/newItemForm';
+import NewItemForm from '../../../../../app/labAssistantPages/itemsPage/components/newItemForm';
 
 const mockStore = configureMockStore([thunk]);
 const mockAddItem = jest.fn();
 const mockCleanState = jest.fn();
 jest.mock(
-  '../../../../../store/actions/labManager/labManagerItemsActions',
+  '../../../../../store/actions/labAssistant/labAssistantItemsActions',
   () => ({
-    addItem: () => mockAddItem,
-    cleanNewItemState: () => mockCleanState,
+    addLabAssistantItem: () => mockAddItem,
+    cleanLabAssistantNewItemState: () => mockCleanState,
   }),
 );
 jest.mock('react-barcode', () => ({
@@ -27,14 +27,14 @@ jest.mock('react-component-export-image', () => ({
   exportComponentAsPNG: () => <div>Export</div>,
 }));
 
-describe('Lab Manager - New Item Form', () => {
+describe('Lab Assistant - New Item Form', () => {
   let store;
   const itemOne = new Item(itemResponseData);
   const itemTwo = new Item(itemResponseData);
 
   beforeEach(() => {
     store = mockStore({
-      labManagerItems: {
+      labAssistantItems: {
         items: [itemOne, itemTwo],
         isItemsLoading: false,
         isItemsError: false,
@@ -48,7 +48,7 @@ describe('Lab Manager - New Item Form', () => {
         reloadItems: false,
       },
       auth: {
-        user: loggedInLabManager,
+        user: loggedInLabAssistant,
       },
     });
     store.dispatch = jest.fn();
@@ -84,7 +84,7 @@ describe('Lab Manager - New Item Form', () => {
   });
   it('should display barcode as expected', () => {
     store = mockStore({
-      labManagerItems: {
+      labAssistantItems: {
         items: [itemOne, itemTwo],
         isItemsLoading: false,
         isItemsError: false,
@@ -98,7 +98,7 @@ describe('Lab Manager - New Item Form', () => {
         reloadItems: false,
       },
       auth: {
-        user: loggedInLabManager,
+        user: loggedInLabAssistant,
       },
     });
     store.dispatch = jest.fn();
@@ -123,7 +123,7 @@ describe('Lab Manager - New Item Form', () => {
 
   it('should render loading as expected', () => {
     store = mockStore({
-      labManagerItems: {
+      labAssistantItems: {
         items: [itemOne, itemTwo],
         isItemsLoading: false,
         isItemsError: false,
@@ -137,7 +137,7 @@ describe('Lab Manager - New Item Form', () => {
         reloadItems: false,
       },
       auth: {
-        user: loggedInLabManager,
+        user: loggedInLabAssistant,
       },
     });
     render(
@@ -155,7 +155,7 @@ describe('Lab Manager - New Item Form', () => {
   });
   it('should show error message if failed', () => {
     store = mockStore({
-      labManagerItems: {
+      labAssistantItems: {
         items: [itemOne, itemTwo],
         isItemsLoading: false,
         isItemsError: false,
@@ -169,7 +169,7 @@ describe('Lab Manager - New Item Form', () => {
         reloadItems: false,
       },
       auth: {
-        user: loggedInLabManager,
+        user: loggedInLabAssistant,
       },
     });
     render(
