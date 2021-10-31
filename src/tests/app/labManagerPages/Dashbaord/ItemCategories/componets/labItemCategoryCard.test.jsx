@@ -31,6 +31,9 @@ describe('Lab Manager - Category Card', () => {
     });
 
     category = new Category(categoryResponseData);
+  });
+
+  it('should render as expected', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
@@ -38,9 +41,6 @@ describe('Lab Manager - Category Card', () => {
         </BrowserRouter>
       </Provider>,
     );
-  });
-
-  it('should render as expected', () => {
     const nameComponent = screen.getByText(category.name);
     const descComponent = screen.getByText(category.description);
     const viewDspItemButton = screen.getByRole('button', {

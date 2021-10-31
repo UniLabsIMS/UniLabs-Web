@@ -3,18 +3,13 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import Category from '../../../../../../models/category';
-import { categoryResponseData } from '../../../../../data/categoryResponseData';
 import 'intersection-observer';
-import EditCategoryForm from '../../../../../../app/labManagerPages/Dashboard/ItemCategories/components/editCategoryForm';
+import NewCategoryForm from '../../../../../../app/labManagerPages/Dashboard/ItemCategories/components/newCategoryForm';
 
 const mockStore = configureMockStore([thunk]);
 
-describe('Lab Manager - Edit Category Form', () => {
+describe('Lab Manager - New Category Form', () => {
   let store;
-  let category;
-  const onSuccess = jest.fn();
-  const onClose = jest.fn();
 
   beforeEach(() => {
     store = mockStore({
@@ -32,24 +27,20 @@ describe('Lab Manager - Edit Category Form', () => {
       },
     });
     store.dispatch = jest.fn();
-
-    category = new Category(categoryResponseData);
   });
 
   it('should render as expected', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <EditCategoryForm
-            category={category}
-            open
-            onSubmitSuccess={onSuccess}
-            onClose={onClose}
-          />
+          <NewCategoryForm />
         </BrowserRouter>
       </Provider>,
     );
-    const titleComponent = screen.getByText(/Edit Category/i);
+
+    const initailComponent = screen.getByText(/Click to Add New Category/i);
+    fireEvent.click(initailComponent); // open form
+    const titleComponent = screen.getByText(/Add New Category/i);
     const nameTextField = screen.getByRole('textbox', {
       name: /name/i,
     });
@@ -66,8 +57,8 @@ describe('Lab Manager - Edit Category Form', () => {
 
     expect(nameTextField).toBeInTheDocument();
     expect(descTextField).toBeInTheDocument();
-    expect(nameTextField.value).toBe(category.name);
-    expect(descTextField.value).toBe(category.description);
+    expect(nameTextField.value).toBe('');
+    expect(descTextField.value).toBe('');
     expect(closeButton).toBeInTheDocument();
     expect(submitButton).toBeInTheDocument();
   });
@@ -75,15 +66,12 @@ describe('Lab Manager - Edit Category Form', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <EditCategoryForm
-            category={category}
-            open
-            onSubmitSuccess={onSuccess}
-            onClose={onClose}
-          />
+          <NewCategoryForm />
         </BrowserRouter>
       </Provider>,
     );
+    const initailComponent = screen.getByText(/Click to Add New Category/i);
+    fireEvent.click(initailComponent); // open form
     const nameTextField = screen.getByRole('textbox', {
       name: /name/i,
     });
@@ -100,15 +88,12 @@ describe('Lab Manager - Edit Category Form', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <EditCategoryForm
-            category={category}
-            open
-            onSubmitSuccess={onSuccess}
-            onClose={onClose}
-          />
+          <NewCategoryForm />
         </BrowserRouter>
       </Provider>,
     );
+    const initailComponent = screen.getByText(/Click to Add New Category/i);
+    fireEvent.click(initailComponent); // open form
     const nameTextField = screen.getByRole('textbox', {
       name: /name/i,
     });
@@ -128,28 +113,56 @@ describe('Lab Manager - Edit Category Form', () => {
     store = mockStore({
       labManagerCategories: {
         categorycategories: [],
-        editCategoryError: true,
-        editCategorySuccess: true,
+        isCategoriesLoading: false,
+        isCategoriesError: false,
+        newCategoryLoading: false,
+        newCategoryError: true,
+        newCategorySuccess: false,
+        editCategoryLoading: false,
+        editCategoryError: false,
+        editCategorySuccess: false,
+        reloadCategories: false,
       },
     });
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <EditCategoryForm
-            category={category}
-            open
-            onSubmitSuccess={onSuccess}
-            onClose={onClose}
-          />
+          <NewCategoryForm />
         </BrowserRouter>
       </Provider>,
     );
-    const successComponent = screen.getByText(/Saved changes successfully/i);
+    const initailComponent = screen.getByText(/Click to Add New Category/i);
+    fireEvent.click(initailComponent); // open form
     const errorComponent = screen.getByText(
-      /Could not save changes. Please make sure the name is not a duplicate./i,
+      /Failed to add new category. This may be becuase the category name is a duplicate/i,
     );
 
-    expect(successComponent).toBeInTheDocument();
     expect(errorComponent).toBeInTheDocument();
+  });
+  it('should render loading as expected', () => {
+    store = mockStore({
+      labManagerCategories: {
+        categorycategories: [],
+        isCategoriesLoading: false,
+        isCategoriesError: false,
+        newCategoryLoading: true,
+        newCategoryError: true,
+        newCategorySuccess: false,
+        editCategoryLoading: false,
+        editCategoryError: false,
+        editCategorySuccess: false,
+        reloadCategories: false,
+      },
+    });
+    render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <NewCategoryForm />
+        </BrowserRouter>
+      </Provider>,
+    );
+    const initailComponent = screen.queryByText(/Add New Category/i);
+
+    expect(initailComponent).not.toBeInTheDocument();
   });
 });
