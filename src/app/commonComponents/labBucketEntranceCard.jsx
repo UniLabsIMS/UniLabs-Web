@@ -29,18 +29,23 @@ const useStyles = makeStyles(theme => ({
 const LabBucketEntranceCard = ({ labId }) => {
   const classes = useStyles();
   const bucketItems = useSelector(state => state.studentLabBucket.bucketItems);
+  const quantityChanged = useSelector(
+    state => state.studentLabBucket.quantityChanged,
+  );
   const [itemsInBucketCount, setItemsInBucketCount] = useState(0);
 
   useEffect(() => {
-    const itemsOfLab = bucketItems.filter(
-      bucketItem => bucketItem.labId === labId,
-    );
-    let count = 0;
-    itemsOfLab.forEach(item => {
-      count += item.quantity;
-    });
-    setItemsInBucketCount(count);
-  }, [bucketItems, labId]);
+    if (quantityChanged) {
+      const itemsOfLab = bucketItems.filter(
+        bucketItem => bucketItem.labId === labId,
+      );
+      let count = 0;
+      itemsOfLab.forEach(item => {
+        count += item.quantity;
+      });
+      setItemsInBucketCount(count);
+    }
+  }, [bucketItems, quantityChanged, labId]);
 
   return (
     <Zoom triggerOnce>
