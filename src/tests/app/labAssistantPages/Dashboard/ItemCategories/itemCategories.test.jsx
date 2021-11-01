@@ -4,22 +4,14 @@ import { Provider } from 'react-redux';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import 'intersection-observer';
-import { loggedInLabManager } from '../../../../data/loggedInUsers';
+import { loggedInLabAssistant } from '../../../../data/loggedInUsers';
 import { categoryResponseData } from '../../../../data/categoryResponseData';
 import Category from '../../../../../models/category';
-import ItemCategories from '../../../../../app/labManagerPages/Dashboard/ItemCategories/itemCategories';
+import ItemCategories from '../../../../../app/labAssistantPages/Dashboard/ItemCategories/itemCategories';
 
 const mockStore = configureMockStore([thunk]);
-// mock nested components
 jest.mock(
-  '../../../../../app/labManagerPages/Dashboard/ItemCategories/components/newCategoryForm',
-  () => ({
-    __esModule: true,
-    default: () => <div>Category Form</div>,
-  }),
-);
-jest.mock(
-  '../../../../../app/labManagerPages/Dashboard/ItemCategories/components/labitemCategoryCard',
+  '../../../../../app/labAssistantPages/Dashboard/ItemCategories/components/itemCategoryCard',
   () => ({
     __esModule: true,
     default: () => <div>Category Card</div>,
@@ -29,37 +21,33 @@ jest.mock('../../../../../app/commonComponents/customLoadingIndicator', () => ({
   __esModule: true,
   default: () => <div>Loading</div>,
 }));
-const mockFetch = jest.fn();
-const mockReset = jest.fn();
+const mockFetchCategories = jest.fn();
+const mockFetchCategoriesReset = jest.fn();
 jest.mock(
-  '../../../../../store/actions/labManager/labManagerCategoriesActions',
+  '../../../../../store/actions/labAssistant/labAssistantCategoriesActions',
   () => ({
-    fetchCategories: () => mockFetch,
-    resetLabManagerCategoriesState: () => mockReset,
+    fetchLabAssistantCategories: () => mockFetchCategories,
+    resetLabAssistantCategoriesState: () => mockFetchCategoriesReset,
   }),
 );
-describe('Lab Manager - Categories', () => {
+
+describe('Lab Assistant - Categories', () => {
   let store;
   let category;
   let category2;
+
   beforeEach(() => {
     category = new Category(categoryResponseData);
     category2 = new Category(categoryResponseData);
     store = mockStore({
-      labManagerCategories: {
+      labAssistantCategories: {
         categories: [category, category2],
         isCategoriesLoading: false,
         isCategoriesError: false,
-        newCategoryLoading: false,
-        newCategoryError: false,
-        newCategorySuccess: false,
-        editCategoryLoading: false,
-        editCategoryError: false,
-        editCategorySuccess: false,
         reloadCategories: false,
       },
       auth: {
-        user: loggedInLabManager,
+        user: loggedInLabAssistant,
       },
     });
     store.dispatch = jest.fn();
@@ -74,31 +62,23 @@ describe('Lab Manager - Categories', () => {
       </Provider>,
     );
     const titleComponent = screen.getByText(/Item Categories/i);
-    const formComponent = screen.getByText(/Category Form/i);
     const categoryCards = screen.getAllByText(/Category Card/i);
     expect(titleComponent).toBeInTheDocument();
-    expect(formComponent).toBeInTheDocument();
     expect(categoryCards.length).toBe(2);
     expect(store.dispatch).toBeCalledTimes(1);
-    expect(store.dispatch).toBeCalledWith(mockFetch);
+    expect(store.dispatch).toBeCalledWith(mockFetchCategories);
   });
 
   it('should show loading indicator when categories are loading', () => {
     store = mockStore({
-      labManagerCategories: {
-        categories: [category, category2],
+      labAssistantCategories: {
+        categories: [],
         isCategoriesLoading: true,
         isCategoriesError: false,
-        newCategoryLoading: false,
-        newCategoryError: false,
-        newCategorySuccess: false,
-        editCategoryLoading: false,
-        editCategoryError: false,
-        editCategorySuccess: false,
         reloadCategories: false,
       },
       auth: {
-        user: loggedInLabManager,
+        user: loggedInLabAssistant,
       },
     });
     render(
@@ -110,5 +90,28 @@ describe('Lab Manager - Categories', () => {
     );
     const loadingComponent = screen.getByText(/Loading/i);
     expect(loadingComponent).toBeInTheDocument();
+  });
+
+  it('should show warning if no categories are present', () => {
+    store = mockStore({
+      labAssistantCategories: {
+        categories: [],
+        isCategoriesLoading: false,
+        isCategoriesError: false,
+        reloadCategories: false,
+      },
+      auth: {
+        user: loggedInLabAssistant,
+      },
+    });
+    render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <ItemCategories />
+        </BrowserRouter>
+      </Provider>,
+    );
+    const warningComponent = screen.getByText(/No categories available/i);
+    expect(warningComponent).toBeInTheDocument();
   });
 });

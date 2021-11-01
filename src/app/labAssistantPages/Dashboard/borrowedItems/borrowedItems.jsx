@@ -14,13 +14,13 @@ import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndic
 
 function BorrowedItems() {
   const isBorrowedItemsLoading = useSelector(
-    state => state.labAssistantBorrowedItems.isBorrowedItemsLoading,
+    state => state.labAssistantBorrowedItems.isborrowedItemsLoading,
   );
   const isBorrowedItemsError = useSelector(
-    state => state.labAssistantBorrowedItems.isBorrowedItemsError,
+    state => state.labAssistantBorrowedItems.isborrowedItemsError,
   );
   const reload = useSelector(
-    state => state.labAssistantBorrowedItems.reloadBorrowedItems,
+    state => state.labAssistantBorrowedItems.reloadborrowedItems,
   );
   const dispatch = useDispatch();
   const borrowedItemsLst = useSelector(

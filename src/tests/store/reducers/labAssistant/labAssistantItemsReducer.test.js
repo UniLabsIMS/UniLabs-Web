@@ -24,7 +24,7 @@ describe('Lab Assistant - Items Reducer', () => {
     newItemSuccess: false,
     newItemID: null,
     deleteItemLoading: false,
-    deleteItemSucess: false,
+    deleteItemSuccess: false,
     deleteItemError: false,
     reloadItems: false,
   };

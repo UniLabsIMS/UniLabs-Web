@@ -4,7 +4,7 @@ export default class DisplayItem {
     this.name = displayItem.name;
     this.image = displayItem.image;
     this.description = displayItem.description;
-    this.category = displayItem.category;
+    this.category = displayItem.item_category;
     this.lab = displayItem.lab;
     this.itemCount = displayItem.item_count;
   }

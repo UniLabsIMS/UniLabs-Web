@@ -6,24 +6,16 @@ import { BrowserRouter } from 'react-router-dom';
 import 'intersection-observer';
 import { displayItemResponseData } from '../../../data/displayItemResponseData';
 import DisplayItem from '../../../../models/display_item';
-import { loggedInLabManager } from '../../../data/loggedInUsers';
-import LabManagerDisplayItemsPage from '../../../../app/labManagerPages/displayItemsPage/displayItemsPage';
+import { loggedInLabAssistant } from '../../../data/loggedInUsers';
+import LabAssistantDisplayItemsPage from '../../../../app/labAssistantPages/displayItemsPage/displayItemsPage';
 
 const mockStore = configureMockStore([thunk]);
-// mock nested components
-jest.mock(
-  '../../../../app/labManagerPages/displayItemsPage/components/newDisplayItemForm',
-  () => ({
-    __esModule: true,
-    default: () => <div>NewDisplayItem</div>,
-  }),
-);
 jest.mock('../../../../app/commonComponents/breadCrumbsWrapper', () => ({
   __esModule: true,
   default: () => <div>Breadcrumbs</div>,
 }));
 jest.mock(
-  '../../../../app/labManagerPages/displayItemsPage/components/displayItemsCard',
+  '../../../../app/labAssistantPages/displayItemsPage/components/displayItemsCard',
   () => ({
     __esModule: true,
     default: () => <div>DisplayItemCard</div>,
@@ -32,37 +24,31 @@ jest.mock(
 const mockFetch = jest.fn();
 const mockResetFunctions = jest.fn();
 jest.mock(
-  '../../../../store/actions/labManager/labManagerDisplayItemsActions',
+  '../../../../store/actions/labAssistant/labAssistantDisplayItemsActions',
   () => ({
-    fetchDisplayItems: () => mockFetch,
-    resetDisplayItemsPageState: () => mockResetFunctions,
+    fetchLabAssistantDisplayItems: () => mockFetch,
+    resetLabAssistantDisplayItemsPageState: () => mockResetFunctions,
   }),
 );
 jest.mock('../../../../app/commonComponents/customLoadingIndicator', () => ({
   __esModule: true,
   default: () => <div>Loading</div>,
 }));
-describe('Lab Manager - Display Items Page', () => {
+describe('Lab Assistant - Display Items Page', () => {
   let store;
   const displayItemOne = new DisplayItem(displayItemResponseData);
   const displayItemTwo = new DisplayItem(displayItemResponseData);
 
   beforeEach(() => {
     store = mockStore({
-      labManagerDisplayItems: {
+      labAssistantDisplayItems: {
         displayItems: [displayItemOne, displayItemTwo],
         isDisplayItemsLoading: false,
         isDisplayItemsError: false,
-        newDisplayItemLoading: false,
-        newDisplayItemError: false,
-        newDisplayItemSuccess: false,
-        editDisplayItemLoading: false,
-        editDisplayItemError: false,
-        editDisplayItemSuccess: false,
         reloadDisplayItems: false,
       },
       auth: {
-        user: loggedInLabManager,
+        user: loggedInLabAssistant,
       },
     });
   });
@@ -71,43 +57,35 @@ describe('Lab Manager - Display Items Page', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <LabManagerDisplayItemsPage />
+          <LabAssistantDisplayItemsPage />
         </BrowserRouter>
       </Provider>,
     );
 
     const titleComponent = screen.getByText(/Display Items/i);
-    const newDspItemComponent = screen.getByText(/NewDisplayItem/i);
     const breadcrumbsComponent = screen.getByText(/Breadcrumbs/i);
     const cardComponents = screen.getAllByText(/DisplayItemCard/i);
     expect(titleComponent).toBeInTheDocument();
-    expect(newDspItemComponent).toBeInTheDocument();
     expect(breadcrumbsComponent).toBeInTheDocument();
     expect(cardComponents.length).toBe(2);
     expect(mockFetch).toHaveBeenCalledTimes(1);
   });
-  it('should show warning message if no display items are present', () => {
+  it('should show warning message is no display items are present', () => {
     store = mockStore({
-      labManagerDisplayItems: {
+      labAssistantDisplayItems: {
         displayItems: [],
         isDisplayItemsLoading: false,
         isDisplayItemsError: false,
-        newDisplayItemLoading: false,
-        newDisplayItemError: false,
-        newDisplayItemSuccess: false,
-        editDisplayItemLoading: false,
-        editDisplayItemError: false,
-        editDisplayItemSuccess: false,
         reloadDisplayItems: false,
       },
       auth: {
-        user: loggedInLabManager,
+        user: loggedInLabAssistant,
       },
     });
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <LabManagerDisplayItemsPage />
+          <LabAssistantDisplayItemsPage />
         </BrowserRouter>
       </Provider>,
     );
@@ -117,26 +95,20 @@ describe('Lab Manager - Display Items Page', () => {
   });
   it('should show loading widget when loading is true', () => {
     store = mockStore({
-      labManagerDisplayItems: {
+      labAssistantDisplayItems: {
         displayItems: [],
         isDisplayItemsLoading: true,
         isDisplayItemsError: false,
-        newDisplayItemLoading: false,
-        newDisplayItemError: false,
-        newDisplayItemSuccess: false,
-        editDisplayItemLoading: false,
-        editDisplayItemError: false,
-        editDisplayItemSuccess: false,
         reloadDisplayItems: false,
       },
       auth: {
-        user: loggedInLabManager,
+        user: loggedInLabAssistant,
       },
     });
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <LabManagerDisplayItemsPage />
+          <LabAssistantDisplayItemsPage />
         </BrowserRouter>
       </Provider>,
     );
@@ -144,28 +116,22 @@ describe('Lab Manager - Display Items Page', () => {
     const loadingComponent = screen.getByText(/Loading/i);
     expect(loadingComponent).toBeInTheDocument();
   });
-  it('should show error message is display items loading fails', () => {
+  it('should show error message i display items loading fails', () => {
     store = mockStore({
-      labManagerDisplayItems: {
+      labAssistantDisplayItems: {
         displayItems: [],
         isDisplayItemsLoading: false,
         isDisplayItemsError: true,
-        newDisplayItemLoading: false,
-        newDisplayItemError: false,
-        newDisplayItemSuccess: false,
-        editDisplayItemLoading: false,
-        editDisplayItemError: false,
-        editDisplayItemSuccess: false,
         reloadDisplayItems: false,
       },
       auth: {
-        user: loggedInLabManager,
+        user: loggedInLabAssistant,
       },
     });
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <LabManagerDisplayItemsPage />
+          <LabAssistantDisplayItemsPage />
         </BrowserRouter>
       </Provider>,
     );

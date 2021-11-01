@@ -196,7 +196,7 @@ function LoginPage() {
             UniLabs System is{' '}
             <span className={classes.typeWriterWrapper}>
               <Typewriter
-                words={['Effective', 'Simple', 'Elegant']}
+                words={['Effective', 'Simple', 'Reliable']}
                 loop={0}
                 cursor
               />

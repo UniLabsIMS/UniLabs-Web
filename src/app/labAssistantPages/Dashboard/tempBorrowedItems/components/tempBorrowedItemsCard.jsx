@@ -53,7 +53,7 @@ const LabAssistantTempBorrowedItemsCard = ({ tempBorrowedItem }) => {
               : 'Name Not Set'}
             <br />
             Email - {tempBorrowedItem.studentEmail} <br />
-            Index number - {tempBorrowedItem.studentIndexNumber} <br />
+            Index Number - {tempBorrowedItem.studentIndexNumber} <br />
           </Typography>
         </CardContent>
         <CardActions>
