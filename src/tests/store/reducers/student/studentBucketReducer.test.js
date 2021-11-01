@@ -20,7 +20,6 @@ describe('Student - Bucket Reducer', () => {
     bucketItems: [],
     lecturers: [],
     isActiveRequestForLab: false,
-    totalItemCount: 0,
     isBucketLoading: false,
     bucketLoaded: false,
     bucketError: false,
@@ -45,27 +44,178 @@ describe('Student - Bucket Reducer', () => {
     expect(reducer).toEqual({
       ...initialState,
       bucketItems: [new BucketItem(displayItemObj)],
-      totalItemCount: 1,
     });
   });
 
-  //   it('handles INCREASE_ITEM_BUCKET_QUNATITY event as expected', () => {
-  //     const displayItemObj = new DisplayItem(displayItemResponseData);
-  //     const bucketItemObj = new BucketItem(displayItemObj);
-  //     const testStartState = {
-  //       ...initialState,
-  //       bucketItems: [bucketItemObj],
-  //       totalItemCount: bucketItemObj.quantity,
-  //     };
-  //     const reducer = studentLabBucketReducer(testStartState, {
-  //       type: ADD_TO_BUCKET,
-  //       displayItemObj,
-  //     });
-  //     const updatedBucketItem = bucketItemObj.increaseQuantity();
-  //     expect(reducer).toEqual({
-  //       ...testStartState,
-  //       bucketItems: [updatedBucketItem],
-  //       totalItemCount: updatedBucketItem.quantity,
-  //     });
-  //   });
+  it('handles INCREASE_ITEM_BUCKET_QUNATITY event as expected', () => {
+    const displayItemObj = new DisplayItem(displayItemResponseData);
+    const bucketItem = new BucketItem(displayItemObj);
+    const testStartState = {
+      ...initialState,
+      bucketItems: [bucketItem],
+    };
+    const reducer = studentLabBucketReducer(testStartState, {
+      type: INCREASE_ITEM_BUCKET_QUNATITY,
+      displayItemObj,
+    });
+    const updatedBucketItem = bucketItem.increaseQuantity();
+    expect(reducer).toEqual({
+      ...testStartState,
+      bucketItems: [updatedBucketItem],
+    });
+  });
+  it('handles DECREASE_ITEM_BUCKET_QUNATITY event as expected', () => {
+    const displayItemObj = new DisplayItem(displayItemResponseData);
+    const bucketItem = new BucketItem(displayItemObj);
+    bucketItem.quantity = 4;
+    const testStartState = {
+      ...initialState,
+      bucketItems: [bucketItem],
+    };
+    const reducer = studentLabBucketReducer(testStartState, {
+      type: DECREASE_ITEM_BUCKET_QUNATITY,
+      displayItemObj,
+    });
+    const updatedBucketItem = bucketItem.decreaseQuantity();
+    expect(reducer).toEqual({
+      ...testStartState,
+      bucketItems: [updatedBucketItem],
+    });
+  });
+  it('handles REMOVE_FROM_BUCKET event as expected', () => {
+    const displayItemObj = new DisplayItem(displayItemResponseData);
+    const bucketItem = new BucketItem(displayItemObj);
+    const testStartState = {
+      ...initialState,
+      bucketItems: [bucketItem],
+    };
+    const reducer = studentLabBucketReducer(testStartState, {
+      type: REMOVE_FROM_BUCKET,
+      displayItemObj,
+    });
+
+    expect(reducer).toEqual({
+      ...testStartState,
+      bucketItems: [],
+    });
+  });
+  it('handles STUDENT_BUCKET_LECTURERS_LOADING event as expected', () => {
+    const testStartState = {
+      ...initialState,
+    };
+    const reducer = studentLabBucketReducer(testStartState, {
+      type: STUDENT_BUCKET_LECTURERS_LOADING,
+    });
+
+    expect(reducer).toEqual({
+      ...testStartState,
+      isBucketLoading: true,
+      bucketLoaded: false,
+      bucketError: false,
+      isNewRequestLaoding: false,
+      newRequestSuccess: false,
+      newRequestError: false,
+    });
+  });
+  it('handles STUDENT_BUCKET_LECTURERS_LOADED event as expected', () => {
+    const testStartState = {
+      ...initialState,
+      isBucketLoading: true,
+      bucketLoaded: false,
+      bucketError: false,
+      isNewRequestLaoding: false,
+      newRequestSuccess: false,
+      newRequestError: false,
+    };
+    const reducer = studentLabBucketReducer(testStartState, {
+      type: STUDENT_BUCKET_LECTURERS_LOADED,
+      payload: { check: false, lecturers: [] },
+    });
+
+    expect(reducer).toEqual({
+      ...testStartState,
+      lecturers: [],
+      isActiveRequestForLab: false,
+      isBucketLoading: false,
+      bucketLoaded: true,
+      bucketError: false,
+    });
+  });
+  it('handles STUDENT_BUCKET_LECTURERS_ERROR event as expected', () => {
+    const testStartState = {
+      ...initialState,
+      isBucketLoading: true,
+      bucketLoaded: false,
+      bucketError: false,
+      isNewRequestLaoding: false,
+      newRequestSuccess: false,
+      newRequestError: false,
+    };
+    const reducer = studentLabBucketReducer(testStartState, {
+      type: STUDENT_BUCKET_LECTURERS_ERROR,
+    });
+
+    expect(reducer).toEqual({
+      ...testStartState,
+      isBucketLoading: false,
+      bucketLoaded: false,
+      bucketError: true,
+    });
+  });
+  it('handles REQUEST_CREATE_LOADING event as expected', () => {
+    const testStartState = {
+      ...initialState,
+    };
+    const reducer = studentLabBucketReducer(testStartState, {
+      type: REQUEST_CREATE_LOADING,
+    });
+
+    expect(reducer).toEqual({
+      ...testStartState,
+      isNewRequestLaoding: true,
+      newRequestSuccess: false,
+      newRequestError: false,
+    });
+  });
+  it('handles REQUEST_CREATE_ERROR event as expected', () => {
+    const testStartState = {
+      ...initialState,
+      isNewRequestLaoding: true,
+      newRequestSuccess: false,
+      newRequestError: false,
+    };
+    const reducer = studentLabBucketReducer(testStartState, {
+      type: REQUEST_CREATE_ERROR,
+    });
+
+    expect(reducer).toEqual({
+      ...testStartState,
+      isNewRequestLaoding: false,
+      newRequestSuccess: false,
+      newRequestError: true,
+    });
+  });
+  it('handles REQUEST_CREATE_SUCCESS event as expected', () => {
+    const displayItemObj = new DisplayItem(displayItemResponseData);
+    const bucketItem = new BucketItem(displayItemObj);
+    const testStartState = {
+      ...initialState,
+      bucketItems: [bucketItem],
+      isNewRequestLaoding: true,
+      newRequestSuccess: false,
+      newRequestError: false,
+    };
+    const reducer = studentLabBucketReducer(testStartState, {
+      type: REQUEST_CREATE_SUCCESS,
+      payload: [bucketItem],
+    });
+
+    expect(reducer).toEqual({
+      ...testStartState,
+      bucketItems: [],
+      isNewRequestLaoding: false,
+      newRequestSuccess: true,
+      newRequestError: false,
+    });
+  });
 });

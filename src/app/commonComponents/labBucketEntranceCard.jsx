@@ -28,9 +28,6 @@ const useStyles = makeStyles(theme => ({
 }));
 const LabBucketEntranceCard = ({ labId }) => {
   const classes = useStyles();
-  const totalCountofItemsFromAllLabs = useSelector(
-    state => state.studentLabBucket.totalItemCount,
-  );
   const bucketItems = useSelector(state => state.studentLabBucket.bucketItems);
   const [itemsInBucketCount, setItemsInBucketCount] = useState(0);
 
@@ -43,7 +40,7 @@ const LabBucketEntranceCard = ({ labId }) => {
       count += item.quantity;
     });
     setItemsInBucketCount(count);
-  }, [bucketItems, totalCountofItemsFromAllLabs, labId]);
+  }, [bucketItems, labId]);
 
   return (
     <Zoom triggerOnce>
