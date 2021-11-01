@@ -5,6 +5,7 @@ import {
   LECTURER_REQUEST_ERROR,
 } from '../../../../store/actionTypes/lecturerActionTypes';
 import lecturerRequestReducer from '../../../../store/reducers/lecturerReducers/lecturerRequestReducer';
+import lecturerRequestResponseData from '../../../data/lecturerRequestResponseData';
 
 describe('Lecturer - Request Reducer', () => {
   const initialState = {
@@ -33,26 +34,26 @@ describe('Lecturer - Request Reducer', () => {
     });
   });
 
-  //   it('handles LECTURER_REQUEST_LOADED_STATE event as expected', () => {
-  //     const testStartState = {
-  //       ...initialState,
-  //       isRequestLoading: true,
-  //       isRequestError: false,
-  //       reloadRequest: false,
-  //     };
+  // it('handles LECTURER_REQUEST_LOADED_STATE event as expected', () => {
+  //   const testStartState = {
+  //     ...initialState,
+  //     isRequestLoading: true,
+  //     isRequestError: false,
+  //     reloadRequest: false,
+  //   };
 
-  //     const reducer = lecturerRequestReducer(testStartState, {
-  //       type: LECTURER_REQUEST_LOADED,
-  //       payload: [],
-  //     });
-
-  //     expect(reducer).toEqual({
-  //       ...testStartState,
-  //       isRequestLoading: false,
-  //       request: new LecturerRequest([]),
-  //       isRequestError: false,
-  //     });
+  //   const reducer = lecturerRequestReducer(testStartState, {
+  //     type: LECTURER_REQUEST_LOADED,
+  //     payload: [lecturerRequestResponseData],
   //   });
+
+  //   expect(reducer).toEqual({
+  //     ...testStartState,
+  //     isRequestLoading: false,
+  //     request: new LecturerRequest([lecturerRequestResponseData]),
+  //     isRequestError: false,
+  //   });
+  // });
 
   it('handles LECTURER_REQUEST_ERROR event event as expected', () => {
     const testStartState = {
