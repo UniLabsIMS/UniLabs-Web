@@ -1,5 +1,6 @@
 import BucketItem from '../../../../models/bucketItem';
 import DisplayItem from '../../../../models/display_item';
+import { displayItemResponseData } from '../../../data/displayItemResponseData';
 import {
   ADD_TO_BUCKET,
   DECREASE_ITEM_BUCKET_QUNATITY,
@@ -34,16 +35,37 @@ describe('Student - Bucket Reducer', () => {
     expect(reducer).toEqual(initialState);
   });
 
-  //   it('handles ADD_TO_BUCKET_STATE event as expected', () => {
-  //     const reducer = studentLabBucketReducer(initialState, {
-  //       type: ADD_TO_BUCKET,
-  //       payload: [],
-  //     });
+  it('handles ADD_TO_BUCKET_STATE event as expected', () => {
+    const displayItemObj = new DisplayItem(displayItemResponseData);
+    const reducer = studentLabBucketReducer(initialState, {
+      type: ADD_TO_BUCKET,
+      displayItemObj,
+    });
 
-  //     expect(reducer).toEqual({
+    expect(reducer).toEqual({
+      ...initialState,
+      bucketItems: [new BucketItem(displayItemObj)],
+      totalItemCount: 1,
+    });
+  });
+
+  //   it('handles INCREASE_ITEM_BUCKET_QUNATITY event as expected', () => {
+  //     const displayItemObj = new DisplayItem(displayItemResponseData);
+  //     const bucketItemObj = new BucketItem(displayItemObj);
+  //     const testStartState = {
   //       ...initialState,
-  //       bucketItems: [],
-  //       totalItemCount: 1,
+  //       bucketItems: [bucketItemObj],
+  //       totalItemCount: bucketItemObj.quantity,
+  //     };
+  //     const reducer = studentLabBucketReducer(testStartState, {
+  //       type: ADD_TO_BUCKET,
+  //       displayItemObj,
+  //     });
+  //     const updatedBucketItem = bucketItemObj.increaseQuantity();
+  //     expect(reducer).toEqual({
+  //       ...testStartState,
+  //       bucketItems: [updatedBucketItem],
+  //       totalItemCount: updatedBucketItem.quantity,
   //     });
   //   });
 });
