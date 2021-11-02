@@ -5,6 +5,7 @@ export default class Lab {
     this.id = lab.id;
     this.name = lab.name;
     this.department = lab.department;
+    this.departmentCode = lab.department.code;
     this.location = lab.location;
     this.contactNo = lab.contact_no;
     this.contactEmail = lab.contact_email;
