@@ -85,7 +85,7 @@ function LabAssistantDisplayItemsPage() {
           ) : (
             <>
               {allDisplayItems.length === 0 ? (
-                <WarningAlert message="No display Items Added" />
+                <WarningAlert message="No Display Items Added" />
               ) : (
                 <Grid
                   container
