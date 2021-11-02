@@ -68,7 +68,6 @@ const adminStudentsReducer = (state = initialState, action) => {
     case NEW_STUDENT_SUCCESS:
       return {
         ...state,
-        students: action.payload,
         newStudentLoading: false,
         newStudentSuccess: true,
         reloadStudents: true,
