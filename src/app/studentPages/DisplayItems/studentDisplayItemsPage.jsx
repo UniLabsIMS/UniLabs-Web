@@ -9,6 +9,7 @@ import BreadcrumbsWrapper from '../../commonComponents/breadCrumbsWrapper';
 import DisplayItemCard from './components/DisplayItemCard';
 import CustomLoadingIndicator from '../../commonComponents/customLoadingIndicator';
 import ErrorAlert from '../../commonComponents/errorAlert';
+import WarningAlert from '../../commonComponents/warningAlert';
 import { fetchDisplayItems } from '../../../store/actions/student/studentDisplayItemsActions';
 import { STUDENT_BASE_URL, STUDENT_CATEGORIES_URL } from '../../constants';
 import LabBucketEntranceCard from '../../commonComponents/labBucketEntranceCard';
@@ -74,13 +75,21 @@ function StudentDisplayItemsPage() {
       {isDisplayItemsError ? (
         <ErrorAlert message="Failed to load display items" />
       ) : (
-        <div>
+        <Box m={2}>
           {isDisplayItemsLoading ? (
             <CustomLoadingIndicator minimumHeight="60vh" />
           ) : (
-            <div className={classes.cards}>{displayItems}</div>
+            <Box>
+              {displayItemsLst.length === 0 ? (
+                <Zoom triggerOnce>
+                  <WarningAlert message="No Items Available" />
+                </Zoom>
+              ) : (
+                <Box className={classes.cards}>{displayItems}</Box>
+              )}
+            </Box>
           )}
-        </div>
+        </Box>
       )}
     </PageWrapper>
   );

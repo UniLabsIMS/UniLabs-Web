@@ -18,7 +18,7 @@ import studentLabBucketReducer from '../../../../store/reducers/studentReducers/
 describe('Student - Bucket Reducer', () => {
   const initialState = {
     bucketItems: [],
-    quantityChanged: false,
+    quantityChangeTicker: 0,
     lecturers: [],
     isActiveRequestForLab: false,
     isBucketLoading: false,
@@ -45,7 +45,7 @@ describe('Student - Bucket Reducer', () => {
     expect(reducer).toEqual({
       ...initialState,
       bucketItems: [new BucketItem(displayItemObj)],
-      quantityChanged: true,
+      quantityChangeTicker: 1,
     });
   });
 
@@ -64,7 +64,7 @@ describe('Student - Bucket Reducer', () => {
     expect(reducer).toEqual({
       ...testStartState,
       bucketItems: [updatedBucketItem],
-      quantityChanged: true,
+      quantityChangeTicker: 1,
     });
   });
   it('handles DECREASE_ITEM_BUCKET_QUNATITY event as expected', () => {
@@ -83,7 +83,7 @@ describe('Student - Bucket Reducer', () => {
     expect(reducer).toEqual({
       ...testStartState,
       bucketItems: [updatedBucketItem],
-      quantityChanged: true,
+      quantityChangeTicker: 1,
     });
   });
   it('handles REMOVE_FROM_BUCKET event as expected', () => {
@@ -101,7 +101,7 @@ describe('Student - Bucket Reducer', () => {
     expect(reducer).toEqual({
       ...testStartState,
       bucketItems: [],
-      quantityChanged: true,
+      quantityChangeTicker: 1,
     });
   });
   it('handles STUDENT_BUCKET_LECTURERS_LOADING event as expected', () => {
@@ -221,7 +221,7 @@ describe('Student - Bucket Reducer', () => {
       isNewRequestLaoding: false,
       newRequestSuccess: true,
       newRequestError: false,
-      quantityChanged: true,
+      quantityChangeTicker: 1,
     });
   });
 });

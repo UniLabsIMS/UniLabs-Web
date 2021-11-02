@@ -17,7 +17,7 @@ const initialState = {
   bucketItems: [],
   lecturers: [],
   isActiveRequestForLab: false,
-  quantityChanged: false,
+  quantityChangeTicker: 0,
   isBucketLoading: false,
   bucketLoaded: false,
   bucketError: false,
@@ -34,7 +34,7 @@ const studentLabBucketReducer = (state = initialState, action) => {
       return {
         ...state,
         bucketItems: updatedBucketItems,
-        quantityChanged: true,
+        quantityChangeTicker: state.quantityChangeTicker + 1,
       };
     }
     case INCREASE_ITEM_BUCKET_QUNATITY: {
@@ -47,7 +47,7 @@ const studentLabBucketReducer = (state = initialState, action) => {
       return {
         ...state,
         bucketItems: updatedBucketItems,
-        quantityChanged: true,
+        quantityChangeTicker: state.quantityChangeTicker + 1,
       };
     }
     case DECREASE_ITEM_BUCKET_QUNATITY: {
@@ -60,7 +60,7 @@ const studentLabBucketReducer = (state = initialState, action) => {
       return {
         ...state,
         bucketItems: updatedBucketItems,
-        quantityChanged: true,
+        quantityChangeTicker: state.quantityChangeTicker + 1,
       };
     }
     case REMOVE_FROM_BUCKET: {
@@ -70,7 +70,7 @@ const studentLabBucketReducer = (state = initialState, action) => {
       return {
         ...state,
         bucketItems: updatedBucketItems,
-        quantityChanged: true,
+        quantityChangeTicker: state.quantityChangeTicker + 1,
       };
     }
     case STUDENT_BUCKET_LECTURERS_LOADING:
@@ -119,7 +119,7 @@ const studentLabBucketReducer = (state = initialState, action) => {
       return {
         ...state,
         bucketItems: updatedBucketItems,
-        quantityChanged: true,
+        quantityChangeTicker: state.quantityChangeTicker + 1,
         isNewRequestLaoding: false,
         newRequestSuccess: true,
         newRequestError: false,
