@@ -12,6 +12,7 @@ import ErrorAlert from '../../commonComponents/errorAlert';
 import { fetchCategories } from '../../../store/actions/student/studentCategoriesActions';
 import { STUDENT_BASE_URL } from '../../constants';
 import LabBucketEntranceCard from '../../commonComponents/labBucketEntranceCard';
+import WarningAlert from '../../commonComponents/warningAlert';
 
 const useStyles = makeStyles(theme => ({
   link: {
@@ -71,15 +72,23 @@ const StudentCategoriesPage = () => {
           {isCategoriesLoading ? (
             <CustomLoadingIndicator minimumHeight="60vh" />
           ) : (
-            <Grid
-              container
-              spacing={3}
-              justifyContent="space-around"
-              alignItems="stretch"
-              direction="row"
-            >
-              {categories}
-            </Grid>
+            <Box>
+              {categoriesLst.length === 0 ? (
+                <Zoom triggerOnce>
+                  <WarningAlert message="No Categories Available" />
+                </Zoom>
+              ) : (
+                <Grid
+                  container
+                  spacing={3}
+                  justifyContent="space-around"
+                  alignItems="stretch"
+                  direction="row"
+                >
+                  {categories}
+                </Grid>
+              )}
+            </Box>
           )}
         </Box>
       )}
