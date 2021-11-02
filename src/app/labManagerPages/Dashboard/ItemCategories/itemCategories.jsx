@@ -11,6 +11,7 @@ import {
 import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
 import ErrorAlert from '../../../commonComponents/errorAlert';
 import DefaultPasswordWarining from '../../../commonComponents/defaultPasswordWarning';
+import WarningAlert from '../../../commonComponents/warningAlert';
 
 function ItemCategories() {
   const labName = useSelector(state => state.auth.user.otherDetails.lab.name);
@@ -65,15 +66,21 @@ function ItemCategories() {
       {isCategoriesLoading ? (
         <CustomLoadingIndicator minimumHeight="40vh" />
       ) : (
-        <Grid
-          container
-          spacing={3}
-          justifyContent="space-around"
-          alignItems="center"
-          direction="row"
-        >
-          {allItemCategories}
-        </Grid>
+        <>
+          {categoriesLst.length === 0 ? (
+            <WarningAlert message="No categories available" />
+          ) : (
+            <Grid
+              container
+              spacing={3}
+              justifyContent="space-around"
+              alignItems="center"
+              direction="row"
+            >
+              {allItemCategories}
+            </Grid>
+          )}
+        </>
       )}
     </div>
   );

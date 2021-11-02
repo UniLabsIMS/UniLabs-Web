@@ -132,7 +132,7 @@ function LabManagerItemsPage() {
           ) : (
             <div>
               {itemsLst.length === 0 ? (
-                <WarningAlert message="No display Items Added" />
+                <WarningAlert message="No Items Added" />
               ) : (
                 <Paper>
                   <TableContainer className={classes.tableContainer}>

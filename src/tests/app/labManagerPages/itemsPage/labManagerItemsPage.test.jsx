@@ -156,7 +156,7 @@ describe('Lab Manager -  Items Page', () => {
       </Provider>,
     );
 
-    const warningMessageComponent = screen.getByText(/No display Items Added/i);
+    const warningMessageComponent = screen.getByText(/No Items Added/i);
     expect(warningMessageComponent).toBeInTheDocument();
   });
   it('should display loading widget when loading is true', () => {
