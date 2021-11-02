@@ -107,7 +107,7 @@ function RegisterLabAssitant() {
 
   const allLabs = labsLst.map(l => (
     <MenuItem key={l.id} value={l.id}>
-      {l.name}
+      {`${l.departmentCode} - ${l.name}`}
     </MenuItem>
   ));
 
