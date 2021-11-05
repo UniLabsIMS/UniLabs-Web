@@ -73,7 +73,7 @@ const ItemSummary = ({
           <Zoom triggerOnce>
             <Paper align="center" m={2} className={classes.graphCard}>
               <Typography variant="h5" align="center">
-                Item Summary
+                Item Summary Bar Chart
               </Typography>
               <Chart
                 width="100%"
