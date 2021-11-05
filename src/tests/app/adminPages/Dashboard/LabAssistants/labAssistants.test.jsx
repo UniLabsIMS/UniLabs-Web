@@ -132,4 +132,35 @@ describe('Admin Dashboard -  Lab Assistants', () => {
     );
     expect(errorMessageComponent).toBeInTheDocument();
   });
+  it('should display block/unblock error message when proccess fails', () => {
+    store = mockStore({
+      adminLabAssistants: {
+        labAssistants: [labAssistant],
+        isLabAssistantsLoading: false,
+        isLabAssistantsError: false,
+        newLabAssistantLoading: false,
+        newLabAssistantError: false,
+        newLabAssistantSuccess: false,
+        reloadLabAssistants: false,
+        labAssistantBlockUnblockLoading: false,
+        labAssistantBlockUnblockSuccess: false,
+        labAssistantBlockUnblockError: true,
+      },
+      auth: {
+        user: loggedInAdmin,
+      },
+    });
+    render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <LabAssistantTable />
+        </BrowserRouter>
+      </Provider>,
+    );
+
+    const errorMessageComponent = screen.getByText(
+      /Lab Assistant Blocking\/Unblocking Failed./i,
+    );
+    expect(errorMessageComponent).toBeInTheDocument();
+  });
 });

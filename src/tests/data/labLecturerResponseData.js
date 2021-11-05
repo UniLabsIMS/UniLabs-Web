@@ -9,5 +9,9 @@ export const labLecturerResponseData = {
   image: null,
   role: 'Lecturer',
   blocked: false,
-  department: 'd73e5b10-9861-4642-ae63-67992b79818f',
+  department: {
+    id: 'd4b7f05c-82ef-4187-b407-e19a6e574d19',
+    name: 'CSE',
+    code: '123',
+  },
 };
