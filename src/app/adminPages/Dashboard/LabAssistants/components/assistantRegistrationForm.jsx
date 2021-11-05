@@ -80,7 +80,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function RegisterLabAssitant() {
+function RegisterLabAssistant() {
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [lab, setLab] = useState('');
@@ -177,12 +177,10 @@ function RegisterLabAssitant() {
                         onChange={e => setEmail(e.target.value)}
                       />
                       <FormControl className={classes.formControl}>
-                        <InputLabel id="demo-simple-select-label">
-                          Laboratory*
-                        </InputLabel>
+                        <InputLabel id="lab-select">Laboratory*</InputLabel>
                         <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
+                          labelId="lab-select"
+                          id="lab-select-assistant"
                           value={lab}
                           onChange={e => setLab(e.target.value)}
                         >
@@ -212,4 +210,4 @@ function RegisterLabAssitant() {
   );
 }
 
-export default RegisterLabAssitant;
+export default RegisterLabAssistant;

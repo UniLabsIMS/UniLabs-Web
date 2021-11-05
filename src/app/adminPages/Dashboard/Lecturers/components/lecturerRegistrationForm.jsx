@@ -163,7 +163,7 @@ function RegisterLecturer() {
           <div className={classes.loginForm}>
             <div className={classes.formLine}>
               <Typography component="h1" variant="h5">
-                Register a new Lecturer
+                Add a new Lecturer
               </Typography>
             </div>
             {newLectError === true ? (
@@ -216,12 +216,12 @@ function RegisterLecturer() {
                     </div>
                     <div className={classes.formLine}>
                       <FormControl className={classes.formControl}>
-                        <InputLabel id="demo-simple-select-label">
+                        <InputLabel id="department-select">
                           Department*
                         </InputLabel>
                         <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
+                          labelId="department-select"
+                          id="department-select-id"
                           value={department}
                           onChange={e => setDepartment(e.target.value)}
                         >
@@ -230,13 +230,13 @@ function RegisterLecturer() {
                       </FormControl>
                       {department && (
                         <FormControl className={classes.formControl}>
-                          <InputLabel id="demo-simple-select-label">
+                          <InputLabel id="lab-select">
                             Permitted Lab*
                           </InputLabel>
                           <Select
-                            labelId="demo-simple-select-label"
+                            labelId="lab-select"
                             defaultValue=""
-                            id="demo-simple-select"
+                            id="lab-select-id"
                             value={permittedLab}
                             onChange={e => setPermittedLab(e.target.value)}
                           >

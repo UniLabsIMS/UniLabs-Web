@@ -10,7 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import { Zoom } from 'react-awesome-reveal';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import RegisterLabAssitant from './components/assistantRegistrationForm';
+import RegisterLabAssistant from './components/assistantRegistrationForm';
 import CustomLoadingIndicator from '../../../commonComponents/customLoadingIndicator';
 import ErrorAlert from '../../../commonComponents/errorAlert';
 import {
@@ -127,7 +127,7 @@ export default function LabAssistantTable() {
             ) : (
               <div>
                 <Zoom triggerOnce>
-                  <RegisterLabAssitant />
+                  <RegisterLabAssistant />
                 </Zoom>
                 <Zoom triggerOnce>
                   <Table className={classes.table} aria-label="simple table">

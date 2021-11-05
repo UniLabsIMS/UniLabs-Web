@@ -201,12 +201,12 @@ function RegisterStudent() {
                     </div>
                     <div className={classes.formLine}>
                       <FormControl className={classes.formControl}>
-                        <InputLabel id="demo-simple-select-label">
+                        <InputLabel id="department-select">
                           Department*
                         </InputLabel>
                         <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
+                          labelId="department-select"
+                          id="department-select-id"
                           value={department}
                           onChange={e => setDepartment(e.target.value)}
                         >

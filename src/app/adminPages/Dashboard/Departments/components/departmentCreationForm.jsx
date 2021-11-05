@@ -129,10 +129,10 @@ function CreateDepartment() {
                   margin="normal"
                   required
                   fullWidth
-                  id="email"
+                  id="name"
                   label="Name"
-                  name="email"
-                  autoComplete="email"
+                  name="name"
+                  autoComplete="name"
                   value={name}
                   onChange={e => setName(e.target.value)}
                   // autoFocus
@@ -143,10 +143,10 @@ function CreateDepartment() {
                   margin="normal"
                   required
                   fullWidth
-                  id="email"
+                  id="code"
                   label="Code"
-                  name="email"
-                  autoComplete="email"
+                  name="code"
+                  autoComplete="code"
                   value={code}
                   onChange={e => setCode(e.target.value)}
                   // autoFocus

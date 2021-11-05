@@ -3,37 +3,22 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import LabReport from '../../../../../../models/labReport';
-import { labReportResponseData } from '../../../../../data/labReportResponseData';
 import 'intersection-observer';
-import { loggedInLabManager } from '../../../../../data/loggedInUsers';
-import ItemSummary from '../../../../../../app/labManagerPages/Dashboard/LabSummary/components/itemSummary';
+import ItemSummary from '../../../../../../app/adminPages/Dashboard/SystemReport/components/ItemSummary';
 
 const mockStore = configureMockStore([thunk]);
 jest.mock(
-  '../../../../../../app/labManagerPages/Dashboard/LabSummary/components/countCard',
+  '../../../../../../app/adminPages/Dashboard/SystemReport/components/CountCard',
   () => ({
     __esModule: true,
     default: () => <div>Count Card</div>,
   }),
 );
-describe('Lab Manager - Lab Report Item Summary', () => {
-  let store;
-  let report;
 
+describe('Admin - Lab Report Item Summary', () => {
+  let store;
   beforeEach(() => {
-    report = new LabReport(labReportResponseData);
-    store = mockStore({
-      labManagerLabReport: {
-        labReport: report,
-        islabReportLoading: false,
-        labReportError: false,
-        labReportSuccess: false,
-      },
-      auth: {
-        user: loggedInLabManager,
-      },
-    });
+    store = mockStore({});
   });
 
   it('should render as expected', () => {
