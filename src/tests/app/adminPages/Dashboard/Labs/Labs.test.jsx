@@ -64,9 +64,9 @@ describe('Admin Dashboard -  Labs', () => {
     );
 
     const titleComponent = screen.getByText('Labs');
-    const newUserComponent = screen.getByText(/NewLabForm/i);
+    const newLabComponent = screen.getByText(/NewLabForm/i);
     expect(titleComponent).toBeInTheDocument();
-    expect(newUserComponent).toBeInTheDocument();
+    expect(newLabComponent).toBeInTheDocument();
     expect(mockFetch).toHaveBeenCalledTimes(1);
   });
 

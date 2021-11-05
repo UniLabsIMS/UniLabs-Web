@@ -60,9 +60,9 @@ describe('Admin Dashboard -  Departments', () => {
     );
 
     const titleComponent = screen.getByText('Departments');
-    const newUserComponent = screen.getByText(/NewDepartmentForm/i);
+    const newDepComponent = screen.getByText(/NewDepartmentForm/i);
     expect(titleComponent).toBeInTheDocument();
-    expect(newUserComponent).toBeInTheDocument();
+    expect(newDepComponent).toBeInTheDocument();
     expect(mockFetch).toHaveBeenCalledTimes(1);
   });
 
