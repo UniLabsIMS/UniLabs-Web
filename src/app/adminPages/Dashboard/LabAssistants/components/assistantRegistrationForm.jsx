@@ -80,7 +80,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function RegisterLabAssitant() {
+function RegisterLabAssistant() {
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [lab, setLab] = useState('');
@@ -210,4 +210,4 @@ function RegisterLabAssitant() {
   );
 }
 
-export default RegisterLabAssitant;
+export default RegisterLabAssistant;

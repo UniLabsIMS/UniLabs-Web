@@ -7,7 +7,7 @@ import 'intersection-observer';
 import { loggedInAdmin } from '../../../../../data/loggedInUsers';
 import LabManager from '../../../../../../models/labManager';
 import { labManagerResponseData } from '../../../../../data/labManagerResponseData';
-import RegisterLabAssitant from '../../../../../../app/adminPages/Dashboard/LabManagers/components/labManagerRegistrationForm';
+import RegisterLabManager from '../../../../../../app/adminPages/Dashboard/LabManagers/components/labManagerRegistrationForm';
 import Lab from '../../../../../../models/lab';
 import { labResponseData } from '../../../../../data/labResponseData';
 
@@ -74,7 +74,7 @@ describe('Admin Dashboard -  Lab Manager Registration Form', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <RegisterLabAssitant />
+          <RegisterLabManager />
         </BrowserRouter>
       </Provider>,
     );
@@ -96,7 +96,7 @@ describe('Admin Dashboard -  Lab Manager Registration Form', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <RegisterLabAssitant />
+          <RegisterLabManager />
         </BrowserRouter>
       </Provider>,
     );
@@ -110,7 +110,7 @@ describe('Admin Dashboard -  Lab Manager Registration Form', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <RegisterLabAssitant />
+          <RegisterLabManager />
         </BrowserRouter>
       </Provider>,
     );
@@ -158,7 +158,7 @@ describe('Admin Dashboard -  Lab Manager Registration Form', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <RegisterLabAssitant />
+          <RegisterLabManager />
         </BrowserRouter>
       </Provider>,
     );
@@ -207,7 +207,7 @@ describe('Admin Dashboard -  Lab Manager Registration Form', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <RegisterLabAssitant />
+          <RegisterLabManager />
         </BrowserRouter>
       </Provider>,
     );
