@@ -177,12 +177,12 @@ function RegisterLabManager() {
                         onChange={e => setEmail(e.target.value)}
                       />
                       <FormControl className={classes.formControl}>
-                        <InputLabel id="demo-simple-select-label">
+                        <InputLabel id="lab-select-manager">
                           Laboratory*
                         </InputLabel>
                         <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
+                          labelId="lab-select-manager"
+                          id="lab-select-manager-id"
                           value={lab}
                           onChange={e => setLab(e.target.value)}
                         >
