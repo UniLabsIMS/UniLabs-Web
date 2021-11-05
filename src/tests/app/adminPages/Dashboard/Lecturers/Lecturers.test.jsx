@@ -12,7 +12,7 @@ import LecturerTable from '../../../../../app/adminPages/Dashboard/Lecturers/Lec
 const mockStore = configureMockStore([thunk]);
 // mock nested components
 jest.mock(
-  '../../../../../app/adminPages/Dashboard/Lecturers/components/LecturerRegistrationForm',
+  '../../../../../app/adminPages/Dashboard/Lecturers/components/lecturerRegistrationForm',
   () => ({
     __esModule: true,
     default: () => <div>NewLecturerForm</div>,
