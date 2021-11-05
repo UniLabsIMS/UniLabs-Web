@@ -36,7 +36,7 @@ describe('Admin Dashboard -  Admins', () => {
   beforeEach(() => {
     store = mockStore({
       adminAdmins: {
-        admins: [admin, admin],
+        admins: [admin],
         isAdminsLoading: false,
         isAdminsError: false,
         newAdminLoading: false,
@@ -69,7 +69,7 @@ describe('Admin Dashboard -  Admins', () => {
   it('should display loading widget when loading is true', () => {
     store = mockStore({
       adminAdmins: {
-        admins: [admin, admin],
+        admins: [admin],
         isAdminsLoading: true,
         isAdminsError: false,
         newAdminLoading: false,
@@ -92,10 +92,10 @@ describe('Admin Dashboard -  Admins', () => {
     const loadingComponent = screen.getByText(/Loading/i);
     expect(loadingComponent).toBeInTheDocument();
   });
-  it('should display error message when item loading fails', () => {
+  it('should display error message when loading fails', () => {
     store = mockStore({
       adminAdmins: {
-        admins: [admin, admin],
+        admins: [admin],
         isAdminsLoading: false,
         isAdminsError: true,
         newAdminLoading: false,

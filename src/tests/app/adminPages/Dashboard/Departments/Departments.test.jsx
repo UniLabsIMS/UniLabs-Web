@@ -92,7 +92,7 @@ describe('Admin Dashboard -  Departments', () => {
     const loadingComponent = screen.getByText(/Loading/i);
     expect(loadingComponent).toBeInTheDocument();
   });
-  it('should display error message when item loading fails', () => {
+  it('should display error message when loading fails', () => {
     store = mockStore({
       adminDepartments: {
         departments: [department],
