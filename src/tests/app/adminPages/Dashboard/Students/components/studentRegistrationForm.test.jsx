@@ -5,28 +5,19 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import 'intersection-observer';
 import { loggedInAdmin } from '../../../../../data/loggedInUsers';
-import Lecturer from '../../../../../../models/lecturer';
-import { labLecturerResponseData } from '../../../../../data/labLecturerResponseData';
-import RegisterLecturer from '../../../../../../app/adminPages/Dashboard/Lecturers/components/lecturerRegistrationForm';
-import Lab from '../../../../../../models/lab';
+import Student from '../../../../../../models/student';
+import { studentResponseData } from '../../../../../data/studentResponseData';
+import RegisterStudent from '../../../../../../app/adminPages/Dashboard/Students/components/studentRegistrationForm';
 import Department from '../../../../../../models/department';
-import { labResponseData } from '../../../../../data/labResponseData';
+
 import { departmentResponseData } from '../../../../../data/departmentResponseData';
 
 const mockStore = configureMockStore([thunk]);
 
 const mockAdd = jest.fn();
-const mockGetLabs = jest.fn();
 const mockGetDepartments = jest.fn();
-jest.mock(
-  '../../../../../../store/actions/admin/adminLecturersActions',
-  () => ({
-    addLecturer: () => mockAdd,
-  }),
-);
-jest.mock('../../../../../../store/actions/admin/adminLabsActions', () => ({
-  fetchLabs: () => mockGetLabs,
-  resetAdminLabState: () => jest.fn(),
+jest.mock('../../../../../../store/actions/admin/adminStudentsActions', () => ({
+  addStudent: () => mockAdd,
 }));
 jest.mock(
   '../../../../../../store/actions/admin/adminDepartmentsActions',
@@ -43,41 +34,28 @@ jest.mock(
   }),
 );
 
-describe('Admin Dashboard -  Lecturer Registration Form', () => {
+describe('Admin Dashboard -  Student Registration Form', () => {
   let store;
-  const lecturer = new Lecturer(labLecturerResponseData);
-  const lab = new Lab(labResponseData);
+  const student = new Student(studentResponseData);
   const department = new Department(departmentResponseData);
   beforeEach(() => {
     store = mockStore({
-      adminLecturers: {
-        lecturers: [lecturer],
-        isLecturersLoading: false,
-        isLecturersError: false,
-        newLecturerLoading: false,
-        newLecturerError: false,
-        newLecturerSuccess: false,
-        reloadLecturers: false,
-        lecturerBlockUnblockLoading: false,
+      adminStudents: {
+        students: [student],
+        isStudentsLoading: false,
+        isStudentsError: false,
+        newStudentLoading: false,
+        newStudentError: false,
+        newStudentSuccess: false,
+        reloadStudents: false,
+        studentBlockUnblockLoading: false,
       },
-      adminLabs: {
-        labs: [lab],
-        lecturers: [],
-        isLabsLoading: false,
-        isLabsError: false,
-        newLabLoading: false,
-        newLabError: false,
-        newLabSuccess: false,
-        reloadLabs: false,
-        assignLecturerLoading: false,
-        assignLecturerSuccess: false,
-        assignLecturerError: false,
-      },
+
       adminDepartments: {
         departments: [department],
         isDepartmentsLoading: false,
         isDepartmentsError: false,
-        newDepartmentLoading: true,
+        newDepartmentLoading: false,
         newDepartmentError: false,
         newDepartmentSuccess: false,
         reloadDepartments: false,
@@ -92,21 +70,21 @@ describe('Admin Dashboard -  Lecturer Registration Form', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <RegisterLecturer />
+          <RegisterStudent />
         </BrowserRouter>
       </Provider>,
     );
 
-    const titleComponent = screen.getByText(/Add a new Lecturer/i);
+    const titleComponent = screen.getByText(/Add New Student/i);
     const emailTextField = screen.getByRole('textbox', {
       name: /email/i,
     });
     const idTextField = screen.getByRole('textbox', {
-      name: /Lecturer ID/i,
+      name: /Student ID/i,
     });
     const depSelectField = screen.getByText(/Department/i);
     const submitButton = screen.getByRole('button', {
-      name: /Register Lecturer/i,
+      name: /Register Student/i,
     });
     expect(titleComponent).toBeInTheDocument();
     expect(emailTextField).toBeInTheDocument();
@@ -118,7 +96,7 @@ describe('Admin Dashboard -  Lecturer Registration Form', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <RegisterLecturer />
+          <RegisterStudent />
         </BrowserRouter>
       </Provider>,
     );
@@ -126,7 +104,7 @@ describe('Admin Dashboard -  Lecturer Registration Form', () => {
       name: /email/i,
     });
     const idTextField = screen.getByRole('textbox', {
-      name: /Lecturer ID/i,
+      name: /Student ID/i,
     });
     fireEvent.change(emailTextField, { target: { value: 'test@example.com' } });
     fireEvent.change(idTextField, { target: { value: 'xxx' } });
@@ -137,12 +115,12 @@ describe('Admin Dashboard -  Lecturer Registration Form', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <RegisterLecturer />
+          <RegisterStudent />
         </BrowserRouter>
       </Provider>,
     );
     const submitButton = screen.getByRole('button', {
-      name: /Register Lecturer/i,
+      name: /Register Student/i,
     });
     expect(submitButton).toBeInTheDocument();
     fireEvent.click(submitButton);
@@ -153,34 +131,22 @@ describe('Admin Dashboard -  Lecturer Registration Form', () => {
   });
   it('should render success and error messages as expected', () => {
     store = mockStore({
-      adminLecturers: {
-        lecturers: [lecturer],
-        isLecturersLoading: false,
-        isLecturersError: false,
-        newLecturerLoading: false,
-        newLecturerError: true,
-        newLecturerSuccess: true,
-        reloadLecturers: false,
-        lecturerBlockUnblockLoading: false,
+      adminStudents: {
+        students: [student],
+        isStudentsLoading: false,
+        isStudentsError: false,
+        newStudentLoading: false,
+        newStudentError: true,
+        newStudentSuccess: true,
+        reloadStudents: false,
+        studentBlockUnblockLoading: false,
       },
-      adminLabs: {
-        labs: [lab],
-        lecturers: [],
-        isLabsLoading: false,
-        isLabsError: false,
-        newLabLoading: false,
-        newLabError: false,
-        newLabSuccess: false,
-        reloadLabs: false,
-        assignLecturerLoading: false,
-        assignLecturerSuccess: false,
-        assignLecturerError: false,
-      },
+
       adminDepartments: {
         departments: [department],
         isDepartmentsLoading: false,
         isDepartmentsError: true,
-        newDepartmentLoading: true,
+        newDepartmentLoading: false,
         newDepartmentError: false,
         newDepartmentSuccess: false,
         reloadDepartments: false,
@@ -192,15 +158,15 @@ describe('Admin Dashboard -  Lecturer Registration Form', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <RegisterLecturer />
+          <RegisterStudent />
         </BrowserRouter>
       </Provider>,
     );
     const errorComponent = screen.getByText(
-      /Failed to add new lecturer. Make sure all the fields are filled and email and id are not duplicates./i,
+      /Failed to add new student. Make sure all the fields are filled and email and id are not duplicates/i,
     );
     const successComponent = screen.getByText(
-      /Successfully added new lecturer./i,
+      /Successfully added new student/i,
     );
     const depssFailComponent = screen.getByText(/Failed to load departments/i);
     expect(errorComponent).toBeInTheDocument();
@@ -209,34 +175,21 @@ describe('Admin Dashboard -  Lecturer Registration Form', () => {
   });
   it('should render loading widget as expected', () => {
     store = mockStore({
-      adminLecturers: {
-        lecturers: [lecturer],
-        isLecturersLoading: false,
-        isLecturersError: false,
-        newLecturerLoading: true,
-        newLecturerError: false,
-        newLecturerSuccess: false,
-        reloadLecturers: false,
-        lecturerBlockUnblockLoading: false,
-      },
-      adminLabs: {
-        labs: [lab],
-        lecturers: [],
-        isLabsLoading: false,
-        isLabsError: false,
-        newLabLoading: false,
-        newLabError: false,
-        newLabSuccess: false,
-        reloadLabs: false,
-        assignLecturerLoading: false,
-        assignLecturerSuccess: false,
-        assignLecturerError: false,
+      adminStudents: {
+        students: [student],
+        isStudentsLoading: false,
+        isStudentsError: false,
+        newStudentLoading: true,
+        newStudentError: false,
+        newStudentSuccess: false,
+        reloadStudents: false,
+        studentBlockUnblockLoading: false,
       },
       adminDepartments: {
         departments: [department],
         isDepartmentsLoading: false,
         isDepartmentsError: false,
-        newDepartmentLoading: true,
+        newDepartmentLoading: false,
         newDepartmentError: false,
         newDepartmentSuccess: false,
         reloadDepartments: false,
@@ -248,7 +201,7 @@ describe('Admin Dashboard -  Lecturer Registration Form', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <RegisterLecturer />
+          <RegisterStudent />
         </BrowserRouter>
       </Provider>,
     );
