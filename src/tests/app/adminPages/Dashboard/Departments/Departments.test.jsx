@@ -5,44 +5,44 @@ import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import 'intersection-observer';
 import { loggedInAdmin } from '../../../../data/loggedInUsers';
-import Admin from '../../../../../models/admin';
-import { adminResponseData } from '../../../../data/adminResponseData';
-import AdminTable from '../../../../../app/adminPages/Dashboard/Admins/Admins';
+import Department from '../../../../../models/department';
+import { departmentResponseData } from '../../../../data/departmentResponseData';
+import DepartmentTable from '../../../../../app/adminPages/Dashboard/Departments/Departments';
 
 const mockStore = configureMockStore([thunk]);
 // mock nested components
 jest.mock(
-  '../../../../../app/adminPages/Dashboard/Admins/components/adminRegistrationForm',
+  '../../../../../app/adminPages/Dashboard/Departments/components/departmentCreationForm',
   () => ({
     __esModule: true,
-    default: () => <div>NewAdminForm</div>,
+    default: () => <div>NewDepartmentForm</div>,
   }),
 );
 const mockFetch = jest.fn();
 const mockResetFunctions = jest.fn();
-jest.mock('../../../../../store/actions/admin/adminAdminsActions', () => ({
-  fetchAdmins: () => mockFetch,
-  resetAdminAdminState: () => mockResetFunctions,
+jest.mock('../../../../../store/actions/admin/adminDepartmentsActions', () => ({
+  fetchDepartments: () => mockFetch,
+  resetAdminDepartmentState: () => mockResetFunctions,
 }));
 jest.mock('../../../../../app/commonComponents/customLoadingIndicator', () => ({
   __esModule: true,
   default: () => <div>Loading</div>,
 }));
 
-describe('Admin Dashboard -  Admins', () => {
+describe('Admin Dashboard -  Departments', () => {
   let store;
-  const admin = new Admin(adminResponseData);
+  const department = new Department(departmentResponseData);
 
   beforeEach(() => {
     store = mockStore({
-      adminAdmins: {
-        admins: [admin, admin],
-        isAdminsLoading: false,
-        isAdminsError: false,
-        newAdminLoading: false,
-        newAdminError: false,
-        newAdminSuccess: false,
-        reloadAdmins: false,
+      adminDepartments: {
+        departments: [department],
+        isDepartmentsLoading: false,
+        isDepartmentsError: false,
+        newDepartmentLoading: false,
+        newDepartmentError: false,
+        newDepartmentSuccess: false,
+        reloadDepartments: false,
       },
       auth: {
         user: loggedInAdmin,
@@ -54,13 +54,13 @@ describe('Admin Dashboard -  Admins', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <AdminTable />
+          <DepartmentTable />
         </BrowserRouter>
       </Provider>,
     );
 
-    const titleComponent = screen.getByText('Admins');
-    const newUserComponent = screen.getByText(/NewAdminForm/i);
+    const titleComponent = screen.getByText('Departments');
+    const newUserComponent = screen.getByText(/NewDepartmentForm/i);
     expect(titleComponent).toBeInTheDocument();
     expect(newUserComponent).toBeInTheDocument();
     expect(mockFetch).toHaveBeenCalledTimes(1);
@@ -68,14 +68,14 @@ describe('Admin Dashboard -  Admins', () => {
 
   it('should display loading widget when loading is true', () => {
     store = mockStore({
-      adminAdmins: {
-        admins: [admin, admin],
-        isAdminsLoading: true,
-        isAdminsError: false,
-        newAdminLoading: false,
-        newAdminError: false,
-        newAdminSuccess: false,
-        reloadAdmins: false,
+      adminDepartments: {
+        departments: [department],
+        isDepartmentsLoading: true,
+        isDepartmentsError: false,
+        newDepartmentLoading: false,
+        newDepartmentError: false,
+        newDepartmentSuccess: false,
+        reloadDepartments: false,
       },
       auth: {
         user: loggedInAdmin,
@@ -84,7 +84,7 @@ describe('Admin Dashboard -  Admins', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <AdminTable />
+          <DepartmentTable />
         </BrowserRouter>
       </Provider>,
     );
@@ -94,14 +94,14 @@ describe('Admin Dashboard -  Admins', () => {
   });
   it('should display error message when item loading fails', () => {
     store = mockStore({
-      adminAdmins: {
-        admins: [admin, admin],
-        isAdminsLoading: false,
-        isAdminsError: true,
-        newAdminLoading: false,
-        newAdminError: false,
-        newAdminSuccess: false,
-        reloadAdmins: false,
+      adminDepartments: {
+        departments: [department],
+        isDepartmentsLoading: false,
+        isDepartmentsError: true,
+        newDepartmentLoading: false,
+        newDepartmentError: false,
+        newDepartmentSuccess: false,
+        reloadDepartments: false,
       },
       auth: {
         user: loggedInAdmin,
@@ -110,12 +110,14 @@ describe('Admin Dashboard -  Admins', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <AdminTable />
+          <DepartmentTable />
         </BrowserRouter>
       </Provider>,
     );
 
-    const errorMessageComponent = screen.getByText(/Failed to load admins/i);
+    const errorMessageComponent = screen.getByText(
+      /Failed to load departments/i,
+    );
     expect(errorMessageComponent).toBeInTheDocument();
   });
 });
