@@ -32,7 +32,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function LabManagerTable() {
+export default function AdminTable() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const isAdminsLoading = useSelector(

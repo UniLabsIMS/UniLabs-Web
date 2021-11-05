@@ -5,25 +5,22 @@ import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import 'intersection-observer';
 import mockAxios from 'axios';
-import { loggedInLabManager } from '../../../data/loggedInUsers';
-import LabManagerDashboard from '../../../../app/labManagerPages/Dashboard/labMangerDashboard';
+import AdminDashboard from '../../../../app/adminPages/Dashboard/Dashboard';
+import { loggedInAdmin } from '../../../data/loggedInUsers';
 
 const mockStore = configureMockStore([thunk]);
 // mock nested components
-jest.mock(
-  '../../../../app/labManagerPages/Dashboard/ItemCategories/itemCategories',
-  () => ({
-    __esModule: true,
-    default: () => <div>ItemCategories</div>,
-  }),
-);
-describe('Lab Manager - Dashboard', () => {
+jest.mock('../../../../app/adminPages/Dashboard/Students/Students', () => ({
+  __esModule: true,
+  default: () => <div>StudentTable</div>,
+}));
+describe('Admin - Dashboard', () => {
   let store;
 
   beforeEach(() => {
     store = mockStore({
       auth: {
-        user: loggedInLabManager,
+        user: loggedInAdmin,
       },
     });
 
@@ -34,11 +31,11 @@ describe('Lab Manager - Dashboard', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <LabManagerDashboard />
+          <AdminDashboard />
         </BrowserRouter>
       </Provider>,
     );
-    const categoriesComponent = screen.getByText(/ItemCategories/i);
+    const categoriesComponent = screen.getByText(/StudentTable/i);
     expect(categoriesComponent).toBeInTheDocument();
   });
 });
