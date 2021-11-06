@@ -85,7 +85,7 @@ function LecturerRequestViewPage() {
     state => state.lecturerRequest.isRequestLoading,
   );
   const isRequestError = useSelector(
-    state => state.lecturerRequest.isRequestsError,
+    state => state.lecturerRequest.isRequestError,
   );
   const request = useSelector(state => state.lecturerRequest.request);
   const reload = useSelector(state => state.lecturerRequest.reloadRequest);
