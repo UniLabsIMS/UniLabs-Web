@@ -73,7 +73,7 @@ function StudentDisplayItemsPage() {
       </Zoom>
       <LabBucketEntranceCard labId={labId} />
       {isDisplayItemsError ? (
-        <ErrorAlert message="Failed to load display items" />
+        <ErrorAlert message="Failed to load resources" />
       ) : (
         <Box m={2}>
           {isDisplayItemsLoading ? (

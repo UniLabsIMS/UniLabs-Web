@@ -124,12 +124,10 @@ const BucketRequestForm = ({ bucketItems }) => {
               </div>
               <div className={classes.formLine}>
                 <FormControl className={classes.formControl}>
-                  <InputLabel id="demo-simple-select-label">
-                    Lecturer
-                  </InputLabel>
+                  <InputLabel id="lecturer-select-student">Lecturer</InputLabel>
                   <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
+                    labelId="lecturer-select-student"
+                    id="lecturer-select-student-id"
                     required
                     value={lecturer}
                     onChange={handleChange}

@@ -57,7 +57,7 @@ const DisplayItemCard = ({ reqItem }) => {
                     : reqItem.quantity}
                 </Typography>
                 <Typography align="center" className={classes.quantityText}>
-                  Total in Lab :{' '}
+                  Total in Lab:{' '}
                   {reqItem.displayItem.itemCount < 10
                     ? `0${reqItem.displayItem.itemCount}`
                     : reqItem.displayItem.itemCount}
