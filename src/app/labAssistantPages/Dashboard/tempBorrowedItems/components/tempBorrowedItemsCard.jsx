@@ -57,7 +57,14 @@ const LabAssistantTempBorrowedItemsCard = ({ tempBorrowedItem }) => {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">Email Student</Button>
+          <Button
+            size="small"
+            onClick={() => {
+              window.location.href = `mailto:${tempBorrowedItem.studentEmail}`;
+            }}
+          >
+            Email Student
+          </Button>
         </CardActions>
       </Card>
     </Zoom>
