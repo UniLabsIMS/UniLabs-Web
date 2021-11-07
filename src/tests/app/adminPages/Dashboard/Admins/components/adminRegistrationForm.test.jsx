@@ -119,7 +119,7 @@ describe('Admin Dashboard -  Admin Registration Form', () => {
       </Provider>,
     );
     const errorComponent = screen.getByText(
-      /Failed to add new admin.Make sure that th email is not a duplicate./i,
+      /Failed to add new admin.Make sure that the email is not a duplicate./i,
     );
     const successComponent = screen.getByText(
       /Successfully Added a New Admin./i,

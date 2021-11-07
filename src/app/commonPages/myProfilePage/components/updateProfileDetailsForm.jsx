@@ -130,7 +130,6 @@ const UpdateProfileDetailsForm = ({ onSave, onCancel }) => {
               size="small"
               fullWidth
               name="contactNumber"
-              type="contactNumber"
               id="contactNumber"
               value={contactNumber}
               onChange={e => setContactNumber(e.target.value)}

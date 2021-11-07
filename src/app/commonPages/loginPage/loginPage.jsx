@@ -133,7 +133,7 @@ function LoginPage() {
           <div className={classes.loginForm}>
             <Zoom triggerOnce>
               <Typography component="h1" variant="h5">
-                Log in
+                Log In
               </Typography>
               {authError ? (
                 <ErrorAlert message="Invalid Email or Password" />
@@ -225,17 +225,17 @@ function LoginPage() {
       >
         <SnackbarContent
           className={classes.apkSnackBar}
-          message="Lab Assistant ? "
+          message="Are you a Lab Assistant ? "
           action={
             <>
               <Button
                 color="secondary"
                 size="small"
                 onClick={() =>
-                  window.open('https://dms.uom.lk/s/G2RbB8Qp6MDZRtf', '_blank')
+                  window.open(process.env.REACT_APP_MOBILE_APK_URL, '_blank')
                 }
               >
-                Download APK
+                Get the APK
               </Button>
               <IconButton
                 size="small"

@@ -82,7 +82,7 @@ function RegisterAdmin() {
               Add New Admin
             </Typography>
             {newAdminError === true ? (
-              <ErrorAlert message="Failed to add new admin.Make sure that th email is not a duplicate." />
+              <ErrorAlert message="Failed to add new admin.Make sure that the email is not a duplicate." />
             ) : (
               <div />
             )}
