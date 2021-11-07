@@ -232,7 +232,7 @@ function LoginPage() {
                 color="secondary"
                 size="small"
                 onClick={() =>
-                  window.open('https://dms.uom.lk/s/G2RbB8Qp6MDZRtf', '_blank')
+                  window.open(process.env.REACT_APP_MOBILE_APK_URL, '_blank')
                 }
               >
                 Get the APK

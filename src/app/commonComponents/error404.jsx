@@ -1,4 +1,5 @@
 import { Box, Button, makeStyles, Typography } from '@material-ui/core';
+import ParticlesBg from 'particles-bg';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
@@ -17,6 +18,12 @@ function Error404() {
   const classes = useStyles();
   return (
     <Box align="center" className={classes.box}>
+      <ParticlesBg
+        color="#009688"
+        type="cobweb"
+        num={window.innerWidth / 40}
+        bg
+      />
       <Typography align="center" color="secondary" className={classes.text}>
         404 OOPS! Page Not Found.
       </Typography>
