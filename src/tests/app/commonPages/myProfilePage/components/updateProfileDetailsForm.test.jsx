@@ -5,7 +5,7 @@ import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import 'intersection-observer';
 import { loggedInAdmin } from '../../../../data/loggedInUsers';
-import ChangePasswordForm from '../../../../../app/commonPages/myProfilePage/components/changePasswordForm';
+import UpdateProfileDetailsForm from '../../../../../app/commonPages/myProfilePage/components/updateProfileDetailsForm';
 
 const mockStore = configureMockStore([thunk]);
 
@@ -14,7 +14,7 @@ jest.mock('../../../../../store/actions/admin/adminAdminsActions', () => ({
   addAdmin: () => mockAdd,
 }));
 
-describe('Common User - Password Change Form', () => {
+describe('Common User - Details Update Form', () => {
   let store;
 
   beforeEach(() => {
@@ -45,7 +45,7 @@ describe('Common User - Password Change Form', () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <ChangePasswordForm
+          <UpdateProfileDetailsForm
             onSave={() => jest.fn()}
             onCancel={() => jest.fn()}
           />
@@ -53,16 +53,16 @@ describe('Common User - Password Change Form', () => {
       </Provider>,
     );
 
-    const passDescComponent = screen.getByText(/Your password, cannot be too/i);
-
     const submitButton = screen.getByRole('button', {
-      name: /Change Password/i,
+      name: /Save Changes/i,
     });
     const cancelButton = screen.getByRole('button', {
       name: /Cancel/i,
     });
-    expect(passDescComponent).toBeInTheDocument();
     expect(cancelButton).toBeInTheDocument();
     expect(submitButton).toBeInTheDocument();
+    expect(screen.getByText('First Name')).toBeInTheDocument();
+    expect(screen.getByText('Last Name')).toBeInTheDocument();
+    expect(screen.getByText('Contact Number')).toBeInTheDocument();
   });
 });
