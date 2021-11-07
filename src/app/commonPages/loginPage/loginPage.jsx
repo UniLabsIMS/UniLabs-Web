@@ -5,6 +5,10 @@ import {
   makeStyles,
   Typography,
   Container,
+  Box,
+  Snackbar,
+  IconButton,
+  SnackbarContent,
 } from '@material-ui/core';
 import ParticlesBg from 'particles-bg';
 import { useState } from 'react';
@@ -12,6 +16,7 @@ import { Zoom } from 'react-awesome-reveal';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Typewriter } from 'react-simple-typewriter';
+import CloseIcon from '@material-ui/icons/Close';
 import { ReactComponent as Logo1 } from '../../../Logo 6.2.svg';
 import { login } from '../../../store/actions/authActions';
 import CustomLoadingIndicator from '../../commonComponents/customLoadingIndicator';
@@ -65,12 +70,18 @@ const useStyles = makeStyles(theme => ({
     margin: 'auto',
     marginTop: theme.spacing(10),
   },
+  apkSnackBar: {
+    backgroundColor: 'white',
+    color: 'black',
+    fontSize: 16,
+  },
 }));
 
 function LoginPage() {
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [APKSnackBarOpen, setAPKSnackBarOpen] = useState(true);
   const [forgotPasswordModalState, setForgotPasswordModalState] =
     useState(false);
   const handleForgotPasswordModalOpen = () => setForgotPasswordModalState(true);
@@ -176,12 +187,13 @@ function LoginPage() {
                 >
                   Log In
                 </Button>
+                <Box m={2} />
                 <Typography
                   color="secondary"
                   className={classes.forgotPassword}
                   onClick={handleForgotPasswordModalOpen}
                 >
-                  Forgot Password?
+                  Forgot Your Password?
                 </Typography>
               </form>
               <ForgotPasswordForm
@@ -204,6 +216,39 @@ function LoginPage() {
           </span>
         </div>
       </Container>
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        open={APKSnackBarOpen}
+      >
+        <SnackbarContent
+          className={classes.apkSnackBar}
+          message="Lab Assistant ? "
+          action={
+            <>
+              <Button
+                color="secondary"
+                size="small"
+                onClick={() =>
+                  window.open('https://dms.uom.lk/s/G2RbB8Qp6MDZRtf', '_blank')
+                }
+              >
+                Download APK
+              </Button>
+              <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={() => setAPKSnackBarOpen(false)}
+              >
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </>
+          }
+        />
+      </Snackbar>
     </div>
   );
 }

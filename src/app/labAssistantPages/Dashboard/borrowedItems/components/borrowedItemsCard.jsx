@@ -56,7 +56,14 @@ const LabAssistantBorrowedItemsCard = ({ borrowedItem }) => {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">Email Student</Button>
+          <Button
+            size="small"
+            onClick={() => {
+              window.location.href = `mailto:${borrowedItem.studentEmail}`;
+            }}
+          >
+            Email Student
+          </Button>
         </CardActions>
       </Card>
     </Zoom>
